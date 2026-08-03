@@ -1,0 +1,19 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.0 # Use the latest stable version
+    hooks:
+      # Run the linter with auto-fixing
+      - id: ruff
+        args: [--fix]
+      # Run the code formatter
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0 # Use the latest stable version
+    hooks:
+      - id: mypy
+        additional_dependencies: [
+          "types-requests",
+          "selenium"
+        ]
+        
