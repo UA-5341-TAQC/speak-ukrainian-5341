@@ -1,0 +1,32 @@
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+# Exclude the tests directory from Ruff analysis
+exclude = [
+    "tests",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "I",   # isort (import sorting)
+    "UP",  # pyupgrade (enforces Python 3.12+ syntax)
+    "PT",  # flake8-pytest-style (pytest best practices)
+    "ARG", # unused argument checks
+    "D",   # pydocstyle (enforces docstring requirements)
+]
+ignore = [
+    "D100", # Option: missing docstring in public module (uncomment if not needed everywhere)
+    "D104", # Option: missing docstring in public package
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google" # Supported conventions: google, numpy, or pep257
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
