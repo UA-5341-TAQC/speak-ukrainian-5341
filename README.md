@@ -10,7 +10,7 @@ The test suite is organized around:
 - `pages/` for page objects and reusable UI components
 - `fixtures/` for shared test fixtures
 - `api/` for API-related helpers (currently placeholder structure)
-- `config/` for configuration files and environment setup
+- `data/` for configuration files and environment setup
 
 ## Prerequisites
 
@@ -34,7 +34,18 @@ The test suite is organized around:
    ```bash
    python -m pip install -r requirements.txt
    ```
+4. create a `.env` (example in `.env.example`) file in the root directory and add the following environment variables :
 
+   ```text
+   BASE_UI_URL=https://speak-ukrainian.org.ua/
+   BASE_API_URL=https://api.speak-ukrainian.org.ua/
+   IMPLICITY_WAIT=10
+   EXPLICIT_WAIT=10
+   HEADLESS=TRUE
+   USER_NAME=user
+   USER_PASSWORD=password
+   USER_EMAIL=user@email.com
+   ```
 ## Running tests
 
 Run the test suite with:
@@ -58,7 +69,7 @@ python -m ruff check .
 ```text
 .
 ├── api/
-├── config/
+├── data/
 ├── fixtures/
 ├── pages/
 │   ├── components/

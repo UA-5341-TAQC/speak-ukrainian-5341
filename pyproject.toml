@@ -19,8 +19,9 @@ select = [
     "D",   # pydocstyle (enforces docstring requirements)
 ]
 ignore = [
-    "D100", # Option: missing docstring in public module (uncomment if not needed everywhere)
-    "D104", # Option: missing docstring in public package
+    "D100",  # missing docstring in public module
+    "D104",  # missing docstring in public package
+    "UP040", # allow TypeAlias for compatibility with current mypy setup
 ]
 
 [tool.ruff.lint.pydocstyle]
