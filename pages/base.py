@@ -42,3 +42,17 @@ class Base:
             The clickable WebElement.
         """
         return self.wait.until(EC.element_to_be_clickable(locator))
+
+    def _find_elements(self, locator: Locator) -> list[WebElement]:
+        """Find all elements in the current context."""
+        if self.root is not None:
+            return self.root.find_elements(*locator)
+        return self.driver.find_elements(*locator)
+
+    def _wait_present(self, locator: Locator) -> WebElement:
+        """Wait until an element exists in the page DOM."""
+        return self.wait.until(EC.presence_of_element_located(locator))
+
+    def _wait_visible(self, locator: Locator) -> WebElement:
+        """Wait until an element exists and is visible."""
+        return self.wait.until(EC.visibility_of_element_located(locator))
