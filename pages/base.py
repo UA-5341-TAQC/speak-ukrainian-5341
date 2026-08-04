@@ -42,3 +42,25 @@ class Base:
             The clickable WebElement.
         """
         return self.wait.until(EC.element_to_be_clickable(locator))
+
+    def _wait_visible(self, locator: Locator) -> WebElement:
+        """Wait until an element matching the locator is visible.
+
+        Args:
+            locator: Selenium locator of the element.
+
+        Returns:
+            The visible WebElement.
+        """
+        return self.wait.until(EC.visibility_of_element_located(locator))
+
+    def _get_text(self, locator: Locator) -> str:
+        """Wait for an element to be visible and return its text.
+
+        Args:
+            locator: Selenium locator of the element.
+
+        Returns:
+            The text content of the element.
+        """
+        return self._wait_visible(locator).text
