@@ -1,8 +1,9 @@
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+from selenium.webdriver.remote.webelement import WebElement
 
 from pages.base import Base
 from pages.types import Locator
+
 
 class BaseComponent(Base):
     """Base class for all components."""
@@ -14,7 +15,7 @@ class BaseComponent(Base):
     def _find_elements(self, locator: Locator) -> list[WebElement]:
         """Find all elements matching locator inside this component root."""
         return self.root.find_elements(*locator)
-   
+
     # дані функції є в base.py але можуть некоректно працювати для Component Object.
     # WebDriverWait передає в EC  driver. А потрібно self.root.
 
