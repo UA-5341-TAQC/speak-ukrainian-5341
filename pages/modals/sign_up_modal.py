@@ -144,7 +144,7 @@ class SignUpModal(BaseModal):
         role: str = "user",
     ) -> SignUpModal:
         """Fill all fields in the registration form."""
-        if role.lower() == "manager" or role == "керівник":
+        if role.lower() in ("manager", "керівник"):
             self.select_manager_role()
         else:
             self.select_visitor_role()
