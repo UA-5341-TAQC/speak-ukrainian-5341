@@ -31,3 +31,4 @@ convention = "google" # Supported conventions: google, numpy, or pep257
 python_version = "3.12"
 strict = true
 ignore_missing_imports = true
+disallow_untyped_decorators = false

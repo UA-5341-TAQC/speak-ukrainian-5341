@@ -1,11 +1,11 @@
-from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
 
 from pages.base import Base
 
 
 class BaseModal(Base):
-    """Base class for all modals."""
+    """Base class for all modals, representing an encapsulated UI component (COM)."""
 
-    def __init__(self, driver: WebDriver):
-        """Initialize the base modal with a WebDriver."""
-        super().__init__(driver)
+    def __init__(self, root: WebElement):
+        """Initialize the base modal with its root WebElement."""
+        super().__init__(root)
