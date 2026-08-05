@@ -3,6 +3,7 @@
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
+
 from pages.components.base_component import BaseComponent
 from pages.types import Locator
 
@@ -42,6 +43,7 @@ class FooterComponent(BaseComponent):
     DONATE_DESCRIPTION: Locator = (By.CSS_SELECTOR, "footer .footer-donate .desc")
 
     def __init__(self, root: WebElement) -> None:
+        """Initialize FooterComponent with the root element."""
         super().__init__(root)
 
     @allure.step("Click footer logo")
