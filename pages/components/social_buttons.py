@@ -70,6 +70,7 @@ class SocialButtons(BaseComponent):
 
     @allure.step("Get Donate payment link URL")
     def get_donate_url(self) -> str:
+        """Get payment URL from the Donate button."""
         return self._find_element(*self.DONATE_BUTTON).get_attribute("href") or ""
 
     @allure.step("Click 'Donate' button")
