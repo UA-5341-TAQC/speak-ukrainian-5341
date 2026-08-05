@@ -64,3 +64,22 @@ class Base:
             The text content of the element.
         """
         return self._wait_visible(locator).text
+
+    def _click(self, locator: Locator) -> None:
+        """Wait for an element to be clickable and click it.
+
+        Args:
+            locator: Selenium locator of the element.
+        """
+        self._wait_clickable(locator).click()
+
+    def _fill_input(self, locator: Locator, text: str) -> None:
+        """Wait for an input element to be visible, clear it, and enter text.
+
+        Args:
+            locator: Selenium locator of the input element.
+            text: Text to enter into the input.
+        """
+        element = self._wait_visible(locator)
+        element.clear()
+        element.send_keys(text)
