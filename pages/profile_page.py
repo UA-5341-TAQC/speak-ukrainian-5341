@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from pages.base_page import BasePage
+from pages.modals.edit_profile_modal import EditProfileModal
 from pages.types import Locator
 
 
@@ -28,13 +29,14 @@ class ProfilePage(BasePage):
             "button.edit-button, button.ant-btn",
         )
 
-    def click_edit_profile(self) -> None:
+    def click_edit_profile(self) -> "EditProfileModal":
         """Click the edit profile button.
 
-        TODO: Once EditProfileModal is implemented in the next PR,
-        this method should return an instance of EditProfileModal.
+        Returns:
+            An instance of EditProfileModal.
         """
         self._wait_clickable(self._edit_profile_btn).click()
+        return EditProfileModal(self.driver)
 
     def get_user_name(self) -> str:
         """Get the user's first and last name."""
