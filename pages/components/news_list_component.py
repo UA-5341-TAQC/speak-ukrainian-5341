@@ -20,8 +20,16 @@ class NewsListComponent(BaseComponent):
     def get_cards(self) -> list[NewsCardComponent]:
         """Return all news cards displayed on the current page."""
         self._wait_present(self.NEWS_CARD)
-        elements = self._find_elements(self.NEWS_CARD)
-        return [NewsCardComponent(element) for element in elements]
+
+        cards_web_elements = self._find_elements(self.NEWS_CARD)
+
+        cards = []
+
+        for card_element in cards_web_elements:
+            card = NewsCardComponent(card_element)
+            cards.append(card)
+
+        return cards
 
     def get_card(self, index: int) -> NewsCardComponent:
         """Return a news card by zero-based index."""
