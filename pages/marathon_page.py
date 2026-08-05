@@ -76,6 +76,11 @@ class MarathonPage(BasePage):
 
         Args:
             index: 1-based position of the dot to click.
+
+        Raises:
+            ValueError: If index is not within the range of available dots.
         """
         dots = self.driver.find_elements(*self.PAGINATION_DOTS)
+        if not 1 <= index <= len(dots):
+            raise ValueError(f"Dot index {index} out of range (1..{len(dots)}).")
         dots[index - 1].click()
