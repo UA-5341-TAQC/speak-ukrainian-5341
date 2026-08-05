@@ -54,6 +54,36 @@ class ContactsStep(AddClubModal):
             f"input[value='{value}']"
         )
 
+    WORK_TIME_PICKER: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-picker-range"
+    )
+
+    WORK_TIME_INPUTS: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-picker-range input[placeholder='HH:mm']"
+    )
+
+    TIME_PANEL: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-picker-time-panel"
+    )
+
+    TIME_PANEL_COLUMNS: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-picker-time-panel-column"
+    )
+
+    TIME_PANEL_CELL: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-picker-time-panel-cell-inner"
+    )
+
+    TIME_OK_BUTTON: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-picker-ok button"
+    )
+
     PHONE_INPUT: Locator = (By.ID, "basic_contactТелефон")
     FACEBOOK_INPUT: Locator = (By.ID, "basic_contactFacebook")
     WHATSAPP_INPUT: Locator = (By.ID, "basic_contactWhatsApp")
@@ -112,6 +142,97 @@ class ContactsStep(AddClubModal):
         """Select multiple work days at once."""
         for day in days:
             self.select_work_day(day)
+        return self
+
+    @allure.step("Check if work time picker is visible")
+    def is_work_time_visible(self) -> bool:
+        """Check whether work time picker is visible."""
+        return self._find_element(
+            self.WORK_TIME_PICKER
+        ).is_displayed()
+
+
+    @allure.step("Open start time picker")
+    def open_start_time_picker(self) -> ContactsStep:
+        """Click start time input."""
+        inputs = self._find_elements(
+            self.WORK_TIME_INPUTS
+        )
+
+        inputs[0].click()
+        return self
+
+
+    @allure.step("Open end time picker")
+    def open_end_time_picker(self) -> ContactsStep:
+        """Click end time input."""
+        inputs = self._find_elements(
+            self.WORK_TIME_INPUTS
+        )
+
+        inputs[1].click()
+        return self
+
+    @allure.step("Select time {hour}:{minute}")
+    def select_time(
+        self,
+        hour: str,
+        minute: str,
+    ) -> ContactsStep:
+        """Select hour and minute from opened time picker."""
+        columns = self._find_elements(
+            self.TIME_PANEL_COLUMNS
+        )
+
+        hour_cells = columns[0].find_elements(
+            By.CSS_SELECTOR,
+            ".ant-picker-time-panel-cell-inner"
+        )
+
+        for cell in hour_cells:
+            if cell.text == hour:
+                cell.click()
+                break
+
+        minute_cells = columns[1].find_elements(
+            By.CSS_SELECTOR,
+            ".ant-picker-time-panel-cell-inner"
+        )
+
+        for cell in minute_cells:
+            if cell.text == minute:
+                cell.click()
+                break
+
+        return self
+
+    @allure.step(
+        "Select work time range {start_hour}:{start_minute} - {end_hour}:{end_minute}"
+    )
+    def select_work_time_range(
+        self,
+        start_hour: str,
+        start_minute: str,
+        end_hour: str,
+        end_minute: str,
+    ) -> ContactsStep:
+        """Select start and end working time."""
+        self.open_start_time_picker()
+        self.select_time(
+            start_hour,
+            start_minute
+        )
+
+        self.open_end_time_picker()
+        self.select_time(
+            end_hour,
+            end_minute
+        )
+
+        self._wait_clickable(
+            self.TIME_OK_BUTTON
+        ).click()
+
         return self
 
     @allure.step("Enter phone (Телефон): '{phone}'")
@@ -207,6 +328,10 @@ class ContactsStep(AddClubModal):
         email: str | None = None,
         skype: str | None = None,
         site: str | None = None,
+        start_hour: str | None = None,
+        start_minute: str | None = None,
+        end_hour: str | None = None,
+        end_minute: str | None = None,
     ) -> ContactsStep:
         """Fill contacts step fields."""
         if phone:
@@ -226,5 +351,18 @@ class ContactsStep(AddClubModal):
 
         if site:
             self.enter_site(site)
+
+        if (
+            start_hour
+            and start_minute
+            and end_hour
+            and end_minute
+        ):
+            self.select_work_time_range(
+                start_hour,
+                start_minute,
+                end_hour,
+                end_minute,
+            )
 
         return self

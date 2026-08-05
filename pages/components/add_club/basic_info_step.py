@@ -37,6 +37,27 @@ class BasicInfoStep(AddClubModal):
         ".add-club-select .ant-select-selector"
     )
 
+    CENTER_DROPDOWN: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-select-dropdown"
+    )
+
+    CENTER_OPTIONS: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-select-item-option"
+    )
+
+    @staticmethod
+    def center_option(center_name: str) -> Locator:
+        """Return locator for center dropdown option."""
+        return (
+            By.XPATH,
+            (
+                "//div[contains(@class,'ant-select-item-option-content') "
+                f"and normalize-space()='{center_name}']"
+            ),
+        )
+
     @allure.step("Enter club name (Назва): '{name}'")
     def enter_name(self, name: str) -> BasicInfoStep:
         """Enter the club name in the name input field."""
@@ -96,15 +117,22 @@ class BasicInfoStep(AddClubModal):
         self._wait_clickable(self.CENTER_SELECT_SELECTOR).click()
         return self
 
+    @allure.step("Check if center dropdown is visible")
+    def is_center_dropdown_visible(self) -> bool:
+        """Check whether center dropdown is displayed."""
+        return self._find_element(
+            self.CENTER_DROPDOWN
+        ).is_displayed()
+
     @allure.step("Select center by text: '{center_name}'")
     def select_center(self, center_name: str) -> BasicInfoStep:
-        """Select a center from the dropdown by its visible text."""
+        """Select a center from dropdown."""
         self.open_center_dropdown()
-        option = (
-            By.XPATH,
-            f"//div[contains(@class,'ant-select-item-option-content') and text()='{center_name}']",
-        )
-        self._wait_clickable(option).click()
+
+        self._wait_clickable(
+            self.center_option(center_name)
+        ).click()
+
         return self
 
     @allure.step("Fill Step 1 - Основна інформація")

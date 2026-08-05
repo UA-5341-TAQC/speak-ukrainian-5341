@@ -20,11 +20,17 @@ class DescriptionStep(AddClubModal):
         By.CSS_SELECTOR,
        "span[aria-label='eye']"
     )
+    DELETE_BUTTON: Locator = (
+        By.CSS_SELECTOR,
+        "span[aria-label='delete']"
+    )
 
     DESCRIPTION_TEXTAREA: Locator = (By.ID, "basic_description")
 
     TOAST_CONTAINER: Locator = (By.CSS_SELECTOR, "div.ant-message")
     TOAST_TEXT: Locator = (By.CSS_SELECTOR, "div.ant-message-custom-content span:last-child")
+
+    FAILED_TO_POST: Locator = (By.CSS_SELECTOR, "div.ant-tooltip-inner")
 
     @allure.step("Upload logo: '{file_path}'")
     def upload_logo(self, file_path: str) -> DescriptionStep:
