@@ -1,63 +1,78 @@
+"""Component representing social media buttons and donation elements."""
+
 import allure
+from components.base_component import BaseComponent
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from components.base_component import BaseComponent
+
+from pages.types import Locator
 
 
 class SocialButtons(BaseComponent):
     """Encapsulates the social media buttons and donation block component."""
 
-    SOCIAL_SECTION_TITLE = (By.CSS_SELECTOR, ".social-info .text, .social-media .text")
-    FACEBOOK_BUTTON = (By.CSS_SELECTOR, ".social-info a[href*='facebook.com']")
-    YOUTUBE_BUTTON = (By.CSS_SELECTOR, ".social-info a[href*='youtube.com']")
-    INSTAGRAM_BUTTON = (By.CSS_SELECTOR, ".social-info a[href*='instagram.com']")
-    MAIL_BUTTON = (By.CSS_SELECTOR, ".social-info a[href^='mailto:']")
-    DONATE_BUTTON = (By.CSS_SELECTOR, ".help-button .donate-button")
+    SOCIAL_SECTION_TITLE: Locator = (By.CSS_SELECTOR, ".social-info .text, .social-media .text")
+    FACEBOOK_BUTTON: Locator = (By.CSS_SELECTOR, ".social-info a[href*='facebook.com']")
+    YOUTUBE_BUTTON: Locator = (By.CSS_SELECTOR, ".social-info a[href*='youtube.com']")
+    INSTAGRAM_BUTTON: Locator = (By.CSS_SELECTOR, ".social-info a[href*='instagram.com']")
+    MAIL_BUTTON: Locator = (By.CSS_SELECTOR, ".social-info a[href^='mailto:']")
+    DONATE_BUTTON: Locator = (By.CSS_SELECTOR, ".help-button .donate-button")
 
-    def __init__(self, driver, root_element: WebElement):
-        super().__init__(driver, root_element)
+    def __init__(self, root: WebElement) -> None:
+        """Initialize SocialButtons component."""
+        super().__init__(root)
 
     @allure.step("Get social media section title text")
     def get_social_section_title_text(self) -> str:
-        return self.root.find_element(*self.SOCIAL_SECTION_TITLE).text
+        """Get the title text of the social section."""
+        return self._find_element(*self.SOCIAL_SECTION_TITLE).text
 
     @allure.step("Get Facebook link URL")
     def get_facebook_url(self) -> str:
-        return self.root.find_element(*self.FACEBOOK_BUTTON).get_attribute("href")
+        """Get the URL from the Facebook button."""
+        return self._find_element(*self.FACEBOOK_BUTTON).get_attribute("href") or ""
 
     @allure.step("Click Facebook button")
     def click_facebook_button(self) -> None:
-        self.root.find_element(*self.FACEBOOK_BUTTON).click()
+        """Click the Facebook social button."""
+        self._find_element(*self.FACEBOOK_BUTTON).click()
 
     @allure.step("Get YouTube link URL")
     def get_youtube_url(self) -> str:
-        return self.root.find_element(*self.YOUTUBE_BUTTON).get_attribute("href")
+        """Get the URL from the YouTube button."""
+        return self._find_element(*self.YOUTUBE_BUTTON).get_attribute("href") or ""
 
     @allure.step("Click YouTube button")
     def click_youtube_button(self) -> None:
-        self.root.find_element(*self.YOUTUBE_BUTTON).click()
+        """Click the YouTube social button."""
+        self._find_element(*self.YOUTUBE_BUTTON).click()
 
     @allure.step("Get Instagram link URL")
     def get_instagram_url(self) -> str:
-        return self.root.find_element(*self.INSTAGRAM_BUTTON).get_attribute("href")
+        """Get the URL from the Instagram button."""
+        return self._find_element(*self.INSTAGRAM_BUTTON).get_attribute("href") or ""
 
     @allure.step("Click Instagram button")
     def click_instagram_button(self) -> None:
-        self.root.find_element(*self.INSTAGRAM_BUTTON).click()
+        """Click the Instagram social button."""
+        self._find_element(*self.INSTAGRAM_BUTTON).click()
 
     @allure.step("Get email address from mailto link")
     def get_email_address(self) -> str:
-        href = self.root.find_element(*self.MAIL_BUTTON).get_attribute("href")
+        """Get the raw email address extracted from mailto link."""
+        href = self._find_element(*self.MAIL_BUTTON).get_attribute("href") or ""
         return href.replace("mailto:", "")
 
     @allure.step("Get Donate button text")
     def get_donate_button_text(self) -> str:
-        return self.root.find_element(*self.DONATE_BUTTON).text
+        """Get text from the Donate button."""
+        return self._find_element(*self.DONATE_BUTTON).text
 
     @allure.step("Get Donate payment link URL")
     def get_donate_url(self) -> str:
-        return self.root.find_element(*self.DONATE_BUTTON).get_attribute("href")
+        return self._find_element(*self.DONATE_BUTTON).get_attribute("href") or ""
 
     @allure.step("Click 'Donate' button")
     def click_donate_button(self) -> None:
-        self.root.find_element(*self.DONATE_BUTTON).click()
+        """Click the Donate button."""
+        self._find_element(*self.DONATE_BUTTON).click()
