@@ -40,15 +40,15 @@ class BasicInfoStep(AddClubModal):
     @allure.step("Enter club name (Назва): '{name}'")
     def enter_name(self, name: str) -> BasicInfoStep:
         """Enter the club name in the name input field."""
-        el = self._find(self.NAME_INPUT)
-        self._clear(el)
+        el = self._find_element(self.NAME_INPUT)
+        self.clear(el)
         el.send_keys(name)
         return self
 
     @allure.step("Clear club name")
     def clear_name(self) -> BasicInfoStep:
         """Clear the club name input field."""
-        self._clear(self._find(self.NAME_INPUT))
+        self.clear(self._find_element(self.NAME_INPUT))
         return self
 
     @allure.step("Select category: {value}")
@@ -60,21 +60,21 @@ class BasicInfoStep(AddClubModal):
     @allure.step("Check if category '{value}' is selected")
     def is_category_selected(self, value: str) -> bool:
         """Check if a category is selected based on its value."""
-        return self._find(self.category_input(value)).is_selected()
+        return self._find_element(self.category_input(value)).is_selected()
 
     @allure.step("Set age FROM: {age}")
     def set_age_from(self, age: int) -> BasicInfoStep:
         """Set the minimum age in the age FROM input field."""
-        el = self._find(self.AGE_FROM_INPUT)
-        self._clear(el)
+        el = self._find_element(self.AGE_FROM_INPUT)
+        self.clear(el)
         el.send_keys(str(age))
         return self
 
     @allure.step("Set age TO: {age}")
     def set_age_to(self, age: int) -> BasicInfoStep:
         """Set the maximum age in the age TO input field."""
-        el = self._find(self.AGE_TO_INPUT)
-        self._clear(el)
+        el = self._find_element(self.AGE_TO_INPUT)
+        self.clear(el)
         el.send_keys(str(age))
         return self
 
@@ -87,8 +87,8 @@ class BasicInfoStep(AddClubModal):
 
     def clear_age_range(self):
         """Clear both age FROM and age TO input fields."""
-        self._clear(self._find(self.AGE_FROM_INPUT))
-        self._clear(self._find(self.AGE_TO_INPUT))
+        self.clear(self._find_element(self.AGE_FROM_INPUT))
+        self.clear(self._find_element(self.AGE_TO_INPUT))
 
     @allure.step("Open center dropdown")
     def open_center_dropdown(self) -> BasicInfoStep:
