@@ -106,3 +106,21 @@ class BasicInfoStep(AddClubModal):
         )
         self._wait_clickable(option).click()
         return self
+
+    @allure.step("Fill Step 1 - Основна інформація")
+    def fill(
+        self,
+        name: str,
+        categories: list[str],
+        age_from: int,
+        age_to: int,
+        center: str | None = None,
+    ) -> BasicInfoStep:
+        """Fill in the Basic Information step with the provided details."""
+        self.enter_name(name)
+        for cat in categories:
+            self.select_category(cat)
+        self.set_age_range(age_from, age_to)
+        if center:
+            self.select_center(center)
+        return self

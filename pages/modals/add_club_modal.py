@@ -38,6 +38,7 @@ class AddClubModal(BaseModal):
     )
 
     NEXT_STEP_BUTTON: Locator = (By.CSS_SELECTOR, "button.add-club-content-next")
+    PREV_BUTTON: Locator = (By.CSS_SELECTOR, "button.add-club-content-prev")
 
     FIELD_ERROR_MESSAGES: Locator = (By.CSS_SELECTOR, "div.ant-form-item-explain-error")
 
@@ -61,6 +62,11 @@ class AddClubModal(BaseModal):
         """Check if the Add Club modal is currently opened."""
         return self._find(self.MODAL_CONTENT).is_displayed()
 
+    @allure.step("Close Add Club modal")
+    def close(self) -> None:
+        """Close the Add Club modal by clicking the close button."""
+        self._wait_clickable(self.CLOSE_BUTTON).click()
+
     @allure.step("Get active step title")
     def get_active_step(self) -> str:
         """Get the title of the currently active step in the Add Club modal."""
@@ -72,6 +78,11 @@ class AddClubModal(BaseModal):
     def click_next(self) -> None:
         """Click the 'Next Step' button in the Add Club modal."""
         self._wait_clickable(self.NEXT_STEP_BUTTON).click()
+
+    @allure.step("Click 'Назад' button")
+    def click_prev(self) -> None:
+        """Click the 'Previous' button to return to Step 1."""
+        self._wait_clickable(self.PREV_BUTTON).click()
 
     @allure.step("Get all displayed validation error messages")
     def get_errors(self) -> list[str]:
