@@ -3,11 +3,11 @@
 import allure
 from selenium.webdriver.common.by import By
 
-from pages.base_page import BasePage
+from pages.components.base_component import BaseComponent
 from pages.types import Locator
 
 
-class AmountSectionComponent(BasePage):
+class AmountSectionComponent(BaseComponent):
     """Component for WayForPay payment amount input and currency selection."""
 
     AMOUNT_INPUT: Locator = (By.CSS_SELECTOR, "#freepay-amount")

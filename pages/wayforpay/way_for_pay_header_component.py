@@ -3,11 +3,11 @@
 import allure
 from selenium.webdriver.common.by import By
 
-from pages.base_page import BasePage
+from pages.components.base_component import BaseComponent
 from pages.types import Locator
 
 
-class WayForPayHeaderComponent(BasePage):
+class WayForPayHeaderComponent(BaseComponent):
     """Component for WayForPay portal header and initiative details."""
 
     TITLE: Locator = (By.CSS_SELECTOR, ".block-info .title")
