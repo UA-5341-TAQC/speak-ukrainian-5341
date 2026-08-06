@@ -29,5 +29,11 @@ convention = "google" # Supported conventions: google, numpy, or pep257
 
 [tool.mypy]
 python_version = "3.12"
+mypy_path = "."
 strict = true
 ignore_missing_imports = true
+disallow_untyped_decorators = false
+explicit_package_bases = true
+namespace_packages = true
+warn_return_any = true
+warn_unused_configs = true
