@@ -36,8 +36,7 @@ class NewsListComponent(BaseComponent):
         cards = self.get_cards()
         if not 0 <= index < len(cards):
             raise IndexError(
-                f"News card index {index} is out of range. "
-                f"Available cards: {len(cards)}."
+                f"News card index {index} is out of range. Available cards: {len(cards)}."
             )
         return cards[index]
 

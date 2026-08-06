@@ -56,14 +56,10 @@ class NewsPaginationComponent(BaseComponent):
 
     def is_next_enabled(self) -> bool:
         """Return False when the Next control is disabled."""
-        classes = self._find_element(
-            self.NEXT_CONTAINER
-        ).get_attribute("class") or ""
+        classes = self._find_element(self.NEXT_CONTAINER).get_attribute("class") or ""
         return "ant-pagination-disabled" not in classes
 
     def is_previous_enabled(self) -> bool:
         """Return False when the Previous control is disabled."""
-        classes = self._find_element(
-            self.PREVIOUS_CONTAINER
-        ).get_attribute("class") or ""
+        classes = self._find_element(self.PREVIOUS_CONTAINER).get_attribute("class") or ""
         return "ant-pagination-disabled" not in classes

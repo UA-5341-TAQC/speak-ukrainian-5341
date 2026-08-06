@@ -38,9 +38,7 @@ class NewsCardComponent(BaseComponent):
 
     def get_image_background(self) -> str:
         """Return the CSS background-image value of the news image block."""
-        return self._wait_visible(self.IMAGE).value_of_css_property(
-            "background-image"
-        )
+        return self._wait_visible(self.IMAGE).value_of_css_property("background-image")
 
     @allure.step("Open news card")
     def open(self) -> None:
