@@ -49,10 +49,12 @@ class ClubFiltersComponent(BaseComponent):
         return By.XPATH, self._CATEGORY_CHECKBOX_TEMPLATE.format(category_name=category_name)
 
     @allure.step("Click on 'Advanced search' icon ")
-    def toggle_advanced_search(self) -> None:
+    def toggle_advanced_search(self) -> 'ClubFiltersComponent':
         """Click on Advanced search icon to open sider with filters."""
         icon = self.wait.until(EC.element_to_be_clickable(self.SEARCH_ICON))
         icon.click()
+        return self
+
 
     @allure.step("Check if sider with filters is displayed")
     def is_sider_visible(self) -> bool:
@@ -65,13 +67,14 @@ class ClubFiltersComponent(BaseComponent):
             return False
 
     @allure.step("Open sider with filters")
-    def ensure_sider_open(self) -> None:
+    def ensure_sider_open(self) -> 'ClubFiltersComponent':
         """Open sider with filters."""
         if not self.is_sider_visible():
             self.toggle_advanced_search()
+        return self
 
     @allure.step("Switch Online option: {target_state}")
-    def set_online_only(self, target_state: bool = True) -> None:
+    def set_online_only(self, target_state: bool = True) -> 'ClubFiltersComponent':
         """Set online option to true or false."""
         self.ensure_sider_open()
 
@@ -83,6 +86,8 @@ class ClubFiltersComponent(BaseComponent):
             label = self.wait.until(EC.element_to_be_clickable(self.ONLINE_ONLY_LABEL))
             label.click()
 
+        return self
+
     @allure.step("Check Online option")
     def is_online_selected(self) -> bool:
         """Check if online option is selected or not."""
@@ -91,16 +96,17 @@ class ClubFiltersComponent(BaseComponent):
         return checkbox.is_selected()
 
     @allure.step("Choose age: {age}")
-    def set_age(self, age: int) -> None:
+    def set_age(self, age: int) -> 'ClubFiltersComponent':
         """Set age for Age field."""
         self.ensure_sider_open()
         age_input = self.wait.until(EC.element_to_be_clickable(self.AGE_INPUT))
         age_input.clear() # reminder: from base implementation
         age_input.send_keys(str(age))
+        return self
 
 
     @allure.step("Choose by category name: {category_name}")
-    def select_category_by_name(self, category_name: str) -> None:
+    def select_category_by_name(self, category_name: str) -> 'ClubFiltersComponent':
         """Select categories by name."""
         self.ensure_sider_open()
         locator = self._get_category_locator(category_name)
@@ -109,9 +115,12 @@ class ClubFiltersComponent(BaseComponent):
         if not checkbox.is_selected():
             checkbox.click()
 
+        return self
+
     @allure.step("Clear all filters")
-    def clear_filters(self) -> None:
+    def clear_filters(self) -> 'ClubFiltersComponent':
         """Clear all filters."""
         self.ensure_sider_open()
         clear_btn = self.wait.until(EC.element_to_be_clickable(self.CLEAR_BUTTON))
         clear_btn.click()
+        return self
