@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from collections.abc import Callable
+
 import allure
 from selenium.webdriver.common.by import By
 
 from pages.modals.add_club_modal import AddClubModal
-from pages.types import Locator
+from pages.types import Locator, Weekday
 
 
 class ContactsStep(AddClubModal):
@@ -16,73 +18,33 @@ class ContactsStep(AddClubModal):
         By.CSS_SELECTOR,
         ".add-club-location-list .ant-empty-description",
     )
-    EDIT_LOCATION_BUTTON: Locator = (
-        By.CSS_SELECTOR,
-        "span[aria-label='edit']"
-    )
-    DELETE_LOCATION_BUTTON: Locator = (
-            By.CSS_SELECTOR,
-            "span[aria-label='delete']"
-        )
+    EDIT_LOCATION_BUTTON: Locator = (By.CSS_SELECTOR, "span[aria-label='edit']")
+    DELETE_LOCATION_BUTTON: Locator = (By.CSS_SELECTOR, "span[aria-label='delete']")
 
     ONLINE_SWITCH: Locator = (By.CSS_SELECTOR, "button.ant-switch")
     ONLINE_INFO_ICON: Locator = (By.CSS_SELECTOR, ".anticon-info-circle.info-icon")
 
     WORK_DAYS_GROUP: Locator = (By.ID, "basic_workDay")
 
-    MONDAY = "MONDAY"
-    TUESDAY = "TUESDAY"
-    WEDNESDAY = "WEDNESDAY"
-    THURSDAY = "THURSDAY"
-    FRIDAY = "FRIDAY"
-    SATURDAY = "SATURDAY"
-    SUNDAY = "SUNDAY"
-
-    @staticmethod
-    def work_day_label(value: str) -> Locator:
-        """Return a locator for the label of a work day checkbox."""
-        return (
-            By.XPATH,
-            f".//label[.//input[@value='{value}']]"
-        )
-
-    @staticmethod
-    def work_day_input(value: str) -> Locator:
-        """Return a locator for the input of a work day."""
-        return (
-            By.CSS_SELECTOR,
-            f"input[value='{value}']"
-        )
-
-    WORK_TIME_PICKER: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-picker-range"
+    WORK_DAY_LABEL: Callable[[str], Locator] = staticmethod(
+        lambda value: (By.XPATH, f".//label[.//input[@value='{value}']]")
     )
 
-    WORK_TIME_INPUTS: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-picker-range input[placeholder='HH:mm']"
+    WORK_DAY_INPUT: Callable[[str], Locator] = staticmethod(
+        lambda value: (By.CSS_SELECTOR, f"input[value='{value}']")
     )
 
-    TIME_PANEL: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-picker-time-panel"
-    )
+    WORK_TIME_PICKER: Locator = (By.CSS_SELECTOR, ".ant-picker-range")
 
-    TIME_PANEL_COLUMNS: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-picker-time-panel-column"
-    )
+    WORK_TIME_INPUTS: Locator = (By.CSS_SELECTOR, ".ant-picker-range input[placeholder='HH:mm']")
 
-    TIME_PANEL_CELL: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-picker-time-panel-cell-inner"
-    )
+    TIME_PANEL: Locator = (By.CSS_SELECTOR, ".ant-picker-time-panel")
 
-    TIME_OK_BUTTON: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-picker-ok button"
-    )
+    TIME_PANEL_COLUMNS: Locator = (By.CSS_SELECTOR, ".ant-picker-time-panel-column")
+
+    TIME_PANEL_CELL: Locator = (By.CSS_SELECTOR, ".ant-picker-time-panel-cell-inner")
+
+    TIME_OK_BUTTON: Locator = (By.CSS_SELECTOR, ".ant-picker-ok button")
 
     PHONE_INPUT: Locator = (By.ID, "basic_contactТелефон")
     FACEBOOK_INPUT: Locator = (By.ID, "basic_contactFacebook")
@@ -127,15 +89,15 @@ class ContactsStep(AddClubModal):
         return switch.get_attribute("aria-checked") == "true"
 
     @allure.step("Select work day: {day_value}")
-    def select_work_day(self, day_value: str) -> ContactsStep:
+    def select_work_day(self, day_value: Weekday) -> ContactsStep:
         """Select a work day by its value (e.g. ContactsStep.MONDAY)."""
-        self._wait_clickable(self.work_day_label(day_value)).click()
+        self._wait_clickable(self.WORK_DAY_LABEL(day_value)).click()
         return self
 
     @allure.step("Check if work day '{day_value}' is selected")
     def is_work_day_selected(self, day_value: str) -> bool:
         """Check whether a specific work day checkbox is selected."""
-        return self._find_element(self.work_day_input(day_value)).is_selected()
+        return self._find_element(self.WORK_DAY_INPUT(day_value)).is_selected()
 
     @allure.step("Select work days: {days}")
     def select_work_days(self, days: list[str]) -> ContactsStep:
@@ -147,28 +109,20 @@ class ContactsStep(AddClubModal):
     @allure.step("Check if work time picker is visible")
     def is_work_time_visible(self) -> bool:
         """Check whether work time picker is visible."""
-        return self._find_element(
-            self.WORK_TIME_PICKER
-        ).is_displayed()
-
+        return self._find_element(self.WORK_TIME_PICKER).is_displayed()
 
     @allure.step("Open start time picker")
     def open_start_time_picker(self) -> ContactsStep:
         """Click start time input."""
-        inputs = self.driver.find_elements(
-            *self.WORK_TIME_INPUTS
-        )
+        inputs = self.driver.find_elements(*self.WORK_TIME_INPUTS)
 
         inputs[0].click()
         return self
 
-
     @allure.step("Open end time picker")
     def open_end_time_picker(self) -> ContactsStep:
         """Click end time input."""
-        inputs = self.driver.find_elements(
-            *self.WORK_TIME_INPUTS
-        )
+        inputs = self.driver.find_elements(*self.WORK_TIME_INPUTS)
 
         inputs[1].click()
         return self
@@ -180,14 +134,9 @@ class ContactsStep(AddClubModal):
         minute: str,
     ) -> ContactsStep:
         """Select hour and minute from opened time picker."""
-        columns = self.driver.find_elements(
-            *self.TIME_PANEL_COLUMNS
-        )
+        columns = self.driver.find_elements(*self.TIME_PANEL_COLUMNS)
 
-        hour_cells = columns[0].find_elements(
-            By.CSS_SELECTOR,
-            ".ant-picker-time-panel-cell-inner"
-        )
+        hour_cells = columns[0].find_elements(By.CSS_SELECTOR, ".ant-picker-time-panel-cell-inner")
 
         for cell in hour_cells:
             if cell.text == hour:
@@ -195,8 +144,7 @@ class ContactsStep(AddClubModal):
                 break
 
         minute_cells = columns[1].find_elements(
-            By.CSS_SELECTOR,
-            ".ant-picker-time-panel-cell-inner"
+            By.CSS_SELECTOR, ".ant-picker-time-panel-cell-inner"
         )
 
         for cell in minute_cells:
@@ -206,9 +154,7 @@ class ContactsStep(AddClubModal):
 
         return self
 
-    @allure.step(
-        "Select work time range {start_hour}:{start_minute} - {end_hour}:{end_minute}"
-    )
+    @allure.step("Select work time range {start_hour}:{start_minute} - {end_hour}:{end_minute}")
     def select_work_time_range(
         self,
         start_hour: str,
@@ -218,20 +164,12 @@ class ContactsStep(AddClubModal):
     ) -> ContactsStep:
         """Select start and end working time."""
         self.open_start_time_picker()
-        self.select_time(
-            start_hour,
-            start_minute
-        )
+        self.select_time(start_hour, start_minute)
 
         self.open_end_time_picker()
-        self.select_time(
-            end_hour,
-            end_minute
-        )
+        self.select_time(end_hour, end_minute)
 
-        self._wait_clickable(
-            self.TIME_OK_BUTTON
-        ).click()
+        self._wait_clickable(self.TIME_OK_BUTTON).click()
 
         return self
 
@@ -352,12 +290,7 @@ class ContactsStep(AddClubModal):
         if site:
             self.enter_site(site)
 
-        if (
-            start_hour
-            and start_minute
-            and end_hour
-            and end_minute
-        ):
+        if start_hour and start_minute and end_hour and end_minute:
             self.select_work_time_range(
                 start_hour,
                 start_minute,
