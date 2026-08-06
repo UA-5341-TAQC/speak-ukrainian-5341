@@ -2,6 +2,7 @@
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
+import allure
 
 from pages.base_page import BasePage
 from pages.types import Locator
@@ -28,6 +29,7 @@ class ProfilePage(BasePage):
             "button.edit-button, button.ant-btn",
         )
 
+    @allure.step("Click 'Edit Profile' button")
     def click_edit_profile(self) -> None:
         """Click the edit profile button.
 
@@ -36,22 +38,27 @@ class ProfilePage(BasePage):
         """
         self._wait_clickable(self._edit_profile_btn).click()
 
+    @allure.step("Get user name")
     def get_user_name(self) -> str:
         """Get the user's first and last name."""
         return self._get_text(self._first_last_name_text)
 
+    @allure.step("Get user role")
     def get_user_role(self) -> str:
         """Get the user's role."""
         return self._get_text(self._role_text)
 
+    @allure.step("Get user phone")
     def get_user_phone(self) -> str:
         """Get the user's phone number."""
         return self._get_text(self._phone_text)
 
+    @allure.step("Get user email")
     def get_user_email(self) -> str:
         """Get the user's email."""
         return self._get_text(self._email_text)
 
+    @allure.step("Check if avatar is visible")
     def is_avatar_visible(self) -> bool:
         """Check if the user's avatar is visible."""
         return self._wait_visible(self._avatar_img).is_displayed()
