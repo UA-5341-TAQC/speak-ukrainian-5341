@@ -1,8 +1,8 @@
 """Page object for the profile page of the Speak Ukrainian website."""
 
+import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-import allure
 
 from pages.base_page import BasePage
 from pages.types import Locator
