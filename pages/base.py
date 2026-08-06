@@ -35,6 +35,12 @@ class Base:
             return self.root.find_element(*locator)
         return self.driver.find_element(*locator)
 
+    def _find_elements(self, locator: Locator) -> list[WebElement]:
+        """Find all matching elements within the page or component."""
+        if self.root:
+            return self.root.find_elements(*locator)
+        return self.driver.find_elements(*locator)
+
     def _wait_clickable(self, locator: Locator) -> WebElement:
         """Wait until an element matching the locator is clickable.
 
@@ -88,6 +94,17 @@ class Base:
         element.send_keys(cmd_ctrl + "a")
         element.send_keys(Keys.BACKSPACE)
         element.send_keys(text)
+
     def _clear(self, element: WebElement) -> None:
         """Clear an input element."""
         element.clear()
+
+    def clear(self, element: WebElement) -> None:
+        """Clear an input element using Ctrl+A and Backspace to trigger React events.
+
+        Args:
+            element: The WebElement input field to clear.
+        """
+        element.send_keys(Keys.CONTROL + "a")
+        element.send_keys(Keys.BACKSPACE)
+
