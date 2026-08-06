@@ -56,3 +56,7 @@ class Base:
     def _wait_visible(self, locator: Locator) -> WebElement:
         """Wait until an element exists and is visible."""
         return self.wait.until(EC.visibility_of_element_located(locator))
+
+    def _clear(self, element: WebElement) -> None:
+        """Clear an input element."""
+        element.clear()
