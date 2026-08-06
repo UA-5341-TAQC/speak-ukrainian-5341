@@ -12,7 +12,7 @@ class ClubCardComponent(BaseComponent):
     """Component for Single club card."""
 
     #locators
-    _TITLE: Locator = (By.CSS_SELECTOR, "div_name")
+    _TITLE: Locator = (By.CSS_SELECTOR, "div.name")
     _CATEGORIES: Locator = (By.CSS_SELECTOR, "div.club-tags-box span-name")
     _DESCRIPTION: Locator = (By.CSS_SELECTOR, "p.description")
     _RATING: Locator = (By.CSS_SELECTOR, "ul.ant-rate")
@@ -28,30 +28,30 @@ class ClubCardComponent(BaseComponent):
     @allure.step("Club Title")
     def title(self) -> str:
         """Return title."""
-        return self._find_element(*self._TITLE).text.strip()
+        return self._find_element(self._TITLE).text.strip()
 
     @property
     @allure.step("Club Categories")
     def categories(self) -> list[str]:
         """Return list of club categories."""
-        elements = self._find_element(*self._CATEGORIES)
+        elements = self._find_element(self._CATEGORIES)
         return [el.text.strip() for el in elements]
 
     @property
     @allure.step("Club Description")
     def description(self) -> str:
         """Return club description."""
-        return self._find_element(*self._DESCRIPTION).text.strip()
+        return self._find_element(self._DESCRIPTION).text.strip()
 
     @property
     @allure.step("Club Address")
     def address(self) -> str:
         """Return club address."""
-        return self._find_element(*self._ADDRESS).text.strip()
+        return self._find_element(self._ADDRESS).text.strip()
 
     @allure.step("Click 'More information' button")
     def click_more_details(self) -> None:
         """Click 'More information' button."""
-        self._find_element(*self._MORE_BUTTON).click()
+        self._find_element(self._MORE_BUTTON).click()
 
 
