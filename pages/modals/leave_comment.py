@@ -1,7 +1,6 @@
 """Leave comment / complaint modal, opened from the club details page."""
 
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 
 from pages.modals.base_modal import BaseModal
 from pages.types import Locator
@@ -35,6 +34,8 @@ class LeaveCommentModal(BaseModal):
 
     # Rating and description -> only editable fields, "Коментар" tab
     RATING_WIDGET: Locator = (By.CSS_SELECTOR, "#comment-edit_rate")
+    RATING_STAR_TEMPLATE: Locator = (
+        By.CSS_SELECTOR, "#comment-edit_rate div[role='radio'][aria-posinset='{stars}']")
 
     #Description field
     DESCRIPTION_LABEL: Locator = (By.CSS_SELECTOR, "label[for='comment-edit_commentText']")
@@ -78,18 +79,16 @@ class LeaveCommentModal(BaseModal):
         if not 1 <= stars <= 5:
             raise ValueError(f"Rating must be between 1 and 5, got {stars}")
 
-        # динамічно підставляє номер зірки (1-5) у селекторі
-        star = self._find_element(
-            (By.CSS_SELECTOR, f"#comment-edit_rate div[role='radio'][aria-posinset='{stars}']")
-        )
+        # тут розпаковується кортеж локатора на тип і селектор
+        by, value = self.RATING_STAR_TEMPLATE
+        star = self._find_element((by, value.format(stars=stars)))
         star.click()
 
     def enter_description(self, text: str) -> None:
         """Enter text into the description field."""
         field = self._find_element(self.DESCRIPTION_FIELD)
         field.click()
-        field.send_keys(Keys.CONTROL, "a")  # виділити весь текст (Ctrl+A)
-        field.send_keys(Keys.DELETE)  # видалити виділене
+        self.clear(field)
         field.send_keys(text)
 
     def get_complaint_note_text(self) -> str:
@@ -118,3 +117,4 @@ class LeaveCommentModal(BaseModal):
         """Check if the 'Скарга' tab is currently selected."""
         tab = self._find_element(self.COMPLAINT_TAB)
         return tab.get_attribute("aria-selected") == "true"
+
