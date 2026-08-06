@@ -64,3 +64,6 @@ class Base:
             The text content of the element.
         """
         return self._wait_visible(locator).text
+    def _clear(self, element: WebElement) -> None:
+        """Clear an input element."""
+        element.clear()
