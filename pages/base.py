@@ -88,3 +88,6 @@ class Base:
         element.send_keys(cmd_ctrl + "a")
         element.send_keys(Keys.BACKSPACE)
         element.send_keys(text)
+    def _clear(self, element: WebElement) -> None:
+        """Clear an input element."""
+        element.clear()
