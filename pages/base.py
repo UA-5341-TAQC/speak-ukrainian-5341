@@ -1,5 +1,8 @@
 """Base class for all pages."""
 
+import platform
+
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
@@ -74,12 +77,14 @@ class Base:
         self._wait_clickable(locator).click()
 
     def _fill_input(self, locator: Locator, text: str) -> None:
-        """Wait for an input element to be visible, clear it, and enter text.
+        """Wait for an input element to be visible, clear it reliably, and enter text.
 
         Args:
             locator: Selenium locator of the input element.
             text: Text to enter into the input.
         """
         element = self._wait_visible(locator)
-        element.clear()
+        cmd_ctrl = Keys.COMMAND if platform.system() == "Darwin" else Keys.CONTROL
+        element.send_keys(cmd_ctrl + "a")
+        element.send_keys(Keys.BACKSPACE)
         element.send_keys(text)
