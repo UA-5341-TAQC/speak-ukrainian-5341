@@ -1,5 +1,6 @@
 """Base class for all pages."""
 
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
@@ -21,9 +22,11 @@ class Base:
         if isinstance(context, WebDriver):
             self.driver = context
             self.root = None
+
         if isinstance(context, WebElement):
             self.root = context
             self.driver = context.parent
+
         self.wait = WebDriverWait(self.driver, Config.EXPLICIT_WAIT)
 
     def _find_element(self, locator: Locator) -> WebElement:
@@ -32,22 +35,15 @@ class Base:
             return self.root.find_element(*locator)
         return self.driver.find_element(*locator)
 
-    def _wait_clickable(self, locator: Locator) -> WebElement:
-        """Wait until an element matching the locator is clickable.
-
-        Args:
-            locator: Selenium locator of the element.
-
-        Returns:
-            The clickable WebElement.
-        """
-        return self.wait.until(EC.element_to_be_clickable(locator))
-
     def _find_elements(self, locator: Locator) -> list[WebElement]:
-        """Find all elements in the current context."""
-        if self.root is not None:
+        """Find all matching elements within the page or component."""
+        if self.root:
             return self.root.find_elements(*locator)
         return self.driver.find_elements(*locator)
+
+    def _wait_clickable(self, locator: Locator) -> WebElement:
+        """Wait until an element matching the locator is clickable."""
+        return self.wait.until(EC.element_to_be_clickable(locator))
 
     def _wait_present(self, locator: Locator) -> WebElement:
         """Wait until an element exists in the page DOM."""
@@ -60,3 +56,8 @@ class Base:
     def _clear(self, element: WebElement) -> None:
         """Clear an input element."""
         element.clear()
+
+    def clear(self, element: WebElement) -> None:
+        """Clear an input element using Ctrl+A and Backspace."""
+        element.send_keys(Keys.CONTROL + "a")
+        element.send_keys(Keys.BACKSPACE)
