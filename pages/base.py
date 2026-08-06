@@ -50,6 +50,10 @@ class Base:
         """
         return self.wait.until(EC.element_to_be_clickable(locator))
 
+    def _clear(self, element: WebElement) -> None:
+        """Clear an input element."""
+        element.clear()
+
     def clear(self, element: WebElement) -> None:
         """Clear an input element using Ctrl+A and Backspace to trigger React events.
 

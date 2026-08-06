@@ -2,6 +2,7 @@
 
 import allure
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 
 from pages.components.base_component import BaseComponent
 from pages.types import Locator
@@ -17,9 +18,9 @@ class SocialButtons(BaseComponent):
     MAIL_BUTTON: Locator = (By.CSS_SELECTOR, ".social-info a[href^='mailto:']")
     DONATE_BUTTON: Locator = (By.CSS_SELECTOR, ".help-button .donate-button")
 
-    # def __init__(self, root: WebElement) -> None:
-    #     """Initialize SocialButtons component."""
-    #     super().__init__(root)
+    def __init__(self, root: WebElement) -> None:
+        """Initialize SocialButtons component."""
+        super().__init__(root)
 
     @allure.step("Get social media section title text")
     def get_social_section_title_text(self) -> str:
