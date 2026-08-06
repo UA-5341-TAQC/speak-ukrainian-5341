@@ -44,17 +44,17 @@ class MarathonPage(BasePage):
     @allure.step("Get titles of the currently visible task cards")
     def get_visible_task_titles(self) -> list[str]:
         """Get the titles of the task cards visible on the current carousel page."""
-        return [el.text for el in self.driver.find_elements(*self.VISIBLE_TASK_TITLES)]
+        return [el.text for el in self._find_elements(self.VISIBLE_TASK_TITLES)]
 
     @allure.step("Get pagination dot count")
     def get_pagination_dot_count(self) -> int:
         """Get the total number of pagination dots below the task carousel."""
-        return len(self.driver.find_elements(*self.PAGINATION_DOTS))
+        return len(self._find_elements(self.PAGINATION_DOTS))
 
     @allure.step("Get active pagination dot index")
     def get_active_dot_index(self) -> int:
         """Get the 1-based index of the currently active pagination dot."""
-        dots = self.driver.find_elements(*self.PAGINATION_DOTS)
+        dots = self._find_elements(self.PAGINATION_DOTS)
         for index, dot in enumerate(dots, start=1):
             if "slick-active" in (dot.get_attribute("class") or ""):
                 return index
@@ -80,7 +80,7 @@ class MarathonPage(BasePage):
         Raises:
             ValueError: If index is not within the range of available dots.
         """
-        dots = self.driver.find_elements(*self.PAGINATION_DOTS)
+        dots = self._find_elements(self.PAGINATION_DOTS)
         if not 1 <= index <= len(dots):
             raise ValueError(f"Dot index {index} out of range (1..{len(dots)}).")
         dots[index - 1].click()
