@@ -1,3 +1,5 @@
+"""Base component class for all components in the application."""
+
 from selenium.webdriver.remote.webelement import WebElement
 
 from pages.base import Base
