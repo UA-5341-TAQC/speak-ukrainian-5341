@@ -53,25 +53,25 @@ class DescriptionStep(AddClubModal):
     @allure.step("Get uploaded images count")
     def get_uploaded_images_count(self) -> int:
         """Return the number of uploaded images."""
-        return len(self.driver.find_elements(self.VIEW_UPLOAD_IMG_BUTTONS))
+        return len(self.driver.find_elements(*self.VIEW_UPLOAD_IMG_BUTTON))
 
     @allure.step("Click first image preview button")
     def click_first_view_upload_image(self) -> None:
         """Click the first image preview button."""
-        self._wait_clickable(self.FIRST_VIEW_UPLOAD_IMG_BUTTON).click()
+        self._wait_clickable(self.VIEW_UPLOAD_IMG_BUTTON).click()
 
     @allure.step("Enter description: '{text}'")
     def enter_description(self, text: str) -> DescriptionStep:
         """Type the club description into the textarea."""
         el = self._find_element(self.DESCRIPTION_TEXTAREA)
-        self.clear(el)
+        self._clear(el)
         el.send_keys(text)
         return self
 
     @allure.step("Clear description")
     def clear_description(self) -> DescriptionStep:
         """Clear the description textarea."""
-        self.clear(self._find_element(self.DESCRIPTION_TEXTAREA))
+        self._clear(self._find_element(self.DESCRIPTION_TEXTAREA))
         return self
 
     @allure.step("Check if toast message is displayed")

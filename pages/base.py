@@ -42,3 +42,7 @@ class Base:
             The clickable WebElement.
         """
         return self.wait.until(EC.element_to_be_clickable(locator))
+
+    def _clear(self, element: WebElement) -> None:
+        """Clear an input element."""
+        element.clear()

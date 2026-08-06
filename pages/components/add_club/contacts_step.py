@@ -155,8 +155,8 @@ class ContactsStep(AddClubModal):
     @allure.step("Open start time picker")
     def open_start_time_picker(self) -> ContactsStep:
         """Click start time input."""
-        inputs = self._find_elements(
-            self.WORK_TIME_INPUTS
+        inputs = self.driver.find_elements(
+            *self.WORK_TIME_INPUTS
         )
 
         inputs[0].click()
@@ -166,8 +166,8 @@ class ContactsStep(AddClubModal):
     @allure.step("Open end time picker")
     def open_end_time_picker(self) -> ContactsStep:
         """Click end time input."""
-        inputs = self._find_elements(
-            self.WORK_TIME_INPUTS
+        inputs = self.driver.find_elements(
+            *self.WORK_TIME_INPUTS
         )
 
         inputs[1].click()
@@ -180,8 +180,8 @@ class ContactsStep(AddClubModal):
         minute: str,
     ) -> ContactsStep:
         """Select hour and minute from opened time picker."""
-        columns = self._find_elements(
-            self.TIME_PANEL_COLUMNS
+        columns = self.driver.find_elements(
+            *self.TIME_PANEL_COLUMNS
         )
 
         hour_cells = columns[0].find_elements(
@@ -239,84 +239,84 @@ class ContactsStep(AddClubModal):
     def enter_phone(self, phone: str) -> ContactsStep:
         """Enter phone number (+38 prefix is already present)."""
         el = self._find_element(self.PHONE_INPUT)
-        self.clear(el)
+        self._clear(el)
         el.send_keys(phone)
         return self
 
     @allure.step("Clear phone (Телефон)")
     def clear_phone(self) -> ContactsStep:
         """Clear the phone input field."""
-        self.clear(self._find_element(self.PHONE_INPUT))
+        self._clear(self._find_element(self.PHONE_INPUT))
         return self
 
     @allure.step("Enter Facebook: '{url}'")
     def enter_facebook(self, url: str) -> ContactsStep:
         """Enter Facebook URL or profile name."""
         el = self._find_element(self.FACEBOOK_INPUT)
-        self.clear(el)
+        self._clear(el)
         el.send_keys(url)
         return self
 
     @allure.step("Clear Facebook url")
     def clear_facebook(self) -> ContactsStep:
         """Clear the Facebook input field."""
-        self.clear(self._find_element(self.FACEBOOK_INPUT))
+        self._clear(self._find_element(self.FACEBOOK_INPUT))
         return self
 
     @allure.step("Enter WhatsApp: '{phone}'")
     def enter_whatsapp(self, phone: str) -> ContactsStep:
         """Enter WhatsApp contact number."""
         el = self._find_element(self.WHATSAPP_INPUT)
-        self.clear(el)
+        self._clear(el)
         el.send_keys(phone)
         return self
 
     @allure.step("Clear WhatsApp number")
     def clear_whatsapp(self) -> ContactsStep:
         """Clear the WhatsApp input field."""
-        self.clear(self._find_element(self.WHATSAPP_INPUT))
+        self._clear(self._find_element(self.WHATSAPP_INPUT))
         return self
 
     @allure.step("Enter email (Пошта): '{email}'")
     def enter_email(self, email: str) -> ContactsStep:
         """Enter email address."""
         el = self._find_element(self.EMAIL_INPUT)
-        self.clear(el)
+        self._clear(el)
         el.send_keys(email)
         return self
 
     @allure.step("Clear email")
     def clear_email(self) -> ContactsStep:
         """Clear the email input field."""
-        self.clear(self._find_element(self.EMAIL_INPUT))
+        self._clear(self._find_element(self.EMAIL_INPUT))
         return self
 
     @allure.step("Enter Skype: '{skype}'")
     def enter_skype(self, skype: str) -> ContactsStep:
         """Enter Skype login."""
         el = self._find_element(self.SKYPE_INPUT)
-        self.clear(el)
+        self._clear(el)
         el.send_keys(skype)
         return self
 
     @allure.step("Clear Skype")
     def clear_skype(self) -> ContactsStep:
         """Clear the Skype input field."""
-        self.clear(self._find_element(self.SKYPE_INPUT))
+        self._clear(self._find_element(self.SKYPE_INPUT))
         return self
 
     @allure.step("Enter site URL: '{url}'")
     def enter_site(self, url: str) -> ContactsStep:
         """Enter website URL."""
         el = self._find_element(self.SITE_INPUT)
-        self.clear(el)
+        self._clear(el)
         el.send_keys(url)
         return self
 
     @allure.step("Clear site URL")
     def clear_site(self) -> ContactsStep:
         """Clear the site input field."""
-        self.clear(self._find_element(self.SITE_INPUT))
+        self._clear(self._find_element(self.SITE_INPUT))
         return self
 
     @allure.step("Fill Step 2 — Контакти")

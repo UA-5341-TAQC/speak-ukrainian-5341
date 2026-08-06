@@ -77,7 +77,7 @@ class AddClubModal(BaseModal):
     @allure.step("Check if 'Завершити' button is enabled")
     def is_finish_enabled(self) -> bool:
         """Verify whether the finish button is clickable."""
-        return self._find(self.FINISH_BUTTON).is_enabled()
+        return self._find_element(self.FINISH_BUTTON).is_enabled()
 
     @allure.step("Get all displayed validation error messages")
     def get_errors(self) -> list[str]:
