@@ -6,8 +6,11 @@ from pages.base import Base
 
 
 class BaseComponent(Base):
-    """Base class for all components."""
+    """Base class for all component objects."""
 
-    def __init__(self, root: WebElement):
-        """Initialize the base component with a WebElement root."""
+    root: WebElement  # Type narrowing for mypy: root cannot be None in components
+
+    def __init__(self, root: WebElement) -> None:
+        """Initialize component with root element."""
         super().__init__(root)
+        self.root = root  # Explicit assignment guarantees WebElement type for mypy

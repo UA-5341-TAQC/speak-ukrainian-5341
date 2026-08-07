@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
 from pages.modals.edit_profile_modal import EditProfileModal
+from pages.components.footer_component import FooterComponent
 from pages.types import Locator
 
 
@@ -58,3 +59,9 @@ class ProfilePage(BasePage):
     def is_avatar_visible(self) -> bool:
         """Check if the user's avatar is visible."""
         return self._wait_visible(self.avatar_img).is_displayed()
+
+    @property
+    def footer(self) -> FooterComponent:
+        """Get the footer component."""
+        root = self.driver.find_element(By.TAG_NAME, "body")
+        return FooterComponent(root)
