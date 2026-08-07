@@ -22,7 +22,7 @@ class ProfilePage(BasePage):
     email_text: Locator = (By.CSS_SELECTOR, ".user-email-data")
     edit_profile_btn: Locator = (
         By.CSS_SELECTOR,
-        "button.edit-button, button.ant-btn",
+        "div.edit-button button",
     )
 
     @allure.step("Click 'Edit Profile' button")
