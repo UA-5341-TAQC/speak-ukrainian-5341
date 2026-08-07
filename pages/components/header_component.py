@@ -1,7 +1,10 @@
+"""Module containing the HeaderComponent class for interacting with the website header."""
+
 import allure
 from selenium.webdriver.common.by import By
 
 from pages.components.base_component import BaseComponent
+from pages.components.challenges_dropdown import ChallengeDropdown
 from pages.types import Locator
 
 
@@ -21,6 +24,11 @@ class HeaderComponent(BaseComponent):
     CHALLENGE_MENU: Locator = (
         By.CSS_SELECTOR,
         ".nav-menu .challenge-text",
+    )
+
+    CHALLENGE_DROPDOWN: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-menu-submenu-popup",
     )
 
     NEWS_LINK: Locator = (
@@ -57,6 +65,13 @@ class HeaderComponent(BaseComponent):
     def click_challenge(self) -> None:
         """Open the Challenge dropdown."""
         self._wait_clickable(self.CHALLENGE_MENU).click()
+
+    @allure.step("Get Challenge dropdown")
+    def get_challenge_dropdown(self) -> ChallengeDropdown:
+        """Return the Challenge dropdown component."""
+        return ChallengeDropdown(
+            self._find_element(self.CHALLENGE_DROPDOWN)
+    )
 
     @allure.step("Click 'Новини'")
     def click_news(self) -> None:
