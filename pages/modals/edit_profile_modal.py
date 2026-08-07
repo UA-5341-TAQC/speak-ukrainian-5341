@@ -14,16 +14,12 @@ class EditProfileModal(BaseModal):
     close_btn: Locator = (By.CSS_SELECTOR, ".ant-modal-close")
 
     role_visitor_btn: Locator = (
-        By.XPATH,
-        "//div[contains(@class, 'ant-modal-content')]//span[contains(text(), "
-        "'Відвідувач')]/ancestor::div[contains(@class, 'ant-radio-button-wrapper') "
-        "or contains(@class, 'role-btn')]",
+        By.CSS_SELECTOR,
+        "#edit_roleName input[value='ROLE_USER']",
     )
     role_manager_btn: Locator = (
-        By.XPATH,
-        "//div[contains(@class, 'ant-modal-content')]//span[contains(text(), "
-        "'Керівник')]/ancestor::div[contains(@class, 'ant-radio-button-wrapper') "
-        "or contains(@class, 'role-btn')]",
+        By.CSS_SELECTOR,
+        "#edit_roleName input[value='ROLE_MANAGER']",
     )
 
     last_name_input: Locator = (By.ID, "edit_lastName")
@@ -45,7 +41,7 @@ class EditProfileModal(BaseModal):
 
     save_changes_btn: Locator = (
         By.CSS_SELECTOR,
-        ".ant-modal-footer button.ant-btn-primary, button[type='submit']",
+        "button.submit-button[type='submit']",
     )
 
     @allure.step("Get modal title")
