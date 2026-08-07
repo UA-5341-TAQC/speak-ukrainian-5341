@@ -13,9 +13,8 @@ from pages.types import Locator
 
 
 class ChallengePage(BasePage):
-    """Represent the challenge page at ``/challenges/2``."""
+    """Represent a Speak Ukrainian challenge page."""
 
-    _PATH = "challenges/2"
     _TITLE: Locator = (By.CSS_SELECTOR, ".banner .title")
     _CTA_BUTTON: Locator = (By.XPATH, "//button[normalize-space()='Записатись на челендж']")
     _VIDEO_CARDS: Locator = (
@@ -24,9 +23,13 @@ class ChallengePage(BasePage):
     )
 
     @allure.step("Open challenge page")
-    def open(self) -> None:
-        """Navigate the browser to the challenge page."""
-        self.driver.get(urljoin(Config.BASE_UI_URL, self._PATH))
+    def open(self, challenge_id: int) -> None:
+        """Navigate the browser to a challenge page.
+
+        Args:
+            challenge_id: Identifier of the challenge to open.
+        """
+        self.driver.get(urljoin(Config.BASE_UI_URL, f"challenges/{challenge_id}"))
 
     @allure.step("Get challenge page title")
     def get_title_text(self) -> str:
