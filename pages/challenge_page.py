@@ -15,9 +15,9 @@ from pages.types import Locator
 class ChallengePage(BasePage):
     """Represent a Speak Ukrainian challenge page."""
 
-    _TITLE: Locator = (By.CSS_SELECTOR, ".banner .title")
-    _CTA_BUTTON: Locator = (By.XPATH, "//button[normalize-space()='Записатись на челендж']")
-    _VIDEO_CARDS: Locator = (
+    TITLE: Locator = (By.CSS_SELECTOR, ".banner .title")
+    CTA_BUTTON: Locator = (By.XPATH, "//button[normalize-space()='Записатись на челендж']")
+    VIDEO_CARDS: Locator = (
         By.XPATH,
         "//*[self::article or self::div][.//a[normalize-space()='Дивитися на YouTube']]",
     )
@@ -34,12 +34,12 @@ class ChallengePage(BasePage):
     @allure.step("Get challenge page title")
     def get_title_text(self) -> str:
         """Return the title shown in the challenge banner."""
-        return self._find_element(self._TITLE).text
+        return self._find_element(self.TITLE).text
 
     @allure.step("Get challenge registration button component")
     def get_cta_button(self) -> ChallengeCtaButton:
         """Return the challenge registration button component."""
-        return ChallengeCtaButton(self._wait_clickable(self._CTA_BUTTON))
+        return ChallengeCtaButton(self._wait_clickable(self.CTA_BUTTON))
 
     @allure.step("Click challenge registration button")
     def click_cta_button(self) -> None:
@@ -49,4 +49,4 @@ class ChallengePage(BasePage):
     @allure.step("Get challenge webinar video cards")
     def get_video_cards(self) -> list[ChallengeVideoCard]:
         """Return all webinar video cards currently displayed on the page."""
-        return [ChallengeVideoCard(card) for card in self.driver.find_elements(*self._VIDEO_CARDS)]
+        return [ChallengeVideoCard(card) for card in self.driver.find_elements(*self.VIDEO_CARDS)]

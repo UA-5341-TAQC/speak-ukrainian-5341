@@ -1,9 +1,16 @@
-"""Base class for all pages."""
+"""Base class for all pages and components."""
 
+from typing import Literal
+
+from selenium.common.exceptions import (
+    ElementNotInteractableException,
+    NoSuchElementException,
+    StaleElementReferenceException,
+)
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from data.config import Config
@@ -11,47 +18,82 @@ from pages.types import Locator
 
 
 class Base:
-    """Base class for all pages."""
+    """Base class for all pages and component objects."""
 
     driver: WebDriver
     root: WebElement | None
-    wait: WebDriverWait[WebDriver]
 
-    def __init__(self, context: WebDriver | WebElement):
+    def __init__(self, context: WebDriver | WebElement) -> None:
         """Initialize the base page with a WebDriver or WebElement context."""
         if isinstance(context, WebDriver):
             self.driver = context
             self.root = None
-
-        if isinstance(context, WebElement):
+        elif isinstance(context, WebElement):
             self.root = context
             self.driver = context.parent
+        else:
+            raise TypeError(f"Invalid context type: {type(context)}")
 
-        self.wait = WebDriverWait(self.driver, Config.EXPLICIT_WAIT)
+    @property
+    def _target(self) -> WebDriver | WebElement:
+        """Return current context (root WebElement if inside component, else driver)."""
+        return self.root if self.root is not None else self.driver
+
+    @property
+    def wait(self) -> WebDriverWait[WebDriver]:
+        """Return a WebDriverWait instance bound to the active context."""
+        return WebDriverWait(
+            self.driver,
+            Config.EXPLICIT_WAIT,
+            ignored_exceptions=(
+                NoSuchElementException,
+                StaleElementReferenceException,
+                ElementNotInteractableException,
+            ),
+        )
+
+    def _format_locator(self, locator: Locator) -> Locator:
+        """Ensure XPath starts with dot when searching within root context."""
+        by, value = locator
+        if self.root is not None and by == By.XPATH and value.startswith("//"):
+            return (by, "." + value)
+        return locator
 
     def _find_element(self, locator: Locator) -> WebElement:
-        """Find a single element within the page or component."""
-        if self.root:
-            return self.root.find_element(*locator)
-        return self.driver.find_element(*locator)
+        """Find a single element within the current context."""
+        return self._target.find_element(*self._format_locator(locator))
 
     def _find_elements(self, locator: Locator) -> list[WebElement]:
-        """Find all matching elements within the page or component."""
-        if self.root:
-            return self.root.find_elements(*locator)
-        return self.driver.find_elements(*locator)
-
-    def _wait_clickable(self, locator: Locator) -> WebElement:
-        """Wait until an element matching the locator is clickable."""
-        return self.wait.until(EC.element_to_be_clickable(locator))
+        """Find all matching elements within the current context."""
+        return self._target.find_elements(*self._format_locator(locator))
 
     def _wait_present(self, locator: Locator) -> WebElement:
-        """Wait until an element exists in the page DOM."""
-        return self.wait.until(EC.presence_of_element_located(locator))
+        """Wait until an element exists in the active context DOM."""
+        return self.wait.until(lambda _: self._find_element(locator))
 
     def _wait_visible(self, locator: Locator) -> WebElement:
-        """Wait until an element exists and is visible."""
-        return self.wait.until(EC.visibility_of_element_located(locator))
+        """Wait until an element is visible within the active context."""
+
+        def _predicate(_: object) -> WebElement | Literal[False]:
+            try:
+                element = self._find_element(locator)
+                return element if element.is_displayed() else False
+            except Exception:
+                return False
+
+        return self.wait.until(_predicate)
+
+    def _wait_clickable(self, locator: Locator) -> WebElement:
+        """Wait until an element is clickable within the active context."""
+
+        def _predicate(_: object) -> WebElement | Literal[False]:
+            try:
+                element = self._find_element(locator)
+                return element if (element.is_displayed() and element.is_enabled()) else False
+            except Exception:
+                return False
+
+        return self.wait.until(_predicate)
 
     def _clear(self, element: WebElement) -> None:
         """Clear an input element."""
