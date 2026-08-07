@@ -46,9 +46,24 @@ class HeaderComponent(BaseComponent):
         ".nav-menu a[href='/service']",
     )
 
+    CITY_SELECTOR: Locator = (
+        By.CSS_SELECTOR,
+        ".right-side-menu .ant-dropdown-trigger.city",
+    )
+
+    ADD_CLUB_BUTTON: Locator = (
+        By.CSS_SELECTOR,
+        "button.add-club-button",
+    )
+
     USER_PROFILE: Locator = (
         By.CSS_SELECTOR,
-        ".nav-menu .user-profile",
+        ".right-side-menu .user-profile",
+    )
+
+    LOGOUT_MENU_ITEM: Locator = (
+        By.CSS_SELECTOR,
+        "li.ant-dropdown-menu-item-danger",
     )
 
     @allure.step("Click logo")
@@ -69,9 +84,7 @@ class HeaderComponent(BaseComponent):
     @allure.step("Get Challenge dropdown")
     def get_challenge_dropdown(self) -> ChallengeDropdown:
         """Return the Challenge dropdown component."""
-        return ChallengeDropdown(
-            self._find_element(self.CHALLENGE_DROPDOWN)
-    )
+        return ChallengeDropdown(self._find_element(self.CHALLENGE_DROPDOWN))
 
     @allure.step("Click 'Новини'")
     def click_news(self) -> None:
@@ -92,3 +105,18 @@ class HeaderComponent(BaseComponent):
     def click_user_profile(self) -> None:
         """Open the user profile dropdown."""
         self._wait_clickable(self.USER_PROFILE).click()
+
+    @allure.step("Check whether the user is signed in")
+    def is_logged_in(self) -> bool:
+        """Return whether the current session is authenticated.
+
+        A signed-in user menu contains the 'Вийти' (log out) item, which is
+        only rendered when an access token exists. The dropdown is rendered at
+        the document root, so it is searched on the driver scope.
+        """
+        self.click_user_profile()
+        try:
+            self.wait.until(lambda _: self.driver.find_element(*self.LOGOUT_MENU_ITEM))
+            return True
+        except Exception:
+            return False

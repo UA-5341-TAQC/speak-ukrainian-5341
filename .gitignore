@@ -223,3 +223,6 @@ __marimo__/
 # Allure 
 allure-results/
 allure-report/
+
+# Visual scratch tests (не входять у репозиторій)
+visual_tests/
