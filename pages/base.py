@@ -22,9 +22,11 @@ class Base:
         if isinstance(context, WebDriver):
             self.driver = context
             self.root = None
+
         if isinstance(context, WebElement):
             self.root = context
             self.driver = context.parent
+
         self.wait = WebDriverWait(self.driver, Config.EXPLICIT_WAIT)
 
     def _find_element(self, locator: Locator) -> WebElement:
@@ -40,25 +42,22 @@ class Base:
         return self.driver.find_elements(*locator)
 
     def _wait_clickable(self, locator: Locator) -> WebElement:
-        """Wait until an element matching the locator is clickable.
-
-        Args:
-            locator: Selenium locator of the element.
-
-        Returns:
-            The clickable WebElement.
-        """
+        """Wait until an element matching the locator is clickable."""
         return self.wait.until(EC.element_to_be_clickable(locator))
+
+    def _wait_present(self, locator: Locator) -> WebElement:
+        """Wait until an element exists in the page DOM."""
+        return self.wait.until(EC.presence_of_element_located(locator))
+
+    def _wait_visible(self, locator: Locator) -> WebElement:
+        """Wait until an element exists and is visible."""
+        return self.wait.until(EC.visibility_of_element_located(locator))
 
     def _clear(self, element: WebElement) -> None:
         """Clear an input element."""
         element.clear()
 
     def clear(self, element: WebElement) -> None:
-        """Clear an input element using Ctrl+A and Backspace to trigger React events.
-
-        Args:
-            element: The WebElement input field to clear.
-        """
+        """Clear an input element using Ctrl+A and Backspace."""
         element.send_keys(Keys.CONTROL + "a")
         element.send_keys(Keys.BACKSPACE)
