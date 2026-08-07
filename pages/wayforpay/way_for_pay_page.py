@@ -1,22 +1,13 @@
 """Main Page Object for WayForPay payment gateway page."""
 
 import allure
-from components.amount_section_component import AmountSectionComponent
-from components.way_for_pay_header_component import WayForPayHeaderComponent
 from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
 from pages.types import Locator
-<<<<<<< HEAD
-
-from .card_tab import CardTab
-from .master_pass_tab import MasterPassTab
-from .visa_checkout_tab import VisaCheckoutTab
-=======
 from pages.wayforpay.card_tab import CardTab
 from pages.wayforpay.master_pass_tab import MasterPassTab
 from pages.wayforpay.visa_checkout_tab import VisaCheckoutTab
->>>>>>> c33eb77f19193cd135bb90dd2259ade1a9faf691
 
 
 class WayForPayPage(BasePage):
