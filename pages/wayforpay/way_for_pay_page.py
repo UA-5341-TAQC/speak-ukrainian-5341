@@ -2,16 +2,12 @@
 
 import allure
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webdriver import WebDriver
 
 from pages.base_page import BasePage
 from pages.types import Locator
-
-from components.amount_section_component import AmountSectionComponent
-from .card_tab import CardTab
-from .master_pass_tab import MasterPassTab
-from .visa_checkout_tab import VisaCheckoutTab
-from components.way_for_pay_header_component import WayForPayHeaderComponent
+from pages.wayforpay.card_tab import CardTab
+from pages.wayforpay.master_pass_tab import MasterPassTab
+from pages.wayforpay.visa_checkout_tab import VisaCheckoutTab
 
 
 class WayForPayPage(BasePage):
@@ -23,41 +19,39 @@ class WayForPayPage(BasePage):
         By.CSS_SELECTOR,
         "#paymenu-dropdown-master-button",
     )
-    VISA_CHECKOUT_TAB_BUTTON: Locator = (By.CSS_SELECTOR, "#paymenu-dropdown-visa-button")
+    VISA_CHECKOUT_TAB_BUTTON: Locator = (
+        By.CSS_SELECTOR,
+        "#paymenu-dropdown-visa-button",
+    )
 
     APPLE_PAY_BUTTON: Locator = (By.CSS_SELECTOR, "#apple-pay")
     GPAY_BUTTON: Locator = (By.CSS_SELECTOR, "#gpay-button-online-api-id")
 
-    def __init__(self, driver: WebDriver) -> None:
-        """Initialize WayForPayPage with driver instance."""
-        super().__init__(driver)
+    # @property
+    # def header(self) -> WayForPayHeaderComponent:
+    #     """Get WayForPayHeaderComponent instance."""
+    #     # ToDo Argument 1 to "WayForPayHeaderComponent" has incompatible type "WebDriver";
+    #     #  expected "WebElement"  [arg-type]
+    #     return WayForPayHeaderComponent(self.driver)
+
+    # @property
+    # def amount_section(self) -> AmountSectionComponent:
+    #     """Get AmountSectionComponent instance."""
+    #     # ToDo Argument 1 to "AmountSectionComponent" has incompatible type "WebDriver";
+    #     #  expected "WebElement"  [arg-type]
+    #     return AmountSectionComponent(self.driver)
 
     @property
-    @allure.step("Access WayForPay Header component")
-    def header(self) -> WayForPayHeaderComponent:
-        """Get WayForPayHeaderComponent instance."""
-        return WayForPayHeaderComponent(self.driver)
-
-    @property
-    @allure.step("Access WayForPay Amount Section component")
-    def amount_section(self) -> AmountSectionComponent:
-        """Get AmountSectionComponent instance."""
-        return AmountSectionComponent(self.driver)
-
-    @property
-    @allure.step("Access WayForPay Credit Card payment tab")
     def card_tab(self) -> CardTab:
         """Get CardTab instance (#card)."""
         return CardTab(self.driver)
 
     @property
-    @allure.step("Access WayForPay MasterPass payment tab")
     def masterpass_tab(self) -> MasterPassTab:
         """Get MasterPassTab instance (#master)."""
         return MasterPassTab(self.driver)
 
     @property
-    @allure.step("Access WayForPay Visa Checkout payment tab")
     def visa_checkout_tab(self) -> VisaCheckoutTab:
         """Get VisaCheckoutTab instance (#visa)."""
         return VisaCheckoutTab(self.driver)
@@ -89,12 +83,12 @@ class WayForPayPage(BasePage):
     def select_masterpass_tab(self) -> MasterPassTab:
         """Switch active tab to MasterPass payment form and return tab instance."""
         self.open_payment_methods_dropdown()
-        self._find_element(self.MASTERPASS_TAB_BUTTON).click()
+        self._find_element(self.MASTER_PASS_TAB_BUTTON).click()
         return self.masterpass_tab
 
     @allure.step("Switch to Visa Checkout payment tab")
     def select_visa_checkout_tab(self) -> VisaCheckoutTab:
         """Switch active tab to Visa Checkout payment form and return tab instance."""
         self.open_payment_methods_dropdown()
-        self._find_element(self.VISA_TAB_BUTTON).click()
+        self._find_element(self.VISA_CHECKOUT_TAB_BUTTON).click()
         return self.visa_checkout_tab
