@@ -46,6 +46,10 @@ class ClubDetailsPage(BasePage):
     # Similar clubs (поки що ця секція пуста -> тут тільки заголовок)
     SIMILAR_CLUBS_TITLE: Locator = (By.CSS_SELECTOR, ".similar-clubs .label")
 
+    # Comments
+    LEAVE_COMMENT_BUTTON: Locator = (By.CSS_SELECTOR, "button.comment-button")
+    COMMENTS_LABEL: Locator = (By.CSS_SELECTOR, ".comment-label")
+
     def open_page(self, club_id: int) -> None:
         """Navigate to the club details page for the given club id."""
         self.driver.get(self.URL_TEMPLATE.format(club_id=club_id))
@@ -133,3 +137,10 @@ class ClubDetailsPage(BasePage):
         """Return the age range label text -> 'Вік аудиторії:'."""
         return self._find_element(self.AGE_RANGE_LABEL).text
 
+    def click_leave_comment_button(self) -> None:
+        """Click the 'Залишити коментар' button, which opens the leave comment modal."""
+        self._wait_clickable(self.LEAVE_COMMENT_BUTTON).click()
+
+    def is_comments_label_displayed(self) -> bool:
+        """Check if the 'Коментарі' section title is displayed."""
+        return self._find_element(self.COMMENTS_LABEL).is_displayed()
