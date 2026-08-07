@@ -10,20 +10,16 @@ from pages.types import Locator
 class EditProfileModal(BaseModal):
     """Page object representing the Edit Profile modal."""
 
-    modal_title: Locator = (By.CSS_SELECTOR, ".ant-modal-title")
-    close_btn: Locator = (By.CSS_SELECTOR, ".ant-modal-close")
+    modal_title: Locator = (By.CSS_SELECTOR, "div.edit-header")
+    close_btn: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
 
     role_visitor_btn: Locator = (
-        By.XPATH,
-        "//div[contains(@class, 'ant-modal-content')]//span[contains(text(), "
-        "'Відвідувач')]/ancestor::div[contains(@class, 'ant-radio-button-wrapper') "
-        "or contains(@class, 'role-btn')]",
+        By.CSS_SELECTOR,
+        "#edit_roleName label.ant-radio-button-wrapper:nth-child(1)",
     )
     role_manager_btn: Locator = (
-        By.XPATH,
-        "//div[contains(@class, 'ant-modal-content')]//span[contains(text(), "
-        "'Керівник')]/ancestor::div[contains(@class, 'ant-radio-button-wrapper') "
-        "or contains(@class, 'role-btn')]",
+        By.CSS_SELECTOR,
+        "#edit_roleName label.ant-radio-button-wrapper:nth-child(2)",
     )
 
     last_name_input: Locator = (By.ID, "edit_lastName")
@@ -37,7 +33,7 @@ class EditProfileModal(BaseModal):
     )
     change_password_checkbox: Locator = (
         By.CSS_SELECTOR,
-        "input.checkbox[type='checkbox']",
+        "div.align-checkbox",
     )
     current_password_input: Locator = (By.ID, "edit_currentPassword")
     new_password_input: Locator = (By.ID, "edit_password")
@@ -45,7 +41,7 @@ class EditProfileModal(BaseModal):
 
     save_changes_btn: Locator = (
         By.CSS_SELECTOR,
-        ".ant-modal-footer button.ant-btn-primary, button[type='submit']",
+        "button.ant-btn[type='submit']",
     )
 
     @allure.step("Get modal title")
