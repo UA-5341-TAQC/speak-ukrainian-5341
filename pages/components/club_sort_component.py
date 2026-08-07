@@ -182,7 +182,6 @@ class ClubSortComponent(BaseComponent):
     @allure.step("Get current alphabet sorting state")
     def get_alphabet_sort_state(self) -> Literal["asc", "desc", "unknown"]:
         """Get the current alphabet sort direction."""
-        
         if self._is_alphabet_sort_active():
             return self.get_current_direction()
         return self.get_actual_alphabet_direction()
