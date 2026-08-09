@@ -13,17 +13,19 @@ import pytest
 from allure_commons.types import AttachmentType
 
 
-from typing import Any, Generator
+from typing import Generator, cast
+from pluggy import Result
+from selenium.webdriver.remote.webdriver import WebDriver
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item: Any, call: Any) -> Generator[Any, Any, Any]:
+def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo[None]) -> Generator[None, Result[pytest.TestReport], None]:
     """Attach screenshot on test failure."""
     outcome = yield
     report = outcome.get_result()
 
     if report.when == "call" and report.failed:
-        if "driver" in item.funcargs:
-            web_driver = item.funcargs["driver"]
+        if isinstance(item, pytest.Function) and "driver" in item.funcargs:
+            web_driver = cast(WebDriver, item.funcargs["driver"])
             try:
                 allure.attach(
                     web_driver.get_screenshot_as_png(),
