@@ -8,5 +8,29 @@ functions is enough.
 """
 
 from fixtures.conftest import authenticated_driver, driver
+import allure
+import pytest
+from allure_commons.types import AttachmentType
+
+
+from typing import Any, Generator
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item: Any, call: Any) -> Generator[Any, Any, Any]:
+    """Attach screenshot on test failure."""
+    outcome = yield
+    report = outcome.get_result()
+
+    if report.when == "call" and report.failed:
+        if "driver" in item.funcargs:
+            web_driver = item.funcargs["driver"]
+            try:
+                allure.attach(
+                    web_driver.get_screenshot_as_png(),
+                    name="screenshot_on_failure",
+                    attachment_type=AttachmentType.PNG,
+                )
+            except Exception as e:
+                print(f"Failed to take screenshot: {e}")
 
 __all__ = ["authenticated_driver", "driver"]
