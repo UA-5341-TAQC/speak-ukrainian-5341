@@ -46,9 +46,49 @@ class HeaderComponent(BaseComponent):
         ".nav-menu a[href='/service']",
     )
 
+    CITY_SELECTOR: Locator = (
+        By.CSS_SELECTOR,
+        ".right-side-menu .ant-dropdown-trigger.city",
+    )
+
+    ADD_CLUB_BUTTON: Locator = (
+            By.CSS_SELECTOR,
+            "button.add-club-button",
+    )
+
     USER_PROFILE: Locator = (
         By.CSS_SELECTOR,
-        ".nav-menu .user-profile",
+        ".right-side-menu .user-profile",
+    )
+
+    USER_DROPDOWN_MENU: Locator = (
+        By.CSS_SELECTOR,
+        "ul.ant-dropdown-menu.ant-dropdown-menu-root",
+    )
+
+    ADD_CLUB_MENU_ITEM: Locator = (
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='-add_club']",
+    )
+
+    ADD_CENTRE_MENU_ITEM: Locator = (
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='-add_centre']",
+    )
+
+    SEARCH_CERTIFICATES_MENU_ITEM: Locator = (
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='-search_certificates']",
+    )
+
+    PROFILE_MENU_ITEM: Locator = (
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='-profile']",
+    )
+
+    LOGOUT_MENU_ITEM: Locator = (
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='-logout'], li.ant-dropdown-menu-item-danger",
     )
 
     @allure.step("Click logo")
@@ -69,9 +109,7 @@ class HeaderComponent(BaseComponent):
     @allure.step("Get Challenge dropdown")
     def get_challenge_dropdown(self) -> ChallengeDropdown:
         """Return the Challenge dropdown component."""
-        return ChallengeDropdown(
-            self._find_element(self.CHALLENGE_DROPDOWN)
-    )
+        return ChallengeDropdown(self._find_element(self.CHALLENGE_DROPDOWN))
 
     @allure.step("Click 'Новини'")
     def click_news(self) -> None:
@@ -92,3 +130,48 @@ class HeaderComponent(BaseComponent):
     def click_user_profile(self) -> None:
         """Open the user profile dropdown."""
         self._wait_clickable(self.USER_PROFILE).click()
+
+    @allure.step("Click 'Додати гурток' in user menu")
+    def click_add_club_menu_item(self) -> None:
+        """Click the 'Додати гурток' item in the user dropdown."""
+        self.click_user_profile()
+        self._wait_clickable(self.ADD_CLUB_MENU_ITEM).click()
+
+    @allure.step("Click 'Додати центр' in user menu")
+    def click_add_centre_menu_item(self) -> None:
+        """Click the 'Додати центр' item in the user dropdown."""
+        self.click_user_profile()
+        self._wait_clickable(self.ADD_CENTRE_MENU_ITEM).click()
+
+    @allure.step("Click 'Пошук сертифікатів' in user menu")
+    def click_search_certificates_menu_item(self) -> None:
+        """Click the 'Пошук сертифікатів' item in the user dropdown."""
+        self.click_user_profile()
+        self._wait_clickable(self.SEARCH_CERTIFICATES_MENU_ITEM).click()
+
+    @allure.step("Click 'Особистий кабінет' in user menu")
+    def click_profile_menu_item(self) -> None:
+        """Click the 'Особистий кабінет' item in the user dropdown."""
+        self.click_user_profile()
+        self._wait_clickable(self.PROFILE_MENU_ITEM).click()
+
+    @allure.step("Click 'Вийти' in user menu")
+    def click_logout_menu_item(self) -> None:
+        """Click the logout item in the user dropdown."""
+        self.click_user_profile()
+        self._wait_clickable(self.LOGOUT_MENU_ITEM).click()
+
+    @allure.step("Check whether the user is signed in")
+    def is_logged_in(self) -> bool:
+        """Return whether the current session is authenticated.
+
+        A signed-in user menu contains the 'Вийти' (log out) item, which is
+        only rendered when an access token exists. The dropdown is rendered at
+        the document root, so it is searched on the driver scope.
+        """
+        self.click_user_profile()
+        try:
+            self.wait.until(lambda _: self.driver.find_element(*self.LOGOUT_MENU_ITEM))
+            return True
+        except Exception:
+            return False
