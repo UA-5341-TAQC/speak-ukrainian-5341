@@ -99,3 +99,19 @@ class NewsDetailsPage(BasePage):
             ec.visibility_of_all_elements_located(self.NEWS_ACTIVE_SLIDE_CARDS)
         )
         return [NewsCardComponent(el) for el in elements]
+
+    # Перевірки видимості для TC-07, кроки 3-5
+    @allure.step("Check if news title is displayed")
+    def is_title_displayed(self) -> bool:
+        """Check whether the article title is visible."""
+        return self._wait_visible(self.NEWS_MAJOR_TITLE).is_displayed()
+
+    @allure.step("Check if news publication date is displayed")
+    def is_date_displayed(self) -> bool:
+        """Check whether the article publication date is visible."""
+        return self._wait_visible(self.NEWS_CONTENT_DATE).is_displayed()
+
+    @allure.step("Check if news content is displayed")
+    def is_description_displayed(self) -> bool:
+        """Check whether the full article content is visible."""
+        return self._wait_visible(self.NEWS_DESCRIPTION).is_displayed()
