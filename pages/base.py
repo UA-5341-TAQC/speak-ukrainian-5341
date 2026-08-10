@@ -95,6 +95,17 @@ class Base:
 
         return self.wait.until(_predicate)
 
+    def _get_text(self, locator: Locator) -> str:
+        """Wait for an element to be visible and return its text.
+
+        Args:
+            locator: Selenium locator of the element.
+
+        Returns:
+            The text content of the element.
+        """
+        return self._wait_visible(locator).text
+
     def _clear(self, element: WebElement) -> None:
         """Clear an input element."""
         element.clear()
