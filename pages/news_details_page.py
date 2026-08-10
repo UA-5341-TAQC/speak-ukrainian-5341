@@ -10,6 +10,7 @@ from pages.components.news_card_component import NewsCardComponent
 from pages.components.social_buttons import SocialButtons
 from pages.types import Locator
 
+
 class NewsDetailsPage(BasePage):
     """Page object representing the detailed view of a single news article."""
 
