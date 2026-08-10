@@ -27,6 +27,9 @@ ignore = [
 [tool.ruff.lint.pydocstyle]
 convention = "google" # Supported conventions: google, numpy, or pep257
 
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false # PT001: require `@pytest.fixture` without parens
+
 [tool.mypy]
 python_version = "3.12"
 mypy_path = "."
