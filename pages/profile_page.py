@@ -4,8 +4,8 @@ import allure
 from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
-from pages.modals.edit_profile_modal import EditProfileModal
 from pages.components.footer_component import FooterComponent
+from pages.modals.edit_profile_modal import EditProfileModal
 from pages.types import Locator
 
 
