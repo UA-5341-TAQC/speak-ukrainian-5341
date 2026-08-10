@@ -7,6 +7,6 @@ be registered twice via ``pytest_plugins`` - re-exporting the fixture
 functions is enough.
 """
 
-from fixtures.conftest import authenticated_driver, driver
+from fixtures.drivers import authenticated_driver, driver
 
 __all__ = ["authenticated_driver", "driver"]

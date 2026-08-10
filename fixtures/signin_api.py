@@ -15,8 +15,6 @@ class SignInSession:
     reads on boot to restore an authenticated state.
     """
 
-    __slots__ = ("access_token", "refresh_token", "user_id", "role")
-
     def __init__(self, access_token: str, refresh_token: str, user_id: str, role: str) -> None:
         """Initialize the session with auth tokens and user identity."""
         self.access_token = access_token
@@ -34,7 +32,6 @@ class SignInSession:
         }
 
 
-@allure.step("Sign in via API as '{email}'")
 def sign_in_via_api(email: str, password: str) -> SignInSession:
     """Authenticate through the sign-in API and return the session payload.
 
@@ -48,7 +45,7 @@ def sign_in_via_api(email: str, password: str) -> SignInSession:
     Raises:
         requests.HTTPError: If the sign-in request fails.
     """
-    url: str = Config.BASE_UI_URL.rstrip("/") + "/api/signin"
+    url: str = f"{Config.BASE_API_URL}/signin"
     payload: dict[str, Any] = {"email": email, "password": password}
     with allure.step(f"POST {url}"):
         response = requests.post(url, json=payload, timeout=30)
