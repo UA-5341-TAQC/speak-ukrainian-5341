@@ -38,7 +38,7 @@ The test suite is organized around:
 
    ```text
    BASE_UI_URL=https://speak-ukrainian.org.ua/
-   BASE_API_URL=https://api.speak-ukrainian.org.ua/
+   BASE_API_URL=https://speak-ukrainian.org.ua/api/
    IMPLICITY_WAIT=10
    EXPLICIT_WAIT=10
    HEADLESS=TRUE
