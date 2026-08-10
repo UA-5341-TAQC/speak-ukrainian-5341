@@ -1,5 +1,6 @@
 """Base class for all pages and components."""
 
+import platform
 from typing import Literal
 
 from selenium.common.exceptions import (
@@ -105,6 +106,27 @@ class Base:
             The text content of the element.
         """
         return self._wait_visible(locator).text
+
+    def _click(self, locator: Locator) -> None:
+        """Wait for an element to be clickable and click it.
+
+        Args:
+            locator: Selenium locator of the element.
+        """
+        self._wait_clickable(locator).click()
+
+    def _fill_input(self, locator: Locator, text: str) -> None:
+        """Wait for an input element to be visible, clear it reliably, and enter text.
+
+        Args:
+            locator: Selenium locator of the input element.
+            text: Text to enter into the input.
+        """
+        element = self._wait_visible(locator)
+        cmd_ctrl = Keys.COMMAND if platform.system() == "Darwin" else Keys.CONTROL
+        element.send_keys(cmd_ctrl + "a")
+        element.send_keys(Keys.BACKSPACE)
+        element.send_keys(text)
 
     def _clear(self, element: WebElement) -> None:
         """Clear an input element."""
