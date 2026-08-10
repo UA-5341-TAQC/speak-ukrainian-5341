@@ -7,7 +7,7 @@ be registered twice via ``pytest_plugins`` - re-exporting the fixture
 functions is enough.
 """
 
-from fixtures.conftest import authenticated_driver, driver
+from fixtures.drivers import authenticated_driver, driver
 import allure
 import pytest
 from allure_commons.types import AttachmentType
@@ -34,5 +34,6 @@ def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo[None]) ->
                 )
             except Exception as e:
                 print(f"Failed to take screenshot: {e}")
+
 
 __all__ = ["authenticated_driver", "driver"]

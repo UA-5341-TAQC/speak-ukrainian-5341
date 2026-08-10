@@ -8,8 +8,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.remote.webdriver import WebDriver
 from webdriver_manager.chrome import ChromeDriverManager
 
-from api.signin import sign_in_via_api
 from data.config import Config
+from fixtures.signin_api import SignInSession, sign_in_via_api
 
 
 @pytest.fixture
@@ -28,8 +28,15 @@ def driver() -> Iterator[WebDriver]:
     web_driver.quit()
 
 
+@pytest.fixture(scope="session")
+def session_driver() -> SignInSession:
+    """Provide API session data for the authenticated user and quit the driver after the session."""
+    session = sign_in_via_api(Config.USER_EMAIL, Config.USER_PASSWORD)
+    return session
+
+
 @pytest.fixture
-def authenticated_driver(driver: WebDriver) -> WebDriver:
+def authenticated_driver(driver: WebDriver, session_driver: SignInSession) -> WebDriver:
     """Provide a browser that is already signed in via the API.
 
     The fixture authenticates through the sign-in API and injects the issued
@@ -37,14 +44,11 @@ def authenticated_driver(driver: WebDriver) -> WebDriver:
     application boots with an active session. Future tests can reuse this
     fixture to start from an authenticated state without walking the UI form.
     """
-    session = sign_in_via_api(Config.USER_EMAIL, Config.USER_PASSWORD)
-
-    base_url = Config.BASE_UI_URL.rstrip("/") + "/"
-    driver.get(base_url)
+    driver.get(Config.BASE_UI_URL)
     driver.execute_script(
         "var storage = arguments[0];"
         "for (var key in storage) { localStorage.setItem(key, storage[key]); }",
-        session.to_storage(),
+        session_driver.to_storage(),
     )
-    driver.get(base_url)
+    driver.refresh()
     return driver
