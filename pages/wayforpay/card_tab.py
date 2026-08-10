@@ -113,3 +113,8 @@ class CardTab(BasePage):
     def is_email_displayed(self) -> bool:
         """Check if email field is displayed."""
         return self._find_element(self.EMAIL_INPUT).is_displayed()
+
+    @allure.step("Check if submit button is displayed")
+    def is_submit_button_displayed(self) -> bool:
+        """Check if submit button is displayed."""
+        return self._find_element(self.SUBMIT_BUTTON).is_displayed()
