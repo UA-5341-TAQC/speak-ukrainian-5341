@@ -1,15 +1,14 @@
 """Page object for the News Details page on the Speak Ukrainian website."""
 
 import allure
-from pages.components.news_card_component import NewsCardComponent
-from pages.components.social_buttons import SocialButtons
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as ec
 
 from pages.base_page import BasePage
+from pages.components.news_card_component import NewsCardComponent
+from pages.components.social_buttons import SocialButtons
 from pages.types import Locator
-
 
 class NewsDetailsPage(BasePage):
     """Page object representing the detailed view of a single news article."""
