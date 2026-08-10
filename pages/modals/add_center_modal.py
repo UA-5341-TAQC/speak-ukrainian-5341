@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from pages.components.center_basic_info_step import CenterBasicInfoStep
+from pages.components.center_clubs_step import CenterClubsStep
 from pages.components.center_contacts_step import CenterContactsStep
 from pages.components.center_description_step import CenterDescriptionStep
 from pages.modals.base_modal import BaseModal
@@ -49,6 +50,10 @@ class AddCenterModal(BaseModal):
     def get_description_step(self) -> CenterDescriptionStep:
         """Return the Description step component."""
         return CenterDescriptionStep(self._get_modal_root())
+
+    def get_clubs_step(self) -> CenterClubsStep:
+        """Return the Clubs step component."""
+        return CenterClubsStep(self._get_modal_root())
 
     @allure.step("Close the Add Center modal")
     def close(self) -> None:
