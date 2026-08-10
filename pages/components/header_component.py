@@ -52,8 +52,8 @@ class HeaderComponent(BaseComponent):
     )
 
     ADD_CLUB_BUTTON: Locator = (
-            By.CSS_SELECTOR,
-            "button.add-club-button",
+        By.CSS_SELECTOR,
+        "button.add-club-button",
     )
 
     USER_PROFILE: Locator = (
