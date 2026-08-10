@@ -96,6 +96,15 @@ class Base:
 
         return self.wait.until(_predicate)
 
+    def _scroll_into_view(self, locator: Locator) -> WebElement:
+        """Scroll the element matching the locator into view and return it."""
+        element = self._wait_present(locator)
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});",
+            element,
+        )
+        return element
+
     def _get_text(self, locator: Locator) -> str:
         """Wait for an element to be visible and return its text.
 

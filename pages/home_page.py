@@ -24,6 +24,10 @@ class HomePage(BasePage):
         By.CSS_SELECTOR,
         ".arrows-next",
     )
+    CHALLENGE_SECTION_HEADING: Locator = (
+        By.XPATH,
+        "//h2[contains(text(), 'Челендж \"Навчай українською\"')]",
+    )
     CHALLENGE_LEARN_MORE_BUTTON: Locator = (
         By.CSS_SELECTOR,
         "button.flooded-button.materials-button",
@@ -77,6 +81,40 @@ class HomePage(BasePage):
         """Click the initiative banner image."""
         self._wait_clickable(self.BANNER_IMAGE).click()
 
+    @allure.step("Scroll to challenge section")
+    def scroll_to_challenge_section(self) -> None:
+        """Scroll the challenge section into view."""
+        self._scroll_into_view(self.CHALLENGE_SECTION_HEADING)
+
+    @allure.step("Check if challenge section is displayed")
+    def is_challenge_section_displayed(self) -> bool:
+        """Return True if the challenge section heading is displayed."""
+        try:
+            return self._wait_visible(self.CHALLENGE_SECTION_HEADING).is_displayed()
+        except Exception:
+            return False
+
+    @allure.step("Check if challenge learn more button is displayed")
+    def is_challenge_learn_more_button_displayed(self) -> bool:
+        """Return True if the 'Дізнатись більше' button is displayed."""
+        try:
+            return self._wait_visible(self.CHALLENGE_LEARN_MORE_BUTTON).is_displayed()
+        except Exception:
+            return False
+
+    @allure.step("Scroll to event banner")
+    def scroll_to_event_banner(self) -> None:
+        """Scroll the event banner into view."""
+        self._scroll_into_view(self.BANNER_IMAGE)
+
+    @allure.step("Check if event banner is displayed")
+    def is_banner_image_displayed(self) -> bool:
+        """Return True if the event banner is displayed."""
+        try:
+            return self._wait_visible(self.BANNER_IMAGE).is_displayed()
+        except Exception:
+            return False
+
     @allure.step("Get carousel")
     def get_carousel(self) -> Carousel:
         """Return the carousel component."""
@@ -85,7 +123,4 @@ class HomePage(BasePage):
     @allure.step("Get content cards")
     def get_content_cards(self) -> list[HomeContentCard]:
         """Return all home page content cards."""
-        return [
-            HomeContentCard(card)
-            for card in self.driver.find_elements(*self.CONTENT_CARDS)
-        ]
+        return [HomeContentCard(card) for card in self.driver.find_elements(*self.CONTENT_CARDS)]
