@@ -30,3 +30,14 @@ class AmountSectionComponent(BaseComponent):
             if option.text.strip() == currency_code:
                 option.click()
                 break
+
+    # Перевірки для TC-48, кроки 2-3
+    @allure.step("Check if amount field is displayed")
+    def is_amount_field_displayed(self) -> bool:
+        """Check if amount field is displayed."""
+        return self._find_element(self.AMOUNT_INPUT).is_displayed()
+
+    @allure.step("Get currently selected currency in WayForPay")
+    def get_selected_currency(self) -> str:
+        """Get the currency currently shown (e.g. UAH)."""
+        return self._find_element(self.CURRENCY_BUTTON).text.strip()
