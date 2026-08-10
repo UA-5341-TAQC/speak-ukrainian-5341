@@ -43,7 +43,8 @@ class CarouselItem(BaseComponent):
     @allure.step("Get carousel item link")
     def get_link(self) -> str:
         """Return the link href of the carousel item ("", when absent)."""
-        return self._find_element(self.LINK).get_attribute("href") or ""
+        href = self._find_element(self.LINK).get_attribute("href")
+        return href or ""
 
     @allure.step("Click 'Детальніше' button")
     def click_details_button(self) -> None:

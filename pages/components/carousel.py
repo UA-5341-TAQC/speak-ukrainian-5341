@@ -46,10 +46,12 @@ class Carousel(BaseComponent):
         """Return the active carousel item."""
         return CarouselItem(self._find_element(self.ACTIVE_ITEM))
 
+    @allure.step("Get active carousel item link href")
+    def get_active_link_href(self) -> str:
+        """Return the href of the active slide's link, without a trailing slash."""
+        return self.get_active_item().get_link().rstrip("/")
+
     @allure.step("Get carousel items")
     def get_items(self) -> list[CarouselItem]:
         """Return all non-cloned carousel items."""
-        return [
-            CarouselItem(item)
-            for item in self.driver.find_elements(*self.ITEMS)
-        ]
+        return [CarouselItem(item) for item in self.driver.find_elements(*self.ITEMS)]
