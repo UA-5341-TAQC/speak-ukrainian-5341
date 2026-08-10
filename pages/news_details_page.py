@@ -1,14 +1,14 @@
 """Page object for the News Details page on the Speak Ukrainian website."""
 
 import allure
-from components.news_card_component import NewsCardComponent
-from components.social_buttons import SocialButtons
-from page.types import Locator
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as ec
 
 from pages.base_page import BasePage
+from pages.components.news_card_component import NewsCardComponent
+from pages.components.social_buttons import SocialButtons
+from pages.types import Locator
 
 
 class NewsDetailsPage(BasePage):
@@ -80,3 +80,19 @@ class NewsDetailsPage(BasePage):
             ec.visibility_of_all_elements_located(self.NEWS_ACTIVE_SLIDE_CARDS)
         )
         return [NewsCardComponent(el) for el in elements]
+
+    # Перевірки видимості для TC-07, кроки 3-5
+    @allure.step("Check if news title is displayed")
+    def is_title_displayed(self) -> bool:
+        """Check whether the article title is visible."""
+        return self._wait_visible(self.NEWS_MAJOR_TITLE).is_displayed()
+
+    @allure.step("Check if news publication date is displayed")
+    def is_date_displayed(self) -> bool:
+        """Check whether the article publication date is visible."""
+        return self._wait_visible(self.NEWS_CONTENT_DATE).is_displayed()
+
+    @allure.step("Check if news content is displayed")
+    def is_description_displayed(self) -> bool:
+        """Check whether the full article content is visible."""
+        return self._wait_visible(self.NEWS_DESCRIPTION).is_displayed()
