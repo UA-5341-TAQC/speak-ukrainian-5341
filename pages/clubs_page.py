@@ -8,14 +8,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from data.config import Config
 from pages.base_page import BasePage
 
-#from pages.components.club_card_component import ClubCardComponent
+# from pages.components.club_card_component import ClubCardComponent
 from pages.components.club_filters_component import ClubFiltersComponent
 from pages.components.club_sort_component import ClubSortComponent
+from pages.types import Locator
 
 
 class ClubPage(BasePage):
     """Page object representing the Speak Ukrainian clubs catalog page."""
 
+    CLUBS_CONTENT: Locator = (By.TAG_NAME, "body")
     URL = f"{Config.BASE_UI_URL.rstrip('/')}/clubs"
     SEARCH_INPUT = (By.CSS_SELECTOR, "input.search-box, input[type='search']")
     CLUB_CARDS = (By.CSS_SELECTOR, "div.ant-card, div.type-list-card")
@@ -36,7 +38,6 @@ class ClubPage(BasePage):
         """Helper to find all elements for locator."""
         return self.wait.until(EC.presence_of_all_elements_located(locator))
 
-
     @allure.step("Open the Clubs page")
     def open(self) -> "ClubPage":
         """Open the Clubs page and wait until its main content is visible."""
@@ -47,6 +48,7 @@ class ClubPage(BasePage):
         """Wait until the main Clubs content is visible."""
         self._wait_visible(self.CLUBS_CONTENT)
         return self
+
     """
     @allure.step("Get list of all club cards on page")
     def get_club_cards(self) -> list[ClubCardComponent]:
@@ -58,18 +60,21 @@ class ClubPage(BasePage):
 
     @allure.step("Get clubs count")
     def get_clubs_count(self) -> int:
-        """Return number of clubs displayed on page."""
-        return len(self.driver.find_elements(self.CLUB_CARDS))
+        """Get the count of club cards currently displayed on the page."""
+        elements = self.wait.until(lambda _: self._find_elements(self.CLUB_CARDS))
+        return len(elements)
 
     @allure.step("Check if 'No clubs' message is displayed")
     def is_no_results_displayed(self) -> bool:
         """Check if 'No clubs' message is displayed."""
-        return len(self.driver.find_elements(*self._NO_RESULTS_MESSAGE)) > 0
+        return len(self.driver.find_elements(*self.NO_RESULTS_MESSAGE)) > 0
 
     def filter(self) -> ClubFiltersComponent:
         """Return filter object."""
-        return ClubFiltersComponent(self.filter(self.FILTERS_PANEL))
+        # return ClubFiltersComponent(self.filter(self.FILTERS_PANEL))
+        return ClubFiltersComponent(self._wait_visible(self.CLUBS_CONTENT))
 
     def sort(self) -> ClubSortComponent:
         """Return sort object."""
-        return ClubSortComponent(self.find(self.SORT_PANEL))
+        # return ClubSortComponent(self.find(self.SORT_PANEL))
+        return ClubSortComponent(self._wait_visible(self.CLUBS_CONTENT))

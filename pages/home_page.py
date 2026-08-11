@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
 from pages.components.carousel import Carousel
+from pages.components.header_component import HeaderComponent
 from pages.components.home_content_card import HomeContentCard
 from pages.types import Locator
 
@@ -12,6 +13,7 @@ from pages.types import Locator
 class HomePage(BasePage):
     """Page object representing the Speak Ukrainian home page."""
 
+    HEADER: Locator = (By.TAG_NAME, "header")
     ALL_CLUBS_BUTTON: Locator = (
         By.CSS_SELECTOR,
         ".categories-header .more-button",
@@ -50,6 +52,11 @@ class HomePage(BasePage):
         By.CSS_SELECTOR,
         ".primitive-card",
     )
+
+    @allure.step("Get page header")
+    def get_header(self) -> HeaderComponent:
+        """Return the site header component."""
+        return HeaderComponent(self._wait_visible(self.HEADER))
 
     @allure.step("Click 'Всі гуртки' button")
     def click_all_clubs_button(self) -> None:
