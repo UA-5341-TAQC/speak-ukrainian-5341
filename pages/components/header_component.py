@@ -109,7 +109,7 @@ class HeaderComponent(BaseComponent):
     @allure.step("Get Challenge dropdown")
     def get_challenge_dropdown(self) -> ChallengeDropdown:
         """Return the Challenge dropdown component."""
-        return ChallengeDropdown(self._find_element(self.CHALLENGE_DROPDOWN))
+        return ChallengeDropdown(self.driver)
 
     @allure.step("Click 'Новини'")
     def click_news(self) -> None:
@@ -172,6 +172,16 @@ class HeaderComponent(BaseComponent):
         self.click_user_profile()
         try:
             self.wait.until(lambda _: self.driver.find_element(*self.LOGOUT_MENU_ITEM))
+            return True
+        except Exception:
+            return False
+
+
+    @allure.step("Return whether challenge dropdown menu is displayed.")
+    def is_challenge_dropdown_visibile(self) ->bool:
+        """Return whether challenge dropdown menu is displayed."""
+        try:
+            self.wait.until(lambda _: self.driver.find_element(*self.CHALLENGE_DROPDOWN))
             return True
         except Exception:
             return False

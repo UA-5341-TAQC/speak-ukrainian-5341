@@ -17,55 +17,182 @@ Step 11 Click the "Послуги українською" menu item.            
 import allure
 import pytest
 
-from selenium.webdriver import ActionChains
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 
 from data.config import Config
 from pages.components.header_component import HeaderComponent
+from pages.home_page import HomePage
 from pages.types import Locator
 
 CHALLENGE_MENU: Locator = (
+    By.CSS_SELECTOR,
+    ".nav-menu .challenge-text",
+)
+
+CHALLENGE_DROPDOWN: Locator = (
+    By.CSS_SELECTOR,
+    ".ant-menu-submenu-popup",
+)
+
+class ChallengeLocators: 
+    UNIQUE_CHALLENGE_LINK: Locator = (
         By.CSS_SELECTOR,
-        ".nav-menu .challenge-text",
+        "a[href='/challenges/5']",
     )
+
+    LANGUAGE_MARATHON_LINK: Locator = (
+        By.CSS_SELECTOR,
+        "a[href='/challenges/1']",
+    )
+
+    TEACH_UKRAINIAN_LINK: Locator = (
+        By.CSS_SELECTOR,
+        "a[href='/challenges/2']",
+    )
+
+    TEACH_UKRAINIAN_CHALLENGE_LINK: Locator = (
+        By.CSS_SELECTOR,
+        "a[href='/challenges/3']",
+    )
+
+    SPEAKING_CLUB_CHALLENGE_LINK: Locator = (
+        By.CSS_SELECTOR,
+        "a[href='/challenges/4']",
+    )
+
+    @classmethod
+    def all_challenge_locators(cls):
+        return[cls.LANGUAGE_MARATHON_LINK, cls.TEACH_UKRAINIAN_LINK, cls.TEACH_UKRAINIAN_CHALLENGE_LINK,cls.SPEAKING_CLUB_CHALLENGE_LINK]
 
 
 @allure.title("TC-39 Verify header navigation links redirect to the correct pages.")
 @pytest.mark.smoke
 def test_header_navigation(driver: WebDriver) -> None:
-    """Verify header navigation links redirect to the correct pages."""
-
     driver.get(Config.BASE_UI_URL)
-    header = HeaderComponent(driver)
+    header = HeaderComponent(driver.find_element(By.TAG_NAME, "header"))
 
-    with allure.step("1.Click the 'Гуртки' menu item in the header."):
+    with allure.step("1. Click the 'Гуртки' menu item in the header."):
         header.click_clubs()
         assert (
             "/clubs" in driver.current_url
         ), "User is redirected to the Clubs page."
 
-    with allure.step("2.Navigate back to the homepage"):
+    with allure.step("2. Navigate back to the homepage."):
         driver.back()
         assert driver.current_url.rstrip("/") == Config.BASE_UI_URL.rstrip(
             "/"
         ), "Homepage is displayed again."
 
-    with allure.step("3.Click the 'Челенжди menu' item in the header."):
-        header.click_challenge()
-        assert header.is_challenge_dropdown_visibile() == True, "The challenges dropdown menu is displayed."
+    with allure.step("3. Click the 'Челенжди menu' item in the header."):
+       header.click_challenge()
+       assert header.is_challenge_dropdown_visibile() == True
 
-    with allure.step("4.Click the 'Єдині' challenge in the dropdown list."):
+    with allure.step("4. Click the 'Єдині' challenge in the dropdown list."):
         challenge_dropdown = header.get_challenge_dropdown()
-        challenge_dropdown.click_unique_challenge()
-        
+        challenge_dropdown.click_unique_challenge()          
         assert (
                     "/challenges/5" in driver.current_url
                 ), "User is redirected to the 'Єдині' challenge page."
 
+    with allure.step("5. Navigate back to the homepage."):
+        driver.back()
+        assert driver.current_url.rstrip("/") == Config.BASE_UI_URL.rstrip(
+            "/"
+        ), "Homepage is displayed again."
 
+    with allure.step("6.1. Repeat for 'Клуб Української мови Розмовляй'."):
+        header.click_challenge()
+        challenge_dropdown = header.get_challenge_dropdown()
+
+        assert header.is_challenge_dropdown_visibile() == True
+
+        challenge_dropdown.click_speaking_club_challenge()
+
+        assert (
+            "/challenges/4" in driver.current_url
+                ), "User is redirected to the 'Клуб української мови 'Розмовляй' challenge page."
+
+        driver.back()
+        assert driver.current_url.rstrip("/") == Config.BASE_UI_URL.rstrip(
+               "/"
+        ), "Homepage is displayed again."
+
+    with allure.step("6.2. Repeat for 'Навчай українською челендж'."):
+            header.click_challenge()
+            challenge_dropdown = header.get_challenge_dropdown()
+
+            assert header.is_challenge_dropdown_visibile() == True
+
+            challenge_dropdown.click_teach_ukrainian_challenge()
+
+            assert (
+                "/challenges/3" in driver.current_url
+                    ), "User is redirected to the 'Навчай українською челендж' challenge page."
+
+            driver.back()
+            assert driver.current_url.rstrip("/") == Config.BASE_UI_URL.rstrip(
+                    "/"
+                ), "Homepage is displayed again."
+
+    with allure.step("6.3. Repeat for 'Мовомаратон'."):
+        header.click_challenge()
+        challenge_dropdown = header.get_challenge_dropdown()
     
+        assert header.is_challenge_dropdown_visibile() == True
+    
+        challenge_dropdown.click_language_marathon()
+        assert (
+            "/challenges/1" in driver.current_url
+            ), "User is redirected to the 'Мовомаратон' challenge page."
 
+        driver.back()
+        assert driver.current_url.rstrip("/") == Config.BASE_UI_URL.rstrip(
+               "/"
+        ), "Homepage is displayed again."
 
+    with allure.step("6.4. Repeat for 'Навчай українською'."):
+        header.click_challenge()
+        challenge_dropdown = header.get_challenge_dropdown()
+        
+        assert header.is_challenge_dropdown_visibile() == True
+        
+        challenge_dropdown.click_teach_ukrainian()
+        assert (
+            "/challenges/2" in driver.current_url
+             ), "User is redirected to the 'Навчай українською' challenge page."
+        
+        driver.back()
+        assert driver.current_url.rstrip("/") == Config.BASE_UI_URL.rstrip(
+            "/"
+        ), "Homepage is displayed again."
 
+    with allure.step("7. Click the 'Новини' menu item."):
+        header.click_news()
+        assert (
+            "/news" in driver.current_url
+        ), "User is redirected to the News page."
 
+    with allure.step("8. Navigate back to the homepage."):
+        driver.back()
+        assert driver.current_url.rstrip("/") == Config.BASE_UI_URL.rstrip(
+            "/"
+        ), "Homepage is displayed again."
+
+    with allure.step("9.Click the 'Про нас' menu item."):
+        header.click_about()
+        assert (
+            "/about" in driver.current_url
+        ), "User is redirected to the News page."
+
+    with allure.step("10. Navigate back to the homepage."):
+        driver.back()
+        assert driver.current_url.rstrip("/") == Config.BASE_UI_URL.rstrip(
+            "/"
+        ), "Homepage is displayed again."
+
+    with allure.step("11.Click the 'Послуги українською' menu item."):
+        header.click_services()
+        assert (
+            "/service" in driver.current_url
+        ), "User is redirected to the 'Послуги українською' page."
