@@ -86,6 +86,16 @@ class HeaderComponent(BaseComponent):
         "li[data-menu-id$='-profile']",
     )
 
+    LOGIN_MENU_ITEM: Locator = (
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='-login']",
+    )
+
+    REGISTER_MENU_ITEM: Locator = (
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='-register']",
+    )
+
     LOGOUT_MENU_ITEM: Locator = (
         By.CSS_SELECTOR,
         "li[data-menu-id$='-logout'], li.ant-dropdown-menu-item-danger",
@@ -131,35 +141,47 @@ class HeaderComponent(BaseComponent):
         """Open the user profile dropdown."""
         self._wait_clickable(self.USER_PROFILE).click()
 
+    def _click_portal_menu_item(self, locator: Locator) -> None:
+        """Click a menu item rendered in a portal (outside header root)."""
+        self.click_user_profile()
+        element = self.wait.until(lambda d: d.find_element(*locator))
+        self.wait.until(lambda _: element.is_displayed() and element.is_enabled())
+        element.click()
+
     @allure.step("Click 'Додати гурток' in user menu")
     def click_add_club_menu_item(self) -> None:
         """Click the 'Додати гурток' item in the user dropdown."""
-        self.click_user_profile()
-        self._wait_clickable(self.ADD_CLUB_MENU_ITEM).click()
+        self._click_portal_menu_item(self.ADD_CLUB_MENU_ITEM)
 
     @allure.step("Click 'Додати центр' in user menu")
     def click_add_centre_menu_item(self) -> None:
         """Click the 'Додати центр' item in the user dropdown."""
-        self.click_user_profile()
-        self._wait_clickable(self.ADD_CENTRE_MENU_ITEM).click()
+        self._click_portal_menu_item(self.ADD_CENTRE_MENU_ITEM)
 
     @allure.step("Click 'Пошук сертифікатів' in user menu")
     def click_search_certificates_menu_item(self) -> None:
         """Click the 'Пошук сертифікатів' item in the user dropdown."""
-        self.click_user_profile()
-        self._wait_clickable(self.SEARCH_CERTIFICATES_MENU_ITEM).click()
+        self._click_portal_menu_item(self.SEARCH_CERTIFICATES_MENU_ITEM)
 
     @allure.step("Click 'Особистий кабінет' in user menu")
     def click_profile_menu_item(self) -> None:
         """Click the 'Особистий кабінет' item in the user dropdown."""
-        self.click_user_profile()
-        self._wait_clickable(self.PROFILE_MENU_ITEM).click()
+        self._click_portal_menu_item(self.PROFILE_MENU_ITEM)
 
     @allure.step("Click 'Вийти' in user menu")
     def click_logout_menu_item(self) -> None:
         """Click the logout item in the user dropdown."""
-        self.click_user_profile()
-        self._wait_clickable(self.LOGOUT_MENU_ITEM).click()
+        self._click_portal_menu_item(self.LOGOUT_MENU_ITEM)
+
+    @allure.step("Click 'Увійти' in user menu")
+    def click_login_menu_item(self) -> None:
+        """Click the 'Увійти' item in the user dropdown."""
+        self._click_portal_menu_item(self.LOGIN_MENU_ITEM)
+
+    @allure.step("Click 'Зареєструватися' in user menu")
+    def click_register_menu_item(self) -> None:
+        """Click the 'Зареєструватися' item in the user dropdown."""
+        self._click_portal_menu_item(self.REGISTER_MENU_ITEM)
 
     @allure.step("Check whether the user is signed in")
     def is_logged_in(self) -> bool:
