@@ -67,7 +67,6 @@ class ChallengeLocators:
 
 
 @allure.title("TC-39 Verify header navigation links redirect to the correct pages.")
-@pytest.mark.smoke
 def test_header_navigation(driver: WebDriver) -> None:
     driver.get(Config.BASE_UI_URL)
     header = HeaderComponent(driver.find_element(By.TAG_NAME, "header"))
