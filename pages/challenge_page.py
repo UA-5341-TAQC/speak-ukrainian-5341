@@ -17,10 +17,24 @@ class ChallengePage(BasePage):
 
     TITLE: Locator = (By.CSS_SELECTOR, ".banner .title")
     CTA_BUTTON: Locator = (By.XPATH, "//button[normalize-space()='Записатись на челендж']")
-    VIDEO_CARDS: Locator = (
-        By.XPATH,
-        "//*[self::article or self::div][.//a[normalize-space()='Дивитися на YouTube']]",
-    )
+    VIDEO_CARDS: Locator = (By.CSS_SELECTOR, "div.challenge-description iframe.ql-video")
+    VIDEO_SECTION: Locator = (By.CSS_SELECTOR, "div.challenge-description")
+    MAIN_BLOCK: Locator = (By.CSS_SELECTOR, "div.challenge-page")
+
+    @allure.step("Scroll challenge registration button into view")
+    def scroll_cta_button_into_view(self) -> None:
+        """Scroll the registration button into the center of the viewport."""
+        self._scroll_into_view(self.CTA_BUTTON)
+
+    @allure.step("Get challenge registration button bounding rect")
+    def get_cta_button_rect(self) -> dict[str, float]:
+        """Return the on-screen rectangle of the registration button."""
+        rect = self.driver.execute_script(
+            "var r = arguments[0].getBoundingClientRect();"
+            "return {top: r.top, bottom: r.bottom, left: r.left, right: r.right};",
+            self._wait_present(self.CTA_BUTTON),
+        )
+        return {key: float(value) for key, value in rect.items()}
 
     @allure.step("Open challenge page")
     def open(self, challenge_id: int) -> None:
@@ -45,6 +59,12 @@ class ChallengePage(BasePage):
     def click_cta_button(self) -> None:
         """Click the challenge registration call-to-action button."""
         self.get_cta_button().click()
+
+    @allure.step("Wait for challenge webinar video cards")
+    def wait_for_video_cards(self) -> list[ChallengeVideoCard]:
+        """Wait until the video blocks are rendered and return them."""
+        self._wait_present(self.VIDEO_CARDS)
+        return [ChallengeVideoCard(card) for card in self.driver.find_elements(*self.VIDEO_CARDS)]
 
     @allure.step("Get challenge webinar video cards")
     def get_video_cards(self) -> list[ChallengeVideoCard]:
