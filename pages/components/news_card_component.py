@@ -4,6 +4,7 @@ import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
+from data.config import Config
 from pages.components.base_component import BaseComponent
 from pages.types import Locator
 
@@ -44,6 +45,14 @@ class NewsCardComponent(BaseComponent):
     def open(self) -> None:
         """Open this news item by clicking the card."""
         self.root.click()
+
+    @allure.step("Get the details link URL")
+    def get_details_href(self) -> str:
+        """Return the absolute URL of the details link, normalized without a trailing slash."""
+        href = self._wait_visible(self.DETAILS_LINK).get_attribute("href") or ""
+        if href.startswith("/"):
+            return f"{Config.BASE_UI_URL.rstrip('/')}{href}".rstrip("/")
+        return href.rstrip("/")
 
     @allure.step("Open news details")
     def click_details(self) -> None:
