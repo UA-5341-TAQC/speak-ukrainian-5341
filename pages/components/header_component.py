@@ -92,3 +92,10 @@ class HeaderComponent(BaseComponent):
     def click_user_profile(self) -> None:
         """Open the user profile dropdown."""
         self._wait_clickable(self.USER_PROFILE).click()
+
+    def is_challenge_dropdown_visibile(self) -> bool:
+        """"Return True if the challenge dropdown is displayed."""
+        try:
+            return self._wait_visible(self.CHALLENGE_DROPDOWN).is_displayed()
+        except Exception:
+            return False
