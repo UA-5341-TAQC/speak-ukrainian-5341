@@ -226,3 +226,6 @@ allure-report/
 
 # Visual scratch tests (не входять у репозиторій)
 visual_tests/
+
+# Qodo agent 
+.qodo
