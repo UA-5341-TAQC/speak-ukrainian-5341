@@ -1,0 +1,17 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Verify that entering an invalid password displays the correct validation error.","6359","TC-53 Verify registration password policy validation","tests","2026-08-12","failed","2026-08-12","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","9547","TC-53 Verify registration password policy validation","tests","2026-08-12","failed","2026-08-12","","test_sign_up","",""
+"Verify challenge and event banner navigation on the homepage.","7987","TC-50 Verify challenge and event banner navigation on the homepage","tests","2026-08-12","passed","2026-08-12","","test_home_page","",""
+"Verify that entering an invalid password displays the correct validation error.","8816","TC-53 Verify registration password policy validation","tests","2026-08-12","passed","2026-08-12","","test_sign_up","",""
+"","0","test_example","tests","2026-08-12","passed","2026-08-12","","test_example","",""
+"Test verifies that the 'Наші контакти' block is displayed on the news page, has the correct title, and contains all required social media icons: Facebook, YouTube, Instagram, and Mail.","4657","TC-28: Verify 'Наші контакти' section display","tests","2026-08-12","passed","2026-08-12","","test_social_buttons_ui","",""
+"Returning the authenticated_driver fixture leaves the session active.
+
+    The fixture signs in via the /api/signin endpoint and injects the issued
+    tokens, so the header must report the user as logged in.
+    ","290","test_user_is_signed_in_after_api_fixture","tests","2026-08-12","passed","2026-08-12","","test_sign_in","",""
+"Verify that entering an invalid password displays the correct validation error.","8895","TC-53 Verify registration password policy validation","tests","2026-08-12","failed","2026-08-12","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","8809","TC-53 Verify registration password policy validation","tests","2026-08-12","failed","2026-08-12","","test_sign_up","",""
+"Verify homepage hero carousel navigation and its slide redirects.","9009","test_homepage_carousel_navigation","tests","2026-08-12","passed","2026-08-12","","test_home_carousel_navigation","",""
+"Verify that entering an invalid password displays the correct validation error.","7330","TC-53 Verify registration password policy validation","tests","2026-08-12","failed","2026-08-12","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","9433","TC-53 Verify registration password policy validation","tests","2026-08-12","failed","2026-08-12","","test_sign_up","",""
