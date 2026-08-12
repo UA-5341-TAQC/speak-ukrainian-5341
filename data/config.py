@@ -18,7 +18,7 @@ ENV_PATH = Path(__file__).parent.parent / ".env"
 class Config:
     """Configuration class to load environment variables."""
 
-    BASE_UI_URL: str = os.getenv("BASE_UI_URL", "")
+    BASE_UI_URL: str = os.getenv("BASE_UI_URL", "https://speak-ukrainian.org.ua")
     BASE_API_URL: str = os.getenv("BASE_API_URL", "")
     IMPLICITY_WAIT: int = int(os.getenv("IMPLICITY_WAIT", "10"))
     EXPLICIT_WAIT: int = int(os.getenv("EXPLICIT_WAIT", "10"))

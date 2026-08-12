@@ -2,6 +2,7 @@
 
 import allure
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.base_page import BasePage
 from pages.types import Locator
@@ -12,7 +13,7 @@ class MarathonPage(BasePage):
 
     REGISTER_BUTTON: Locator = (
         By.CSS_SELECTOR,
-        'a[href$="/marathon/registration"]',
+        "button.details-button",
     )
     TASKS_PREV_ARROW: Locator = (
         By.CSS_SELECTOR,
@@ -31,11 +32,6 @@ class MarathonPage(BasePage):
         ".slick-slide.slick-active .name",
     )
 
-    @allure.step("Get 'Зареєструватись' button href")
-    def get_register_button_href(self) -> str | None:
-        """Get the href of the 'Зареєструватись' registration button."""
-        return self._find_element(self.REGISTER_BUTTON).get_attribute("href")
-
     @allure.step("Click 'Зареєструватись' button")
     def click_register(self) -> None:
         """Click the 'Зареєструватись' registration button."""
@@ -44,7 +40,16 @@ class MarathonPage(BasePage):
     @allure.step("Get titles of the currently visible task cards")
     def get_visible_task_titles(self) -> list[str]:
         """Get the titles of the task cards visible on the current carousel page."""
-        return [el.text for el in self._find_elements(self.VISIBLE_TASK_TITLES)]
+        from selenium.webdriver.support.ui import WebDriverWait
+
+        def _has_visible_titles(_: object) -> list[str]:
+            return [
+                el.text for el in self._find_elements(self.VISIBLE_TASK_TITLES)
+                if el.text.strip()
+            ]
+
+        WebDriverWait(self.driver, 5).until(_has_visible_titles)
+        return _has_visible_titles(None)
 
     @allure.step("Get pagination dot count")
     def get_pagination_dot_count(self) -> int:
@@ -63,12 +68,33 @@ class MarathonPage(BasePage):
     @allure.step("Click the task carousel's previous arrow")
     def click_prev(self) -> None:
         """Click the left arrow to move the task carousel to the previous page."""
+        current_dot = self.get_active_dot_index()
         self._wait_clickable(self.TASKS_PREV_ARROW).click()
+
+        if current_dot > 1:
+            def _is_dot_changed(_: object) -> bool:
+                try:
+                    return self.get_active_dot_index() != current_dot
+                except ValueError:
+                    return False
+
+            WebDriverWait(self.driver, 5).until(_is_dot_changed)
 
     @allure.step("Click the task carousel's next arrow")
     def click_next(self) -> None:
         """Click the right arrow to move the task carousel to the next page."""
+        current_dot = self.get_active_dot_index()
         self._wait_clickable(self.TASKS_NEXT_ARROW).click()
+        total_dots = self.get_pagination_dot_count()
+
+        if current_dot < total_dots:
+            def _is_dot_changed(_: object) -> bool:
+                try:
+                    return self.get_active_dot_index() != current_dot
+                except ValueError:
+                    return False
+
+            WebDriverWait(self.driver, 5).until(_is_dot_changed)
 
     @allure.step("Click pagination dot {index}")
     def click_dot(self, index: int) -> None:
@@ -83,4 +109,53 @@ class MarathonPage(BasePage):
         dots = self._find_elements(self.PAGINATION_DOTS)
         if not 1 <= index <= len(dots):
             raise ValueError(f"Dot index {index} out of range (1..{len(dots)}).")
+
         dots[index - 1].click()
+
+        WebDriverWait(self.driver, 5).until(
+            lambda _: self.get_active_dot_index() == index
+        )
+
+    @allure.step("Scroll to task carousel section")
+    def scroll_to_tasks(self) -> None:
+        """Scroll the task carousel into view so elements load properly."""
+        self._scroll_into_view(self.VISIBLE_TASK_TITLES)
+
+    @allure.step("Wait for marathon page to load")
+    def wait_for_marathon_page(self) -> None:
+        """Wait until the marathon page and registration button are loaded."""
+        self.wait.until(
+            lambda _: self.driver.execute_script(
+                "return document.readyState"
+            ) == "complete"
+        )
+
+        self._wait_visible(
+            self.REGISTER_BUTTON
+        )
+
+    @allure.step("Scroll to 'Зареєструватись' button")
+    def scroll_to_register_button(self) -> None:
+        """Scroll the registration button into view."""
+        button = self._wait_visible(
+            self.REGISTER_BUTTON
+        )
+
+        self.driver.execute_script(
+            """
+            arguments[0].scrollIntoView({
+                block: 'center',
+                inline: 'nearest'
+            });
+            """,
+            button,
+        )
+
+    @allure.step("Wait for registration page to load")
+    def wait_for_registration_page(self) -> None:
+        """Wait until the registration page is completely loaded."""
+        self.wait.until(
+            lambda _: self.driver.execute_script(
+                "return document.readyState"
+            ) == "complete"
+        )
