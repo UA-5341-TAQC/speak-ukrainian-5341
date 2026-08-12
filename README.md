@@ -2,6 +2,11 @@
 
 This repository contains a Python-based UI test automation project for the Speak Ukrainian web application. The project uses Selenium with a page-object style structure to keep test code maintainable and organized.
 
+
+<a href="https://ua-5341-taqc.github.io/speak-ukrainian-5341/" target="_blank">
+   <img src="https://img.shields.io/badge/Allure%20Report-main-blue" alt="Allure Report">
+</a>
+
 ## Project overview
 
 The test suite is organized around:
