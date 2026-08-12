@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import allure
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -140,7 +139,7 @@ class MapModal(BaseModal):
         self.driver.execute_script("arguments[0].click();", option)
 
         self.wait.until(
-            lambda driver: self.get_selected_city() == city_name
+            lambda _: self.get_selected_city() == city_name
         )
 
         return self
@@ -168,7 +167,7 @@ class MapModal(BaseModal):
         self.driver.execute_script("arguments[0].click();", option)
 
         self.wait.until(
-            lambda driver: self.get_selected_category() == category_name
+            lambda _: self.get_selected_category() == category_name
         )
 
         return self
