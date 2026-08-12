@@ -29,12 +29,7 @@ class ChallengePage(BasePage):
     @allure.step("Get challenge registration button bounding rect")
     def get_cta_button_rect(self) -> dict[str, float]:
         """Return the on-screen rectangle of the registration button."""
-        rect = self.driver.execute_script(
-            "var r = arguments[0].getBoundingClientRect();"
-            "return {top: r.top, bottom: r.bottom, left: r.left, right: r.right};",
-            self._wait_present(self.CTA_BUTTON),
-        )
-        return {key: float(value) for key, value in rect.items()}
+        return self._wait_present(self.CTA_BUTTON).rect
 
     @allure.step("Open challenge page")
     def open(self, challenge_id: int) -> None:

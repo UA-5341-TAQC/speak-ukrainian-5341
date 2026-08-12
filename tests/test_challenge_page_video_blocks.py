@@ -46,8 +46,6 @@ def test_challenge_page_video_blocks(driver: WebDriver) -> None:
     """Verify webinar video blocks, playback and YouTube links."""
     challenge_page = ChallengePage(driver)
 
-    driver.set_window_size(1600, 1000)
-
     with allure.step("Open the challenge page"):
         challenge_page.open(2)
         video_cards = challenge_page.wait_for_video_cards()
@@ -88,7 +86,9 @@ def test_challenge_page_video_blocks(driver: WebDriver) -> None:
         cta_rect = challenge_page.get_cta_button_rect()
         last_card_rect = video_cards[-1].get_player_rect()
 
-        assert cta_rect["top"] >= last_card_rect["bottom"], (
+        cta_top = cta_rect["y"]
+
+        assert cta_top >= last_card_rect["bottom"], (
             "The 'Записатись на челендж' button overlaps "
             "the last video block"
         )
