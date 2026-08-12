@@ -22,7 +22,8 @@ class NewsDetailsPage(BasePage):
 
     NEWS_CAROUSEL_TITLE: Locator = (By.CSS_SELECTOR, ".other-news .title")
     NEWS_CAROUSEL_LEFT_ARROW: Locator = (
-        By.CSS_SELECTOR, ".other-news .anticon-arrow-left",
+        By.CSS_SELECTOR,
+        ".other-news .anticon-arrow-left",
     )
     NEWS_CAROUSEL_RIGHT_ARROW: Locator = (
         By.CSS_SELECTOR,
@@ -46,13 +47,21 @@ class NewsDetailsPage(BasePage):
     def open(self, news_id: int = 27) -> "NewsDetailsPage":
         """Open the news details page for a specific news article by ID."""
         from data.config import Config
-        self.driver.get(f"{Config.BASE_UI_URL}/news/{news_id}")
+
+        self.driver.get(f"{Config.BASE_UI_URL}news/{news_id}")
         return self
 
     @allure.step("Scroll to 'Наші контакти' block")
     def scroll_to_contacts(self) -> "NewsDetailsPage":
         """Scroll the contacts section into view."""
         self._scroll_into_view(self.SOCIAL_SECTION_CONTAINER)
+        return self
+
+    @allure.step("Scroll to 'Інші новини' carousel")
+    def scroll_to_carousel(self) -> "NewsDetailsPage":
+        """Scroll the other news carousel into view."""
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        self._scroll_into_view(self.NEWS_CAROUSEL_TITLE)
         return self
 
     @property
@@ -85,17 +94,42 @@ class NewsDetailsPage(BasePage):
     @allure.step("Click right arrow in news carousel")
     def click_carousel_next(self) -> None:
         """Click right navigation arrow in carousel."""
-        self.wait.until(ec.element_to_be_clickable(self.NEWS_CAROUSEL_RIGHT_ARROW)).click()
+        self._wait_present((By.CSS_SELECTOR, ".news-carousel-block .slick-initialized"))
+        self._click(self.NEWS_CAROUSEL_RIGHT_ARROW)
 
     @allure.step("Click left arrow in news carousel")
     def click_carousel_prev(self) -> None:
         """Click left navigation arrow in carousel."""
-        self.wait.until(ec.element_to_be_clickable(self.NEWS_CAROUSEL_LEFT_ARROW)).click()
+        self._click(self.NEWS_CAROUSEL_LEFT_ARROW)
+
+    def _get_visible_carousel_cards(self) -> list[NewsCardComponent]:
+        """Private helper to get currently visible cards without waiting or logging."""
+        elements = self._find_elements(self.NEWS_ACTIVE_SLIDE_CARDS)
+        return [NewsCardComponent(el) for el in elements if el.is_displayed()]
 
     @allure.step("Get list of currently active news cards in carousel")
     def get_active_carousel_cards(self) -> list[NewsCardComponent]:
         """Find visible carousel slides and wrap them in NewsCardComponent instances."""
-        elements = self.wait.until(
-            ec.visibility_of_all_elements_located(self.NEWS_ACTIVE_SLIDE_CARDS)
-        )
-        return [NewsCardComponent(el) for el in elements]
+        self.wait.until(ec.visibility_of_all_elements_located(self.NEWS_ACTIVE_SLIDE_CARDS))
+        return self._get_visible_carousel_cards()
+
+    def _wait_for_first_card_title(self, title: str, expected_match: bool) -> None:
+        """Helper to wait for the first card's title to match or differ from a target string."""
+
+        def _predicate(_: object) -> bool:
+            cards = self._get_visible_carousel_cards()
+            if not cards:
+                return False
+            return bool((cards[0].get_title() == title) is expected_match)
+
+        self.wait.until(_predicate)
+
+    def wait_until_first_card_title_changes(self, initial_title: str) -> None:
+        """Wait until the first active card's title is different from the given title."""
+        with allure.step("Wait for carousel cards to slide to next"):
+            self._wait_for_first_card_title(initial_title, expected_match=False)
+
+    def wait_until_first_card_title_equals(self, expected_title: str) -> None:
+        """Wait until the first active card's title matches the given title."""
+        with allure.step("Wait for carousel cards to slide to previous"):
+            self._wait_for_first_card_title(expected_title, expected_match=True)
