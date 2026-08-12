@@ -18,7 +18,6 @@ the "first/second/third slide" assertion deterministic.
 """
 
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.support.ui import WebDriverWait
 
 from data.config import Config
 from pages.home_page import HomePage
@@ -28,7 +27,6 @@ def test_homepage_carousel_navigation(driver: WebDriver) -> None:
     """Verify homepage hero carousel navigation and its slide redirects."""
     home = HomePage(driver)
     driver.get(Config.BASE_UI_URL.rstrip("/") + "/")
-    wait = WebDriverWait(driver, 12)
 
     # Step 1: locate the carousel section -> the carousel is displayed.
     home._wait_visible(home.CAROUSEL)
@@ -39,42 +37,42 @@ def test_homepage_carousel_navigation(driver: WebDriver) -> None:
     first_url = first.get_active_link_href()
     assert HomePage.CHALLENGE_PAGE in first_url
     first.get_active_item().click_details_button()
-    wait.until(lambda d: d.current_url.rstrip("/") == first_url)
+    home._wait_for_url(first_url)
     assert HomePage.CHALLENGE_PAGE in driver.current_url
 
     # Step 3: go back to the homepage -> homepage is displayed again.
     driver.back()
-    wait.until(lambda _: home._find_element(home.CAROUSEL).is_displayed())
+    home.wait.until(lambda _: home._find_element(home.CAROUSEL).is_displayed())
 
     # Step 4: click the right arrow -> the second slide is displayed.
     second = home.pause_autoplay_and_sync()
     first_href = second.get_active_link_href()
     second.click_next_arrow()
-    wait.until(lambda _: second.get_active_link_href() != first_href)
+    home.wait.until(lambda _: second.get_active_link_href() != first_href)
     second_url = second.get_active_link_href()
     assert HomePage.CLUBS_PAGE in second_url
 
     # Step 5: click the button on the second slide -> Clubs page.
     second.get_active_item().click_details_button()
-    wait.until(lambda d: d.current_url.rstrip("/") == second_url)
+    home._wait_for_url(second_url)
     assert HomePage.CLUBS_PAGE in driver.current_url
 
     # Step 6: go back to the homepage -> homepage is displayed again.
     driver.back()
-    wait.until(lambda _: home._find_element(home.CAROUSEL).is_displayed())
+    home.wait.until(lambda _: home._find_element(home.CAROUSEL).is_displayed())
 
     # Step 7: click the right arrow twice -> the third slide is displayed.
     third = home.pause_autoplay_and_sync()
     previous_url = third.get_active_link_href()
     third.click_next_arrow()
-    wait.until(lambda _: third.get_active_link_href() != previous_url)
+    home.wait.until(lambda _: third.get_active_link_href() != previous_url)
     previous_url = third.get_active_link_href()
     third.click_next_arrow()
-    wait.until(lambda _: third.get_active_link_href() != previous_url)
+    home.wait.until(lambda _: third.get_active_link_href() != previous_url)
     third_url = third.get_active_link_href()
     assert HomePage.ABOUT_PAGE in third_url
 
     # Step 8: click the button on the third slide -> About page.
     third.get_active_item().click_details_button()
-    wait.until(lambda d: d.current_url.rstrip("/") == third_url)
+    home._wait_for_url(third_url)
     assert HomePage.ABOUT_PAGE in driver.current_url
