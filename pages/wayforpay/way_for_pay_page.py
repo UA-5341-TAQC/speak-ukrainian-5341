@@ -28,27 +28,9 @@ class WayForPayPage(BasePage):
 
     APPLE_PAY_BUTTON: Locator = (By.CSS_SELECTOR, "#apple-pay")
     GPAY_BUTTON: Locator = (By.CSS_SELECTOR, "#gpay-button-online-api-id")
-
-    # Додані елементи для header/amount_section,
-    # бо BaseComponent приймає лише WebElement, не WebDriver
     HEADER_ROOT: Locator = (By.CSS_SELECTOR, ".block-info")
     AMOUNT_ROOT: Locator = (By.CSS_SELECTOR, "div.price.form-group.validation-wrapper")
 
-    # @property
-    # def header(self) -> WayForPayHeaderComponent:
-    #     """Get WayForPayHeaderComponent instance."""
-    #     # ToDo Argument 1 to "WayForPayHeaderComponent" has incompatible type "WebDriver";
-    #     #  expected "WebElement"  [arg-type]
-    #     return WayForPayHeaderComponent(self.driver)
-
-    # @property
-    # def amount_section(self) -> AmountSectionComponent:
-    #     """Get AmountSectionComponent instance."""
-    #     # ToDo Argument 1 to "AmountSectionComponent" has incompatible type "WebDriver";
-    #     #  expected "WebElement"  [arg-type]
-    #     return AmountSectionComponent(self.driver)
-
-    # Шукається root-елемент, а не передається self.driver для header/amount_section
     @property
     def header(self) -> WayForPayHeaderComponent:
         """Get WayForPayHeaderComponent instance."""
@@ -113,7 +95,6 @@ class WayForPayPage(BasePage):
         self._find_element(self.VISA_CHECKOUT_TAB_BUTTON).click()
         return self.visa_checkout_tab
 
-    # Перевірки для TC-48, кроки 4-6 (Apple Pay / Google Pay / дропдаун)
     @allure.step("Check if Apple Pay button is displayed")
     def is_apple_pay_displayed(self) -> bool:
         """Check if Apple Pay button is displayed."""

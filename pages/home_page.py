@@ -52,7 +52,6 @@ class HomePage(BasePage):
         ".primitive-card",
     )
 
-   # Спільний хедер сайту (TC-07: натиснути -> "Новини")
     HEADER_ROOT: Locator = (By.CSS_SELECTOR, "header.header")
 
     @property
