@@ -71,10 +71,8 @@ class ClubPage(BasePage):
 
     def filter(self) -> ClubFiltersComponent:
         """Return filter object."""
-        # return ClubFiltersComponent(self.filter(self.FILTERS_PANEL))
         return ClubFiltersComponent(self._wait_visible(self.CLUBS_CONTENT))
 
     def sort(self) -> ClubSortComponent:
         """Return sort object."""
-        # return ClubSortComponent(self.find(self.SORT_PANEL))
         return ClubSortComponent(self._wait_visible(self.CLUBS_CONTENT))
