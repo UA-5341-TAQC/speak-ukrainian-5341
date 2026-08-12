@@ -14,6 +14,8 @@ from pages.types import Locator
 class HomePage(BasePage):
     """Page object representing the Speak Ukrainian home page."""
 
+    HEADER: Locator = (By.CSS_SELECTOR, "header.ant-layout-header")
+
     ALL_CLUBS_BUTTON: Locator = (
         By.CSS_SELECTOR,
         ".categories-header .more-button",
@@ -160,3 +162,9 @@ class HomePage(BasePage):
     def get_content_cards(self) -> list[HomeContentCard]:
         """Return all home page content cards."""
         return [HomeContentCard(card) for card in self.driver.find_elements(*self.CONTENT_CARDS)]
+
+    @allure.step("Get header component")
+    def header(self) -> HeaderComponent:  # <- 3. Метод
+        """Get the HeaderComponent instance."""
+        header_element = self._find_element(self.HEADER)
+        return HeaderComponent(header_element)
