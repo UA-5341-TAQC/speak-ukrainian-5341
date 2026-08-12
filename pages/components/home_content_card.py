@@ -52,5 +52,5 @@ class HomeContentCard(BaseComponent):
 
     @allure.step("Get card link")
     def get_link(self) -> str:
-        """Return the card link."""
+        """Return the card link href ("", when absent)."""
         return self._find_element(self.LINK).get_attribute("href") or ""

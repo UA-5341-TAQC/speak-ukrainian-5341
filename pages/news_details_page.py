@@ -1,14 +1,14 @@
 """Page object for the News Details page on the Speak Ukrainian website."""
 
 import allure
-from components.news_card_component import NewsCardComponent
-from components.social_buttons import SocialButtons
-from page.types import Locator
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as ec
 
 from pages.base_page import BasePage
+from pages.components.news_card_component import NewsCardComponent
+from pages.components.social_buttons import SocialButtons
+from pages.types import Locator
 
 
 class NewsDetailsPage(BasePage):
@@ -33,15 +33,34 @@ class NewsDetailsPage(BasePage):
         ".other-news .slick-slide.slick-active .carousel-item",
     )
 
+    SOCIAL_SECTION_CONTAINER: Locator = (
+        By.CSS_SELECTOR,
+        ".social-info .social-media",
+    )
+
     def __init__(self, driver: WebDriver) -> None:
         """Initialize NewsDetailsPage with generic sub-components."""
         super().__init__(driver)
+
+    @allure.step("Open news details page (id={news_id})")
+    def open(self, news_id: int = 27) -> "NewsDetailsPage":
+        """Open the news details page for a specific news article by ID."""
+        from data.config import Config
+        self.driver.get(f"{Config.BASE_UI_URL}/news/{news_id}")
+        return self
+
+    @allure.step("Scroll to 'Наші контакти' block")
+    def scroll_to_contacts(self) -> "NewsDetailsPage":
+        """Scroll the contacts section into view."""
+        self._scroll_into_view(self.SOCIAL_SECTION_CONTAINER)
+        return self
 
     @property
     @allure.step("Access Social Buttons component")
     def social_buttons(self) -> SocialButtons:
         """Get the SocialButtons sub-component instance."""
-        return SocialButtons(self.driver)
+        section = self._wait_visible(self.SOCIAL_SECTION_CONTAINER)
+        return SocialButtons(section)
 
     @allure.step("Get major news title text")
     def get_news_major_title_text(self) -> str:
