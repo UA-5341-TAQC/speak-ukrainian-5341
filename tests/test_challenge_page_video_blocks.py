@@ -1,12 +1,4 @@
-"""Tests for the webinar video blocks on the challenge page.
-
-The page https://speak-ukrainian.org.ua/challenges/2 contains webinar
-materials embedded from the Speak Ukrainian YouTube channel.
-
-Each video block consists of a title heading followed by an embedded
-YouTube iframe. The YouTube player contains the thumbnail, play button
-and "Дивитися на YouTube" link.
-"""
+"""Tests for the webinar video blocks on the challenge page."""
 
 from collections.abc import Generator
 from contextlib import contextmanager
@@ -39,10 +31,13 @@ def _switch_to_last_tab(
 
 
 @allure.title(
-    "TC-63 Verify video blocks playback and YouTube links on the challenge page"
+    "TC-63 Verify video blocks playback and YouTube links "
+    "on the challenge page"
 )
 @pytest.mark.regression
-def test_challenge_page_video_blocks(driver: WebDriver) -> None:
+def test_challenge_page_video_blocks(
+    driver: WebDriver,
+) -> None:
     """Verify webinar video blocks, playback and YouTube links."""
     challenge_page = ChallengePage(driver)
 
@@ -51,24 +46,36 @@ def test_challenge_page_video_blocks(driver: WebDriver) -> None:
         video_cards = challenge_page.wait_for_video_cards()
 
     with allure.step("Verify all video blocks are present"):
-        assert video_cards, "No video blocks found on the challenge page"
+        assert video_cards, (
+            "No video blocks found on the challenge page"
+        )
+
         assert len(video_cards) == 4, (
-            f"Content discrepancy: expected 4 video blocks, "
+            "Content discrepancy: expected 4 video blocks, "
             f"found {len(video_cards)}"
         )
 
-        for index, card in enumerate(video_cards, start=1):
-            with allure.step(f"Verify video block {index}"):
+        for index, card in enumerate(
+            video_cards,
+            start=1,
+        ):
+            with allure.step(
+                f"Verify video block {index}"
+            ):
+                card.scroll_into_view()
+
                 assert card.get_title_text(), (
                     f"Video block {index} has no title"
                 )
 
                 assert card.is_thumbnail_loaded(), (
-                    f"Video block {index} thumbnail is not loaded"
+                    f"Video block {index} "
+                    "thumbnail is not loaded"
                 )
 
                 assert card.is_play_button_present(), (
-                    f"Video block {index} has no play button"
+                    f"Video block {index} "
+                    "has no play button"
                 )
 
                 youtube_url = card.get_youtube_url()
@@ -80,36 +87,24 @@ def test_challenge_page_video_blocks(driver: WebDriver) -> None:
                     "watch-on-YouTube link"
                 )
 
-    with allure.step("Verify CTA button does not overlap the last video"):
+    with allure.step(
+        "Verify CTA button does not overlap the last video"
+    ):
         challenge_page.scroll_cta_button_into_view()
 
         cta_rect = challenge_page.get_cta_button_rect()
         last_card_rect = video_cards[-1].get_player_rect()
 
-        cta_top = cta_rect["y"]
-
-        assert cta_top >= last_card_rect["bottom"], (
+        assert cta_rect["top"] >= last_card_rect["bottom"], (
             "The 'Записатись на челендж' button overlaps "
             "the last video block"
         )
 
-    for index, card in enumerate(video_cards, start=1):
-        with allure.step(f"Play video block {index}"):
-            card.scroll_into_view()
-            card.click_play_button()
-
-            WebDriverWait(
-                driver,
-                Config.EXPLICIT_WAIT,
-            ).until(
-                lambda _: card.is_video_playing()
-            )
-
-            assert card.is_video_playing(), (
-                f"Video block {index} did not start playing inline"
-            )
-
-    for index, card in enumerate(video_cards, start=1):
+    # Verify YouTube links BEFORE starting the videos.
+    for index, card in enumerate(
+        video_cards,
+        start=1,
+    ):
         with allure.step(
             f"Open YouTube link for video block {index}"
         ):
@@ -117,7 +112,9 @@ def test_challenge_page_video_blocks(driver: WebDriver) -> None:
 
             card.scroll_into_view()
 
-            initial_tab_count = len(driver.window_handles)
+            initial_tab_count = len(
+                driver.window_handles
+            )
 
             card.click_youtube_link()
 
@@ -125,9 +122,8 @@ def test_challenge_page_video_blocks(driver: WebDriver) -> None:
                 driver,
                 Config.EXPLICIT_WAIT,
             ).until(
-                lambda current_driver: len(
-                    current_driver.window_handles
-                )
+                lambda current_driver:
+                len(current_driver.window_handles)
                 == initial_tab_count + 1
             )
 
@@ -136,7 +132,8 @@ def test_challenge_page_video_blocks(driver: WebDriver) -> None:
                     youtube_tab,
                     Config.EXPLICIT_WAIT,
                 ).until(
-                    lambda current_driver: "youtube.com"
+                    lambda current_driver:
+                    "youtube.com"
                     in urlparse(
                         current_driver.current_url
                     ).netloc
@@ -151,7 +148,11 @@ def test_challenge_page_video_blocks(driver: WebDriver) -> None:
                 )
 
                 query = parse_qs(parsed_url.query)
-                opened_video_id = query.get("v", [""])[0]
+
+                opened_video_id = query.get(
+                    "v",
+                    [""],
+                )[0]
 
                 assert opened_video_id == expected_video_id, (
                     f"Video block {index}: opened video "
@@ -163,7 +164,8 @@ def test_challenge_page_video_blocks(driver: WebDriver) -> None:
                     youtube_tab,
                     Config.EXPLICIT_WAIT,
                 ).until(
-                    lambda current_driver: current_driver.execute_script(
+                    lambda current_driver:
+                    current_driver.execute_script(
                         "return document.readyState"
                     )
                     == "complete"
@@ -173,19 +175,48 @@ def test_challenge_page_video_blocks(driver: WebDriver) -> None:
         "Not all YouTube tabs were closed"
     )
 
+    # Start videos only after all YouTube links were verified.
+    for index, card in enumerate(
+        video_cards,
+        start=1,
+    ):
+        with allure.step(
+            f"Play video block {index}"
+        ):
+            card.scroll_into_view()
+            card.click_play_button()
+
+            WebDriverWait(
+                driver,
+                Config.EXPLICIT_WAIT,
+            ).until(
+                lambda _: card.is_video_playing()
+            )
+
+            assert card.is_video_playing(), (
+                f"Video block {index} "
+                "did not start playing inline"
+            )
+
     with allure.step(
         "Resize the browser window to 1024px"
     ):
-        driver.set_window_size(1024, 900)
+        driver.set_window_size(
+            1024,
+            900,
+        )
 
-        for index, card in enumerate(video_cards, start=1):
+        for index, card in enumerate(
+            video_cards,
+            start=1,
+        ):
             with allure.step(
-                f"Verify video block {index} title is not clipped"
+                f"Verify video block {index} "
+                "title is not clipped"
             ):
                 card.scroll_title_into_view()
 
                 assert card.is_title_fully_visible(), (
-                    f"Video block {index} title is cut off "
-                    "or overlapped at 1024px width"
+                    f"Video block {index} title is "
+                    "cut off or overlapped at 1024px width"
                 )
-          
