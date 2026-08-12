@@ -25,47 +25,6 @@ from pages.components.header_component import HeaderComponent
 from pages.home_page import HomePage
 from pages.types import Locator
 
-CHALLENGE_MENU: Locator = (
-    By.CSS_SELECTOR,
-    ".nav-menu .challenge-text",
-)
-
-CHALLENGE_DROPDOWN: Locator = (
-    By.CSS_SELECTOR,
-    ".ant-menu-submenu-popup",
-)
-
-class ChallengeLocators: 
-    UNIQUE_CHALLENGE_LINK: Locator = (
-        By.CSS_SELECTOR,
-        "a[href='/challenges/5']",
-    )
-
-    LANGUAGE_MARATHON_LINK: Locator = (
-        By.CSS_SELECTOR,
-        "a[href='/challenges/1']",
-    )
-
-    TEACH_UKRAINIAN_LINK: Locator = (
-        By.CSS_SELECTOR,
-        "a[href='/challenges/2']",
-    )
-
-    TEACH_UKRAINIAN_CHALLENGE_LINK: Locator = (
-        By.CSS_SELECTOR,
-        "a[href='/challenges/3']",
-    )
-
-    SPEAKING_CLUB_CHALLENGE_LINK: Locator = (
-        By.CSS_SELECTOR,
-        "a[href='/challenges/4']",
-    )
-
-    @classmethod
-    def all_challenge_locators(cls):
-        return[cls.LANGUAGE_MARATHON_LINK, cls.TEACH_UKRAINIAN_LINK, cls.TEACH_UKRAINIAN_CHALLENGE_LINK,cls.SPEAKING_CLUB_CHALLENGE_LINK]
-
-
 @allure.title("TC-39 Verify header navigation links redirect to the correct pages.")
 def test_header_navigation(driver: WebDriver) -> None:
     driver.get(Config.BASE_UI_URL)
