@@ -1,4 +1,5 @@
 """Club details page /club/{id}."""
+
 from selenium.webdriver.common.by import By
 
 from data.config import Config

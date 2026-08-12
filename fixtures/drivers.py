@@ -18,7 +18,10 @@ def driver() -> Iterator[WebDriver]:
     options = webdriver.ChromeOptions()
     if Config.HEADLESS:
         options.add_argument("--headless=new")
-    options.add_argument("--window-size=1600,1000")
+    if Config.MAXIMIZE:
+        options.add_argument("--start-maximized")
+    else:
+        options.add_argument(f"--window-size={Config.WINDOW_SIZE}")
     options.add_argument("--disable-gpu")
     web_driver = webdriver.Chrome(
         service=Service(ChromeDriverManager().install()),
