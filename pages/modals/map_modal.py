@@ -144,9 +144,17 @@ class MapModal(BaseModal):
 
         def _content_is_loaded(_: object) -> bool:
             try:
-                has_clubs = len(self._find_elements(self.CLUB_ITEMS)) > 0
-                has_empty = len(self._find_elements(self.NO_RESULTS_MESSAGE)) > 0
-                return has_clubs or has_empty
+                clubs = self._find_elements(self.CLUB_ITEMS)
+                empty_msgs = self._find_elements(self.NO_RESULTS_MESSAGE)
+
+                if len(clubs) > 0:
+                    return True
+
+                if len(empty_msgs) > 0:
+                    msg_text = empty_msgs[0].text.strip()
+                    return len(msg_text) > 0
+
+                return False
             except Exception:
                 return False
 

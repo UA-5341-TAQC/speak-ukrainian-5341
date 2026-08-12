@@ -79,7 +79,6 @@ class TestCatalogClubLocation:
                 "Poltava should be selected"
             )
 
-            # Перевіряємо наявність повідомлення про відсутність результатів
             no_results_message = map_modal.get_no_results_text()
 
             assert "Нічого не знайдено" in no_results_message, (
