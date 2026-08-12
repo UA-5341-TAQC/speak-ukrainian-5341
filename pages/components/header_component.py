@@ -2,6 +2,7 @@
 
 import allure
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ec
 
 from pages.components.base_component import BaseComponent
 from pages.components.challenges_dropdown import ChallengeDropdown
@@ -153,7 +154,8 @@ class HeaderComponent(BaseComponent):
     def click_profile_menu_item(self) -> None:
         """Click the 'Особистий кабінет' item in the user dropdown."""
         self.click_user_profile()
-        self._wait_clickable(self.PROFILE_MENU_ITEM).click()
+        self.wait.until(ec.element_to_be_clickable(self.PROFILE_MENU_ITEM))
+        self.driver.find_element(*self.PROFILE_MENU_ITEM).click()
 
     @allure.step("Click 'Вийти' in user menu")
     def click_logout_menu_item(self) -> None:
