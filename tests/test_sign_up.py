@@ -9,9 +9,8 @@ from pages.home_page import HomePage
 from pages.modals.sign_up_modal import SignUpModal
 
 
-@allure.title("TC-53 Verify registration password policy validation")
 @pytest.mark.parametrize(
-    "invalid_password, expected_error",
+    ("invalid_password", "expected_error"),
     [
         pytest.param(
             "Ab1!",
@@ -51,9 +50,12 @@ from pages.modals.sign_up_modal import SignUpModal
     ],
 )
 def test_sign_up_password_policy(
-    driver: WebDriver, invalid_password: str, expected_error: str
+    request: pytest.FixtureRequest, driver: WebDriver, invalid_password: str, expected_error: str
 ) -> None:
     """Verify that entering an invalid password displays the correct validation error."""
+    allure.dynamic.title(
+        f"TC-53 Verify registration password policy validation [{request.node.callspec.id}]"
+    )
     driver.get(Config.BASE_UI_URL)
     home_page = HomePage(driver)
 
