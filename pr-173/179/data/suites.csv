@@ -1,0 +1,11 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","1","test_example","tests","2026-08-12","passed","2026-08-12","","test_example","",""
+"Verify that users can navigate through the 30 language marathon tasks using next/previous arrows and pagination dots.","2967","TC-11: Task carousel navigation via arrows and pagination dots","tests","2026-08-12","passed","2026-08-12","TestMarathonTaskCarousel","test_marathon_task_carousel_navigation","",""
+"Verify challenge and event banner navigation on the homepage.","7580","TC-50 Verify challenge and event banner navigation on the homepage","tests","2026-08-12","passed","2026-08-12","","test_home_page","",""
+"Verify homepage hero carousel navigation and its slide redirects.","9213","test_homepage_carousel_navigation","tests","2026-08-12","passed","2026-08-12","","test_home_carousel_navigation","",""
+"Test verifies that the 'Наші контакти' block is displayed on the news page, has the correct title, and contains all required social media icons: Facebook, YouTube, Instagram, and Mail.","4417","TC-28: Verify 'Наші контакти' section display","tests","2026-08-12","passed","2026-08-12","","test_social_buttons_ui","",""
+"Returning the authenticated_driver fixture leaves the session active.
+
+    The fixture signs in via the /api/signin endpoint and injects the issued
+    tokens, so the header must report the user as logged in.
+    ","178","test_user_is_signed_in_after_api_fixture","tests","2026-08-12","passed","2026-08-12","","test_sign_in","",""
