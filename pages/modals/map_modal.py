@@ -97,13 +97,14 @@ class MapModal(BaseModal):
         city_select.click()
 
         if city_name == "Всі міста":
+            # Шукаємо контейнер віртуального списку та скролимо його нагору
             dropdown_list_locator = (
                 By.CSS_SELECTOR,
                 "div.ant-select-dropdown:not(.ant-select-dropdown-hidden) "
                 "div.rc-virtual-list-holder",
             )
             try:
-                dropdown_list = self._find_element(dropdown_list_locator)
+                dropdown_list = self._wait_visible(dropdown_list_locator)
                 self.driver.execute_script(
                     "arguments[0].scrollTop = 0;",
                     dropdown_list,
