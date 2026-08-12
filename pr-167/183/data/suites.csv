@@ -1,0 +1,11 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","0","test_example","tests","2026-08-12","passed","2026-08-12","","test_example","",""
+"Verify that clicking the 'Новини' menu item in the header navigates the user to the News page with valid URL, title, and article list.","1153","TC-06: Verify that the News page opens","tests","2026-08-12","passed","2026-08-12","TestNewsPage","test_news_page_opens","",""
+"Test verifies that the 'Наші контакти' block is displayed on the news page, has the correct title, and contains all required social media icons: Facebook, YouTube, Instagram, and Mail.","4324","TC-28: Verify 'Наші контакти' section display","tests","2026-08-12","passed","2026-08-12","","test_social_buttons_ui","",""
+"Verify homepage hero carousel navigation and its slide redirects.","8331","test_homepage_carousel_navigation","tests","2026-08-12","passed","2026-08-12","","test_home_carousel_navigation","",""
+"Verify challenge and event banner navigation on the homepage.","8763","TC-50 Verify challenge and event banner navigation on the homepage","tests","2026-08-12","passed","2026-08-12","","test_home_page","",""
+"Returning the authenticated_driver fixture leaves the session active.
+
+    The fixture signs in via the /api/signin endpoint and injects the issued
+    tokens, so the header must report the user as logged in.
+    ","412","test_user_is_signed_in_after_api_fixture","tests","2026-08-12","passed","2026-08-12","","test_sign_in","",""
