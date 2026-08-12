@@ -100,7 +100,7 @@ class ContactsStep(AddClubModal):
         return self._find_element(self.WORK_DAY_INPUT(day_value)).is_selected()
 
     @allure.step("Select work days: {days}")
-    def select_work_days(self, days: list[str]) -> ContactsStep:
+    def select_work_days(self, days: list[Weekday]) -> ContactsStep:
         """Select multiple work days at once."""
         for day in days:
             self.select_work_day(day)
