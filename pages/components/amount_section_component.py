@@ -31,7 +31,6 @@ class AmountSectionComponent(BaseComponent):
                 option.click()
                 break
 
-    # Перевірки для TC-48, кроки 2-3
     @allure.step("Check if amount field is displayed")
     def is_amount_field_displayed(self) -> bool:
         """Check if amount field is displayed."""

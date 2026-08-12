@@ -100,7 +100,6 @@ class NewsDetailsPage(BasePage):
         )
         return [NewsCardComponent(el) for el in elements]
 
-    # Перевірки видимості для TC-07, кроки 3-5
     @allure.step("Check if news title is displayed")
     def is_title_displayed(self) -> bool:
         """Check whether the article title is visible."""

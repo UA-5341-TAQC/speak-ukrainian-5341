@@ -83,7 +83,6 @@ class CardTab(BasePage):
         """Verify that card payment tab content is visible."""
         return self._find_element(self.CARD_NUMBER_INPUT).is_displayed()
 
-    #Перевірки видимості для TC-48, кроки 7-12
     @allure.step("Check if card number field is displayed")
     def is_card_number_displayed(self) -> bool:
         """Check if card number field is displayed."""
