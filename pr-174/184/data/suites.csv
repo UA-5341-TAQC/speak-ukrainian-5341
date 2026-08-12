@@ -1,0 +1,13 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Verify homepage hero carousel navigation and its slide redirects.","9096","test_homepage_carousel_navigation","tests","2026-08-12","passed","2026-08-12","","test_home_carousel_navigation","",""
+"Test verifies that the 'Наші контакти' block is displayed on the news page, has the correct title, and contains all required social media icons: Facebook, YouTube, Instagram, and Mail.","5451","TC-28: Verify 'Наші контакти' section display","tests","2026-08-12","passed","2026-08-12","","test_social_buttons_ui","",""
+"Verify challenge and event banner navigation on the homepage.","8377","TC-50 Verify challenge and event banner navigation on the homepage","tests","2026-08-12","passed","2026-08-12","","test_home_page","",""
+"Returning the authenticated_driver fixture leaves the session active.
+
+    The fixture signs in via the /api/signin endpoint and injects the issued
+    tokens, so the header must report the user as logged in.
+    ","142","test_user_is_signed_in_after_api_fixture","tests","2026-08-12","passed","2026-08-12","","test_sign_in","",""
+"Verify updating phone number with a valid 10-digit value persists after refresh.","4440","TC-17: Update phone number using valid 10-digit numeric value","tests","2026-08-12","passed","2026-08-12","","test_update_phone_number","",""
+"Verify opening a news article from the list and returning back to the News page.","6062","TC-07: Navigation to the News details page","tests","2026-08-12","passed","2026-08-12","TestNewsDetailsNavigation","test_news_details_navigation","",""
+"Verify title, amount, currency, express pay buttons, card form fields and submit button.","4301","TC-48: Verify payment page UI elements are displayed correctly","tests","2026-08-12","passed","2026-08-12","TestPaymentPageUI","test_payment_page_ui","",""
+"","0","test_example","tests","2026-08-12","passed","2026-08-12","","test_example","",""
