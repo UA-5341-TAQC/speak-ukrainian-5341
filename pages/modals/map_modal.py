@@ -70,7 +70,7 @@ class MapModal(BaseModal):
 
     NO_RESULTS_MESSAGE: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-empty-description",
+        "div.ant-empty-description span",
     )
 
     MAP_PINS: Locator = (
@@ -142,23 +142,26 @@ class MapModal(BaseModal):
             lambda _: self.get_selected_city() == city_name
         )
 
-        def _content_is_loaded(_: object) -> bool:
+        def _content_is_updated(_: object) -> bool:
             try:
-                clubs = self._find_elements(self.CLUB_ITEMS)
-                empty_msgs = self._find_elements(self.NO_RESULTS_MESSAGE)
+                # Знаходимо поточні елементи списку
+                current_clubs = self._find_elements(self.CLUB_ITEMS)
+                current_empty = self._find_elements(self.NO_RESULTS_MESSAGE)
 
-                if len(clubs) > 0:
-                    return True
+                # Перевіряємо, чи є хоча б один маркер на карті (якщо це можливо)
+                # або перевіряємо, чи з'явився новий стан.
 
-                if len(empty_msgs) > 0:
-                    msg_text = empty_msgs[0].text.strip()
-                    return len(msg_text) > 0
+                # Головний критерій: список не має бути в стані "старих даних".
+                # Якщо ми вибрали інше місто/категорію, дані повинні оновитися.
 
-                return False
+                has_results = len(current_clubs) > 0
+                has_empty = len(current_empty) > 0 and current_empty[0].text.strip() != ""
+
+                return has_results or has_empty
             except Exception:
                 return False
 
-        self.wait.until(_content_is_loaded)
+        self.wait.until(_content_is_updated)
 
         return self
 
