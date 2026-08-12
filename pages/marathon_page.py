@@ -2,6 +2,7 @@
 
 import allure
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.base_page import BasePage
 from pages.types import Locator
@@ -44,7 +45,16 @@ class MarathonPage(BasePage):
     @allure.step("Get titles of the currently visible task cards")
     def get_visible_task_titles(self) -> list[str]:
         """Get the titles of the task cards visible on the current carousel page."""
-        return [el.text for el in self._find_elements(self.VISIBLE_TASK_TITLES)]
+        from selenium.webdriver.support.ui import WebDriverWait
+
+        def _has_visible_titles(_: object) -> list[str]:
+            return [
+                el.text for el in self._find_elements(self.VISIBLE_TASK_TITLES)
+                if el.text.strip()
+            ]
+
+        WebDriverWait(self.driver, 5).until(_has_visible_titles)
+        return _has_visible_titles(None)
 
     @allure.step("Get pagination dot count")
     def get_pagination_dot_count(self) -> int:
@@ -63,12 +73,33 @@ class MarathonPage(BasePage):
     @allure.step("Click the task carousel's previous arrow")
     def click_prev(self) -> None:
         """Click the left arrow to move the task carousel to the previous page."""
+        current_dot = self.get_active_dot_index()
         self._wait_clickable(self.TASKS_PREV_ARROW).click()
+
+        if current_dot > 1:
+            def _is_dot_changed(_: object) -> bool:
+                try:
+                    return self.get_active_dot_index() != current_dot
+                except ValueError:
+                    return False
+
+            WebDriverWait(self.driver, 5).until(_is_dot_changed)
 
     @allure.step("Click the task carousel's next arrow")
     def click_next(self) -> None:
         """Click the right arrow to move the task carousel to the next page."""
+        current_dot = self.get_active_dot_index()
         self._wait_clickable(self.TASKS_NEXT_ARROW).click()
+        total_dots = self.get_pagination_dot_count()
+
+        if current_dot < total_dots:
+            def _is_dot_changed(_: object) -> bool:
+                try:
+                    return self.get_active_dot_index() != current_dot
+                except ValueError:
+                    return False
+
+            WebDriverWait(self.driver, 5).until(_is_dot_changed)
 
     @allure.step("Click pagination dot {index}")
     def click_dot(self, index: int) -> None:
@@ -83,4 +114,14 @@ class MarathonPage(BasePage):
         dots = self._find_elements(self.PAGINATION_DOTS)
         if not 1 <= index <= len(dots):
             raise ValueError(f"Dot index {index} out of range (1..{len(dots)}).")
+
         dots[index - 1].click()
+
+        WebDriverWait(self.driver, 5).until(
+            lambda _: self.get_active_dot_index() == index
+        )
+
+    @allure.step("Scroll to task carousel section")
+    def scroll_to_tasks(self) -> None:
+        """Scroll the task carousel into view so elements load properly."""
+        self._scroll_into_view(self.VISIBLE_TASK_TITLES)
