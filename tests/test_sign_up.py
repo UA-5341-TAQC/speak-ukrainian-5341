@@ -76,11 +76,46 @@ def test_sign_up_password_policy(
         sign_up_modal.wait_for_error_message(expected_error)
 
         errors = sign_up_modal.get_error_messages()
-        assert (
-            expected_error in errors
-        ), f"Expected error '{expected_error}' not found. Actual errors: {errors}"
+        assert expected_error in errors, (
+            f"Expected error '{expected_error}' not found. Actual errors: {errors}"
+        )
 
     with allure.step("3. Verify submit button is disabled"):
-        assert (
-            not sign_up_modal.is_submit_button_enabled()
-        ), "Submit button should be disabled, but it remained enabled"
+        assert not sign_up_modal.is_submit_button_enabled(), (
+            "Submit button should be disabled, but it remained enabled"
+        )
+
+
+@allure.title("TC-54 Verify registration email format validation")
+def test_sign_up_email_format(driver: WebDriver) -> None:
+    """Verify that entering an invalid email format displays the correct validation error."""
+    driver.get(Config.BASE_UI_URL)
+    home_page = HomePage(driver)
+
+    with allure.step("Precondition: Open Registration modal via user menu"):
+        home_page.header.click_register_menu_item()
+        sign_up_modal = SignUpModal(driver)
+        sign_up_modal.is_displayed()
+
+    with allure.step("1. Enter valid baseline data into all fields except Email"):
+        sign_up_modal.enter_last_name("Іванов")
+        sign_up_modal.enter_first_name("Петро")
+        sign_up_modal.enter_phone("0991234567")
+        sign_up_modal.enter_password("TestPass123!")
+        sign_up_modal.enter_confirm_password("TestPass123!")
+
+    with allure.step("2. Enter invalid email and observe validation error"):
+        sign_up_modal.enter_email("not-an-email")
+
+        expected_error = "Некоректний формат email"
+        sign_up_modal.wait_for_error_message(expected_error)
+
+        errors = sign_up_modal.get_error_messages()
+        assert expected_error in errors, (
+            f"Expected error '{expected_error}' not found. Actual errors: {errors}"
+        )
+
+    with allure.step("3. Verify submit button is disabled"):
+        assert not sign_up_modal.is_submit_button_enabled(), (
+            "Submit button should be disabled, but it remained enabled"
+        )
