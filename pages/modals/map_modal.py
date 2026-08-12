@@ -209,7 +209,7 @@ class MapModal(BaseModal):
         """Return number of location markers displayed on map with wait."""
         try:
             self.wait.until(
-                lambda driver: len(driver.find_elements(*self.MAP_PINS)) > 0
+                lambda _: len(self.driver.find_elements(*self.MAP_PINS)) > 0
             )
         except Exception:
             pass
