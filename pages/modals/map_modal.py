@@ -97,7 +97,6 @@ class MapModal(BaseModal):
         city_select.click()
 
         if city_name == "Всі міста":
-            # Шукаємо контейнер віртуального списку та скролимо його нагору
             dropdown_list_locator = (
                 By.CSS_SELECTOR,
                 "div.ant-select-dropdown:not(.ant-select-dropdown-hidden) "
@@ -142,6 +141,16 @@ class MapModal(BaseModal):
         self.wait.until(
             lambda _: self.get_selected_city() == city_name
         )
+
+        def _content_is_loaded(_: object) -> bool:
+            try:
+                has_clubs = len(self._find_elements(self.CLUB_ITEMS)) > 0
+                has_empty = len(self._find_elements(self.NO_RESULTS_MESSAGE)) > 0
+                return has_clubs or has_empty
+            except Exception:
+                return False
+
+        self.wait.until(_content_is_loaded)
 
         return self
 
