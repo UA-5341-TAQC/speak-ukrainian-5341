@@ -25,8 +25,7 @@ class ChallengeVideoCard(BaseComponent):
 
     THUMBNAIL: Locator = (By.CSS_SELECTOR, "div.ytmVideoCoverThumbnail",)
 
-    PLAY_BUTTON: Locator = (By.CSS_SELECTOR, "button[aria-label='Відтворити відео']",
-                            "button[aria-label='Play']",)
+    PLAY_BUTTON: Locator = (By.CSS_SELECTOR, "button.ytmCuedOverlayPlayButton")
 
     YOUTUBE_LINK: Locator = (By.CSS_SELECTOR, "a[href*='youtube.com/watch']",)
 
