@@ -120,8 +120,6 @@ def test_tc47_donate_button_redirects_to_wayforpay(
         social.click_donate_button()
 
     with allure.step("Step 9: Verify WayForPay payment page"):
-        # The donation link has target="blank", so the payment
-        # page is expected to open in a new tab/window.
         if len(driver.window_handles) > len(original_windows):
             new_window = next(
                 window
