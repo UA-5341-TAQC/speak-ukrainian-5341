@@ -15,13 +15,9 @@ import allure
 import pytest
 
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.common.by import By
 
 from data.config import Config
-from pages.modals.sign_up_modal import SignUpModal
 from pages.components.header_component import HeaderComponent
-from pages.types import Locator
-
 
 @pytest.mark.parametrize("phone, expected_message",[
      ("991234567",["Телефон не відповідає вказаному формату", "Телефон не відповідає українському формату (+380)"]),
@@ -37,7 +33,7 @@ from pages.types import Locator
 def test_registration_inv_num(driver: WebDriver, phone: str, expected_message: list[str]) -> None:
     driver.get(Config.BASE_UI_URL)
     header = HeaderComponent(driver)
-    sign_up_mod = SignUpModal(driver)
+    sign_up_mod = header.get_sign_up_modal()
 
     with allure.step("1.Click the user icon in the site header."):
         header.click_user_profile()

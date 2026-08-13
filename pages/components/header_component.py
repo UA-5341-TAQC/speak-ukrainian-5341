@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 
 from pages.components.base_component import BaseComponent
 from pages.components.challenges_dropdown import ChallengeDropdown
+from pages.modals.sign_up_modal import SignUpModal
 from pages.types import Locator
 
 
@@ -187,6 +188,11 @@ class HeaderComponent(BaseComponent):
         except Exception:
             return False
 
+    @allure.step("Get SignUpModal")
+    def get_sign_up_modal(self) -> SignUpModal:
+        """Return the Sign In Modal."""
+        return SignUpModal(self.driver)
+
     @allure.step("Return whether challenge dropdown menu is displayed.")
     def is_challenge_dropdown_visibile(self) ->bool:
         """Return whether challenge dropdown menu is displayed."""
@@ -210,3 +216,5 @@ class HeaderComponent(BaseComponent):
     def click_registration_in_button(self) -> None:
         """Click the registration item in the user dropdown."""
         self._wait_clickable(self.REGISTRATION_OPTION).click()
+
+
