@@ -1,0 +1,11 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Verify homepage hero carousel navigation and its slide redirects.","8133","test_homepage_carousel_navigation","tests","2026-08-13","passed","2026-08-13","","test_home_carousel_navigation","",""
+"Test verifies that the 'Наші контакти' block is displayed on the news page, has the correct title, and contains all required social media icons: Facebook, YouTube, Instagram, and Mail.","5218","TC-28: Verify 'Наші контакти' section display","tests","2026-08-13","passed","2026-08-13","","test_social_buttons_ui","",""
+"Verify challenge and event banner navigation on the homepage.","10072","TC-50 Verify challenge and event banner navigation on the homepage","tests","2026-08-13","passed","2026-08-13","","test_home_page","",""
+"Returning the authenticated_driver fixture leaves the session active.
+
+    The fixture signs in via the /api/signin endpoint and injects the issued
+    tokens, so the header must report the user as logged in.
+    ","180","test_user_is_signed_in_after_api_fixture","tests","2026-08-13","passed","2026-08-13","","test_sign_in","",""
+"Verify that the map modal displays clubs according to the selected city and category.","8218","TC-10: Catalog: Club's Location","tests","2026-08-13","passed","2026-08-13","TestCatalogClubLocation","test_сatalog_club_location","",""
+"","0","test_example","tests","2026-08-13","passed","2026-08-13","","test_example","",""
