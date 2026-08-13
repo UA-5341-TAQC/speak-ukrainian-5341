@@ -102,6 +102,7 @@ class MapModal(BaseModal):
                 "div.ant-select-dropdown:not(.ant-select-dropdown-hidden) "
                 "div.rc-virtual-list-holder",
             )
+
             try:
                 dropdown_list = self._wait_visible(dropdown_list_locator)
                 self.driver.execute_script(
@@ -118,8 +119,10 @@ class MapModal(BaseModal):
                 "//div[contains(@class,'ant-select-item-option') "
                 "and (@title='Всі міста' or normalize-space(.)='Всі міста')]",
             )
+
         else:
             city_input = self._wait_visible(self.CITY_SELECT_INPUT)
+
             city_input.send_keys(Keys.CONTROL, "a")
             city_input.send_keys(Keys.BACKSPACE)
             city_input.send_keys(city_name)
@@ -136,25 +139,14 @@ class MapModal(BaseModal):
             EC.element_to_be_clickable(option_locator)
         )
 
-        self.driver.execute_script("arguments[0].click();", option)
+        self.driver.execute_script(
+            "arguments[0].click();",
+            option,
+        )
 
         self.wait.until(
             lambda _: self.get_selected_city() == city_name
         )
-
-        def _content_is_updated(_: object) -> bool:
-            try:
-                current_clubs = self._find_elements(self.CLUB_ITEMS)
-                current_empty = self._find_elements(self.NO_RESULTS_MESSAGE)
-
-                has_results = len(current_clubs) > 0
-                has_empty = len(current_empty) > 0 and current_empty[0].text.strip() != ""
-
-                return has_results or has_empty
-            except Exception:
-                return False
-
-        self.wait.until(_content_is_updated)
 
         return self
 
