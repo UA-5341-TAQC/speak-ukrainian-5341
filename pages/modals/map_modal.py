@@ -144,15 +144,8 @@ class MapModal(BaseModal):
 
         def _content_is_updated(_: object) -> bool:
             try:
-                # Знаходимо поточні елементи списку
                 current_clubs = self._find_elements(self.CLUB_ITEMS)
                 current_empty = self._find_elements(self.NO_RESULTS_MESSAGE)
-
-                # Перевіряємо, чи є хоча б один маркер на карті (якщо це можливо)
-                # або перевіряємо, чи з'явився новий стан.
-
-                # Головний критерій: список не має бути в стані "старих даних".
-                # Якщо ми вибрали інше місто/категорію, дані повинні оновитися.
 
                 has_results = len(current_clubs) > 0
                 has_empty = len(current_empty) > 0 and current_empty[0].text.strip() != ""
