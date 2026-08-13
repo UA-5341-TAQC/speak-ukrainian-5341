@@ -25,7 +25,8 @@ class ChallengeVideoCard(BaseComponent):
 
     THUMBNAIL: Locator = (By.CSS_SELECTOR, "div.ytmVideoCoverThumbnail",)
 
-    PLAY_BUTTON: Locator = (By.CSS_SELECTOR, "button[aria-label='Відтворити відео']",)
+    PLAY_BUTTON: Locator = (By.CSS_SELECTOR, "button[aria-label='Відтворити відео']",
+                            "button[aria-label='Play']",)
 
     YOUTUBE_LINK: Locator = (By.CSS_SELECTOR, "a[href*='youtube.com/watch']",)
 
@@ -121,9 +122,7 @@ class ChallengeVideoCard(BaseComponent):
                     self.driver,
                     Config.EXPLICIT_WAIT,
                 ).until(lambda _: self.driver.find_elements(*self.PLAY_BUTTON))
-
                 return bool(self.driver.find_elements(*self.PLAY_BUTTON))
-
         except Exception:
             return False
 
