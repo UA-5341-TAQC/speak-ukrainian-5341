@@ -7,8 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from data.config import Config
 from pages.base_page import BasePage
-
-#from pages.components.club_card_component import ClubCardComponent
+from pages.components.club_card_component import ClubCardComponent
 from pages.components.club_filters_component import ClubFiltersComponent
 from pages.components.club_sort_component import ClubSortComponent
 
@@ -41,11 +40,11 @@ class ClubPage(BasePage):
     def open(self) -> "ClubPage":
         """Open the Clubs page and wait until its main content is visible."""
         self.driver.get(self.URL)
-        self._wait_visible(self.CLUBS_CONTENT)
+        self._wait_visible(self.CLUB_CARDS)
 
     def wait_loaded(self) -> "ClubPage":
         """Wait until the main Clubs content is visible."""
-        self._wait_visible(self.CLUBS_CONTENT)
+        self._wait_visible(self.CLUB_CARDS)
         return self
     """
     @allure.step("Get list of all club cards on page")
@@ -73,3 +72,11 @@ class ClubPage(BasePage):
     def sort(self) -> ClubSortComponent:
         """Return sort object."""
         return ClubSortComponent(self.find(self.SORT_PANEL))
+
+    @allure.step("Get first club card")
+    def get_first_club_card(self) -> ClubCardComponent:
+        """Return the first visible club card."""
+        cards = self._find_elements(self.CLUB_CARDS)
+        if not cards:
+            raise RuntimeError("No club cards found")
+        return ClubCardComponent(cards[0])
