@@ -22,19 +22,19 @@ from pages.modals.sign_up_modal import SignUpModal
 from pages.components.header_component import HeaderComponent
 from pages.types import Locator
 
-"""
-@pytest.mark.parametrize(["991234567",
-     "380991234567",
-     "099123456",
-     "099123456789",
-     "+380****4567",
-     "099-123-45-67",
-     "099 123 4567"])
-"""
 
+@pytest.mark.parametrize("phone, expected_message",[
+     ("991234567",["Телефон не відповідає вказаному формату", "Телефон не відповідає українському формату (+380)"]),
+     ("380991234567",["Телефон не відповідає вказаному формату", "Телефон не відповідає українському формату (+380)"]),
+     ("099123456",["Телефон не відповідає вказаному формату"]),
+     ("099123456789",["Телефон не відповідає вказаному формату"]),
+     ("+380****4567",["Телефон не відповідає вказаному формату", "Телефон не відповідає українському формату (+380)","Телефон не може містити спеціальні символи"]),
+     ("099-123-45-67",["Телефон не відповідає вказаному формату","Телефон не може містити спеціальні символи"]),
+     ("099 123 4567",["Телефон не може містити пробіли","Телефон не відповідає вказаному формату"])
+     ])
 
 @allure.title("TC-55 Registration — phone format — Реєстрація modal (invalid phone format).")
-def test_registration_inv_num(driver: WebDriver) -> None:
+def test_registration_inv_num(driver: WebDriver, phone: str, expected_message: list[str]) -> None:
     driver.get(Config.BASE_UI_URL)
     header = HeaderComponent(driver)
     sign_up_mod = SignUpModal(driver)
@@ -65,4 +65,14 @@ def test_registration_inv_num(driver: WebDriver) -> None:
 
     
     with allure.step("Enter an invalid phone suffix into the 'Телефон' field and observe the error"):
-        sign_up_mod.enter_phone(phone="991234567")
+            sign_up_mod.enter_phone(phone)
+            actual_result = sign_up_mod.get_error_messages_phone()
+
+            assert actual_result == expected_message
+            assert sign_up_mod.is_error_icon_visible_phone() == True
+            assert sign_up_mod.is_successfull_icon_visible_first_name() == True
+            assert sign_up_mod.is_successfull_icon_visible_last_name() == True
+            assert sign_up_mod.is_successfull_icon_visible_email() == True
+            assert sign_up_mod.is_successfull_icon_visible_password() == True
+            assert sign_up_mod.is_successfull_icon_visible_password_confirm() == True
+            

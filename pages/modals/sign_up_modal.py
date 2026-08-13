@@ -117,6 +117,11 @@ class SignUpModal(BaseModal):
         ".ant-form-item:has(#confirm) .ant-form-item-feedback-icon-error"
     )
 
+    # Validation error for phone
+    FIELD_ERROR_MESSAGES_PHONE: Locator = (
+        By.XPATH,
+        "//div[@id='phone_help']/div[@class='ant-form-item-explain-error']"
+    )
 
     @allure.step("Check if Registration modal is displayed")
     def is_displayed(self) -> bool:
@@ -308,3 +313,19 @@ class SignUpModal(BaseModal):
     def is_error_icon_visible_password_confirm(self) -> bool:
         """Check if the error icon for password is visible on screen."""
         return self._wait_visible(self.ERROR_ICON_CONFIRM_PASSWORD).is_displayed()
+
+    @allure.step("Check whether validation error messages in the form for phone field is visible")
+    def is_error_message_displayed_phone(self) -> bool:
+        """Check if the error messages in the form for phone field is visible on screen."""
+        return self._wait_visible(self.FIELD_ERROR_MESSAGES_PHONE).is_displayed()
+
+    @allure.step("Get all displayed validation error messages in the form for phone field")
+    def get_error_messages_phone(self) -> list[str]:
+        """Retrieve texts of all active client-side validation error messages for phone field."""
+        if self.is_error_message_displayed_phone():
+            elements = self._find_elements(self.FIELD_ERROR_MESSAGES_PHONE)
+            return [elem.text.strip() for elem in elements if elem.is_displayed()]
+        else:
+            return[]
+
+
