@@ -182,3 +182,50 @@ def test_tc42_facebook_link_redirects_to_official_page(driver: WebDriver,) -> No
         assert driver.current_url.startswith(expected_facebook_url), (
             f"Expected Facebook URL '{expected_facebook_url}', "
             f"but got '{driver.current_url}'")
+
+@allure.title("TC-43: Verify YouTube social media link functionality")
+@allure.description("Test verifies that the YouTube icon on the news details page "
+    "opens the project's official YouTube page in a new browser tab.")
+@allure.tag("news", "social_media", "youtube", "link")
+@pytest.mark.regression
+def test_tc43_youtube_link_redirects_to_official_page(driver: WebDriver,) -> None:
+    """Verify YouTube social media link opens the official YouTube page."""
+
+    expected_youtube_url = ("https://www.youtube.com/channel/UCP38C0jxC8aNbW34eBoQKJw")
+
+    with allure.step("Step 1: Open news article"):
+        page = NewsDetailsPage(driver)
+        page.open(news_id=27)
+
+    with allure.step("Step 2: Scroll to 'Наші контакти' block"):
+        page.scroll_to_contacts()
+
+    with allure.step("Step 3: Get social buttons component"):
+        social = page.social_buttons
+
+    with allure.step("Step 4: Verify YouTube link URL"):
+        actual_youtube_url = social.get_youtube_url()
+
+        assert actual_youtube_url == expected_youtube_url, (
+            f"Expected YouTube URL '{expected_youtube_url}', "
+            f"but got '{actual_youtube_url}'"
+        )
+
+    with allure.step("Step 5: Click YouTube icon"):
+        original_window = driver.current_window_handle
+        original_windows = driver.window_handles
+
+        social.click_youtube_button()
+
+    with allure.step("Step 6: Verify YouTube page opens in a new tab"):
+        if len(driver.window_handles) > len(original_windows):
+            new_window = next(
+                window
+                for window in driver.window_handles
+                if window != original_window
+            )
+            driver.switch_to.window(new_window)
+
+        assert driver.current_url.startswith(expected_youtube_url), (
+            f"Expected YouTube URL '{expected_youtube_url}', "
+            f"but got '{driver.current_url}'")

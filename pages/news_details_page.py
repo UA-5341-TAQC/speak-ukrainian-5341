@@ -41,7 +41,7 @@ class NewsDetailsPage(BasePage):
     def open(self, news_id: int = 27) -> "NewsDetailsPage":
         """Open the news details page for a specific news article by ID."""
         from data.config import Config
-        self.driver.get(f"{Config.BASE_UI_URL}/news/{news_id}")
+        self.driver.get(f"{Config.BASE_UI_URL}news/{news_id}")
         return self
 
     @allure.step("Scroll to 'Наші контакти' block")
