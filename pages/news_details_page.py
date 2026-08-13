@@ -38,10 +38,6 @@ class NewsDetailsPage(BasePage):
         ".social-info",
     )
 
-    def __init__(self, driver: WebDriver) -> None:
-        """Initialize NewsDetailsPage with generic sub-components."""
-        super().__init__(driver)
-
     @allure.step("Open news details page (id={news_id})")
     def open(self, news_id: int = 27) -> "NewsDetailsPage":
         """Open the news details page for a specific news article by ID."""
