@@ -3,6 +3,7 @@
 from urllib.parse import urljoin
 
 import allure
+from components.social_buttons import SocialButtons
 from selenium.webdriver.common.by import By
 
 from data.config import Config
@@ -16,10 +17,33 @@ class ChallengePage(BasePage):
     """Represent a Speak Ukrainian challenge page."""
 
     TITLE: Locator = (By.CSS_SELECTOR, ".banner .title")
-    CTA_BUTTON: Locator = (By.XPATH, "//button[normalize-space()='Записатись на челендж']")
+    DESCRIPTION_PARAGRAPHS: Locator = (
+        By.XPATH,
+        "//div[contains(@class, 'challenge-description')]/p[normalize-space()]",
+    )
+    CONTENT_TITLE: Locator = (
+        By.CSS_SELECTOR,
+        ".challenge-description h1",
+    )
+    CTA_BUTTON: Locator = (
+        By.CSS_SELECTOR,
+        "button.apply-button",
+    )
+    CTA_BUTTON_WRAPPER: Locator = (
+        By.CSS_SELECTOR,
+        ".full-width.button-box > span",
+    )
+    CTA_TOOLTIP: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-tooltip-inner[role='tooltip']",
+    )
     VIDEO_CARDS: Locator = (
         By.XPATH,
         "//*[self::article or self::div][.//a[normalize-space()='Дивитися на YouTube']]",
+    )
+    SOCIAL_BUTTONS: Locator = (
+        By.CSS_SELECTOR,
+        ".social-info",
     )
 
     @allure.step("Open challenge page")
@@ -36,6 +60,21 @@ class ChallengePage(BasePage):
         """Return the title shown in the challenge banner."""
         return self._find_element(self.TITLE).text
 
+    @allure.step("Get challenge description paragraphs")
+    def get_description_paragraphs(self) -> list[str]:
+        """Return challenge description paragraphs."""
+        return [
+            element.text.strip()
+            for element in self.driver.find_elements(
+                *self.DESCRIPTION_PARAGRAPHS
+            )
+        ]
+
+    @allure.step("Get challenge content title")
+    def get_content_title(self) -> str:
+        """Return the main challenge content title."""
+        return self._find_element(self.CONTENT_TITLE).text.strip()
+
     @allure.step("Get challenge registration button component")
     def get_cta_button(self) -> ChallengeCtaButton:
         """Return the challenge registration button component."""
@@ -50,3 +89,49 @@ class ChallengePage(BasePage):
     def get_video_cards(self) -> list[ChallengeVideoCard]:
         """Return all webinar video cards currently displayed on the page."""
         return [ChallengeVideoCard(card) for card in self.driver.find_elements(*self.VIDEO_CARDS)]
+
+    @allure.step("Get challenge registration button component (visible)")
+    def get_visible_cta_button(self) -> ChallengeCtaButton:
+        """Return the challenge registration button component using visibility wait."""
+        return ChallengeCtaButton(
+            self._wait_visible(self.CTA_BUTTON)
+        )
+
+    @allure.step("Get challenge registration button wrapper")
+    def get_cta_button_wrapper(self):
+        """Return the wrapper of the disabled registration button."""
+        return self._wait_visible(self.CTA_BUTTON_WRAPPER)
+
+    @allure.step("Get registration button tooltip text")
+    def get_cta_tooltip_text(self) -> str:
+        """Return the visible tooltip text for the registration button."""
+        return self._wait_visible(self.CTA_TOOLTIP).text.strip()
+
+    @allure.step("Hover over registration button")
+    def hover_over_cta_button(self) -> None:
+        """Hover over the registration button wrapper to trigger tooltip."""
+        wrapper = self._wait_visible(self.CTA_BUTTON_WRAPPER)
+
+        self.driver.execute_script(
+            """
+            const element = arguments[0];
+            const rect = element.getBoundingClientRect();
+
+            ['mouseover', 'mouseenter', 'mousemove'].forEach(eventName => {
+                element.dispatchEvent(new MouseEvent(eventName, {
+                    bubbles: true,
+                    cancelable: true,
+                    clientX: rect.left + rect.width / 2,
+                    clientY: rect.top + rect.height / 2
+                }));
+            });
+            """,
+            wrapper,
+        )
+
+    @allure.step("Get social buttons component")
+    def get_social_buttons(self) -> SocialButtons:
+        """Return social buttons component."""
+        return SocialButtons(
+            self._wait_visible(self.SOCIAL_BUTTONS)
+        )

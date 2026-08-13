@@ -17,6 +17,10 @@ class SocialButtons(BaseComponent):
     INSTAGRAM_BUTTON: Locator = (By.CSS_SELECTOR, ".social-info a[href*='instagram.com']")
     MAIL_BUTTON: Locator = (By.CSS_SELECTOR, ".social-info a[href^='mailto:']")
     DONATE_BUTTON: Locator = (By.CSS_SELECTOR, ".help-button .donate-button")
+    DONATE_LINK: Locator = (
+        By.CSS_SELECTOR,
+        ".help-button a[href*='secure.wayforpay.com/payment']"
+    )
 
     def __init__(self, root: WebElement) -> None:
         """Initialize SocialButtons component."""
@@ -70,8 +74,12 @@ class SocialButtons(BaseComponent):
 
     @allure.step("Get Donate payment link URL")
     def get_donate_url(self) -> str:
-        """Get payment URL from the Donate button."""
-        return self._find_element(self.DONATE_BUTTON).get_attribute("href") or ""
+        """Get payment URL from the Donate link."""
+        return (
+                self._find_element(self.DONATE_LINK)
+                .get_attribute("href")
+                or ""
+        )
 
     @allure.step("Click 'Donate' button")
     def click_donate_button(self) -> None:
