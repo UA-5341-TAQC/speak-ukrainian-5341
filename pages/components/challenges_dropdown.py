@@ -63,3 +63,24 @@ class ChallengeDropdown(BaseComponent):
     def click_teach_ukrainian(self) -> None:
         """Open the 'Навчай українською' challenge."""
         self._wait_clickable_from_driver(self.TEACH_UKRAINIAN_LINK).click()
+
+    def select_challenge(self, challenge: str) -> None:
+        """Select a challenge by its name."""
+        challenge_actions = {
+            "Єдині": self.click_unique_challenge,
+            "Клуб української мови Розмовляй":
+                self.click_speaking_club_challenge,
+            "Навчай українською челендж":
+                self.click_teach_ukrainian_challenge,
+            "Мовомаратон":
+                self.click_language_marathon,
+            "Навчай українською":
+                self.click_teach_ukrainian,
+        }
+
+        if challenge not in challenge_actions:
+            raise ValueError(
+                f"Unknown challenge: {challenge}"
+            )
+
+        challenge_actions[challenge]()
