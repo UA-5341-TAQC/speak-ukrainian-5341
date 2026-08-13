@@ -45,16 +45,12 @@ class SocialButtons(BaseComponent):
     @allure.step("Get Facebook link URL")
     def get_facebook_url(self) -> str:
         """Get the URL from the Facebook button."""
-        return (
-            self._find_element(self.FACEBOOK_BUTTON)
-            .get_attribute("href")
-            or ""
-        )
+        return self._find_element(self.FACEBOOK_BUTTON).get_attribute("href") or ""
 
     @allure.step("Click Facebook button")
     def click_facebook_button(self) -> None:
-        """Click the Facebook social button."""
-        self._find_element(self.FACEBOOK_BUTTON).click()
+        """Wait until the Facebook button is clickable and click it."""
+        self._wait_clickable(self.FACEBOOK_BUTTON).click()
 
     @allure.step("Get YouTube link URL")
     def get_youtube_url(self) -> str:

@@ -135,3 +135,50 @@ def test_tc47_donate_button_redirects_to_wayforpay(
             f"'{expected_payment_url}', "
             f"but got '{driver.current_url}'"
         )
+        
+@allure.title("TC-42: Verify Facebook social media link functionality")
+@allure.description("Test verifies that the Facebook icon on the news details page "
+    "opens the project's official Facebook page in a new browser tab.")
+@allure.tag("news", "social_media", "facebook", "link")
+@pytest.mark.regression
+def test_tc42_facebook_link_redirects_to_official_page(driver: WebDriver,) -> None:
+    """Verify Facebook social media link opens the official Facebook page."""
+
+    expected_facebook_url = ("https://www.facebook.com/teach.in.ukrainian")
+
+    with allure.step("Step 1: Open news article"):
+        page = NewsDetailsPage(driver)
+        page.open(news_id=27)
+
+    with allure.step("Step 2: Scroll to 'Наші контакти' block"):
+        page.scroll_to_contacts()
+
+    with allure.step("Step 3: Get social buttons component"):
+        social = page.social_buttons
+
+    with allure.step("Step 4: Verify Facebook link URL"):
+        actual_facebook_url = social.get_facebook_url()
+
+        assert actual_facebook_url == expected_facebook_url, (
+            f"Expected Facebook URL '{expected_facebook_url}', "
+            f"but got '{actual_facebook_url}'"
+        )
+
+    with allure.step("Step 5: Click Facebook icon"):
+        original_window = driver.current_window_handle
+        original_windows = driver.window_handles
+
+        social.click_facebook_button()
+
+    with allure.step("Step 6: Verify Facebook page opens in a new tab"):
+        if len(driver.window_handles) > len(original_windows):
+            new_window = next(
+                window
+                for window in driver.window_handles
+                if window != original_window
+            )
+            driver.switch_to.window(new_window)
+
+        assert driver.current_url.startswith(expected_facebook_url), (
+            f"Expected Facebook URL '{expected_facebook_url}', "
+            f"but got '{driver.current_url}'")
