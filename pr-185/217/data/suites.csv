@@ -1,0 +1,11 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","0","test_example","tests","2026-08-13","passed","2026-08-13","","test_example","",""
+"Verify challenge and event banner navigation on the homepage.","8634","TC-50 Verify challenge and event banner navigation on the homepage","tests","2026-08-13","passed","2026-08-13","","test_home_page","",""
+"Returning the authenticated_driver fixture leaves the session active.
+
+    The fixture signs in via the /api/signin endpoint and injects the issued
+    tokens, so the header must report the user as logged in.
+    ","98","test_user_is_signed_in_after_api_fixture","tests","2026-08-13","passed","2026-08-13","","test_sign_in","",""
+"Test verifies that the 'Наші контакти' block is displayed on the news page, has the correct title, and contains all required social media icons: Facebook, YouTube, Instagram, and Mail.","7174","TC-28: Verify 'Наші контакти' section display","tests","2026-08-13","passed","2026-08-13","","test_social_buttons_ui","",""
+"Verify homepage hero carousel navigation and its slide redirects.","10161","test_homepage_carousel_navigation","tests","2026-08-13","passed","2026-08-13","","test_home_carousel_navigation","",""
+"Test verifies that 'Записатися на гурток', 'Написати менеджеру', 'Залишити коментар', and 'Відповісти' are unavailable for unauthenticated users.","11516","TC-15: Verify unauthorized user cannot use restricted club actions","tests","2026-08-13","passed","2026-08-13","","test_club_actions_unauthorized","",""
