@@ -13,11 +13,11 @@ from pages.types import Locator
 class SocialButtons(BaseComponent):
     """Encapsulates the social media buttons and donation block component."""
 
-    SOCIAL_SECTION_TITLE: Locator = (By.CSS_SELECTOR, ".social-info .text, .social-media .text")
-    FACEBOOK_BUTTON: Locator = (By.CSS_SELECTOR, ".social-info a[href*='facebook.com']")
-    YOUTUBE_BUTTON: Locator = (By.CSS_SELECTOR, ".social-info a[href*='youtube.com']")
-    INSTAGRAM_BUTTON: Locator = (By.CSS_SELECTOR, ".social-info a[href*='instagram.com']")
-    MAIL_BUTTON: Locator = (By.CSS_SELECTOR, ".social-info a[href^='mailto:']")
+    SOCIAL_SECTION_TITLE: Locator = (By.CSS_SELECTOR, "span.text")
+    FACEBOOK_BUTTON: Locator = (By.CSS_SELECTOR, "a[href*='facebook.com']")
+    YOUTUBE_BUTTON: Locator = (By.CSS_SELECTOR, "a[href*='youtube.com']")
+    INSTAGRAM_BUTTON: Locator = (By.CSS_SELECTOR, "a[href*='instagram.com']")
+    MAIL_BUTTON: Locator = (By.CSS_SELECTOR, "a[href^='mailto:']")
     DONATE_BUTTON: Locator = (By.CSS_SELECTOR, ".help-button .donate-button")
 
     def __init__(self, context: WebDriver | WebElement) -> None:

@@ -37,15 +37,34 @@ class NewsDetailsPage(BasePage):
         ".other-news .slick-slide.slick-active .carousel-item",
     )
 
+    SOCIAL_SECTION_CONTAINER: Locator = (
+        By.CSS_SELECTOR,
+        ".social-info .social-media",
+    )
+
     def __init__(self, driver: WebDriver) -> None:
         """Initialize NewsDetailsPage with generic sub-components."""
         super().__init__(driver)
+
+    @allure.step("Open news details page (id={news_id})")
+    def open(self, news_id: int = 27) -> "NewsDetailsPage":
+        """Open the news details page for a specific news article by ID."""
+        from data.config import Config
+        self.driver.get(f"{Config.BASE_UI_URL}/news/{news_id}")
+        return self
+
+    @allure.step("Scroll to 'Наші контакти' block")
+    def scroll_to_contacts(self) -> "NewsDetailsPage":
+        """Scroll the contacts section into view."""
+        self._scroll_into_view(self.SOCIAL_SECTION_CONTAINER)
+        return self
 
     @property
     @allure.step("Access Social Buttons component")
     def social_buttons(self) -> SocialButtons:
         """Get the SocialButtons sub-component instance."""
-        return SocialButtons(self.driver)
+        section = self._wait_visible(self.SOCIAL_SECTION_CONTAINER)
+        return SocialButtons(section)
 
     @allure.step("Open the news article with the given id")
     def open_article(self, article_id: str) -> "NewsDetailsPage":
