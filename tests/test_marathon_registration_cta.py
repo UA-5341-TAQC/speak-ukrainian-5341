@@ -27,7 +27,7 @@ class TestMarathonRegistrationCTA:
         "opens the registration page, supports browser back navigation, "
         "and the registration page is accessible directly."
     )
-    @allure.label("owner", "Maksym Osinskyi")
+    @allure.label("owner", "Svitlana Kovalova")
     def test_marathon_registration_cta(self, driver) -> None:
         marathon_page = MarathonPage(driver)
 
