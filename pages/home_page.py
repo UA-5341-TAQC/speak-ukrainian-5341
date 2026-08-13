@@ -151,3 +151,15 @@ class HomePage(BasePage):
     def get_content_cards(self) -> list[HomeContentCard]:
         """Return all home page content cards."""
         return [HomeContentCard(card) for card in self.driver.find_elements(*self.CONTENT_CARDS)]
+
+    @allure.step("Get content card by title: {title}")
+    def get_content_card_by_title(self, title: str) -> HomeContentCard:
+        """Return content card with the specified title."""
+        for card in self.get_content_cards():
+            if card.get_title().strip() == title:
+                return card
+
+        raise AssertionError(
+            f"Content card with title '{title}' was not found."
+        )
+
