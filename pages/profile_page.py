@@ -1,8 +1,6 @@
 """Page object for the profile page of the Speak Ukrainian website."""
-import time
 
 import allure
-from selenium.common import ElementClickInterceptedException
 from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage

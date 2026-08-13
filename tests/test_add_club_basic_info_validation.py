@@ -12,8 +12,7 @@ ERROR_CHILD_AGE = "Вік є обов'язковим"
 
 @allure.feature("Add club basic info validation")
 @allure.title(
-    "TC-36: Validation check for required fields in the 'Основна інформація' "
-    "step of the 'Додати гурток' modal form"
+    "TC-36: Validation check for required fields in the 'Основна інформація' step of the 'Додати гурток' modal form"
 )
 def test_add_club_basic_info_validation(authenticated_driver) -> None:
     home_page = HomePage(authenticated_driver)
