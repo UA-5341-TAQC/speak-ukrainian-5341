@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import allure
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 
 from pages.modals.base_modal import BaseModal
@@ -10,56 +11,68 @@ from pages.types import Locator
 class AddLocationModal(BaseModal):
     """Page object for the Add Location modal window."""
 
-    MODAL_CONTENT: Locator = (
-        By.CSS_SELECTOR,
-        "div.ant-modal-content:has(div.add-club-locations)")
+    MODAL_CONTENT: Locator = (By.CSS_SELECTOR, "div.ant-modal-content:has(div.add-club-locations)")
     CLOSE_BUTTON: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-modal-content:has(div.add-club-locations) button.ant-modal-close")
+        "div.ant-modal-content:has(div.add-club-locations) button.ant-modal-close",
+    )
     MODAL_TITLE: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-modal-content:has(div.add-club-locations) div.add-club-header")
+        "div.ant-modal-content:has(div.add-club-locations) div.add-club-header",
+    )
 
     LOCATION_NAME_INPUT: Locator = (By.ID, "name")
 
-    CITY_NAME_FIELD: Locator = (By.ID, "cityName")
+    CITY_NAME_FIELD: Locator = (By.CSS_SELECTOR, "div.ant-select-selector:has(input#cityName)")
     CITY_NAME_DROPDOWN: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-select-dropdown:has(div#cityName_list)")
+        "div.ant-select-dropdown:has(div#cityName_list)",
+    )
     CITY_NAME_OPTIONS: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-select-dropdown:has(div#cityName_list) .ant-select-item-option")
+        "div.ant-select-dropdown:has(div#cityName_list) .ant-select-item-option",
+    )
     SELECTED_CITY = (
         By.CSS_SELECTOR,
-        "div.ant-select-selector:has(input#cityName) span.ant-select-selection-item"
+        "div.ant-select-selector:has(input#cityName) span.ant-select-selection-item",
     )
 
-    CITY_DISTRICT_NAME_FIELD: Locator = (By.ID, "districtName")
+    CITY_DISTRICT_NAME_FIELD: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-select-selector:has(input#districtName)",
+    )
     CITY_DISTRICT_NAME_DROPDOWN: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-select-dropdown:has(div#districtName_list)")
+        "div.ant-select-dropdown:has(div#districtName_list)",
+    )
     CITY_DISTRICT_NAME_OPTIONS: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-select-dropdown:has(div#districtName_list) .ant-select-item-option")
+        "div.ant-select-dropdown:has(div#districtName_list) .ant-select-item-option",
+    )
     SELECTED_CITY_DISTRICT = (
         By.CSS_SELECTOR,
-        "div.ant-select-selector:has(input#districtName) span.ant-select-selection-item"
+        "div.ant-select-selector:has(input#districtName) span.ant-select-selection-item",
     )
     EMPTY_DISTRICT_LIST_TEXT: Locator = (
         By.CSS_SELECTOR,
         "div.ant-select-dropdown:has(div#districtName_list) .ant-empty-description",
     )
 
-    STATION_NAME_FIELD: Locator = (By.ID, "stationName")
+    STATION_NAME_FIELD: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-select-selector:has(input#stationName)",
+    )
     STATION_NAME_DROPDOWN: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-select-dropdown:has(div#stationName_list)")
+        "div.ant-select-dropdown:has(div#stationName_list)",
+    )
     STATION_NAME_OPTIONS: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-select-dropdown:has(div#stationName_list) .ant-select-item-option")
+        "div.ant-select-dropdown:has(div#stationName_list) .ant-select-item-option",
+    )
     SELECTED_STATION = (
         By.CSS_SELECTOR,
-        "div.ant-select-selector:has(input#stationName) span.ant-select-selection-item"
+        "div.ant-select-selector:has(input#stationName) span.ant-select-selection-item",
     )
     EMPTY_STATION_LIST_TEXT: Locator = (
         By.CSS_SELECTOR,
@@ -74,15 +87,16 @@ class AddLocationModal(BaseModal):
 
     INFO_ICON: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-modal-content:has(div.add-club-locations) span.info-icon"
+        "div.ant-modal-content:has(div.add-club-locations) span.info-icon",
     )
     FEEDBACK_ICON: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-modal-content:has(div.add-club-locations) span.ant-form-item-feedback-icon"
+        "div.ant-modal-content:has(div.add-club-locations) span.ant-form-item-feedback-icon",
     )
     FIELD_ERROR_MESSAGES: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-modal-content:has(div.add-club-locations) div.ant-form-item-explain-error")
+        "div.ant-modal-content:has(div.add-club-locations) div.ant-form-item-explain-error",
+    )
 
     def is_opened(self) -> bool:
         """Check whether the Add Location modal is currently opened."""
@@ -118,18 +132,27 @@ class AddLocationModal(BaseModal):
         self._wait_clickable(self.CITY_NAME_FIELD).click()
         return self
 
+    def _select_dropdown_option(self, options_locator: Locator, text: str) -> None:
+        """Helper to safely select a dropdown option by text, handling stale elements."""
+
+        def _predicate(_: object) -> bool:
+            try:
+                options = self._find_elements(options_locator)
+                for option in options:
+                    if option.text.strip() == text:
+                        option.click()
+                        return True
+                return False
+            except StaleElementReferenceException:
+                return False
+
+        self.wait.until(_predicate, message=f"Failed to select option '{text}'")
+
     @allure.step("Select city: '{city_name}'")
     def select_city(self, city_name: str) -> AddLocationModal:
         """Select a city from the city dropdown."""
         self.open_city_dropdown()
-
-        options = self._find_elements(self.CITY_NAME_OPTIONS)
-
-        for option in options:
-            if option.text.strip() == city_name:
-                option.click()
-                break
-
+        self._select_dropdown_option(self.CITY_NAME_OPTIONS, city_name)
         return self
 
     @allure.step("Get selected city text")
@@ -160,14 +183,7 @@ class AddLocationModal(BaseModal):
     def select_district(self, district_name: str) -> AddLocationModal:
         """Select a district from the district dropdown."""
         self.open_district_dropdown()
-
-        options = self._find_elements(self.CITY_DISTRICT_NAME_OPTIONS)
-
-        for option in options:
-            if option.text.strip() == district_name:
-                option.click()
-                break
-
+        self._select_dropdown_option(self.CITY_DISTRICT_NAME_OPTIONS, district_name)
         return self
 
     @allure.step("Get selected district text")
@@ -194,14 +210,7 @@ class AddLocationModal(BaseModal):
     def select_station(self, station_name: str) -> AddLocationModal:
         """Select a station from the station dropdown."""
         self.open_station_dropdown()
-
-        options = self._find_elements(self.STATION_NAME_OPTIONS)
-
-        for option in options:
-            if option.text.strip() == station_name:
-                option.click()
-                break
-
+        self._select_dropdown_option(self.STATION_NAME_OPTIONS, station_name)
         return self
 
     @allure.step("Get selected station text")
