@@ -229,3 +229,50 @@ def test_tc43_youtube_link_redirects_to_official_page(driver: WebDriver,) -> Non
         assert driver.current_url.startswith(expected_youtube_url), (
             f"Expected YouTube URL '{expected_youtube_url}', "
             f"but got '{driver.current_url}'")
+
+@allure.title("TC-44: Verify Instagram social media link functionality")
+@allure.description("Test verifies that the Instagram icon on the news details page "
+    "opens the project's official Instagram page in a new browser tab.")
+@allure.tag("news", "social_media", "instagram", "link")
+@pytest.mark.regression
+def test_tc44_instagram_link_redirects_to_official_page(driver: WebDriver,) -> None:
+    """Verify Instagram social media link opens the official Instagram page."""
+
+    expected_instagram_url = ("https://www.instagram.com/yedyni.ruh/")
+
+    with allure.step("Step 1: Open news article"):
+        page = NewsDetailsPage(driver)
+        page.open(news_id=27)
+
+    with allure.step("Step 2: Scroll to 'Наші контакти' block"):
+        page.scroll_to_contacts()
+
+    with allure.step("Step 3: Get social buttons component"):
+        social = page.social_buttons
+
+    with allure.step("Step 4: Verify Instagram link URL"):
+        actual_instagram_url = social.get_instagram_url()
+
+        assert actual_instagram_url == expected_instagram_url, (
+            f"Expected Instagram URL '{expected_instagram_url}', "
+            f"but got '{actual_instagram_url}'"
+        )
+
+    with allure.step("Step 5: Click Instagram icon"):
+        original_window = driver.current_window_handle
+        original_windows = driver.window_handles
+
+        social.click_instagram_button()
+
+    with allure.step("Step 6: Verify Instagram page opens in a new tab"):
+        if len(driver.window_handles) > len(original_windows):
+            new_window = next(
+                window
+                for window in driver.window_handles
+                if window != original_window
+            )
+            driver.switch_to.window(new_window)
+
+        assert driver.current_url.startswith(expected_instagram_url), (
+            f"Expected Instagram URL '{expected_instagram_url}', "
+            f"but got '{driver.current_url}'")

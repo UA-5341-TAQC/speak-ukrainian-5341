@@ -53,8 +53,7 @@ class SocialButtons(BaseComponent):
     @allure.step("Get YouTube link URL")
     def get_youtube_url(self) -> str:
         """Get the URL from the YouTube button."""
-        return (self._find_element(self.YOUTUBE_BUTTON)
-            .get_attribute("href") or "")
+        return (self._find_element(self.YOUTUBE_BUTTON).get_attribute("href") or "")
 
     @allure.step("Click YouTube button")
     def click_youtube_button(self) -> None:
@@ -64,25 +63,17 @@ class SocialButtons(BaseComponent):
     @allure.step("Get Instagram link URL")
     def get_instagram_url(self) -> str:
         """Get the URL from the Instagram button."""
-        return (
-            self._find_element(self.INSTAGRAM_BUTTON)
-            .get_attribute("href")
-            or ""
-        )
+        return (self._find_element(self.INSTAGRAM_BUTTON).get_attribute("href") or "")
 
     @allure.step("Click Instagram button")
     def click_instagram_button(self) -> None:
         """Click the Instagram social button."""
-        self._find_element(self.INSTAGRAM_BUTTON).click()
+        self._wait_clickable(self.INSTAGRAM_BUTTON).click()
 
     @allure.step("Get email address from mailto link")
     def get_email_address(self) -> str:
         """Get the raw email address extracted from mailto link."""
-        href = (
-            self._find_element(self.MAIL_BUTTON)
-            .get_attribute("href")
-            or ""
-        )
+        href = (self._find_element(self.MAIL_BUTTON).get_attribute("href") or "")
         return href.replace("mailto:", "")
 
     @allure.step("Get Donate button text")
@@ -93,12 +84,8 @@ class SocialButtons(BaseComponent):
     @allure.step("Get Donate payment link URL")
     def get_donate_url(self) -> str:
         """Get payment URL from the Donate button."""
-        return (
-            self._find_element(self.DONATE_BUTTON)
-            .find_element(By.XPATH, "..")
-            .get_attribute("href")
-            or ""
-        )
+        return (self._find_element(self.DONATE_BUTTON).find_element(By.XPATH, "..")
+            .get_attribute("href") or "")
 
     @allure.step("Click 'Donate' button")
     def click_donate_button(self) -> None:
@@ -108,13 +95,9 @@ class SocialButtons(BaseComponent):
     @allure.step("Check if Donate button is displayed")
     def is_donate_button_displayed(self) -> bool:
         """Return whether the donate button is visible."""
-        return self._find_element(
-            self.DONATE_BUTTON
-        ).is_displayed()
+        return self._find_element(self.DONATE_BUTTON).is_displayed()
 
     @allure.step("Get Donate button cursor CSS value")
     def get_donate_button_cursor(self) -> str:
         """Return the donate button cursor CSS value."""
-        return self._find_element(
-            self.DONATE_BUTTON
-        ).value_of_css_property("cursor")
+        return self._find_element(self.DONATE_BUTTON).value_of_css_property("cursor")
