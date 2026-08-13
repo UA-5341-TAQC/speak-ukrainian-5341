@@ -121,13 +121,10 @@ class NewsDetailsPage(BasePage):
                 cards = self._get_visible_carousel_cards()
                 if not cards:
                     return False
-                # Query directly without using get_title() to avoid a nested wait.until deadlock
-                # if the card element goes stale during animation.
                 title_el = cards[0].root.find_element(*NewsCardComponent.TITLE)
                 card_title = title_el.text.strip()
                 return bool((card_title == title) is expected_match)
             except Exception:
-                # Catch StaleElementReferenceException etc and poll again
                 return False
 
         self.wait.until(_predicate)
