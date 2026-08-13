@@ -64,7 +64,7 @@ def test_registration_inv_num(driver: WebDriver, phone: str, expected_message: l
         assert sign_up_mod.is_successfull_icon_visible_password_confirm() == True
 
     
-    with allure.step("Enter an invalid phone suffix into the 'Телефон' field and observe the error"):
+    with allure.step("5.Enter an invalid phone suffix into the 'Телефон' field and observe the error"):
             sign_up_mod.enter_phone(phone)
             actual_result = sign_up_mod.get_error_messages_phone()
 
