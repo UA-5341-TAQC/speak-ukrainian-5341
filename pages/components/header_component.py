@@ -91,6 +91,17 @@ class HeaderComponent(BaseComponent):
         "li[data-menu-id$='-logout'], li.ant-dropdown-menu-item-danger",
     )
 
+    REGISTRATION_OPTION: Locator =(
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='register']"
+    )
+
+    SIGN_IN_OPTION: Locator = (
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='login']"
+    )
+
+
     @allure.step("Click logo")
     def click_logo(self) -> None:
         """Click the website logo."""
@@ -175,3 +186,27 @@ class HeaderComponent(BaseComponent):
             return True
         except Exception:
             return False
+
+    @allure.step("Return whether challenge dropdown menu is displayed.")
+    def is_challenge_dropdown_visibile(self) ->bool:
+        """Return whether challenge dropdown menu is displayed."""
+        try:
+            self.wait.until(lambda _: self.driver.find_element(*self.CHALLENGE_DROPDOWN))
+            return True
+        except Exception:
+            return False
+
+    @allure.step("Return whether challenge dropdown menu is displayed.")
+    def is_user_profile_dropdown_visible(self) ->bool:
+        """Return whether challenge dropdown menu is displayed."""
+        return self._wait_visible(self.USER_DROPDOWN_MENU).is_displayed()
+
+    @allure.step("Click Sign in option")
+    def click_sign_in_button(self) -> None:
+        """Click the sign in item in the user dropdown."""
+        self._wait_clickable(self.SIGN_IN_OPTION).click()
+
+    @allure.step("Click Registration option")
+    def click_registration_in_button(self) -> None:
+        """Click the registration item in the user dropdown."""
+        self._wait_clickable(self.REGISTRATION_OPTION).click()

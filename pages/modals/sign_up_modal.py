@@ -55,12 +55,73 @@ class SignUpModal(BaseModal):
     # Validation errors
     FIELD_ERROR_MESSAGES: Locator = (By.CSS_SELECTOR, "div.ant-form-item-explain-error")
 
+    #Success icon for each field
+    SUCCESS_ICON_LAST_NAME: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#lastName) .ant-form-item-feedback-icon-success"
+    )
+
+    SUCCESS_ICON_FIRST_NAME: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#firstName) .ant-form-item-feedback-icon-success"
+    )
+
+    SUCCESS_ICON_PHONE: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#phone) .ant-form-item-feedback-icon-success"
+    )
+
+    SUCCESS_ICON_EMAIL: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#email) .ant-form-item-feedback-icon-success"
+    )
+
+    SUCCESS_ICON_PASSWORD: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#password) .ant-form-item-feedback-icon-success"
+    )
+
+    SUCCESS_ICON_CONFIRM_PASSWORD: Locator =(
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#confirm) .ant-form-item-feedback-icon-success"
+    )
+
+    #Error icon for each field
+    ERROR_ICON_LAST_NAME: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#lastName) .ant-form-item-feedback-icon-error"
+    )
+
+    ERROR_ICON_FIRST_NAME: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#firstName) .ant-form-item-feedback-icon-error"
+    )
+
+    ERROR_ICON_PHONE: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#phone) .ant-form-item-feedback-icon-error"
+    )
+
+    ERROR_ICON_EMAIL: Locator = (
+        By.CSS_SELECTOR,
+         ".ant-form-item:has(#email) .ant-form-item-feedback-icon-error"
+    )
+
+    ERROR_ICON_PASSWORD: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#password) .ant-form-item-feedback-icon-error"
+    )
+
+    ERROR_ICON_CONFIRM_PASSWORD: Locator =(
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#confirm) .ant-form-item-feedback-icon-error"
+    )
+
+
     @allure.step("Check if Registration modal is displayed")
     def is_displayed(self) -> bool:
         """Check if the registration modal window is visible on screen."""
-        if self.root:
-            return self.root.is_displayed()
-        return self._find_element(self.MODAL_CONTENT).is_displayed()
+        return self._wait_visible(self.MODAL_CONTENT).is_displayed()
 
     @allure.step("Select role: Відвідувач (ROLE_USER)")
     def select_visitor_role(self) -> SignUpModal:
@@ -187,3 +248,63 @@ class SignUpModal(BaseModal):
         """Retrieve texts of all active client-side validation error messages."""
         elements = self._find_elements(self.FIELD_ERROR_MESSAGES)
         return [elem.text.strip() for elem in elements if elem.is_displayed()]
+
+    @allure.step("Check whether successful icon for Last Name is visible")
+    def is_successfull_icon_visible_last_name(self) -> bool:
+        """Check if the successful icon for last name is visible on screen."""
+        return self._wait_visible(self.SUCCESS_ICON_LAST_NAME).is_displayed()
+
+    @allure.step("Check whether successful icon for First Name is visible")
+    def is_successfull_icon_visible_first_name(self) -> bool:
+        """Check if the successful icon for first name is visible on screen."""
+        return self._wait_visible(self.SUCCESS_ICON_FIRST_NAME).is_displayed()
+
+    @allure.step("Check whether successful icon for email is visible")
+    def is_successfull_icon_visible_email(self) -> bool:
+        """Check if the successful icon for email is visible on screen."""
+        return self._wait_visible(self.SUCCESS_ICON_EMAIL).is_displayed()
+
+    @allure.step("Check whether successful icon for phone is visible")
+    def is_successfull_icon_visible_phone(self) -> bool:
+        """Check if the successful icon for phone is visible on screen."""
+        return self._wait_visible(self.SUCCESS_ICON_PHONE).is_displayed()
+
+    @allure.step("Check whether successful icon for password is visible")
+    def is_successfull_icon_visible_password(self) -> bool:
+        """Check if the successful icon for password is visible on screen."""
+        return self._wait_visible(self.SUCCESS_ICON_PASSWORD).is_displayed()
+
+    @allure.step("Check whether successful icon for confirm password is visible")
+    def is_successfull_icon_visible_password_confirm(self) -> bool:
+        """Check if the successful icon for password is visible on screen."""
+        return self._wait_visible(self.SUCCESS_ICON_CONFIRM_PASSWORD).is_displayed()
+
+    @allure.step("Check whether error icon for Last Name is visible")
+    def is_error_icon_visible_last_name(self) -> bool:
+        """Check if the error icon for last name is visible on screen."""
+        return self._wait_visible(self.ERROR_ICON_LAST_NAME).is_displayed()
+
+    @allure.step("Check whether error icon for First Name is visible")
+    def is_error_icon_visible_first_name(self) -> bool:
+        """Check if the error icon for first name is visible on screen."""
+        return self._wait_visible(self.ERROR_ICON_FIRST_NAME).is_displayed()
+
+    @allure.step("Check whether error icon for email is visible")
+    def is_error_icon_visible_email(self) -> bool:
+        """Check if the error icon for email is visible on screen."""
+        return self._wait_visible(self.ERROR_ICON_EMAIL).is_displayed()
+
+    @allure.step("Check whether error icon for phone is visible")
+    def is_error_icon_visible_phone(self) -> bool:
+        """Check if the error icon for phone is visible on screen."""
+        return self._wait_visible(self.ERROR_ICON_PHONE).is_displayed()
+
+    @allure.step("Check whether error icon for password is visible")
+    def is_error_icon_visible_password(self) -> bool:
+        """Check if the error icon for password is visible on screen."""
+        return self._wait_visible(self.ERROR_ICON_PASSWORD).is_displayed()
+
+    @allure.step("Check whether error icon for confirm password is visible")
+    def is_error_icon_visible_password_confirm(self) -> bool:
+        """Check if the error icon for password is visible on screen."""
+        return self._wait_visible(self.ERROR_ICON_CONFIRM_PASSWORD).is_displayed()
