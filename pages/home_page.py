@@ -14,7 +14,6 @@ from pages.types import Locator
 class HomePage(BasePage):
     """Page object representing the Speak Ukrainian home page."""
 
-    HEADER: Locator = (By.TAG_NAME, "header")
     ALL_CLUBS_BUTTON: Locator = (
         By.CSS_SELECTOR,
         ".categories-header .more-button",
@@ -58,21 +57,6 @@ class HomePage(BasePage):
         By.CSS_SELECTOR,
         ".primitive-card",
     )
-
-<<<<<<< HEAD
-    @allure.step("Get page header")
-    def get_header(self) -> HeaderComponent:
-        """Return the site header component."""
-        return HeaderComponent(self._wait_visible(self.HEADER))
-=======
-    HEADER_ROOT: Locator = (By.CSS_SELECTOR, "header.header")
-
-    @property
-    def header(self) -> HeaderComponent:
-        """Get HeaderComponent instance for the site header."""
-        root = self._find_element(self.HEADER_ROOT)
-        return HeaderComponent(root)
->>>>>>> origin/main
 
     @allure.step("Click 'Всі гуртки' button")
     def click_all_clubs_button(self) -> None:
