@@ -1,7 +1,5 @@
 """Page object for the second Speak Ukrainian challenge."""
 
-from urllib.parse import urljoin
-
 import allure
 from selenium.webdriver.common.by import By
 
