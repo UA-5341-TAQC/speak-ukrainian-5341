@@ -19,7 +19,7 @@ def test_tc_52_advanced_club_search_sorting(driver: WebDriver) -> None:
     home_page = HomePage(driver)
 
     with allure.step("Step 1: Click 'Гуртки' in the site header"):
-        home_page.get_header().click_clubs()
+        home_page.header.click_clubs()
         clubs_page = ClubPage(driver).wait_loaded()
 
         assert "/clubs" in driver.current_url
