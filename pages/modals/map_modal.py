@@ -78,6 +78,47 @@ class MapModal(BaseModal):
         "div.map-layout img[src*='location.png']",
     )
 
+    DROPDOWN_LIST_HOLDER: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-select-dropdown:not(.ant-select-dropdown-hidden) "
+        "div.rc-virtual-list-holder",
+    )
+
+    @staticmethod
+    def get_city_locator(city_name: str) -> Locator:
+        """Return XPath locator for a specific city option."""
+        return (
+            By.XPATH,
+            "//div[contains(@class,'ant-select-dropdown') "
+            "and not(contains(@class,'ant-select-dropdown-hidden'))]"
+            "//div[contains(@class,'ant-select-item-option') "
+            f"and (normalize-space(.)='{city_name}' or @title='{city_name}')]",
+        )
+
+    @staticmethod
+    def get_all_cities_locator() -> Locator:
+        """Return XPath locator for 'Всі міста' option."""
+        return (
+            By.XPATH,
+            "//div[contains(@class,'ant-select-dropdown') "
+            "and not(contains(@class,'ant-select-dropdown-hidden'))]"
+            "//div[contains(@class,'ant-select-item-option') "
+            "and (@title='Всі міста' or normalize-space(.)='Всі міста')]",
+        )
+
+    @staticmethod
+    def get_category_locator(category_name: str) -> Locator:
+        """Return XPath locator for a specific category option."""
+        return (
+            By.XPATH,
+            "//div[contains(@class,'ant-select-dropdown') "
+            "and not(contains(@class,'ant-select-dropdown-hidden'))]"
+            "//div[contains(@class,'ant-select-item-option') "
+            "and .//*[normalize-space(text())="
+            f"'{category_name}'"
+            "]]",
+        )
+
     def is_displayed(self) -> bool:
         """Check whether the Map modal is displayed."""
         try:
@@ -97,14 +138,8 @@ class MapModal(BaseModal):
         city_select.click()
 
         if city_name == "Всі міста":
-            dropdown_list_locator = (
-                By.CSS_SELECTOR,
-                "div.ant-select-dropdown:not(.ant-select-dropdown-hidden) "
-                "div.rc-virtual-list-holder",
-            )
-
             try:
-                dropdown_list = self._wait_visible(dropdown_list_locator)
+                dropdown_list = self._wait_visible(self.DROPDOWN_LIST_HOLDER)
                 self.driver.execute_script(
                     "arguments[0].scrollTop = 0;",
                     dropdown_list,
@@ -112,13 +147,7 @@ class MapModal(BaseModal):
             except Exception:
                 pass
 
-            option_locator = (
-                By.XPATH,
-                "//div[contains(@class,'ant-select-dropdown') "
-                "and not(contains(@class,'ant-select-dropdown-hidden'))]"
-                "//div[contains(@class,'ant-select-item-option') "
-                "and (@title='Всі міста' or normalize-space(.)='Всі міста')]",
-            )
+            option_locator = self.get_all_cities_locator()
 
         else:
             city_input = self._wait_visible(self.CITY_SELECT_INPUT)
@@ -127,13 +156,7 @@ class MapModal(BaseModal):
             city_input.send_keys(Keys.BACKSPACE)
             city_input.send_keys(city_name)
 
-            option_locator = (
-                By.XPATH,
-                "//div[contains(@class,'ant-select-dropdown') "
-                "and not(contains(@class,'ant-select-dropdown-hidden'))]"
-                "//div[contains(@class,'ant-select-item-option') "
-                f"and (normalize-space(.)='{city_name}' or @title='{city_name}')]",
-            )
+            option_locator = self.get_city_locator(city_name)
 
         option = self.wait.until(
             EC.element_to_be_clickable(option_locator)
@@ -156,15 +179,7 @@ class MapModal(BaseModal):
         category_select = self._wait_clickable(self.CATEGORY_SELECT_CONTAINER)
         category_select.click()
 
-        option_locator = (
-            By.XPATH,
-            "//div[contains(@class,'ant-select-dropdown') "
-            "and not(contains(@class,'ant-select-dropdown-hidden'))]"
-            "//div[contains(@class,'ant-select-item-option') "
-            "and .//*[normalize-space(text())="
-            f"'{category_name}'"
-            "]]",
-        )
+        option_locator = self.get_category_locator(category_name)
 
         option = self.wait.until(
             EC.element_to_be_clickable(option_locator)
