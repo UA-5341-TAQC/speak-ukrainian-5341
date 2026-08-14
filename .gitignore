@@ -229,3 +229,4 @@ visual_tests/
 
 # Qodo agent 
 .qodo
+.freebuff/
