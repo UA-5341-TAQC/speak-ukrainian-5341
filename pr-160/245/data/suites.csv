@@ -1,0 +1,21 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Verify that entering an invalid password displays the correct validation error.","16203","TC-53 Verify registration password policy validation [Missing letters/digits]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
+"Verify opening a news article from the list and returning back to the News page.","9073","TC-07: Navigation to the News details page","tests","2026-08-14","passed","2026-08-14","TestNewsDetailsNavigation","test_news_details_navigation","",""
+"Verify that entering an invalid password displays the correct validation error.","16123","TC-53 Verify registration password policy validation [Length > 20]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","16173","TC-53 Verify registration password policy validation [Contains Cyrillic]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","15766","TC-53 Verify registration password policy validation [Missing letters/special]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
+"Verify that clicking the 'Новини' menu item in the header navigates the user to the News page with valid URL, title, and article list.","990","TC-06: Verify that the News page opens","tests","2026-08-14","passed","2026-08-14","TestNewsPage","test_news_page_opens","",""
+"Verify that entering an invalid password displays the correct validation error.","16609","TC-53 Verify registration password policy validation [Length < 8]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
+"Verify homepage hero carousel navigation and its slide redirects.","9521","test_homepage_carousel_navigation","tests","2026-08-14","passed","2026-08-14","","test_home_carousel_navigation","",""
+"Verify opening another news article from the 'Інші новини' section.","15036","test_news_details_other_news_navigation","tests","2026-08-14","passed","2026-08-14","","test_news_details_other_news_navigation","",""
+"Returning the authenticated_driver fixture leaves the session active.
+
+    The fixture signs in via the /api/signin endpoint and injects the issued
+    tokens, so the header must report the user as logged in.
+    ","248","test_user_is_signed_in_after_api_fixture","tests","2026-08-14","passed","2026-08-14","","test_sign_in","",""
+"Verify that entering an invalid password displays the correct validation error.","15852","TC-53 Verify registration password policy validation [Missing uppercase]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
+"Verify title, amount, currency, express pay buttons, card form fields and submit button.","3993","TC-48: Verify payment page UI elements are displayed correctly","tests","2026-08-14","passed","2026-08-14","TestPaymentPageUI","test_payment_page_ui","",""
+"Verify webinar video blocks, playback and YouTube links.","34660","TC-63 Verify video blocks playback and YouTube links on the challenge page","tests","2026-08-14","broken","2026-08-14","","test_challenge_page_video_blocks","",""
+"Verify that entering an invalid password displays the correct validation error.","15963","TC-53 Verify registration password policy validation [Missing lowercase]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
+"Verify challenge and event banner navigation on the homepage.","10455","TC-50 Verify challenge and event banner navigation on the homepage","tests","2026-08-14","passed","2026-08-14","","test_home_page","",""
+"Test verifies that the 'Наші контакти' block is displayed on the news page, has the correct title, and contains all required social media icons: Facebook, YouTube, Instagram, and Mail.","6065","TC-28: Verify 'Наші контакти' section display","tests","2026-08-14","passed","2026-08-14","","test_social_buttons_ui","",""
