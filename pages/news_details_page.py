@@ -138,3 +138,18 @@ class NewsDetailsPage(BasePage):
         """Wait until the first active card's title matches the given title."""
         with allure.step("Wait for carousel cards to slide to previous"):
             self._wait_for_first_card_title(expected_title, expected_match=True)
+
+    @allure.step("Check if news title is displayed")
+    def is_title_displayed(self) -> bool:
+        """Check whether the article title is visible."""
+        return self._wait_visible(self.NEWS_MAJOR_TITLE).is_displayed()
+
+    @allure.step("Check if news publication date is displayed")
+    def is_date_displayed(self) -> bool:
+        """Check whether the article publication date is visible."""
+        return self._wait_visible(self.NEWS_CONTENT_DATE).is_displayed()
+
+    @allure.step("Check if news content is displayed")
+    def is_description_displayed(self) -> bool:
+        """Check whether the full article content is visible."""
+        return self._wait_visible(self.NEWS_DESCRIPTION).is_displayed()

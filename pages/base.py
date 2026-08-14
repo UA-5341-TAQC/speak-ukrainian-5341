@@ -153,3 +153,7 @@ class Base:
         """Clear an input element using Ctrl+A and Backspace."""
         element.send_keys(Keys.CONTROL + "a")
         element.send_keys(Keys.BACKSPACE)
+
+    def get_current_url(self) -> str:
+        """Return the current URL of the browser."""
+        return self.driver.current_url
