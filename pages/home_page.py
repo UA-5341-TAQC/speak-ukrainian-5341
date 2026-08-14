@@ -1,10 +1,12 @@
 """Page object for the home page of the Speak Ukrainian website."""
 
 import allure
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
 from pages.components.carousel import Carousel
+from pages.components.header_component import HeaderComponent
 from pages.components.home_content_card import HomeContentCard
 from pages.types import Locator
 
@@ -46,10 +48,23 @@ class HomePage(BasePage):
         ".about-carousel-block",
     )
 
+    # Path fragments of the pages each carousel slide must lead to (TC-29 steps 2, 5, 8).
+    CHALLENGE_PAGE = "/challenges"
+    CLUBS_PAGE = "/clubs"
+    ABOUT_PAGE = "/about"
+
     CONTENT_CARDS: Locator = (
         By.CSS_SELECTOR,
         ".primitive-card",
     )
+
+    HEADER_ROOT: Locator = (By.CSS_SELECTOR, "header.header")
+
+    @property
+    def header(self) -> HeaderComponent:
+        """Get HeaderComponent instance for the site header."""
+        root = self._find_element(self.HEADER_ROOT)
+        return HeaderComponent(root)
 
     @allure.step("Click 'Всі гуртки' button")
     def click_all_clubs_button(self) -> None:
@@ -119,6 +134,27 @@ class HomePage(BasePage):
     def get_carousel(self) -> Carousel:
         """Return the carousel component."""
         return Carousel(self._find_element(self.CAROUSEL))
+
+    @allure.step("Pause carousel autoplay and sync to the first slide")
+    def pause_autoplay_and_sync(self) -> Carousel:
+        """Pause the carousel autoplay and bring it back to the first slide.
+
+        Hovering the carousel pauses slick's autoplay; arrow clicks then shift one
+        slide deterministically. The carousel is walked forward (bounded) until the
+        challenge ("Єдині") slide - the first one - is focused again, each click
+        acknowledged by the active link href changing.
+        """
+        ActionChains(self.driver).move_to_element(self._find_element(self.CAROUSEL)).perform()
+        carousel: Carousel = self.get_carousel()
+        for _ in range(3):
+            href = carousel.get_active_link_href()
+            if self.CHALLENGE_PAGE in href:
+                return carousel
+            carousel.click_next_arrow()
+            self.wait.until(lambda _: carousel.get_active_link_href() != href)
+        raise AssertionError(
+            "The carousel could not be brought back to the first (challenge) slide."
+        )
 
     @allure.step("Get content cards")
     def get_content_cards(self) -> list[HomeContentCard]:
