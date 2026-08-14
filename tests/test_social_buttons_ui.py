@@ -231,14 +231,16 @@ def test_tc43_youtube_link_redirects_to_official_page(driver: WebDriver,) -> Non
             f"but got '{driver.current_url}'")
 
 @allure.title("TC-44: Verify Instagram social media link functionality")
-@allure.description("Test verifies that the Instagram icon on the news details page "
+@allure.description( "Test verifies that the Instagram icon on the news details page "
     "opens the project's official Instagram page in a new browser tab.")
 @allure.tag("news", "social_media", "instagram", "link")
 @pytest.mark.regression
-def test_tc44_instagram_link_redirects_to_official_page(driver: WebDriver,) -> None:
+def test_tc44_instagram_link_redirects_to_official_page(
+    driver: WebDriver,
+) -> None:
     """Verify Instagram social media link opens the official Instagram page."""
 
-    expected_instagram_url = ("https://www.instagram.com/yedyni.ruh/")
+    expected_instagram_url = "https://www.instagram.com/yedyni.ruh/"
 
     with allure.step("Step 1: Open news article"):
         page = NewsDetailsPage(driver)
@@ -255,8 +257,7 @@ def test_tc44_instagram_link_redirects_to_official_page(driver: WebDriver,) -> N
 
         assert actual_instagram_url == expected_instagram_url, (
             f"Expected Instagram URL '{expected_instagram_url}', "
-            f"but got '{actual_instagram_url}'"
-        )
+            f"but got '{actual_instagram_url}'")
 
     with allure.step("Step 5: Click Instagram icon"):
         original_window = driver.current_window_handle
@@ -273,6 +274,15 @@ def test_tc44_instagram_link_redirects_to_official_page(driver: WebDriver,) -> N
             )
             driver.switch_to.window(new_window)
 
-        assert driver.current_url.startswith(expected_instagram_url), (
-            f"Expected Instagram URL '{expected_instagram_url}', "
-            f"but got '{driver.current_url}'")
+        current_url = driver.current_url
+
+        is_instagram_profile = current_url.startswith(expected_instagram_url)
+
+        is_instagram_login_redirect = (
+            current_url.startswith("https://www.instagram.com/accounts/login/")
+            and "next=https%3A%2F%2Fwww.instagram.com%2Fyedyni.ruh%2F"
+            in current_url)
+
+        assert is_instagram_profile or is_instagram_login_redirect, (
+            f"Expected Instagram profile URL or Instagram login redirect "
+            f"to '{expected_instagram_url}', but got '{current_url}'")
