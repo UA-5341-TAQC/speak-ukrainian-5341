@@ -286,3 +286,43 @@ def test_tc44_instagram_link_redirects_to_official_page(
         assert is_instagram_profile or is_instagram_login_redirect, (
             f"Expected Instagram profile URL or Instagram login redirect "
             f"to '{expected_instagram_url}', but got '{current_url}'")
+
+@allure.title("TC-45: Verify email link functionality in contacts section")
+@allure.description(
+    "Test verifies that the email icon in the 'Наші контакти' section "
+    "contains the correct project email address and uses a mailto link."
+)
+@allure.tag("news", "social_media", "email", "link")
+@pytest.mark.regression
+def test_tc45_email_link_contains_correct_recipient(
+    driver: WebDriver,
+) -> None:
+    """Verify the email link contains the correct recipient address."""
+
+    expected_email = "teach.in.ukrainian@gmail.com"
+
+    with allure.step("Step 1: Open news article"):
+        page = NewsDetailsPage(driver)
+        page.open(news_id=27)
+
+    with allure.step("Step 2: Scroll to 'Наші контакти' block"):
+        page.scroll_to_contacts()
+
+    with allure.step("Step 3: Get social buttons component"):
+        social = page.social_buttons
+
+    with allure.step("Step 4: Verify email recipient address"):
+        actual_email = social.get_email_address()
+
+        assert actual_email == expected_email, (
+            f"Expected email address '{expected_email}', "
+            f"but got '{actual_email}'"
+        )
+
+    with allure.step("Step 5: Verify email link uses mailto scheme"):
+        actual_mailto_url = social.get_email_url()
+
+        assert actual_mailto_url == f"mailto:{expected_email}", (
+            f"Expected mailto URL 'mailto:{expected_email}', "
+            f"but got '{actual_mailto_url}'"
+        )
