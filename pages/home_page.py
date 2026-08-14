@@ -6,7 +6,6 @@ from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
 from pages.components.carousel import Carousel
-from pages.components.header_component import HeaderComponent
 from pages.components.home_content_card import HomeContentCard
 from pages.types import Locator
 
@@ -57,14 +56,6 @@ class HomePage(BasePage):
         By.CSS_SELECTOR,
         ".primitive-card",
     )
-
-    HEADER_ROOT: Locator = (By.CSS_SELECTOR, "header.header")
-
-    @property
-    def header(self) -> HeaderComponent:
-        """Get HeaderComponent instance for the site header."""
-        root = self._find_element(self.HEADER_ROOT)
-        return HeaderComponent(root)
 
     @allure.step("Click 'Всі гуртки' button")
     def click_all_clubs_button(self) -> None:
@@ -145,7 +136,7 @@ class HomePage(BasePage):
         acknowledged by the active link href changing.
         """
         ActionChains(self.driver).move_to_element(self._find_element(self.CAROUSEL)).perform()
-        carousel = self.get_carousel()
+        carousel: Carousel = self.get_carousel()
         for _ in range(3):
             href = carousel.get_active_link_href()
             if self.CHALLENGE_PAGE in href:
