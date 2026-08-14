@@ -2,6 +2,7 @@
 
 import platform
 from typing import Literal
+from urllib.parse import urlparse
 
 from selenium.common.exceptions import (
     ElementNotInteractableException,
@@ -45,7 +46,8 @@ class Base:
         Exposed on the base class so pages and components can build absolute
         URLs without importing Config directly.
         """
-        return Config.BASE_UI_URL.rstrip("/")
+        url = urlparse(self.get_current_url())
+        return f"{url.scheme}://{url.netloc}".rstrip("/")
 
     @property
     def _target(self) -> WebDriver | WebElement:
