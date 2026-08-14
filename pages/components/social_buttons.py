@@ -75,7 +75,7 @@ class SocialButtons(BaseComponent):
         """Get the raw email address extracted from mailto link."""
         href = (self._find_element(self.MAIL_BUTTON).get_attribute("href") or "")
         return href.replace("mailto:", "")
-    
+
     @allure.step("Get email mailto URL")
     def get_email_url(self) -> str:
         """Get the full mailto URL from the email button."""
