@@ -28,7 +28,7 @@ def test_add_club_basic_info_validation(authenticated_driver) -> None:
 
     with allure.step("Click the 'Наступний крок' button"):
         basic_info_page.click_next()
-        errors = basic_info_page.get_errors(expected_count=4)
+        errors = basic_info_page.wait_for_errors(4)
         assert ERROR_CLUB_NAME in errors
         assert ERROR_CLUB_CATEGORY in errors
         assert errors.count(ERROR_CHILD_AGE) == 2

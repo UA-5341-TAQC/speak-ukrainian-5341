@@ -87,12 +87,15 @@ class AddClubModal(BaseModal):
         """Verify whether the finish button is clickable."""
         return self._find_element(self.FINISH_BUTTON).is_enabled()
 
-    @allure.step("Get all displayed validation error messages")
-    def get_errors(self, expected_count: int | None = None) -> list[str]:
-        """Get all displayed validation error messages in the Add Club modal."""
-        if expected_count is None:
-            found = self.driver.find_elements(*self.FIELD_ERROR_MESSAGES)
-            return [e.text.strip() for e in found if e.is_displayed()]
+    @allure.step("Get currently displayed validation error messages")
+    def get_errors(self) -> list[str]:
+        """Get current validation error messages without waiting."""
+        found = self.driver.find_elements(*self.FIELD_ERROR_MESSAGES)
+        return [e.text.strip() for e in found if e.is_displayed()]
+
+    @allure.step("Wait for expected_count validation error messages to appear")
+    def wait_for_errors(self, expected_count: int) -> list[str]:
+        """Wait until exactly expected_count error messages are visible, then return them."""
 
         def _errors_ready(_: object) -> list | Literal[False]:
             found = self.driver.find_elements(*self.FIELD_ERROR_MESSAGES)
@@ -102,5 +105,4 @@ class AddClubModal(BaseModal):
         try:
             return self.wait.until(_errors_ready)
         except TimeoutException:
-            found = self.driver.find_elements(*self.FIELD_ERROR_MESSAGES)
-            return [e.text.strip() for e in found if e.is_displayed()]
+            return self.get_errors()
