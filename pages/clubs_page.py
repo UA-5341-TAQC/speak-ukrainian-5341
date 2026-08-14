@@ -5,7 +5,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 
-from data.config import Config
 from pages.base_page import BasePage
 
 # from pages.components.club_card_component import ClubCardComponent
@@ -17,8 +16,11 @@ from pages.types import Locator
 class ClubPage(BasePage):
     """Page object representing the Speak Ukrainian clubs catalog page."""
 
+<<<<<<< HEAD
     CLUBS_CONTENT: Locator = (By.TAG_NAME, "body")
     URL = f"{Config.BASE_UI_URL.rstrip('/')}/clubs"
+=======
+>>>>>>> origin/main
     SEARCH_INPUT = (By.CSS_SELECTOR, "input.search-box, input[type='search']")
     CLUB_CARDS = (By.CSS_SELECTOR, "div.ant-card, div.type-list-card")
     FILTERS_PANEL = (By.CSS_SELECTOR, '[data-testid="filters-panel"]')
@@ -41,7 +43,7 @@ class ClubPage(BasePage):
     @allure.step("Open the Clubs page")
     def open(self) -> "ClubPage":
         """Open the Clubs page and wait until its main content is visible."""
-        self.driver.get(self.URL)
+        self.driver.get(f"{self.get_base_url()}/clubs")
         self._wait_visible(self.CLUBS_CONTENT)
 
     def wait_loaded(self) -> "ClubPage":
