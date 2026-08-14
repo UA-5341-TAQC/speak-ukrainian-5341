@@ -27,7 +27,8 @@ class BasePage(Base):
     @property
     def header(self) -> HeaderComponent:
         """Get the header component."""
-        return HeaderComponent(self._find_element(self.HEADER_ROOT))
+        header_element = self._find_element(self.HEADER_ROOT)
+        return HeaderComponent(header_element)
 
     def get_success_message_text(self) -> str:
         """Get the text of the global success toast message."""
