@@ -2,7 +2,6 @@
 
 import allure
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as ec
 
 from pages.base_page import BasePage
@@ -39,14 +38,11 @@ class NewsDetailsPage(BasePage):
         ".social-info .social-media",
     )
 
-    def __init__(self, driver: WebDriver) -> None:
-        """Initialize NewsDetailsPage with generic sub-components."""
-        super().__init__(driver)
-
     @allure.step("Open news details page (id={news_id})")
-    def open(self, news_id: int = 27) -> "NewsDetailsPage":
+    def open(self, news_id: int) -> "NewsDetailsPage":
         """Open the news details page for a specific news article by ID."""
         self.driver.get(f"{self.get_base_url()}/news/{news_id}")
+        self._wait_visible(self.NEWS_MAJOR_TITLE)
         return self
 
     @allure.step("Scroll to 'Наші контакти' block")
@@ -61,13 +57,6 @@ class NewsDetailsPage(BasePage):
         """Get the SocialButtons sub-component instance."""
         section = self._wait_visible(self.SOCIAL_SECTION_CONTAINER)
         return SocialButtons(section)
-
-    @allure.step("Open the news article with the given id")
-    def open_article(self, article_id: str) -> "NewsDetailsPage":
-        """Open a news article page and wait until the banner title is visible."""
-        self.driver.get(f"{self.get_base_url()}/news/{article_id}")
-        self._wait_visible(self.NEWS_MAJOR_TITLE)
-        return self
 
     @allure.step("Get major news title text")
     def get_news_major_title_text(self) -> str:
