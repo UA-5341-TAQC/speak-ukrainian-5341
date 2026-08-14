@@ -10,7 +10,7 @@ def test_news_details_other_news_navigation(driver: WebDriver) -> None:
     """Verify opening another news article from the 'Інші новини' section."""
     news_details = NewsDetailsPage(driver)
     # Precondition: the news details page of article 27 is opened.
-    news_details.open_article("27")
+    news_details.open(27)
 
     with allure.step("1. Scroll down to the 'Інші новини' block"):
         news_details.scroll_to_other_news()
