@@ -5,7 +5,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as ec
 
-from data.config import Config
 from pages.base_page import BasePage
 from pages.components.news_card_component import NewsCardComponent
 from pages.components.social_buttons import SocialButtons
@@ -14,8 +13,6 @@ from pages.types import Locator
 
 class NewsDetailsPage(BasePage):
     """Page object representing the detailed view of a single news article."""
-
-    URL = f"{Config.BASE_UI_URL.rstrip('/')}/news"
 
     NEWS_MAJOR_TITLE: Locator = (By.ID, "major-title")
     NEWS_BANNER_IMAGE: Locator = (By.CSS_SELECTOR, ".news-page .image")
@@ -49,8 +46,7 @@ class NewsDetailsPage(BasePage):
     @allure.step("Open news details page (id={news_id})")
     def open(self, news_id: int = 27) -> "NewsDetailsPage":
         """Open the news details page for a specific news article by ID."""
-        from data.config import Config
-        self.driver.get(f"{Config.BASE_UI_URL}/news/{news_id}")
+        self.driver.get(f"{self.get_base_url()}/news/{news_id}")
         return self
 
     @allure.step("Scroll to 'Наші контакти' block")
@@ -69,7 +65,7 @@ class NewsDetailsPage(BasePage):
     @allure.step("Open the news article with the given id")
     def open_article(self, article_id: str) -> "NewsDetailsPage":
         """Open a news article page and wait until the banner title is visible."""
-        self.driver.get(f"{self.URL}/{article_id}")
+        self.driver.get(f"{self.get_base_url()}/news/{article_id}")
         self._wait_visible(self.NEWS_MAJOR_TITLE)
         return self
 

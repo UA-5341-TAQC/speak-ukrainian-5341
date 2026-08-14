@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
@@ -26,6 +27,11 @@ class BasePage(Base):
     def header(self) -> HeaderComponent:
         """Get the header component."""
         return HeaderComponent(self.driver.find_element(By.TAG_NAME, "body"))
+
+    @allure.step("Refresh the browser page")
+    def refresh(self) -> None:
+        """Refresh the current browser page."""
+        self.driver.refresh()
 
     def get_success_message_text(self) -> str:
         """Get the text of the global success toast message."""

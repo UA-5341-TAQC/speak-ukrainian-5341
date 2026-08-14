@@ -2,10 +2,7 @@
 
 import allure
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.remote.webelement import WebElement
 
-from pages.base import Base
 from pages.components.base_component import BaseComponent
 from pages.types import Locator
 
@@ -19,16 +16,6 @@ class SocialButtons(BaseComponent):
     INSTAGRAM_BUTTON: Locator = (By.CSS_SELECTOR, "a[href*='instagram.com']")
     MAIL_BUTTON: Locator = (By.CSS_SELECTOR, "a[href^='mailto:']")
     DONATE_BUTTON: Locator = (By.CSS_SELECTOR, ".help-button .donate-button")
-
-    def __init__(self, context: WebDriver | WebElement) -> None:
-        """Initialize SocialButtons with a driver or a root element.
-
-        The social section spans several areas of the page, so the component
-        searches on the driver scope when no root element is given.
-        """
-        Base.__init__(self, context)
-        if isinstance(context, WebElement):
-            self.root = context
 
     @allure.step("Get social media section title text")
     def get_social_section_title_text(self) -> str:

@@ -35,7 +35,7 @@ def test_news_details_other_news_navigation(driver: WebDriver) -> None:
         assert news_details.get_news_major_title_text() == expected_title
 
     with allure.step("5. Refresh the browser page"):
-        driver.refresh()
+        news_details.refresh()
         news_details.wait_for_current_url(target_url)
         news_details.wait_for_article_title(expected_title)
         assert news_details.get_news_major_title_text() == expected_title
