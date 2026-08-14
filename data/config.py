@@ -23,8 +23,6 @@ class Config:
     IMPLICITY_WAIT: int = int(os.getenv("IMPLICITY_WAIT", "10"))
     EXPLICIT_WAIT: int = int(os.getenv("EXPLICIT_WAIT", "10"))
     HEADLESS: bool = os.getenv("HEADLESS", "True").lower() in ("true", "1", "t")
-    WINDOW_SIZE: str = os.getenv("WINDOW_SIZE", "1600,1000")
-    MAXIMIZE: bool = os.getenv("MAXIMIZE", "False").lower() in ("true", "1", "t")
     USER_NAME: str = os.getenv("USER_NAME", "")
     USER_PASSWORD: str = os.getenv("USER_PASSWORD", "")
     USER_EMAIL: str = os.getenv("USER_EMAIL", "")

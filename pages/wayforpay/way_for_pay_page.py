@@ -4,8 +4,6 @@ import allure
 from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
-from pages.components.amount_section_component import AmountSectionComponent
-from pages.components.way_for_pay_header_component import WayForPayHeaderComponent
 from pages.types import Locator
 from pages.wayforpay.card_tab import CardTab
 from pages.wayforpay.master_pass_tab import MasterPassTab
@@ -28,20 +26,20 @@ class WayForPayPage(BasePage):
 
     APPLE_PAY_BUTTON: Locator = (By.CSS_SELECTOR, "#apple-pay")
     GPAY_BUTTON: Locator = (By.CSS_SELECTOR, "#gpay-button-online-api-id")
-    HEADER_ROOT: Locator = (By.CSS_SELECTOR, ".block-info")
-    AMOUNT_ROOT: Locator = (By.CSS_SELECTOR, "div.price.form-group.validation-wrapper")
 
-    @property
-    def header(self) -> WayForPayHeaderComponent:
-        """Get WayForPayHeaderComponent instance."""
-        root = self._find_element(self.HEADER_ROOT)
-        return WayForPayHeaderComponent(root)
+    # @property
+    # def header(self) -> WayForPayHeaderComponent:
+    #     """Get WayForPayHeaderComponent instance."""
+    #     # ToDo Argument 1 to "WayForPayHeaderComponent" has incompatible type "WebDriver";
+    #     #  expected "WebElement"  [arg-type]
+    #     return WayForPayHeaderComponent(self.driver)
 
-    @property
-    def amount_section(self) -> AmountSectionComponent:
-        """Get AmountSectionComponent instance."""
-        root = self._find_element(self.AMOUNT_ROOT)
-        return AmountSectionComponent(root)
+    # @property
+    # def amount_section(self) -> AmountSectionComponent:
+    #     """Get AmountSectionComponent instance."""
+    #     # ToDo Argument 1 to "AmountSectionComponent" has incompatible type "WebDriver";
+    #     #  expected "WebElement"  [arg-type]
+    #     return AmountSectionComponent(self.driver)
 
     @property
     def card_tab(self) -> CardTab:
@@ -94,18 +92,3 @@ class WayForPayPage(BasePage):
         self.open_payment_methods_dropdown()
         self._find_element(self.VISA_CHECKOUT_TAB_BUTTON).click()
         return self.visa_checkout_tab
-
-    @allure.step("Check if Apple Pay button is displayed")
-    def is_apple_pay_displayed(self) -> bool:
-        """Check if Apple Pay button is displayed."""
-        return self._find_element(self.APPLE_PAY_BUTTON).is_displayed()
-
-    @allure.step("Check if Google Pay button is displayed")
-    def is_google_pay_displayed(self) -> bool:
-        """Check if Google Pay button is displayed."""
-        return self._find_element(self.GPAY_BUTTON).is_displayed()
-
-    @allure.step("Check if payment methods dropdown is displayed")
-    def is_payment_methods_dropdown_displayed(self) -> bool:
-        """Check if payment methods dropdown is displayed."""
-        return self._find_element(self.PAYMENT_METHOD_DROPDOWN).is_displayed()

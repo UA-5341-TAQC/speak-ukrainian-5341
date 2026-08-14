@@ -187,21 +187,3 @@ class SignUpModal(BaseModal):
         """Retrieve texts of all active client-side validation error messages."""
         elements = self._find_elements(self.FIELD_ERROR_MESSAGES)
         return [elem.text.strip() for elem in elements if elem.is_displayed()]
-
-    @allure.step("Wait for validation error to appear")
-    def wait_for_error_message(self, expected_error: str) -> None:
-        """Wait until a specific validation error message is displayed."""
-
-        def _is_error_present(_: object) -> bool:
-            return expected_error in self.get_error_messages()
-
-        self.wait.until(_is_error_present)
-
-    @allure.step("Wait for submit button to become disabled")
-    def wait_for_submit_button_disabled(self) -> None:
-        """Wait until the submit button becomes disabled (handling React state delays)."""
-
-        def _is_button_disabled(_: object) -> bool:
-            return not self.is_submit_button_enabled()
-
-        self.wait.until(_is_button_disabled)

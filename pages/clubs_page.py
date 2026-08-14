@@ -47,7 +47,7 @@ class ClubPage(BasePage):
         self.driver.get(f"{self.get_base_url()}/clubs")
         self._wait_visible(self.CLUBS_CONTENT)
 
-    def wait_loaded(self) -> "ClubPage":
+    def wait_loaded(self) -> ClubPage:
         """Wait until the main Clubs content is visible."""
         self._wait_visible(self.CLUBS_CONTENT)
         return self
@@ -69,7 +69,7 @@ class ClubPage(BasePage):
     @allure.step("Check if 'No clubs' message is displayed")
     def is_no_results_displayed(self) -> bool:
         """Check if 'No clubs' message is displayed."""
-        return len(self._find_elements(*self.NO_RESULTS_MESSAGE)) > 0
+        return len(self.driver.find_elements(*self.NO_RESULTS_MESSAGE)) > 0
 
     def filter(self) -> ClubFiltersComponent:
         """Return filter object."""

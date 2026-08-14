@@ -2,7 +2,6 @@
 
 import platform
 from typing import Literal
-from urllib.parse import urlparse
 
 from selenium.common.exceptions import (
     ElementNotInteractableException,
@@ -36,19 +35,6 @@ class Base:
         else:
             raise TypeError(f"Invalid context type: {type(context)}")
 
-    def get_current_url(self) -> str:
-        """Return the current browser URL, normalized without a trailing slash."""
-        return self.driver.current_url.rstrip("/")
-
-    def get_base_url(self) -> str:
-        """Return the base UI URL, normalized without a trailing slash.
-
-        Exposed on the base class so pages and components can build absolute
-        URLs without importing Config directly.
-        """
-        url = urlparse(self.get_current_url())
-        return f"{url.scheme}://{url.netloc}".rstrip("/")
-
     @property
     def _target(self) -> WebDriver | WebElement:
         """Return current context (root WebElement if inside component, else driver)."""
@@ -74,10 +60,9 @@ class Base:
             return (by, "." + value)
         return locator
 
-    def _find_element(self, locator: Locator, from_driver: bool = False) -> WebElement:
+    def _find_element(self, locator: Locator) -> WebElement:
         """Find a single element within the current context."""
-        target = self._target if not from_driver else self.driver
-        return target.find_element(*self._format_locator(locator))
+        return self._target.find_element(*self._format_locator(locator))
 
     def _find_elements(self, locator: Locator) -> list[WebElement]:
         """Find all matching elements within the current context."""
@@ -99,25 +84,17 @@ class Base:
 
         return self.wait.until(_predicate)
 
-    def _wait_clickable(self, locator: Locator, from_driver: bool = False) -> WebElement:
+    def _wait_clickable(self, locator: Locator) -> WebElement:
         """Wait until an element is clickable within the active context."""
 
         def _predicate(_: object) -> WebElement | Literal[False]:
             try:
-                element = self._find_element(locator, from_driver)
+                element = self._find_element(locator)
                 return element if (element.is_displayed() and element.is_enabled()) else False
             except Exception:
                 return False
 
         return self.wait.until(_predicate)
-
-    def _wait_for_url(self, url: str) -> None:
-        """Wait until the browser's current URL (ignoring a trailing slash) equals the given URL.
-
-        Args:
-            url: The expected URL.
-        """
-        self.wait.until(lambda d: d.current_url.rstrip("/") == url.rstrip("/"))
 
     def _scroll_into_view(self, locator: Locator) -> WebElement:
         """Scroll the element matching the locator into view and return it."""

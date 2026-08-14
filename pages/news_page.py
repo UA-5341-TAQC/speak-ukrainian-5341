@@ -4,6 +4,7 @@ import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
+from data.config import Config
 from pages.base_page import BasePage
 from pages.components.news_list_component import NewsListComponent
 from pages.components.news_pagination_component import NewsPaginationComponent
@@ -13,7 +14,8 @@ from pages.types import Locator
 class NewsPage(BasePage):
     """Represents the public News page."""
 
-    NEWS_TITLE: Locator = (By.CSS_SELECTOR, ".city-name-box h2, h2.city-name, .news-title")
+    URL = f"{Config.BASE_UI_URL.rstrip('/')}/news"
+
     NEWS_CONTENT: Locator = (By.CSS_SELECTOR, ".news-content")
     NEWS_LIST: Locator = (By.CSS_SELECTOR, ".news-content > div:first-child")
     PAGINATION: Locator = (
@@ -28,7 +30,7 @@ class NewsPage(BasePage):
     @allure.step("Open the News page")
     def open(self) -> "NewsPage":
         """Open the News page and wait until its main content is visible."""
-        self.driver.get(f"{self.get_base_url()}/news")
+        self.driver.get(self.URL)
         self._wait_visible(self.NEWS_CONTENT)
         return self
 
@@ -46,11 +48,3 @@ class NewsPage(BasePage):
         """Return the News pagination component."""
         root = self._wait_visible(self.PAGINATION)
         return NewsPaginationComponent(root)
-
-    @allure.step("Check if News page title is displayed")
-    def is_title_displayed(self) -> bool:
-        """Return True if the News page title is displayed."""
-        try:
-            return self._wait_visible(self.NEWS_TITLE).is_displayed()
-        except Exception:
-            return False

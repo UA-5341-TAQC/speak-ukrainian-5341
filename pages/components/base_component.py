@@ -13,3 +13,4 @@ class BaseComponent(Base):
     def __init__(self, root: WebElement) -> None:
         """Initialize component with root element."""
         super().__init__(root)
+        self.root = root  # Explicit assignment guarantees WebElement type for mypy
