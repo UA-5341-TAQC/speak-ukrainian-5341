@@ -96,6 +96,14 @@ class Base:
 
         return self.wait.until(_predicate)
 
+    def _wait_for_url(self, url: str) -> None:
+        """Wait until the browser's current URL (ignoring a trailing slash) equals the given URL.
+
+        Args:
+            url: The expected URL.
+        """
+        self.wait.until(lambda d: d.current_url.rstrip("/") == url.rstrip("/"))
+
     def _scroll_into_view(self, locator: Locator) -> WebElement:
         """Scroll the element matching the locator into view and return it."""
         element = self._wait_present(locator)
@@ -145,3 +153,7 @@ class Base:
         """Clear an input element using Ctrl+A and Backspace."""
         element.send_keys(Keys.CONTROL + "a")
         element.send_keys(Keys.BACKSPACE)
+
+    def get_current_url(self) -> str:
+        """Return the current URL of the browser."""
+        return self.driver.current_url
