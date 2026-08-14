@@ -22,7 +22,8 @@ class NewsDetailsPage(BasePage):
 
     NEWS_CAROUSEL_TITLE: Locator = (By.CSS_SELECTOR, ".other-news .title")
     NEWS_CAROUSEL_LEFT_ARROW: Locator = (
-        By.CSS_SELECTOR, ".other-news .anticon-arrow-left",
+        By.CSS_SELECTOR,
+        ".other-news .anticon-arrow-left",
     )
     NEWS_CAROUSEL_RIGHT_ARROW: Locator = (
         By.CSS_SELECTOR,
@@ -45,8 +46,7 @@ class NewsDetailsPage(BasePage):
     @allure.step("Open news details page (id={news_id})")
     def open(self, news_id: int = 27) -> "NewsDetailsPage":
         """Open the news details page for a specific news article by ID."""
-        from data.config import Config
-        self.driver.get(f"{Config.BASE_UI_URL}/news/{news_id}")
+        self.driver.get(f"{self.get_base_url()}/news/{news_id}")
         return self
 
     @allure.step("Scroll to 'Наші контакти' block")
@@ -62,10 +62,40 @@ class NewsDetailsPage(BasePage):
         section = self._wait_visible(self.SOCIAL_SECTION_CONTAINER)
         return SocialButtons(section)
 
+    @allure.step("Open the news article with the given id")
+    def open_article(self, article_id: str) -> "NewsDetailsPage":
+        """Open a news article page and wait until the banner title is visible."""
+        self.driver.get(f"{self.get_base_url()}/news/{article_id}")
+        self._wait_visible(self.NEWS_MAJOR_TITLE)
+        return self
+
     @allure.step("Get major news title text")
     def get_news_major_title_text(self) -> str:
         """Get the title text from the main banner image."""
         return self._find_element(self.NEWS_MAJOR_TITLE).text.strip()
+
+    @allure.step("Wait until the visible article title matches the expected text")
+    def wait_for_article_title(self, expected_title: str) -> None:
+        """Wait until the article banner title equals the expected title.
+
+        The banner title (#major-title) is the only visible article title on
+        the details page; the title inside .content-title is rendered with
+        display: none. Waiting on the text, not just presence, covers the
+        SPA route transition after clicking a news card.
+        """
+        self.wait.until(
+            lambda _: self._find_element(self.NEWS_MAJOR_TITLE).text.strip() == expected_title
+        )
+
+    @allure.step("Wait until the page URL equals the expected URL")
+    def wait_for_current_url(self, expected_url: str) -> None:
+        """Wait until the current URL matches the expected URL.
+
+        The SPA updates the URL before the article content is rendered, so
+        waiting on the URL alone is not enough; pair with
+        `wait_for_article_title` when content readiness matters.
+        """
+        self.wait.until(lambda _: self.driver.current_url.rstrip("/") == expected_url.rstrip("/"))
 
     @allure.step("Get main news content title text")
     def get_news_content_title_text(self) -> str:
@@ -91,6 +121,16 @@ class NewsDetailsPage(BasePage):
     def click_carousel_prev(self) -> None:
         """Click left navigation arrow in carousel."""
         self.wait.until(ec.element_to_be_clickable(self.NEWS_CAROUSEL_LEFT_ARROW)).click()
+
+    @allure.step("Scroll to the 'Інші новини' block")
+    def scroll_to_other_news(self) -> None:
+        """Scroll the 'Інші новини' carousel into view."""
+        self._scroll_into_view(self.NEWS_CAROUSEL_TITLE)
+
+    @allure.step("Get the 'Інші новини' block title")
+    def get_other_news_title(self) -> str:
+        """Get the title text of the 'Інші новини' block."""
+        return self._get_text(self.NEWS_CAROUSEL_TITLE).strip()
 
     @allure.step("Get list of currently active news cards in carousel")
     def get_active_carousel_cards(self) -> list[NewsCardComponent]:

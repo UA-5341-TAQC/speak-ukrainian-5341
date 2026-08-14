@@ -35,6 +35,18 @@ class Base:
         else:
             raise TypeError(f"Invalid context type: {type(context)}")
 
+    def get_current_url(self) -> str:
+        """Return the current browser URL, normalized without a trailing slash."""
+        return self.driver.current_url.rstrip("/")
+
+    def get_base_url(self) -> str:
+        """Return the base UI URL, normalized without a trailing slash.
+
+        Exposed on the base class so pages and components can build absolute
+        URLs without importing Config directly.
+        """
+        return Config.BASE_UI_URL.rstrip("/")
+
     @property
     def _target(self) -> WebDriver | WebElement:
         """Return current context (root WebElement if inside component, else driver)."""
@@ -154,7 +166,3 @@ class Base:
         """Clear an input element using Ctrl+A and Backspace."""
         element.send_keys(Keys.CONTROL + "a")
         element.send_keys(Keys.BACKSPACE)
-
-    def get_current_url(self) -> str:
-        """Return the current URL of the browser."""
-        return self.driver.current_url
