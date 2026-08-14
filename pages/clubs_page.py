@@ -1,26 +1,33 @@
 """Page object for the Clubs catalog page of the Speak Ukrainian website."""
 
+from __future__ import annotations
+
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 
 from pages.base_page import BasePage
-
-# from pages.components.club_card_component import ClubCardComponent
 from pages.components.club_filters_component import ClubFiltersComponent
 from pages.components.club_sort_component import ClubSortComponent
+from pages.modals.map_modal import MapModal
 
 
 class ClubPage(BasePage):
     """Page object representing the Speak Ukrainian clubs catalog page."""
 
+    CLUBS_CONTENT = (By.CSS_SELECTOR, "div.content-clubs-list, div.ant-layout-content")
     SEARCH_INPUT = (By.CSS_SELECTOR, "input.search-box, input[type='search']")
     CLUB_CARDS = (By.CSS_SELECTOR, "div.ant-card, div.type-list-card")
     FILTERS_PANEL = (By.CSS_SELECTOR, '[data-testid="filters-panel"]')
     SORT_PANEL = (By.CSS_SELECTOR, '[data-testid="sort-panel"]')
     NO_RESULTS_MESSAGE = (By.CSS_SELECTOR, "div.clubs-not-found")
     PAGINATION_NEXT = (By.CSS_SELECTOR, "li.ant-pagination-next")
+    SHOW_MAP_BUTTON = (
+        By.CSS_SELECTOR,
+        "button.show-map-button, .map-button, "
+        "button.ant-btn-icon-only, div.control-box button.ant-btn",
+    )
 
     def __init__(self, driver: WebDriver):
         """Initialize the News page with a WebDriver."""
@@ -35,7 +42,7 @@ class ClubPage(BasePage):
         return self.wait.until(EC.presence_of_all_elements_located(locator))
 
     @allure.step("Open the Clubs page")
-    def open(self) -> "ClubPage":
+    def open(self) -> ClubPage:
         """Open the Clubs page and wait until its main content is visible."""
         self.driver.get(f"{self.get_base_url()}/clubs")
         self._wait_visible(self.CLUBS_CONTENT)
@@ -57,17 +64,28 @@ class ClubPage(BasePage):
     @allure.step("Get clubs count")
     def get_clubs_count(self) -> int:
         """Return number of clubs displayed on page."""
-        return len(self.driver.find_elements(self.CLUB_CARDS))
+        return len(self._find_elements(self.CLUB_CARDS))
 
     @allure.step("Check if 'No clubs' message is displayed")
     def is_no_results_displayed(self) -> bool:
         """Check if 'No clubs' message is displayed."""
-        return len(self.driver.find_elements(*self._NO_RESULTS_MESSAGE)) > 0
+        return len(self._find_elements(*self.NO_RESULTS_MESSAGE)) > 0
 
     def filter(self) -> ClubFiltersComponent:
         """Return filter object."""
-        return ClubFiltersComponent(self.filter(self.FILTERS_PANEL))
+        return ClubFiltersComponent(self.find(self.FILTERS_PANEL))
 
     def sort(self) -> ClubSortComponent:
         """Return sort object."""
         return ClubSortComponent(self.find(self.SORT_PANEL))
+
+    @allure.step("Click 'Показати на мапі' button")
+    def open_map_modal(self) -> MapModal:
+        """Open map modal and return MapModal."""
+        self._wait_clickable(self.SHOW_MAP_BUTTON).click()
+
+        map_modal = MapModal(self.driver)
+
+        self.wait.until(lambda _: map_modal.is_displayed())
+
+        return map_modal
