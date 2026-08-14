@@ -4,7 +4,6 @@ import allure
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 
-from data.config import Config
 from pages.base_page import BasePage
 from pages.components.comment_card_component import CommentCardComponent
 from pages.types import Locator
@@ -12,9 +11,6 @@ from pages.types import Locator
 
 class ClubDetailsPage(BasePage):
     """Page object for a single club details page (/club/{id})."""
-
-    # Link to the page.
-    URL_TEMPLATE = f"{Config.BASE_UI_URL}/club/{{club_id}}"
 
     # Header: banner, name, category
     TITLE: Locator = (By.CSS_SELECTOR, ".club-name")
@@ -75,7 +71,7 @@ class ClubDetailsPage(BasePage):
 
     def open_page(self, club_id: int) -> None:
         """Navigate to the club details page for the given club id."""
-        self.driver.get(self.URL_TEMPLATE.format(club_id=club_id))
+        self.driver.get(f"{self.get_base_url()}/club/{club_id}")
 
     def get_title(self) -> str:
         """Return the club title."""

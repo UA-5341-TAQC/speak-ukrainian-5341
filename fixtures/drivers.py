@@ -27,6 +27,7 @@ def driver() -> Iterator[WebDriver]:
         service=Service(ChromeDriverManager().install()),
         options=options,
     )
+    web_driver.get(Config.BASE_UI_URL)
     yield web_driver
     web_driver.quit()
 
@@ -47,7 +48,6 @@ def authenticated_driver(driver: WebDriver, session_driver: SignInSession) -> We
     application boots with an active session. Future tests can reuse this
     fixture to start from an authenticated state without walking the UI form.
     """
-    driver.get(Config.BASE_UI_URL)
     driver.execute_script(
         "var storage = arguments[0];"
         "for (var key in storage) { localStorage.setItem(key, storage[key]); }",
