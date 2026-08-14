@@ -5,10 +5,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 
-from data.config import Config
 from pages.base_page import BasePage
 
-#from pages.components.club_card_component import ClubCardComponent
+# from pages.components.club_card_component import ClubCardComponent
 from pages.components.club_filters_component import ClubFiltersComponent
 from pages.components.club_sort_component import ClubSortComponent
 
@@ -16,7 +15,6 @@ from pages.components.club_sort_component import ClubSortComponent
 class ClubPage(BasePage):
     """Page object representing the Speak Ukrainian clubs catalog page."""
 
-    URL = f"{Config.BASE_UI_URL.rstrip('/')}/clubs"
     SEARCH_INPUT = (By.CSS_SELECTOR, "input.search-box, input[type='search']")
     CLUB_CARDS = (By.CSS_SELECTOR, "div.ant-card, div.type-list-card")
     FILTERS_PANEL = (By.CSS_SELECTOR, '[data-testid="filters-panel"]')
@@ -36,17 +34,17 @@ class ClubPage(BasePage):
         """Helper to find all elements for locator."""
         return self.wait.until(EC.presence_of_all_elements_located(locator))
 
-
     @allure.step("Open the Clubs page")
     def open(self) -> "ClubPage":
         """Open the Clubs page and wait until its main content is visible."""
-        self.driver.get(self.URL)
+        self.driver.get(f"{self.get_base_url()}/clubs")
         self._wait_visible(self.CLUBS_CONTENT)
 
     def wait_loaded(self) -> "ClubPage":
         """Wait until the main Clubs content is visible."""
         self._wait_visible(self.CLUBS_CONTENT)
         return self
+
     """
     @allure.step("Get list of all club cards on page")
     def get_club_cards(self) -> list[ClubCardComponent]:
