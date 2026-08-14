@@ -18,7 +18,7 @@ class HeaderComponent(BaseComponent):
 
     CLUBS_LINK: Locator = (
         By.CSS_SELECTOR,
-        "li[data-menu-id$='-clubs']",
+        ".nav-menu a[href='/clubs']",
     )
 
     CHALLENGE_MENU: Locator = (
