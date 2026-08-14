@@ -19,6 +19,8 @@ class BasePage(Base):
         "div.ant-message-error span:not(.anticon)",
     )
 
+    HEADER_ROOT: Locator = (By.CSS_SELECTOR, "header.header")
+
     def __init__(self, driver: WebDriver):
         """Initialize the base page with a WebDriver."""
         super().__init__(driver)
@@ -29,8 +31,9 @@ class BasePage(Base):
         self.driver.refresh()
     @property
     def header(self) -> HeaderComponent:
-        """Get the header component."""
-        return HeaderComponent(self.driver.find_element(By.TAG_NAME, "body"))
+        """Get HeaderComponent instance for the site header."""
+        root = self._find_element(self.HEADER_ROOT)
+        return HeaderComponent(root)
 
     def get_success_message_text(self) -> str:
         """Get the text of the global success toast message."""

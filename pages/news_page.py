@@ -13,6 +13,7 @@ from pages.types import Locator
 class NewsPage(BasePage):
     """Represents the public News page."""
 
+    NEWS_TITLE: Locator = (By.CSS_SELECTOR, ".city-name-box h2, h2.city-name, .news-title")
     NEWS_CONTENT: Locator = (By.CSS_SELECTOR, ".news-content")
     NEWS_LIST: Locator = (By.CSS_SELECTOR, ".news-content > div:first-child")
     PAGINATION: Locator = (
@@ -45,3 +46,11 @@ class NewsPage(BasePage):
         """Return the News pagination component."""
         root = self._wait_visible(self.PAGINATION)
         return NewsPaginationComponent(root)
+
+    @allure.step("Check if News page title is displayed")
+    def is_title_displayed(self) -> bool:
+        """Return True if the News page title is displayed."""
+        try:
+            return self._wait_visible(self.NEWS_TITLE).is_displayed()
+        except Exception:
+            return False
