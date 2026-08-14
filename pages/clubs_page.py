@@ -16,11 +16,8 @@ from pages.types import Locator
 class ClubPage(BasePage):
     """Page object representing the Speak Ukrainian clubs catalog page."""
 
-<<<<<<< HEAD
+
     CLUBS_CONTENT: Locator = (By.TAG_NAME, "body")
-    URL = f"{Config.BASE_UI_URL.rstrip('/')}/clubs"
-=======
->>>>>>> origin/main
     SEARCH_INPUT = (By.CSS_SELECTOR, "input.search-box, input[type='search']")
     CLUB_CARDS = (By.CSS_SELECTOR, "div.ant-card, div.type-list-card")
     FILTERS_PANEL = (By.CSS_SELECTOR, '[data-testid="filters-panel"]')
