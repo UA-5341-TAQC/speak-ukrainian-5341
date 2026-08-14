@@ -1,0 +1,19 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Verify that clicking the 'Новини' menu item in the header navigates the user to the News page with valid URL, title, and article list.","1203","TC-06: Verify that the News page opens","tests","2026-08-14","passed","2026-08-14","TestNewsPage","test_news_page_opens","",""
+"Test verifies that the 'Наші контакти' block is displayed on the news page, has the correct title, and contains all required social media icons: Facebook, YouTube, Instagram, and Mail.","5897","TC-28: Verify 'Наші контакти' section display","tests","2026-08-14","passed","2026-08-14","","test_social_buttons_ui","",""
+"Verify that entering an invalid password displays the correct validation error.","15610","TC-53 Verify registration password policy validation [Contains Cyrillic]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","16924","TC-53 Verify registration password policy validation [Length < 8]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","15665","TC-53 Verify registration password policy validation [Missing uppercase]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
+"Returning the authenticated_driver fixture leaves the session active.
+
+    The fixture signs in via the /api/signin endpoint and injects the issued
+    tokens, so the header must report the user as logged in.
+    ","164","test_user_is_signed_in_after_api_fixture","tests","2026-08-14","passed","2026-08-14","","test_sign_in","",""
+"Verify title, amount, currency, express pay buttons, card form fields and submit button.","8408","TC-48: Verify payment page UI elements are displayed correctly","tests","2026-08-14","passed","2026-08-14","TestPaymentPageUI","test_payment_page_ui","",""
+"Verify opening a news article from the list and returning back to the News page.","9820","TC-07: Navigation to the News details page","tests","2026-08-14","passed","2026-08-14","TestNewsDetailsNavigation","test_news_details_navigation","",""
+"Verify that entering an invalid password displays the correct validation error.","15409","TC-53 Verify registration password policy validation [Missing letters/special]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","16015","TC-53 Verify registration password policy validation [Length > 20]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
+"Verify homepage hero carousel navigation and its slide redirects.","10182","test_homepage_carousel_navigation","tests","2026-08-14","passed","2026-08-14","","test_home_carousel_navigation","",""
+"Verify that entering an invalid password displays the correct validation error.","15731","TC-53 Verify registration password policy validation [Missing letters/digits]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
+"Verify challenge and event banner navigation on the homepage.","8745","TC-50 Verify challenge and event banner navigation on the homepage","tests","2026-08-14","passed","2026-08-14","","test_home_page","",""
+"Verify that entering an invalid password displays the correct validation error.","15762","TC-53 Verify registration password policy validation [Missing lowercase]","tests","2026-08-14","broken","2026-08-14","","test_sign_up","",""
