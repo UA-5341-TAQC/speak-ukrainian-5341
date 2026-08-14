@@ -109,3 +109,4 @@ class TestCatalogClubLocation:
             assert map_modal.get_clubs_count() > 0, (
                 "Sidebar should contain clubs of 'Спортивні секції' category"
             )
+
