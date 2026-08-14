@@ -41,7 +41,6 @@ class ClubPage(BasePage):
         """Helper to find all elements for locator."""
         return self.wait.until(EC.presence_of_all_elements_located(locator))
 
-
     @allure.step("Open the Clubs page")
     def open(self) -> ClubPage:
         """Open the Clubs page and wait until its main content is visible."""

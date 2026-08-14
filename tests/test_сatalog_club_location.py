@@ -30,7 +30,7 @@ class TestCatalogClubLocation:
         home_page = HomePage(driver)
 
         with allure.step("Step 1: Open 'Гуртки' catalog"):
-            home_page.header().click_clubs()
+            home_page.header.click_clubs()
 
             club_page = ClubPage(driver)
             club_page.wait_loaded()
