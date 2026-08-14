@@ -2,7 +2,6 @@
 
 import allure
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as ec
 
 from pages.components.base_component import BaseComponent
 from pages.components.challenges_dropdown import ChallengeDropdown
