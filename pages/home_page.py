@@ -136,7 +136,7 @@ class HomePage(BasePage):
         acknowledged by the active link href changing.
         """
         ActionChains(self.driver).move_to_element(self._find_element(self.CAROUSEL)).perform()
-        carousel = self.get_carousel()
+        carousel: Carousel = self.get_carousel()
         for _ in range(3):
             href = carousel.get_active_link_href()
             if self.CHALLENGE_PAGE in href:

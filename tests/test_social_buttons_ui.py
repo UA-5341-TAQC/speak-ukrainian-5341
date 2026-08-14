@@ -17,7 +17,7 @@ def test_tc28_contacts_section_display(driver: WebDriver) -> None:
     """Verify the 'Наші контакти' section is displayed on the news page with all required social media icons."""
     with allure.step("Step 1: Open news page"):
         page = NewsDetailsPage(driver)
-        page.open(news_id=27)
+        page.open(27)
 
     with allure.step("Step 1: Scroll down to 'Наші контакти' block"):
         page.scroll_to_contacts()
