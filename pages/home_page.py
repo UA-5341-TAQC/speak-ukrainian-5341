@@ -6,7 +6,6 @@ from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
 from pages.components.carousel import Carousel
-from pages.components.header_component import HeaderComponent
 from pages.components.home_content_card import HomeContentCard
 from pages.types import Locator
 
