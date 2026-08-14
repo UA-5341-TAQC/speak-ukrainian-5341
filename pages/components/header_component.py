@@ -92,6 +92,16 @@ class HeaderComponent(BaseComponent):
         "li[data-menu-id$='-logout'], li.ant-dropdown-menu-item-danger",
     )
 
+    LOGIN_MENU_ITEM: Locator = (
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='-login']",
+    )
+
+    REGISTER_MENU_ITEM: Locator = (
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='-register']",
+    )
+
     @allure.step("Click logo")
     def click_logo(self) -> None:
         """Click the website logo."""
@@ -162,6 +172,18 @@ class HeaderComponent(BaseComponent):
         """Click the logout item in the user dropdown."""
         self.click_user_profile()
         self._wait_clickable(self.LOGOUT_MENU_ITEM).click()
+
+    @allure.step("Click 'Увійти' in user menu")
+    def click_login_menu_item(self) -> None:
+        """Click the 'Увійти' item in the user dropdown."""
+        self.click_user_profile()
+        self._wait_clickable(self.LOGIN_MENU_ITEM).click()
+
+    @allure.step("Click 'Зареєструватися' in user menu")
+    def click_register_menu_item(self) -> None:
+        """Click the 'Зареєструватися' item in the user dropdown."""
+        self.click_user_profile()
+        self._wait_clickable(self.REGISTER_MENU_ITEM).click()
 
     @allure.step("Check whether the user is signed in")
     def is_logged_in(self) -> bool:
