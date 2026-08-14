@@ -4,7 +4,6 @@ import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from data.config import Config
 from pages.base_page import BasePage
 from pages.components.news_list_component import NewsListComponent
 from pages.components.news_pagination_component import NewsPaginationComponent
@@ -13,8 +12,6 @@ from pages.types import Locator
 
 class NewsPage(BasePage):
     """Represents the public News page."""
-
-    URL = f"{Config.BASE_UI_URL.rstrip('/')}/news"
 
     NEWS_TITLE: Locator = (By.CSS_SELECTOR, ".city-name-box h2, h2.city-name, .news-title")
     NEWS_CONTENT: Locator = (By.CSS_SELECTOR, ".news-content")
@@ -31,7 +28,7 @@ class NewsPage(BasePage):
     @allure.step("Open the News page")
     def open(self) -> "NewsPage":
         """Open the News page and wait until its main content is visible."""
-        self.driver.get(self.URL)
+        self.driver.get(f"{self.get_base_url()}/news")
         self._wait_visible(self.NEWS_CONTENT)
         return self
 
