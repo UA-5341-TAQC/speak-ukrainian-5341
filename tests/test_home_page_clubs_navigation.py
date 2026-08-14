@@ -30,16 +30,16 @@ class TestHomePageClubsNavigation:
     @allure.label("owner", "Svitlana Kovalova")
     def test_verify_clubs_navigation_and_categories(self, driver) -> None:
         home_page = HomePage(driver)
-        clubs_page = ClubPage(driver)
+
 
         with allure.step(
             "Step 1 & 2: Scroll to and click 'Всі гуртки' button"
         ):
             home_page._scroll_into_view(home_page.ALL_CLUBS_BUTTON)
-            home_page.click_all_clubs_button()
+            clubs_page: ClubPage = home_page.click_all_clubs_button()
 
-            assert clubs_page.URL in driver.current_url, (
-                f"Expected URL to contain '{clubs_page.URL}', but got '{driver.current_url}'"
+            assert clubs_page.get_current_url().endswith("/clubs"), (
+                f"Expected URL to end with '/clubs', but got '{driver.current_url}'"
             )
 
         with allure.step(
@@ -62,7 +62,7 @@ class TestHomePageClubsNavigation:
             card_1 = home_page.get_content_card_by_title("Спортивні секції")
             card_1.click()
 
-            assert clubs_page.URL in driver.current_url, (
+            assert clubs_page.get_current_url().endswith("/clubs"), (
                 "User should be redirected to the Clubs page"
             )
 

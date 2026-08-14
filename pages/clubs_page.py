@@ -62,7 +62,7 @@ class ClubPage(BasePage):
     @allure.step("Check if 'No clubs' message is displayed")
     def is_no_results_displayed(self) -> bool:
         """Check if 'No clubs' message is displayed."""
-        return len(self.driver.find_elements(*self._NO_RESULTS_MESSAGE)) > 0
+        return len(self.driver._find_elements(self._NO_RESULTS_MESSAGE)) > 0
 
     def filter(self) -> ClubFiltersComponent:
         """Return filter object."""
