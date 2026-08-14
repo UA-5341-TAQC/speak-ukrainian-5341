@@ -87,5 +87,4 @@ class ClubPage(BasePage):
         map_modal = MapModal(self.driver)
 
         self.wait.until(lambda _: map_modal.is_displayed())
-
         return map_modal

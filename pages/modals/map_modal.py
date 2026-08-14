@@ -195,7 +195,6 @@ class MapModal(BaseModal):
         )
 
         self.driver.execute_script("arguments[0].click();", option)
-
         self.wait.until(
             lambda _: self.get_selected_category() == category_name
         )
