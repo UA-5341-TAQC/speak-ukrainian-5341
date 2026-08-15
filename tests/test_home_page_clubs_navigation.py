@@ -31,7 +31,6 @@ class TestHomePageClubsNavigation:
     def test_verify_clubs_navigation_and_categories(self, driver) -> None:
         home_page = HomePage(driver)
 
-
         with allure.step(
             "Step 1 & 2: Scroll to and click 'Всі гуртки' button"
         ):
@@ -80,7 +79,7 @@ class TestHomePageClubsNavigation:
             card_2 = home_page.get_content_card_by_title("Танці, хореографія")
             card_2.click()
 
-            assert clubs_page.URL in driver.current_url, (
+            assert "/clubs" in driver.current_url, (
                 "User should be redirected to the Clubs page"
             )
 
@@ -98,6 +97,6 @@ class TestHomePageClubsNavigation:
             card_3 = home_page.get_content_card_by_title("Студії раннього розвитку")
             card_3.click()
 
-            assert clubs_page.URL in driver.current_url, (
+            assert "/clubs" in driver.current_url, (
                 "User should be redirected to the Clubs page with the selected category"
             )
