@@ -3,7 +3,6 @@
 import allure
 from selenium.webdriver.common.by import By
 
-from data.config import Config
 from pages.base_page import BasePage
 from pages.components.challenge_cta_button import ChallengeCtaButton
 from pages.components.challenge_video_card import ChallengeVideoCard
@@ -47,13 +46,12 @@ class ChallengePage(BasePage):
 
     @allure.step("Open challenge page")
     def open(self, challenge_id: int) -> None:
-        """Navigate to a challenge page."""
-        self.driver.get(
-            urljoin(
-                Config.BASE_UI_URL,
-                f"challenges/{challenge_id}",
-            )
-        )
+        """Navigate the browser to a challenge page.
+
+        Args:
+            challenge_id: Identifier of the challenge to open.
+        """
+        self.driver.get(f"{self.get_base_url()}/challenges/{challenge_id}")
 
     @allure.step("Get challenge page title")
     def get_title_text(self) -> str:

@@ -145,7 +145,7 @@ class HeaderComponent(BaseComponent):
     def click_add_club_menu_item(self) -> None:
         """Click the 'Додати гурток' item in the user dropdown."""
         self.click_user_profile()
-        self._wait_clickable(self.ADD_CLUB_MENU_ITEM).click()
+        self._wait_clickable(self.ADD_CLUB_MENU_ITEM, from_driver=True).click()
 
     @allure.step("Click 'Додати центр' in user menu")
     def click_add_centre_menu_item(self) -> None:

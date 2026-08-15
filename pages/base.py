@@ -74,9 +74,10 @@ class Base:
             return (by, "." + value)
         return locator
 
-    def _find_element(self, locator: Locator) -> WebElement:
+    def _find_element(self, locator: Locator, from_driver: bool = False) -> WebElement:
         """Find a single element within the current context."""
-        return self._target.find_element(*self._format_locator(locator))
+        target = self._target if not from_driver else self.driver
+        return target.find_element(*self._format_locator(locator))
 
     def _find_elements(self, locator: Locator) -> list[WebElement]:
         """Find all matching elements within the current context."""
@@ -98,12 +99,12 @@ class Base:
 
         return self.wait.until(_predicate)
 
-    def _wait_clickable(self, locator: Locator) -> WebElement:
+    def _wait_clickable(self, locator: Locator, from_driver: bool = False) -> WebElement:
         """Wait until an element is clickable within the active context."""
 
         def _predicate(_: object) -> WebElement | Literal[False]:
             try:
-                element = self._find_element(locator)
+                element = self._find_element(locator, from_driver)
                 return element if (element.is_displayed() and element.is_enabled()) else False
             except Exception:
                 return False

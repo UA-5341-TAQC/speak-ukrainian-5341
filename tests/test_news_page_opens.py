@@ -2,6 +2,7 @@
 
 import allure
 import pytest
+from selenium.webdriver.remote.webdriver import WebDriver
 
 from data.config import Config
 from pages.home_page import HomePage
@@ -13,6 +14,7 @@ class TestNewsPage:
     """Test cases for the News page."""
 
     @pytest.fixture(autouse=True)
+    def setup(self, driver: WebDriver)->None:
     def setup(self, driver) -> None:
         """Precondition: Navigate to the home page before executing tests."""
         driver.get(Config.BASE_UI_URL)
@@ -24,12 +26,12 @@ class TestNewsPage:
         "the user to the News page with valid URL, title, and article list."
     )
     @allure.label("owner", "Svitlana Kovalova")
-    def test_verify_news_page_opens(self, driver) -> None:
+    def test_verify_news_page_opens(self, driver: WebDriver)->None:
         with allure.step("Step 1: Open the Speak Ukrainian home page"):
             home_page = HomePage(driver)
 
         with allure.step("Step 2: Click the 'Новини' menu item in header"):
-            home_page.header().click_news()
+            home_page.header.click_news()
 
         with allure.step("Step 3: Verify the page URL contains '/news'"):
             news_page = NewsPage(driver)

@@ -11,7 +11,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from pages.components.add_club.basic_info_step import BasicInfoStep
 from pages.components.add_club.contacts_step import ContactsStep
 from pages.components.add_club.description_step import DescriptionStep
-from pages.components.header_component import HeaderComponent
+from pages.home_page import HomePage
 
 VALID_PHONE = "0991234567"  # yields +380991234567 per the pre-rendered +38 prefix
 EXPECTED_INFO_BANNER_TEXT = "Ви не додали жодної локації, гурток автоматично є онлайн"
@@ -41,7 +41,7 @@ def test_online_status_auto_assigned_when_no_location(authenticated_driver: WebD
     can be transient, the check happens immediately after `click_next()`.
     """
     with allure.step("Precondition: open 'Додати гурток' modal"):
-        header = HeaderComponent(authenticated_driver.find_element(By.TAG_NAME, "header"))
+        header = HomePage(authenticated_driver).header
         header.click_add_club_menu_item()
 
     with allure.step("Precondition: complete step 'Основна інформація'"):
