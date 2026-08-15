@@ -18,12 +18,16 @@ def driver() -> Iterator[WebDriver]:
     options = webdriver.ChromeOptions()
     if Config.HEADLESS:
         options.add_argument("--headless=new")
-    options.add_argument("--window-size=1600,1000")
+    if Config.MAXIMIZE:
+        options.add_argument("--start-maximized")
+    else:
+        options.add_argument(f"--window-size={Config.WINDOW_SIZE}")
     options.add_argument("--disable-gpu")
     web_driver = webdriver.Chrome(
         service=Service(ChromeDriverManager().install()),
         options=options,
     )
+    web_driver.get(Config.BASE_UI_URL)
     yield web_driver
     web_driver.quit()
 
@@ -44,7 +48,6 @@ def authenticated_driver(driver: WebDriver, session_driver: SignInSession) -> We
     application boots with an active session. Future tests can reuse this
     fixture to start from an authenticated state without walking the UI form.
     """
-    driver.get(Config.BASE_UI_URL)
     driver.execute_script(
         "var storage = arguments[0];"
         "for (var key in storage) { localStorage.setItem(key, storage[key]); }",
