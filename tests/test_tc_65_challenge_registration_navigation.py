@@ -1,7 +1,5 @@
 """Automated test for TC-65: Challenge registration navigation."""
 
-from email.mime import application
-
 import allure
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
