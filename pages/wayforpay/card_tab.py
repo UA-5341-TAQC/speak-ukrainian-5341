@@ -82,3 +82,38 @@ class CardTab(BasePage):
     def is_form_displayed(self) -> bool:
         """Verify that card payment tab content is visible."""
         return self._find_element(self.CARD_NUMBER_INPUT).is_displayed()
+
+    @allure.step("Check if card number field is displayed")
+    def is_card_number_displayed(self) -> bool:
+        """Check if card number field is displayed."""
+        return self._find_element(self.CARD_NUMBER_INPUT).is_displayed()
+
+    @allure.step("Check if validity date field is displayed")
+    def is_validity_displayed(self) -> bool:
+        """Check if validity date field is displayed."""
+        return self._find_element(self.VALIDITY_INPUT).is_displayed()
+
+    @allure.step("Check if CVV field is displayed")
+    def is_cvv_displayed(self) -> bool:
+        """Check if CVV field is displayed."""
+        return self._find_element(self.CVV_INPUT).is_displayed()
+
+    @allure.step("Check if cardholder name field is displayed")
+    def is_cardholder_displayed(self) -> bool:
+        """Check if cardholder name field is displayed."""
+        return self._find_element(self.CARDHOLDER_INPUT).is_displayed()
+
+    @allure.step("Check if phone field is displayed")
+    def is_phone_displayed(self) -> bool:
+        """Check if phone field is displayed."""
+        return self._find_element(self.PHONE_INPUT).is_displayed()
+
+    @allure.step("Check if email field is displayed")
+    def is_email_displayed(self) -> bool:
+        """Check if email field is displayed."""
+        return self._find_element(self.EMAIL_INPUT).is_displayed()
+
+    @allure.step("Check if submit button is displayed")
+    def is_submit_button_displayed(self) -> bool:
+        """Check if submit button is displayed."""
+        return self._find_element(self.SUBMIT_BUTTON).is_displayed()
