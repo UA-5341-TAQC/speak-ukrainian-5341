@@ -1,7 +1,5 @@
 """Page object for the second Speak Ukrainian challenge."""
 
-from urllib.parse import urljoin
-
 import allure
 from components.social_buttons import SocialButtons
 from selenium.webdriver.common.by import By
@@ -36,10 +34,7 @@ class ChallengePage(BasePage):
         By.CSS_SELECTOR,
         ".ant-tooltip-inner[role='tooltip']",
     )
-    VIDEO_CARDS: Locator = (
-        By.XPATH,
-        "//button[normalize-space()='Записатись на челендж']",
-    )
+
     SOCIAL_BUTTONS: Locator = (
         By.CSS_SELECTOR,
         ".social-info",
