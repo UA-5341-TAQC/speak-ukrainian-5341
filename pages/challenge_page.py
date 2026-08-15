@@ -1,11 +1,8 @@
 """Page object for the second Speak Ukrainian challenge."""
 
-from urllib.parse import urljoin
-
 import allure
 from selenium.webdriver.common.by import By
 
-from data.config import Config
 from pages.base_page import BasePage
 from pages.components.challenge_cta_button import ChallengeCtaButton
 from pages.components.challenge_video_card import ChallengeVideoCard
