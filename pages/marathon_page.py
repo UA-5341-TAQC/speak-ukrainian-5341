@@ -53,7 +53,7 @@ class MarathonPage(BasePage):
                 if el.text.strip()
             ]
 
-        WebDriverWait(self.driver, 5).until(_has_visible_titles)
+        self._get_wait(5).until(_has_visible_titles)
         return _has_visible_titles(None)
 
     @allure.step("Get pagination dot count")
@@ -83,7 +83,7 @@ class MarathonPage(BasePage):
                 except ValueError:
                     return False
 
-            WebDriverWait(self.driver, 5).until(_is_dot_changed)
+            self._get_wait(5).until(_is_dot_changed)
 
     @allure.step("Click the task carousel's next arrow")
     def click_next(self) -> None:
@@ -99,7 +99,7 @@ class MarathonPage(BasePage):
                 except ValueError:
                     return False
 
-            WebDriverWait(self.driver, 5).until(_is_dot_changed)
+            self._get_wait(5).until(_is_dot_changed)
 
     @allure.step("Click pagination dot {index}")
     def click_dot(self, index: int) -> None:
@@ -117,7 +117,7 @@ class MarathonPage(BasePage):
 
         dots[index - 1].click()
 
-        WebDriverWait(self.driver, 5).until(
+        self._get_wait(5).until(
             lambda _: self.get_active_dot_index() == index
         )
 
