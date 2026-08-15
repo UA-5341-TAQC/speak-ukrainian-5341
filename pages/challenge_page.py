@@ -28,10 +28,6 @@ class ChallengePage(BasePage):
         By.CSS_SELECTOR,
         ".ant-tooltip-inner[role='tooltip']",
     )
-    VIDEO_CARDS: Locator = (
-        By.XPATH,
-        "//button[normalize-space()='Записатись на челендж']",
-    )
 
     VIDEO_CARDS: Locator = (
         By.CSS_SELECTOR,
