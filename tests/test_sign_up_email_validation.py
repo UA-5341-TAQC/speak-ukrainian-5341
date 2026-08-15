@@ -37,7 +37,7 @@ class TestSignUpEmailValidation:
         with allure.step(
             "Step 1 & 2: Open the Registration modal via user menu"
         ):
-            home_page.get_header().click_register_menu_item()
+            home_page.header.click_register_menu_item()
             sign_up_modal.is_displayed()
 
         with allure.step(

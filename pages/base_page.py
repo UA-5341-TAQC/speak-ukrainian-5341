@@ -29,6 +29,7 @@ class BasePage(Base):
     def refresh(self) -> None:
         """Refresh the current browser page."""
         self.driver.refresh()
+
     @property
     def header(self) -> HeaderComponent:
         """Get the header component."""
