@@ -44,10 +44,34 @@ class EditProfileModal(BaseModal):
         "button.ant-btn[type='submit']",
     )
 
+    # --- Last name (Прізвище) field validation ---
+    last_name_error: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-modal-content "
+        "div.ant-form-item:has(input#edit_lastName) "
+        "div.ant-form-item-explain-error",
+    )
+    last_name_error_icon: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-modal-content "
+        "div.ant-form-item:has(input#edit_lastName) "
+        "span.ant-form-item-feedback-icon",
+    )
+    last_name_error_input: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-modal-content "
+        "div.ant-form-item:has(input#edit_lastName).ant-form-item-has-error",
+    )
+
     @allure.step("Get modal title")
     def get_title(self) -> str:
         """Get the title of the modal."""
         return self._get_text(self.modal_title)
+
+    @allure.step("Check if Edit Profile modal is displayed")
+    def is_displayed(self) -> bool:
+        """Check whether the Edit Profile modal window is currently open."""
+        return self._wait_visible(self.modal_title).is_displayed()
 
     @allure.step("Close Edit Profile modal")
     def close_modal(self) -> None:
@@ -123,3 +147,46 @@ class EditProfileModal(BaseModal):
     def save_changes(self) -> None:
         """Click the 'Зберегти зміни' button."""
         self._click(self.save_changes_btn)
+
+    @allure.step("Get last name input value")
+    def get_last_name_value(self) -> str:
+        """Return the current value of the 'Прізвище' input field."""
+        return self._wait_visible(self.last_name_input).get_attribute("value") or ""
+
+    @allure.step("Remove focus from the Last Name field")
+    def blur_last_name(self) -> "EditProfileModal":
+        """Remove focus from the Last Name field by clicking the modal title.
+
+        Clicking an element outside the input mimics a user moving focus away,
+        which triggers the client-side blur validation of the field.
+        """
+        self._click(self.modal_title)
+        return self
+
+    @allure.step("Check if Last Name validation error is displayed")
+    def is_last_name_error_displayed(self) -> bool:
+        """Return whether the Last Name validation error message is visible."""
+        elements = self._find_elements(self.last_name_error)
+        return bool(elements) and any(el.is_displayed() for el in elements)
+
+    @allure.step("Get Last Name validation error text")
+    def get_last_name_error_text(self) -> str:
+        """Return the text of the Last Name validation error message."""
+        return self._wait_visible(self.last_name_error).text.strip()
+
+    @allure.step("Check if Last Name error icon is displayed")
+    def is_last_name_error_icon_displayed(self) -> bool:
+        """Return whether the error icon inside the Last Name field is visible."""
+        elements = self._find_elements(self.last_name_error_icon)
+        return bool(elements) and any(el.is_displayed() for el in elements)
+
+    @allure.step("Check if Last Name field has an error border")
+    def has_last_name_error_border(self) -> bool:
+        """Return whether the Last Name input is styled with the error status."""
+        elements = self._find_elements(self.last_name_error_input)
+        return bool(elements) and any(el.is_displayed() for el in elements)
+
+    @allure.step("Check if 'Save Changes' button is enabled")
+    def is_save_changes_enabled(self) -> bool:
+        """Return whether the 'Зберегти зміни' button is enabled (no disabled attr)."""
+        return self._wait_visible(self.save_changes_btn).is_enabled()
