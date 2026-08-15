@@ -56,7 +56,7 @@ class ChallengePage(BasePage):
     @allure.step("Get challenge page title")
     def get_title_text(self) -> str:
         """Return the title shown in the challenge banner."""
-        return self._find_element(self.TITLE).text
+        return self._wait_visible(self.TITLE).text.strip()
 
     @allure.step("Get challenge registration button component")
     def get_cta_button(self) -> ChallengeCtaButton:

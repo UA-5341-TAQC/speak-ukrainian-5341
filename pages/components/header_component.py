@@ -28,7 +28,7 @@ class HeaderComponent(BaseComponent):
 
     CHALLENGE_DROPDOWN: Locator = (
         By.CSS_SELECTOR,
-        ".ant-menu-submenu-popup",
+        "[id$='challenge_ONE-popup']",
     )
 
     NEWS_LINK: Locator = (
@@ -119,7 +119,11 @@ class HeaderComponent(BaseComponent):
     @allure.step("Get Challenge dropdown")
     def get_challenge_dropdown(self) -> ChallengeDropdown:
         """Return the Challenge dropdown component."""
-        return ChallengeDropdown(self._find_element(self.CHALLENGE_DROPDOWN))
+        root = self._wait_clickable(
+            self.CHALLENGE_DROPDOWN,
+            from_driver=True,
+        )
+        return ChallengeDropdown(root)
 
     @allure.step("Click 'Новини'")
     def click_news(self) -> None:
