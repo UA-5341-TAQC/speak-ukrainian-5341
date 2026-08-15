@@ -4,7 +4,6 @@ import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from data.config import Config
 from pages.base_page import BasePage
 from pages.components.news_list_component import NewsListComponent
 from pages.components.news_pagination_component import NewsPaginationComponent
