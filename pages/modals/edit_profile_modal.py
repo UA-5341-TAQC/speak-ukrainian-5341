@@ -31,6 +31,22 @@ class EditProfileModal(BaseModal):
         By.CSS_SELECTOR,
         "input[type='file']#edit_urlLogo",
     )
+    upload_photo_button: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-upload-select span.ant-upload[role='button']",
+    )
+    upload_photo_list_item: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-modal-content div.ant-upload-list div.ant-upload-list-item",
+    )
+    upload_photo_error_item: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-modal-content div.ant-upload-list-item.ant-upload-list-item-error",
+    )
+    photo_error_message: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-message-error span:not(.anticon)",
+    )
     change_password_checkbox: Locator = (
         By.CSS_SELECTOR,
         "div.align-checkbox",
@@ -59,8 +75,7 @@ class EditProfileModal(BaseModal):
     )
     last_name_error_input: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-modal-content "
-        "div.ant-form-item:has(input#edit_lastName).ant-form-item-has-error",
+        "div.ant-modal-content div.ant-form-item:has(input#edit_lastName).ant-form-item-has-error",
     )
 
     @allure.step("Get modal title")
@@ -141,6 +156,66 @@ class EditProfileModal(BaseModal):
     def upload_photo(self, file_path: str) -> "EditProfileModal":
         """Upload a photo by sending the file path to the hidden file input."""
         self._find_element(self.upload_photo_input).send_keys(file_path)
+        return self
+
+    @allure.step("Click 'Завантажити фото' button")
+    def click_upload_photo(self) -> "EditProfileModal":
+        """Click the 'Завантажити фото' (upload photo) button.
+
+        Note: the native OS file dialog cannot be automated by Selenium, so a
+        real upload is performed with `upload_photo` (sending the file path to
+        the hidden file input). This method is provided for completeness.
+        """
+        self._click(self.upload_photo_button)
+        return self
+
+    @allure.step("Get uploaded photo file names")
+    def get_uploaded_file_names(self) -> list[str]:
+        """Return the file names currently present in the photo upload list."""
+        return [
+            el.text.strip()
+            for el in self._find_elements(self.upload_photo_list_item)
+            if el.is_displayed()
+        ]
+
+    @allure.step("Check if an upload photo error state is shown")
+    def is_photo_upload_error_displayed(self) -> bool:
+        """Return whether the uploaded photo is in an error state.
+
+        A rejected/unsupported upload is rendered by antd as a list item with
+        the ``ant-upload-list-item-error`` class. Additionally an error toast
+        may be shown via ``ant-message-error``.
+        """
+        error_items = [
+            el for el in self._find_elements(self.upload_photo_error_item) if el.is_displayed()
+        ]
+        if error_items:
+            return True
+        toasts = [el for el in self._find_elements(self.photo_error_message) if el.is_displayed()]
+        return bool(toasts)
+
+    @allure.step("Get photo upload error text")
+    def get_photo_upload_error_text(self) -> str:
+        """Return the visible photo upload error message text, if any."""
+        for el in self._find_elements(self.photo_error_message):
+            if el.is_displayed() and el.text.strip():
+                return el.text.strip()
+        return ""
+
+    @allure.step("Wait for the photo upload to settle")
+    def wait_for_upload_settle(self) -> "EditProfileModal":
+        """Wait until the uploaded file is rendered in the upload list.
+
+        Uploading a file triggers an async request; the antd Upload component
+        reflects the result (success or error) only after the request resolves.
+        This helper waits for that settled state so assertions run against the
+        final UI, not a transient "uploading" state.
+        """
+        self.wait.until(
+            lambda _: bool(
+                [el for el in self._find_elements(self.upload_photo_list_item) if el.is_displayed()]
+            )
+        )
         return self
 
     @allure.step("Click 'Save Changes' button")

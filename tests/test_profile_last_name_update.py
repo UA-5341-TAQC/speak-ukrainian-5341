@@ -18,8 +18,8 @@ import allure
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from pages.modals.edit_profile_modal import EditProfileModal
 from pages.home_page import HomePage
+from pages.modals.edit_profile_modal import EditProfileModal
 from pages.profile_page import ProfilePage
 
 # Invalid special characters used as the Last Name test data (TC-61).
@@ -36,9 +36,7 @@ EXPECTED_LAST_NAME_ERROR = "Прізвище не може містити спе
 class TestProfileLastNameUpdate:
     """Negative test for updating the profile Last Name with special characters."""
 
-    def test_last_name_rejects_special_characters(
-        self, authenticated_driver: WebDriver
-    ) -> None:
+    def test_last_name_rejects_special_characters(self, authenticated_driver: WebDriver) -> None:
         """TC-61: verify the Last Name field rejects invalid special characters.
 
         Test steps (from TC-61):
