@@ -1,12 +1,12 @@
 """Page object for the second Speak Ukrainian challenge."""
 
 import allure
-from components.social_buttons import SocialButtons
 from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
 from pages.components.challenge_cta_button import ChallengeCtaButton
 from pages.components.challenge_video_card import ChallengeVideoCard
+from pages.components.social_buttons import SocialButtons
 from pages.types import Locator
 
 
