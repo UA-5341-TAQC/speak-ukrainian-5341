@@ -42,6 +42,6 @@ class BasePage(Base):
         """Get the text of the global error toast message."""
         return self._get_text(self.error_message)
 
-    def _get_wait(self, timeout: int = 5) -> WebDriverWait:
+    def get_wait(self, timeout: int = 5) -> WebDriverWait:
         """Get a WebDriverWait instance with the specified timeout."""
         return WebDriverWait(self.driver, timeout)

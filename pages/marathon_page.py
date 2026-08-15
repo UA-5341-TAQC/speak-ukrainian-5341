@@ -2,7 +2,6 @@
 
 import allure
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.base_page import BasePage
 from pages.types import Locator
@@ -45,7 +44,6 @@ class MarathonPage(BasePage):
     @allure.step("Get titles of the currently visible task cards")
     def get_visible_task_titles(self) -> list[str]:
         """Get the titles of the task cards visible on the current carousel page."""
-        from selenium.webdriver.support.ui import WebDriverWait
 
         def _has_visible_titles(_: object) -> list[str]:
             return [
@@ -53,7 +51,7 @@ class MarathonPage(BasePage):
                 if el.text.strip()
             ]
 
-        self._get_wait(5).until(_has_visible_titles)
+        self.get_wait(5).until(_has_visible_titles)
         return _has_visible_titles(None)
 
     @allure.step("Get pagination dot count")
@@ -83,7 +81,7 @@ class MarathonPage(BasePage):
                 except ValueError:
                     return False
 
-            self._get_wait(5).until(_is_dot_changed)
+            self.get_wait(5).until(_is_dot_changed)
 
     @allure.step("Click the task carousel's next arrow")
     def click_next(self) -> None:
@@ -99,7 +97,7 @@ class MarathonPage(BasePage):
                 except ValueError:
                     return False
 
-            self._get_wait(5).until(_is_dot_changed)
+            self.get_wait(5).until(_is_dot_changed)
 
     @allure.step("Click pagination dot {index}")
     def click_dot(self, index: int) -> None:
@@ -117,7 +115,7 @@ class MarathonPage(BasePage):
 
         dots[index - 1].click()
 
-        self._get_wait(5).until(
+        self.get_wait(5).until(
             lambda _: self.get_active_dot_index() == index
         )
 
