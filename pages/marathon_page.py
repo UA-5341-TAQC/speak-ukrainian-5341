@@ -2,7 +2,6 @@
 
 import allure
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.base_page import BasePage
 from pages.types import Locator
@@ -32,6 +31,11 @@ class MarathonPage(BasePage):
         ".slick-slide.slick-active .name",
     )
 
+    @allure.step("Get 'Зареєструватись' button href")
+    def get_register_button_href(self) -> str | None:
+        """Get the href of the 'Зареєструватись' registration button."""
+        return self._find_element(self.REGISTER_BUTTON).get_attribute("href")
+
     @allure.step("Click 'Зареєструватись' button")
     def click_register(self) -> None:
         """Click the 'Зареєструватись' registration button."""
@@ -40,7 +44,6 @@ class MarathonPage(BasePage):
     @allure.step("Get titles of the currently visible task cards")
     def get_visible_task_titles(self) -> list[str]:
         """Get the titles of the task cards visible on the current carousel page."""
-        from selenium.webdriver.support.ui import WebDriverWait
 
         def _has_visible_titles(_: object) -> list[str]:
             return [
@@ -48,7 +51,7 @@ class MarathonPage(BasePage):
                 if el.text.strip()
             ]
 
-        WebDriverWait(self.driver, 5).until(_has_visible_titles)
+        self.get_wait(5).until(_has_visible_titles)
         return _has_visible_titles(None)
 
     @allure.step("Get pagination dot count")
@@ -78,7 +81,7 @@ class MarathonPage(BasePage):
                 except ValueError:
                     return False
 
-            WebDriverWait(self.driver, 5).until(_is_dot_changed)
+            self.get_wait(5).until(_is_dot_changed)
 
     @allure.step("Click the task carousel's next arrow")
     def click_next(self) -> None:
@@ -94,7 +97,7 @@ class MarathonPage(BasePage):
                 except ValueError:
                     return False
 
-            WebDriverWait(self.driver, 5).until(_is_dot_changed)
+            self.get_wait(5).until(_is_dot_changed)
 
     @allure.step("Click pagination dot {index}")
     def click_dot(self, index: int) -> None:
@@ -112,7 +115,7 @@ class MarathonPage(BasePage):
 
         dots[index - 1].click()
 
-        WebDriverWait(self.driver, 5).until(
+        self.get_wait(5).until(
             lambda _: self.get_active_dot_index() == index
         )
 
@@ -137,19 +140,7 @@ class MarathonPage(BasePage):
     @allure.step("Scroll to 'Зареєструватись' button")
     def scroll_to_register_button(self) -> None:
         """Scroll the registration button into view."""
-        button = self._wait_visible(
-            self.REGISTER_BUTTON
-        )
-
-        self.driver.execute_script(
-            """
-            arguments[0].scrollIntoView({
-                block: 'center',
-                inline: 'nearest'
-            });
-            """,
-            button,
-        )
+        self.scroll_to_element(self.REGISTER_BUTTON)
 
     @allure.step("Wait for registration page to load")
     def wait_for_registration_page(self) -> None:
