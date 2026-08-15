@@ -14,7 +14,6 @@ class TestNewsPage:
     """Test cases for the News page."""
 
     @pytest.fixture(autouse=True)
-    def setup(self, driver: WebDriver)->None:
     def setup(self, driver) -> None:
         """Precondition: Navigate to the home page before executing tests."""
         driver.get(Config.BASE_UI_URL)

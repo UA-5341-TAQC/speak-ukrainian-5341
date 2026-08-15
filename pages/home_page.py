@@ -6,15 +6,12 @@ from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
 from pages.components.carousel import Carousel
-from pages.components.header_component import HeaderComponent
 from pages.components.home_content_card import HomeContentCard
 from pages.types import Locator
 
 
 class HomePage(BasePage):
     """Page object representing the Speak Ukrainian home page."""
-
-    HEADER: Locator = (By.CSS_SELECTOR, "header.ant-layout-header")
 
     ALL_CLUBS_BUTTON: Locator = (
         By.CSS_SELECTOR,
@@ -59,14 +56,6 @@ class HomePage(BasePage):
         By.CSS_SELECTOR,
         ".primitive-card",
     )
-
-    HEADER_ROOT: Locator = (By.CSS_SELECTOR, "header.header")
-
-    @property
-    def header(self) -> HeaderComponent:
-        """Get HeaderComponent instance for the site header."""
-        root = self._find_element(self.HEADER_ROOT)
-        return HeaderComponent(root)
 
     @allure.step("Click 'Всі гуртки' button")
     def click_all_clubs_button(self) -> None:
@@ -162,9 +151,3 @@ class HomePage(BasePage):
     def get_content_cards(self) -> list[HomeContentCard]:
         """Return all home page content cards."""
         return [HomeContentCard(card) for card in self.driver.find_elements(*self.CONTENT_CARDS)]
-
-    @allure.step("Get header component")
-    def header(self) -> HeaderComponent:  # <- 3. Метод
-        """Get the HeaderComponent instance."""
-        header_element = self._find_element(self.HEADER)
-        return HeaderComponent(header_element)
