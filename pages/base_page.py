@@ -26,20 +26,11 @@ class BasePage(Base):
         """Initialize the base page with a WebDriver."""
         super().__init__(driver)
 
-    @property
-    def header(self) -> HeaderComponent:
-        """Get the header component."""
-        return HeaderComponent(self.driver.find_element(By.TAG_NAME, "body"))
-
     @allure.step("Refresh the browser page")
     def refresh(self) -> None:
         """Refresh the current browser page."""
         self.driver.refresh()
 
-    @allure.step("Refresh the browser page")
-    def refresh(self) -> None:
-        """Refresh the current browser page."""
-        self.driver.refresh()
     @property
     def header(self) -> HeaderComponent:
         """Get the header component."""
