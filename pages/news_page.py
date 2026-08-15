@@ -14,8 +14,6 @@ from pages.types import Locator
 class NewsPage(BasePage):
     """Represents the public News page."""
 
-    URL = f"{Config.BASE_UI_URL.rstrip('/')}/news"
-
     NEWS_TITLE: Locator = (By.CSS_SELECTOR, ".city-name-box h2, h2.city-name, .news-title")
     NEWS_CONTENT: Locator = (By.CSS_SELECTOR, ".news-content")
     NEWS_LIST: Locator = (By.CSS_SELECTOR, ".news-content > div:first-child")
