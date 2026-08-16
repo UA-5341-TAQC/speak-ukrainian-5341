@@ -87,10 +87,7 @@ def test_tc_65_speaking_club_challenge_registration(
             "Expected the registration iframe to contain a valid Google Forms URL."
         )
 
-    # TC-65 step 5 is not automated yet because the current Page Objects
-    # do not contain methods for interacting with the Google Form inside
-    # the iframe or for verifying the final success message.
-
+  
     # Type: Positive / Functional
     # Current execution status: Failed
     # Reason: application defect at Step 4.
