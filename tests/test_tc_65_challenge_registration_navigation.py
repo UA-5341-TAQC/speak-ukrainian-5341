@@ -93,4 +93,4 @@ def test_tc_65_speaking_club_challenge_registration(
 
     # Type: Positive / Functional
     # Current execution status: Failed
-    # Reason: application defect на Step 4.
+    # Reason: application defect at Step 4.
