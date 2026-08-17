@@ -22,8 +22,7 @@ from selenium.webdriver.common.by import By
 
 from data.config import Config
 from pages.components.header_component import HeaderComponent
-from pages.home_page import HomePage
-from pages.types import Locator
+
 
 @allure.title("TC-39 Verify header navigation links redirect to the correct pages.")
 def test_header_navigation(driver: WebDriver) -> None:
