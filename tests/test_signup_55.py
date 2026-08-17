@@ -29,7 +29,6 @@ from pages.components.header_component import HeaderComponent
      ("099-123-45-67",["Телефон не відповідає вказаному формату","Телефон не може містити спеціальні символи"]),
      ("099 123 4567",["Телефон не може містити пробіли","Телефон не відповідає вказаному формату"])
      ])
-
 @allure.title("TC-55 Registration — phone format — Реєстрація modal (invalid phone format).")
 def test_registration_inv_num(driver: WebDriver, phone: str, expected_message: list[str]) -> None:
     driver.get(Config.BASE_UI_URL)

@@ -60,6 +60,7 @@ def test_sign_up_password_policy(
     home_page = HomePage(driver)
 
     with allure.step("Precondition: Open Registration modal via user menu"):
+        home_page.header.click_user_profile()
         home_page.header.click_register_menu_item()
         sign_up_modal = SignUpModal(driver)
         sign_up_modal.is_displayed()
