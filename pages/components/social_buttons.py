@@ -16,6 +16,7 @@ class SocialButtons(BaseComponent):
     INSTAGRAM_BUTTON: Locator = (By.CSS_SELECTOR, "a[href*='instagram.com']")
     MAIL_BUTTON: Locator = (By.CSS_SELECTOR, "a[href^='mailto:']")
     DONATE_BUTTON: Locator = (By.CSS_SELECTOR, ".help-button .donate-button")
+    DONATE_LINK: Locator = (By.CSS_SELECTOR, ".help-button a[href*='wayforpay.com']")
 
     @allure.step("Get social media section title text")
     def get_social_section_title_text(self) -> str:
@@ -71,9 +72,19 @@ class SocialButtons(BaseComponent):
     @allure.step("Get Donate payment link URL")
     def get_donate_url(self) -> str:
         """Get payment URL from the Donate button."""
-        return self._find_element(self.DONATE_BUTTON).get_attribute("href") or ""
+        return self._find_element(self.DONATE_LINK).get_attribute("href") or ""
 
     @allure.step("Click 'Donate' button")
     def click_donate_button(self) -> None:
         """Click the Donate button."""
         self._wait_clickable(self.DONATE_BUTTON).click()
+
+    @allure.step("Check if Donate button is displayed")
+    def is_donate_button_displayed(self) -> bool:
+        """Return whether the donate button is visible."""
+        return self._wait_visible(self.DONATE_BUTTON).is_displayed()
+
+    @allure.step("Get Donate button cursor CSS value")
+    def get_donate_button_cursor(self) -> str:
+        """Return the donate button cursor CSS value."""
+        return self._find_element(self.DONATE_BUTTON).value_of_css_property("cursor")
