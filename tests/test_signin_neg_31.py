@@ -21,8 +21,7 @@ from pages.components.header_component import HeaderComponent
 def test_login_wrong_password_tc31(driver: WebDriver, email:str, password:str, expected_message:list[str]) -> None:
     driver.get(Config.BASE_UI_URL)
     header = HeaderComponent(driver)
-    header.click_user_profile()
-    header.click_sign_in_button()
+    header.click_login_menu_item()
     
     sign_in_mod = header.get_sign_up_modal()
 
