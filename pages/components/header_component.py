@@ -213,9 +213,9 @@ class HeaderComponent(BaseComponent):
         except Exception:
             return False
 
-    @allure.step("Return whether challenge dropdown menu is displayed.")
+    @allure.step("Return whether user dropdown menu is displayed.")
     def is_user_profile_dropdown_visible(self) ->bool:
-        """Return whether challenge dropdown menu is displayed."""
+        """Return whether user dropdown menu is displayed."""
         return self._wait_visible(self.USER_DROPDOWN_MENU).is_displayed()
 
 
