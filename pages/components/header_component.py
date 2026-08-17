@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 
 from pages.components.base_component import BaseComponent
 from pages.components.challenges_dropdown import ChallengeDropdown
+from pages.modals.sign_in_modal import SignInModal
 from pages.types import Locator
 
 
@@ -91,6 +92,11 @@ class HeaderComponent(BaseComponent):
         "li[data-menu-id$='-logout'], li.ant-dropdown-menu-item-danger",
     )
 
+    SIGN_IN_OPTION: Locator = (
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='login']"
+    )
+
     @allure.step("Click logo")
     def click_logo(self) -> None:
         """Click the website logo."""
@@ -175,3 +181,13 @@ class HeaderComponent(BaseComponent):
             return True
         except Exception:
             return False
+
+    @allure.step("Get SignInModal")
+    def get_sign_up_modal(self) -> SignInModal:
+        """Return the Sign In Modal."""
+        return SignInModal(self.driver)
+
+    @allure.step("Click Sign in option")
+    def click_sign_in_button(self) -> None:
+        """Click the sign in item in the user dropdown."""
+        self._wait_clickable(self.SIGN_IN_OPTION).click()

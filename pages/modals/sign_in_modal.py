@@ -40,13 +40,15 @@ class SignInModal(BaseModal):
 
     # Validation errors
     FIELD_ERROR_MESSAGES: Locator = (By.CSS_SELECTOR, "div.ant-form-item-explain-error")
+    POP_UP_ERROR_MESSAGE: Locator = (
+        By.XPATH,
+        "//*[contains(@class, 'ant-message-error')][contains(., 'Невірний')]")
+
 
     @allure.step("Check if Sign In modal is displayed")
     def is_displayed(self) -> bool:
         """Check if the sign-in modal window is visible on screen."""
-        if self.root:
-            return self.root.is_displayed()
-        return self._find_element(self.MODAL_CONTENT).is_displayed()
+        return self._wait_visible(self.MODAL_CONTENT).is_displayed()
 
     @allure.step("Enter Email: '{email}'")
     def enter_email(self, email: str) -> SignInModal:
@@ -106,3 +108,10 @@ class SignInModal(BaseModal):
         """Retrieve texts of all active client-side validation error messages."""
         elements = self._find_elements(self.FIELD_ERROR_MESSAGES)
         return [elem.text.strip() for elem in elements if elem.is_displayed()]
+
+    @allure.step("Pop up error message module")
+    def pop_up_error_trigger(self)->str:
+        """Method to trigger pop up error message."""
+        self.click_submit()
+        pop_up = self._wait_visible(self.POP_UP_ERROR_MESSAGE)
+        return pop_up.text
