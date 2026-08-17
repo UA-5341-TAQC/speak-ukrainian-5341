@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 
 from pages.components.base_component import BaseComponent
 from pages.components.challenges_dropdown import ChallengeDropdown
+from pages.modals.sign_up_modal import SignUpModal
 from pages.types import Locator
 
 
@@ -119,7 +120,7 @@ class HeaderComponent(BaseComponent):
     @allure.step("Get Challenge dropdown")
     def get_challenge_dropdown(self) -> ChallengeDropdown:
         """Return the Challenge dropdown component."""
-        return ChallengeDropdown(self.driver)
+        return ChallengeDropdown(self._find_element(self.CHALLENGE_DROPDOWN))
 
     @allure.step("Click 'Новини'")
     def click_news(self) -> None:
@@ -174,13 +175,13 @@ class HeaderComponent(BaseComponent):
     @allure.step("Click 'Увійти' in user menu")
     def click_login_menu_item(self) -> None:
         """Click the 'Увійти' item in the user dropdown."""
-        self.click_user_profile()
+        #self.click_user_profile()
         self._wait_clickable(self.LOGIN_MENU_ITEM, from_driver=True).click()
 
     @allure.step("Click 'Зареєструватися' in user menu")
     def click_register_menu_item(self) -> None:
         """Click the 'Зареєструватися' item in the user dropdown."""
-        self.click_user_profile()
+        #self.click_user_profile()
         self._wait_clickable(self.REGISTER_MENU_ITEM, from_driver=True).click()
 
     @allure.step("Check whether the user is signed in")
@@ -198,6 +199,10 @@ class HeaderComponent(BaseComponent):
         except Exception:
             return False
 
+    @allure.step("Get SignUpModal")
+    def get_sign_up_modal(self) -> SignUpModal:
+        """Return the Sign In Modal."""
+        return SignUpModal(self.driver)
 
     @allure.step("Return whether challenge dropdown menu is displayed.")
     def is_challenge_dropdown_visibile(self) ->bool:
@@ -207,3 +212,11 @@ class HeaderComponent(BaseComponent):
             return True
         except Exception:
             return False
+
+    @allure.step("Return whether challenge dropdown menu is displayed.")
+    def is_user_profile_dropdown_visible(self) ->bool:
+        """Return whether challenge dropdown menu is displayed."""
+        return self._wait_visible(self.USER_DROPDOWN_MENU).is_displayed()
+
+
+
