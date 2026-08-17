@@ -40,7 +40,7 @@ def test_registration_inv_num(driver: WebDriver, phone: str, expected_message: l
         assert header.is_user_profile_dropdown_visible() == True
 
     with allure.step("2.Click 'Зареєструватися' in the dropdown."):
-        header.click_registration_in_button()
+        header.click_register_menu_item()
         assert sign_up_mod.is_displayed() ==True
 
     with allure.step("3.Observe the role selection."):

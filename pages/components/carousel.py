@@ -49,7 +49,7 @@ class Carousel(BaseComponent):
     @allure.step("Get active carousel item link href")
     def get_active_link_href(self) -> str:
         """Return the href of the active slide's link, without a trailing slash."""
-        return self.get_active_item().get_link().rstrip("/")
+        return self.get_active_item().get_link().rstrip("/") or ""
 
     @allure.step("Get carousel items")
     def get_items(self) -> list[CarouselItem]:
