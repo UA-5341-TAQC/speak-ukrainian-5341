@@ -42,7 +42,8 @@ class SignInModal(BaseModal):
     FIELD_ERROR_MESSAGES: Locator = (By.CSS_SELECTOR, "div.ant-form-item-explain-error")
     POP_UP_ERROR_MESSAGE: Locator = (
         By.XPATH,
-        "//*[contains(@class, 'ant-message-error')][contains(., 'Невірний')]")
+        "//*[text()='Введено невірний пароль або email']"
+        )
 
 
     @allure.step("Check if Sign In modal is displayed")
@@ -113,5 +114,5 @@ class SignInModal(BaseModal):
     def pop_up_error_trigger(self)->str:
         """Method to trigger pop up error message."""
         self.click_submit()
-        pop_up = self._wait_visible(self.POP_UP_ERROR_MESSAGE)
-        return pop_up.text
+        pop_up = self._wait_present(self.POP_UP_ERROR_MESSAGE)
+        return pop_up.get_attribute("textContent").strip()
