@@ -35,7 +35,7 @@ class NewsDetailsPage(BasePage):
 
     SOCIAL_SECTION_CONTAINER: Locator = (
         By.CSS_SELECTOR,
-        ".social-info .social-media",
+        ".social-info",
     )
 
     @allure.step("Open news details page (id={news_id})")

@@ -1,5 +1,6 @@
 import allure
 import pytest
+from selenium.webdriver import ActionChains
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from pages.components.social_buttons import SocialButtons
@@ -278,4 +279,101 @@ def test_tc45_email_link_contains_correct_recipient(
         assert actual_mailto_url == expected_mailto, (
             f"Expected mailto URL '{expected_mailto}', "
             f"but got '{actual_mailto_url}'"
+        )
+
+@allure.title(
+    "TC-47: Verify 'Допомогти проєкту' button display, "
+    "styling, and payment redirection"
+)
+@allure.description(
+    "Test verifies that the donation button is displayed, "
+    "has the correct text and cursor, contains the expected "
+    "WayForPay URL, and redirects to the payment page."
+)
+@allure.tag("news", "donation", "ui", "payment")
+@pytest.mark.regression
+def test_tc47_donate_button_redirects_to_wayforpay(
+    driver: WebDriver,
+) -> None:
+    """Verify donation button display and WayForPay redirection."""
+
+    expected_donate_text = "Допомогти проєкту"
+    expected_payment_url = (
+        "https://secure.wayforpay.com/payment/s0f2891d77061"
+    )
+
+    with allure.step("Step 1: Open news article"):
+        page = NewsDetailsPage(driver)
+        page.open(news_id=27)
+
+    with allure.step("Step 2: Scroll to donation block"):
+        page.scroll_to_contacts()
+
+    with allure.step("Step 3: Get social buttons component"):
+        social = page.social_buttons
+
+    with allure.step("Step 4: Verify donation button is displayed"):
+        assert social.is_donate_button_displayed(), (
+            "Donate button should be visible"
+        )
+
+    with allure.step("Step 5: Verify donation button text"):
+        actual_text = social.get_donate_button_text().strip()
+
+        assert actual_text == expected_donate_text, (
+            f"Expected donate button text "
+            f"'{expected_donate_text}', "
+            f"but got '{actual_text}'"
+        )
+
+    with allure.step("Step 6: Verify donation button cursor"):
+        donate_button = social._find_element(
+            social.DONATE_BUTTON
+        )
+
+        ActionChains(driver).move_to_element(
+            donate_button
+        ).perform()
+
+        cursor = social.get_donate_button_cursor()
+
+        assert cursor == "pointer", (
+            f"Expected cursor 'pointer', but got '{cursor}'"
+        )
+
+    with allure.step("Step 7: Verify WayForPay URL"):
+        actual_payment_url = social.get_donate_url()
+
+        assert actual_payment_url == expected_payment_url, (
+            f"Expected payment URL "
+            f"'{expected_payment_url}', "
+            f"but got '{actual_payment_url}'"
+        )
+
+    with allure.step("Step 8: Click donation button"):
+        original_window = driver.current_window_handle
+        original_windows = driver.window_handles
+
+        social.click_donate_button()
+
+    with allure.step("Step 9: Verify WayForPay payment page"):
+        def new_tab_opened(driver: WebDriver) -> bool:
+            return len(driver.window_handles) > len(original_windows)
+
+        page.wait.until(new_tab_opened)
+
+        new_window = next(
+            window
+            for window in driver.window_handles
+            if window != original_window
+        )
+
+        driver.switch_to.window(new_window)
+
+        assert driver.current_url.startswith(
+            expected_payment_url
+        ), (
+            f"Expected WayForPay URL "
+            f"'{expected_payment_url}', "
+            f"but got '{driver.current_url}'"
         )
