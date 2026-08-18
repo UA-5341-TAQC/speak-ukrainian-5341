@@ -55,7 +55,7 @@ class AddClubModal(BaseModal):
     @allure.step("Get active step title")
     def get_active_step(self) -> str:
         """Get the title of the currently active step in the Add Club modal."""
-        title = self._find_element(self.ACTIVE_STEP_TITLE).text.strip()
+        title = self._wait_visible(self.ACTIVE_STEP_TITLE).text.strip()
         allure.attach(title, "Active Step")
         return title
 
@@ -84,3 +84,33 @@ class AddClubModal(BaseModal):
         """Get all displayed validation error messages in the Add Club modal."""
         elems = self.driver.find_elements(*self.FIELD_ERROR_MESSAGES)
         return [e.text.strip() for e in elems if e.is_displayed()]
+
+    @allure.step("Get modal title")
+    def get_modal_title(self) -> str:
+        """Get the title text of the Add Club modal."""
+        return self._find_element(self.MODAL_TITLE).text.strip()
+
+    @allure.step("Check if step '{step_title}' is active")
+    def is_step_active(self, step_title: str) -> bool:
+        """Check if a specific step is marked as active."""
+        try:
+            if step_title == "Основна інформація":
+                locator = self.STEP_BASIC_INFO_TITLE
+            elif step_title == "Контакти":
+                locator = self.STEP_CONTACTS_TITLE
+            elif step_title == "Опис":
+                locator = self.STEP_DESCRIPTION_TITLE
+            else:
+                return False
+
+            element = self._find_element(locator)
+            parent = element.find_element(By.XPATH,
+                                          "ancestor::div[contains(@class,'ant-steps-item')]")
+            return "ant-steps-item-active" in parent.get_attribute("class")
+        except Exception:
+            return False
+
+    @allure.step("Check if step '{step_title}' is inactive")
+    def is_step_inactive(self, step_title: str) -> bool:
+        """Check if a specific step is marked as inactive."""
+        return not self.is_step_active(step_title)

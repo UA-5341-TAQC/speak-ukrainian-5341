@@ -123,30 +123,3 @@ class MarathonPage(BasePage):
     def scroll_to_tasks(self) -> None:
         """Scroll the task carousel into view so elements load properly."""
         self._scroll_into_view(self.VISIBLE_TASK_TITLES)
-
-    @allure.step("Wait for marathon page to load")
-    def wait_for_marathon_page(self) -> None:
-        """Wait until the marathon page and registration button are loaded."""
-        self.wait.until(
-            lambda _: self.driver.execute_script(
-                "return document.readyState"
-            ) == "complete"
-        )
-
-        self._wait_visible(
-            self.REGISTER_BUTTON
-        )
-
-    @allure.step("Scroll to 'Зареєструватись' button")
-    def scroll_to_register_button(self) -> None:
-        """Scroll the registration button into view."""
-        self.scroll_to_element(self.REGISTER_BUTTON)
-
-    @allure.step("Wait for registration page to load")
-    def wait_for_registration_page(self) -> None:
-        """Wait until the registration page is completely loaded."""
-        self.wait.until(
-            lambda _: self.driver.execute_script(
-                "return document.readyState"
-            ) == "complete"
-        )

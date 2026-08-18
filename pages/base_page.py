@@ -4,7 +4,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.base import Base
-from pages.components.header_component import HeaderComponent
+from pages.components.header.header_component import HeaderComponent
 from pages.types import Locator
 
 
@@ -30,6 +30,7 @@ class BasePage(Base):
     def refresh(self) -> None:
         """Refresh the current browser page."""
         self.driver.refresh()
+
     @property
     def header(self) -> HeaderComponent:
         """Get the header component."""
@@ -44,19 +45,6 @@ class BasePage(Base):
         """Get the text of the global error toast message."""
         return self._get_text(self.error_message)
 
-    def get_wait(self, timeout: int = 5) -> WebDriverWait:
+    def get_wait(self, timeout: int = 5) -> WebDriverWait[WebDriver]:
         """Get a WebDriverWait instance with the specified timeout."""
         return WebDriverWait(self.driver, timeout)
-
-    def scroll_to_element(self, locator: Locator) -> None:
-        """Scroll the specified element into view."""
-        element = self._wait_visible(locator)
-        self.driver.execute_script(
-            """
-            arguments[0].scrollIntoView({
-                block: 'center',
-                inline: 'nearest'
-            });
-            """,
-            element,
-        )
