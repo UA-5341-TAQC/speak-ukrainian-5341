@@ -177,16 +177,9 @@ class HeaderComponent(BaseComponent):
         self._wait_clickable(self.LOGOUT_MENU_ITEM, from_driver=True).click()
 
     @allure.step("Click 'Увійти' in user menu")
-<<<<<<< HEAD
     def click_login_menu_item(self) -> SignInModal:
         """Click the 'Увійти' item in the user dropdown.Return the Sign In Modal."""
         return SignInModal(self.driver)
-=======
-    def click_login_menu_item(self) -> None:
-        """Click the 'Увійти' item in the user dropdown."""
-        #self.click_user_profile()
-        self._wait_clickable(self.LOGIN_MENU_ITEM, from_driver=True).click()
->>>>>>> main
 
     @allure.step("Click 'Зареєструватися' in user menu")
     def click_register_menu_item(self) -> None:
