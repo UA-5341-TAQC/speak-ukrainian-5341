@@ -21,7 +21,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.by import By
 
 from data.config import Config
-from pages.components.header_component import HeaderComponent
+from pages.components.header.header_component import HeaderComponent
 
 
 @allure.title("TC-39 Verify header navigation links redirect to the correct pages.")
