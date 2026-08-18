@@ -1,10 +1,8 @@
 import allure
 import pytest
-from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from pages.components.header_component import HeaderComponent
-from pages.modals.add_center_modal import AddCenterModal
+from pages.home_page import HomePage
 from pages.modals.add_location_modal import AddLocationModal
 
 
@@ -17,11 +15,8 @@ from pages.modals.add_location_modal import AddLocationModal
 )
 def test_center_creation_flow(authenticated_driver: WebDriver) -> None:
     with allure.step("Open 'Add Center' modal"):
-        header = HeaderComponent(authenticated_driver.find_element(By.TAG_NAME, "body"))
-        header.click_add_centre_menu_item()
-
-        add_center_modal = AddCenterModal(authenticated_driver)
-        add_center_modal.wait_opened()
+        home_page = HomePage(authenticated_driver)
+        add_center_modal = home_page.header.click_user_profile().click_add_centre_menu_item()
 
     with allure.step("Fill Basic Information step"):
         basic_info = add_center_modal.get_basic_info_step()
@@ -58,6 +53,8 @@ def test_center_creation_flow(authenticated_driver: WebDriver) -> None:
     with allure.step("Fill Clubs step and verify completion"):
         clubs = add_center_modal.get_clubs_step()
         clubs.select_first_club()
-        
-        assert clubs.is_next_button_enabled(), "Finish button should be enabled after completing all steps"
+
+        assert (
+            clubs.is_next_button_enabled()
+        ), "Finish button should be enabled after completing all steps"
         clubs.click_next()
