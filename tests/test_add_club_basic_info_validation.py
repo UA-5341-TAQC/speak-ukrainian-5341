@@ -16,7 +16,7 @@ ERROR_CHILD_AGE = "Вік є обов'язковим"
 )
 def test_add_club_basic_info_validation(authenticated_driver) -> None:
     home_page = HomePage(authenticated_driver)
-    home_page.header.click_profile_menu_item()
+    home_page.header.click_user_profile().click_profile_menu_item()
     profile_page = ProfilePage(authenticated_driver)
 
     with allure.step("Open the 'Додати гурток' form."):

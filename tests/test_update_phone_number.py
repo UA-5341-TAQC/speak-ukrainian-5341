@@ -13,7 +13,7 @@ NEW_PHONE_NUMBER_INPUT = "0823459034"
 def test_update_phone_number(authenticated_driver: WebDriver) -> None:
     """Verify updating phone number with a valid 10-digit value persists after refresh."""
     home_page = HomePage(authenticated_driver)
-    home_page.header.click_profile_menu_item()
+    home_page.header.click_user_profile().click_profile_menu_item()
     profile_page = ProfilePage(authenticated_driver)
 
     with allure.step("Click the Редагувати профіль button."):
