@@ -11,15 +11,12 @@ from pages.base_page import BasePage
 from pages.components.club_filters_component import ClubFiltersComponent
 from pages.components.club_sort_component import ClubSortComponent
 from pages.modals.map_modal import MapModal
-from pages.types import Locator
 
 
 class ClubPage(BasePage):
     """Page object representing the Speak Ukrainian clubs catalog page."""
 
     CLUBS_CONTENT = (By.CSS_SELECTOR, "div.content-clubs-list, div.ant-layout-content")
-
-    CLUBS_CONTENT: Locator = (By.TAG_NAME, "body")
     SEARCH_INPUT = (By.CSS_SELECTOR, "input.search-box, input[type='search']")
     CLUB_CARDS = (By.CSS_SELECTOR, "div.ant-card, div.type-list-card")
     FILTERS_PANEL = (By.CSS_SELECTOR, '[data-testid="filters-panel"]')
@@ -74,11 +71,9 @@ class ClubPage(BasePage):
     def is_no_results_displayed(self) -> bool:
         """Check if 'No clubs' message is displayed."""
         return len(self._find_elements(*self.NO_RESULTS_MESSAGE)) > 0
-        return len(self.driver.find_elements(*self.NO_RESULTS_MESSAGE)) > 0
 
     def filter(self) -> ClubFiltersComponent:
         """Return filter object."""
-        return ClubFiltersComponent(self._wait_visible(self.CLUBS_CONTENT))
         return ClubFiltersComponent(self.find(self.FILTERS_PANEL))
 
     def sort(self) -> ClubSortComponent:
