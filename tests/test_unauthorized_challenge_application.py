@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import allure
 import pytest
+from selenium.webdriver.remote.webdriver import WebDriver
 
 from data.config import Config
+from pages.home_page import HomePage
 from pages.challenge_page import ChallengePage
-from pages.components.header_component import HeaderComponent
+from pages.components.header.header_component import HeaderComponent
 
 
 CHALLENGES = [
@@ -24,7 +26,7 @@ class TestUnauthorizedChallengeApplication:
     """Test suite for verifying challenge application restrictions."""
 
     @pytest.fixture(autouse=True)
-    def setup(self, driver) -> None:
+    def setup(self, driver: WebDriver) -> None:
         """Open home page before each test."""
         driver.get(Config.BASE_UI_URL)
 
@@ -43,23 +45,20 @@ class TestUnauthorizedChallengeApplication:
     @pytest.mark.parametrize("challenge", CHALLENGES)
     def test_unauthorized_user_cannot_apply_to_challenge(
         self,
-        driver,
+        driver: WebDriver,
         challenge: str,
     ) -> None:
         """Verify unauthorized user cannot apply to the selected challenge."""
 
-        header = HeaderComponent(driver)
-        challenge_page = ChallengePage(driver)
-
         with allure.step("Step 1: Click the 'Челендж' from the top menu"):
-            header.click_challenge()
+            dropdown = HomePage(driver).header.get_challenge_dropdown()
 
         with allure.step(
             f"Step 2: Select '{challenge}' from the dropdown menu"
         ):
-            dropdown = header.get_challenge_dropdown()
             dropdown.select_challenge(challenge)
 
+            challenge_page = ChallengePage(driver)
             challenge_page.wait.until(
                 lambda _: "/challenges/" in driver.current_url
             ), "Challenge page is not opened"
