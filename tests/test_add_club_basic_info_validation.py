@@ -3,6 +3,7 @@ import allure
 
 from pages.home_page import HomePage
 from pages.profile_page import ProfilePage
+from selenium.webdriver.remote.webdriver import WebDriver
 
 BASIC_INFO_TITLE = "Основна інформація"
 ERROR_CLUB_NAME = "Введіть назву гуртка"
@@ -11,10 +12,8 @@ ERROR_CHILD_AGE = "Вік є обов'язковим"
 
 
 @allure.feature("Add club basic info validation")
-@allure.title(
-    "TC-36: Validation check for required fields in the 'Основна інформація' step of the 'Додати гурток' modal form"
-)
-def test_add_club_basic_info_validation(authenticated_driver) -> None:
+@allure.title("TC-36: Validation check for required fields in the 'Основна інформація' step of the 'Додати гурток' modal form")
+def test_add_club_basic_info_validation(authenticated_driver: WebDriver) -> None:
     home_page = HomePage(authenticated_driver)
     home_page.header.click_user_profile().click_profile_menu_item()
     profile_page = ProfilePage(authenticated_driver)
@@ -33,8 +32,7 @@ def test_add_club_basic_info_validation(authenticated_driver) -> None:
         assert ERROR_CLUB_CATEGORY in errors
         assert errors.count(ERROR_CHILD_AGE) == 2
 
-    with allure.step("Check the 'Приналежність до центру' field"):
-        assert not basic_info_page.is_center_field_has_error()
+    assert not basic_info_page.is_center_field_has_error()
 
     with allure.step("Verify form"):
         basic_info_page.click_next()
