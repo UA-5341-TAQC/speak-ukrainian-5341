@@ -68,10 +68,10 @@ class ClubPage(BasePage):
         """Check if 'No clubs' message is displayed."""
         return len(self.driver.find_elements(*self.NO_RESULTS_MESSAGE)) > 0
 
-    def filter(self) -> ClubFiltersComponent:
+    def filter_club(self) -> ClubFiltersComponent:
         """Return filter object."""
         return ClubFiltersComponent(self._wait_visible(self.CLUBS_CONTENT))
 
-    def sort(self) -> ClubSortComponent:
+    def sort_club(self) -> ClubSortComponent:
         """Return sort object."""
         return ClubSortComponent(self._wait_visible(self.CLUBS_CONTENT))
