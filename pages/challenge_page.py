@@ -2,6 +2,7 @@
 
 import allure
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 
 from pages.base_page import BasePage
 from pages.components.challenge_cta_button import ChallengeCtaButton
@@ -65,9 +66,7 @@ class ChallengePage(BasePage):
     @allure.step("Get challenge registration button component")
     def get_cta_button(self) -> ChallengeCtaButton:
         """Return the challenge registration button component."""
-        return ChallengeCtaButton(
-            self._wait_clickable(self.CTA_BUTTON)
-        )
+        return ChallengeCtaButton(self._wait_clickable(self.CTA_BUTTON))
 
     @allure.step("Click challenge registration button")
     def click_cta_button(self) -> None:
@@ -79,28 +78,20 @@ class ChallengePage(BasePage):
         """Wait until all video iframes are rendered."""
         self._wait_present(self.VIDEO_CARDS)
 
-        return [
-            ChallengeVideoCard(card)
-            for card in self._find_elements(self.VIDEO_CARDS)
-        ]
+        return [ChallengeVideoCard(card) for card in self._find_elements(self.VIDEO_CARDS)]
 
     @allure.step("Get challenge webinar video cards")
     def get_video_cards(self) -> list[ChallengeVideoCard]:
         """Return all currently displayed webinar video cards."""
-        return [
-            ChallengeVideoCard(card)
-            for card in self._find_elements(self.VIDEO_CARDS)
-        ]
+        return [ChallengeVideoCard(card) for card in self._find_elements(self.VIDEO_CARDS)]
 
     @allure.step("Get challenge registration button component (visible)")
     def get_visible_cta_button(self) -> ChallengeCtaButton:
         """Return the challenge registration button component using visibility wait."""
-        return ChallengeCtaButton(
-            self._wait_visible(self.CTA_BUTTON)
-        )
+        return ChallengeCtaButton(self._wait_visible(self.CTA_BUTTON))
 
     @allure.step("Get challenge registration button wrapper")
-    def get_cta_button_wrapper(self):
+    def get_cta_button_wrapper(self) -> WebElement:
         """Return the wrapper of the disabled registration button."""
         return self._wait_visible(self.CTA_BUTTON_WRAPPER)
 
