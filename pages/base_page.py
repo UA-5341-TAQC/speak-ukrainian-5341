@@ -4,7 +4,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.base import Base
-from pages.components.header_component import HeaderComponent
+from pages.components.header.header_component import HeaderComponent
 from pages.types import Locator
 
 
@@ -45,6 +45,6 @@ class BasePage(Base):
         """Get the text of the global error toast message."""
         return self._get_text(self.error_message)
 
-    def get_wait(self, timeout: int = 5) -> WebDriverWait:
+    def get_wait(self, timeout: int = 5) -> WebDriverWait[WebDriver]:
         """Get a WebDriverWait instance with the specified timeout."""
         return WebDriverWait(self.driver, timeout)

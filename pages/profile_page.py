@@ -17,6 +17,7 @@ class ProfilePage(BasePage):
         By.CSS_SELECTOR,
         ".ant-layout-content .user-pic img, .ant-layout-content .ant-avatar img",
     )
+    user_avatar: Locator = (By.CSS_SELECTOR, "span.user-avatar")
     first_last_name_text: Locator = (By.CSS_SELECTOR, ".user-name")
     role_text: Locator = (By.CSS_SELECTOR, ".user-role")
     phone_text: Locator = (By.CSS_SELECTOR, ".user-phone-data")
@@ -69,6 +70,31 @@ class ProfilePage(BasePage):
         self._wait_clickable(self.add_dropdown_button).click()
         self._wait_clickable(self.add_club_button).click()
         return BasicInfoStep(self.driver)
+ 
+    @allure.step("Get avatar source")
+    def get_avatar_src(self) -> str | None:
+        """Return the avatar image URL, or ``None`` when a default placeholder is shown.
+
+        A user avatar without a set photo renders as an antd icon placeholder
+        (no ``<img>`` element). Once a photo is uploaded it becomes an ``<img>``.
+        This lets a test verify the avatar was not changed.
+        """
+        element = self._wait_visible(self.user_avatar)
+        try:
+            img = element.find_element(By.TAG_NAME, "img")
+        except Exception:
+            return None
+        return img.get_attribute("src")
+
+    @allure.step("Get avatar state")
+    def get_avatar_state(self) -> str:
+        """Return a stable representation of the avatar for before/after comparison.
+
+        Returns the image ``src`` when a photo is set, or the literal string
+        ``"default"`` for the placeholder avatar.
+        """
+        src = self.get_avatar_src()
+        return src if src else "default"
 
     @property
     def footer(self) -> FooterComponent:
