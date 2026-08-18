@@ -68,7 +68,6 @@ class ClubDetailsPage(BasePage):
         ".comment-list .ant-comment, .comment-card",
     )
 
-
     def open_page(self, club_id: int) -> None:
         """Navigate to the club details page for the given club id."""
         self.driver.get(f"{self.get_base_url()}/club/{club_id}")
