@@ -12,23 +12,34 @@ import allure
 import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from data.config import Config
 from pages.home_page import HomePage
 from pages.news_page import NewsPage
 
 @allure.title("TC-08: News card displays information in fields.")
 def test_news_display_tc_38(driver:WebDriver):
-    driver.get(Config.BASE_UI_URL)
     home_page = HomePage(driver)
 
-    with allure.step("1.Click the user icon in the site header."):
-        home_page.header.click_news()
-        news_page = NewsPage(driver)
 
-        assert news_page.is_opened() == True
+    home_page.header.click_news()
+    news_page = NewsPage(driver)
+    # Step 1. Click the Новини menu item
+    assert news_page.is_opened() == True
 
-    with allure.step("2.Locate the first news card"):
-        pass
+    # Step 2. Locate the first news card
+    news_card = news_page.get_news_list().get_first_card()
+    assert news_card.is_visible() == True
 
+    # Step 3. Verify that the news image is displayed
+    assert news_card.is_image_displayed() == True
 
-        
+    # Step 4. Verify that the news image is displayed
+    assert news_card.is_title_visible() == True
+
+    # Step 5. Verify that the publication date is displayed
+    assert news_card.is_date_visible() == True
+
+    # Step 6. Verify that the news card is clickable
+    excepted_url = news_card.get_details_href()
+    news_card.click_details()
+
+    assert driver.current_url == excepted_url
