@@ -6,7 +6,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from data.config import Config
 from pages.clubs_page import ClubPage
 from pages.club_details_page import ClubDetailsPage
-from pages.components.header_component import HeaderComponent
+from pages.components.header.header_component import HeaderComponent
 
 
 @allure.title("TC-15: Verify unauthorized user cannot use restricted club actions")
