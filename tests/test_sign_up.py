@@ -189,13 +189,13 @@ def test_registration_inv_num_55(driver: WebDriver, phone: str, expected_message
 
     
     with allure.step("5.Enter an invalid phone suffix into the 'Телефон' field and observe the error"):
-            sign_up_mod.enter_phone(phone)
-            actual_result = sign_up_mod.get_error_messages_phone()
+        sign_up_mod.enter_phone(phone)
+        actual_result = sign_up_mod.get_error_messages_phone()
 
-            assert actual_result == expected_message
-            assert sign_up_mod.is_error_icon_visible_phone() == True
-            assert sign_up_mod.is_successfull_icon_visible_first_name() == True
-            assert sign_up_mod.is_successfull_icon_visible_last_name() == True
-            assert sign_up_mod.is_successfull_icon_visible_email() == True
-            assert sign_up_mod.is_successfull_icon_visible_password() == True
-            assert sign_up_mod.is_successfull_icon_visible_password_confirm() == True
+        assert actual_result == expected_message
+        assert sign_up_mod.is_error_icon_visible_phone() == True
+        assert sign_up_mod.is_successfull_icon_visible_first_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_last_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_email() == True
+        assert sign_up_mod.is_successfull_icon_visible_password() == True
+        assert sign_up_mod.is_successfull_icon_visible_password_confirm() == True
