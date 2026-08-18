@@ -1,6 +1,6 @@
 """TC-32: Login — non-existent email — Вхід modal (unknown user)."""
 import allure
-
+from selenium.webdriver.remote.webdriver import WebDriver
 from pages.home_page import HomePage
 
 EMAIL = "nobody@nowhere.com"
@@ -10,7 +10,7 @@ EXPECTED_ERROR = "Введено невірний пароль або email"
 
 @allure.feature("Login")
 @allure.title("TC-32: Login — non-existent email — Вхід modal (unknown user)")
-def test_login_non_existent_email(driver) -> None:
+def test_login_non_existent_email(driver: WebDriver) -> None:
     """Verify that login with a non-existent email is rejected with an error, keeping the user unauthenticated and the modal open."""
     home_page = HomePage(driver)
     sign_in_modal = home_page.header.click_user_profile().click_login()
