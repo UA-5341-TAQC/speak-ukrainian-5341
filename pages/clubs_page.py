@@ -77,7 +77,7 @@ class ClubPage(BasePage):
 
     def sort(self) -> ClubSortComponent:
         """Return sort object."""
-        return ClubSortComponent(self.find(self.SORT_PANEL))
+        return ClubSortComponent(self._wait_visible(self.CLUBS_CONTENT))
 
     @allure.step("Click 'Показати на мапі' button")
     def open_map_modal(self) -> MapModal:
