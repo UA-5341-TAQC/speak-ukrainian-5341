@@ -70,7 +70,7 @@ class ProfilePage(BasePage):
         self._wait_clickable(self.add_dropdown_button).click()
         self._wait_clickable(self.add_club_button).click()
         return BasicInfoStep(self.driver)
- 
+
     @allure.step("Get avatar source")
     def get_avatar_src(self) -> str | None:
         """Return the avatar image URL, or ``None`` when a default placeholder is shown.
