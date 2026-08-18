@@ -34,7 +34,6 @@ class TestMarathonRegistrationCTA:
         with allure.step(
             "Step 1: Wait for marathon page and verify registration button"
         ):
-            marathon_page.wait_for_marathon_page()
 
             button = marathon_page._wait_visible(
                 marathon_page.REGISTER_BUTTON
@@ -55,7 +54,7 @@ class TestMarathonRegistrationCTA:
         with allure.step(
             "Step 2: Scroll to and click 'Зареєструватись'"
         ):
-            marathon_page.scroll_to_register_button()
+            marathon_page._scroll_into_view(marathon_page.REGISTER_BUTTON)
             marathon_page.click_register()
 
         with allure.step(
@@ -72,8 +71,6 @@ class TestMarathonRegistrationCTA:
         with allure.step(
             "Step 4: Verify registration page is loaded"
         ):
-            marathon_page.wait_for_registration_page()
-
             assert driver.execute_script(
                 "return document.readyState"
             ) == "complete", (
@@ -96,11 +93,7 @@ class TestMarathonRegistrationCTA:
         with allure.step(
             "Step 6: Open registration page directly"
         ):
-            registration_url = (
-                f"{Config.BASE_UI_URL}/marathon/registration"
-            )
-
-            driver.get(registration_url)
+            driver.get(f"{Config.BASE_UI_URL}/marathon/registration")
 
             marathon_page.wait.until(
                 lambda _: "/marathon/registration" in driver.current_url
@@ -113,8 +106,6 @@ class TestMarathonRegistrationCTA:
         with allure.step(
             "Step 7: Verify registration page loads from direct URL"
         ):
-            marathon_page.wait_for_registration_page()
-
             assert driver.execute_script(
                 "return document.readyState"
             ) == "complete", (
