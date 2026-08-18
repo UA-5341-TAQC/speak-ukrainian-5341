@@ -1,0 +1,89 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Verify webinar video blocks, playback and YouTube links.","29828","TC-63 Verify video blocks playback and YouTube links on the challenge page","tests","2026-08-18","broken","2026-08-18","","test_challenge_page_video_blocks","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","3756","TC-4: Registration — required field 'Телефон' left empty","tests","2026-08-18","passed","2026-08-18","","test_registration_required_field","",""
+"TC-62: verify an unsupported profile photo format is rejected.
+
+        Test steps (from TC-62):
+            1. Click ""Редагувати профіль"" - the modal opens.
+            2. Click ""Завантажити фото"" - the file dialog opens (simulated).
+            3. Select the unsupported ``document.pdf`` - an error is shown, the
+               file is not added and the save button becomes disabled.
+            4. Click Close (X) - the modal closes.
+            5. The avatar on the profile page remains unchanged.
+        ","12","test_unsupported_profile_photo_is_rejected","tests","2026-08-18","broken","2026-08-18","TestProfilePhotoUpload","test_profile_photo_upload","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","4236","TC-4: Registration — required field 'Прізвище' left empty","tests","2026-08-18","passed","2026-08-18","","test_registration_required_field","",""
+"Returning the authenticated_driver fixture leaves the session active.
+
+    The fixture signs in via the /api/signin endpoint and injects the issued
+    tokens, so the header must report the user as logged in.
+    ","186","test_user_is_signed_in_after_api_fixture","tests","2026-08-18","passed","2026-08-18","","test_sign_in","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","19","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-08-18","broken","2026-08-18","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"Verify that users can navigate through the 30 language marathon tasks using next/previous arrows and pagination dots.","1964","TC-11: Task carousel navigation via arrows and pagination dots","tests","2026-08-18","passed","2026-08-18","TestMarathonTaskCarousel","test_marathon_task_carousel_navigation","",""
+"Verify homepage hero carousel navigation and its slide redirects.","6765","test_homepage_carousel_navigation","tests","2026-08-18","passed","2026-08-18","","test_home_carousel_navigation","",""
+"","3275","TC-36: Validation check for required fields in the 'Основна інформація' step of the 'Додати гурток' modal form","tests","2026-08-18","passed","2026-08-18","","test_add_club_basic_info_validation","",""
+"Verify that entering an invalid password displays the correct validation error.","6429","TC-53 Verify registration password policy validation [Contains Cyrillic]","tests","2026-08-18","failed","2026-08-18","","test_sign_up","",""
+"Verify alphabetical sorting in the advanced club search.","59853","test_tc_52_advanced_club_search_sorting","tests","2026-08-18","passed","2026-08-18","","test_52_Advanced_club_search","",""
+"Verify opening a news article from the list and returning back to the News page.","5046","TC-07: Navigation to the News details page","tests","2026-08-18","passed","2026-08-18","TestNewsDetailsNavigation","test_news_details_navigation","",""
+"Verify that login with a non-existent email is rejected with an error, keeping the user unauthenticated and the modal open.","2755","TC-32: Login — non-existent email — Вхід modal (unknown user)","tests","2026-08-18","passed","2026-08-18","","test_login_non_existent_email","",""
+"Verify challenge and event banner navigation on the homepage.","6036","TC-50 Verify challenge and event banner navigation on the homepage","tests","2026-08-18","passed","2026-08-18","","test_home_page","",""
+"TC-37: Verify the structure and presence of elements in the 
+    ""Основна інформація"" step of ""Додати гурток"" modal.
+
+    Preconditions:
+        - User is registered and logged into the Навчай Українською
+
+    Test Steps:
+        1. Open the ""Додати гурток"" form
+        2. Verify the window title
+        3. Verify the step indicator on the left
+        4. Verify the ""Назва гуртка"" field
+        5. Verify the ""Категорія"" section with 12 checkboxes
+        6. Verify the ""Вік дитини"" section with ""Від"" and ""До"" fields
+        7. Verify the ""Приналежність до центру"" dropdown
+        8. Verify the ""Наступний крок"" button is active
+    ","18","test_add_club_modal_basic_info_structure","tests","2026-08-18","broken","2026-08-18","","test_add_club_modal_basic_info_structure","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","30","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-08-18","broken","2026-08-18","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"Verify that 'Інші новини' carousel can be navigated using arrows.","4795","TC-24 Verify carousel navigation using left and right arrows","tests","2026-08-18","passed","2026-08-18","","test_news_details","",""
+"Verify opening another news article from the 'Інші новини' section.","7060","test_news_details_other_news_navigation","tests","2026-08-18","passed","2026-08-18","","test_news_details_other_news_navigation","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","4416","TC-4: Registration — required field 'Ім'я' left empty","tests","2026-08-18","passed","2026-08-18","","test_registration_required_field","",""
+"Verify that entering an invalid password displays the correct validation error.","6971","TC-53 Verify registration password policy validation [Length < 8]","tests","2026-08-18","passed","2026-08-18","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","6307","TC-53 Verify registration password policy validation [Missing lowercase]","tests","2026-08-18","failed","2026-08-18","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","6180","TC-53 Verify registration password policy validation [Missing letters/digits]","tests","2026-08-18","failed","2026-08-18","","test_sign_up","",""
+"","3368","TC-39 Verify header navigation links redirect to the correct pages.","tests","2026-08-18","broken","2026-08-18","","test_nav_39","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","4457","TC-4: Registration — required field 'Пароль' left empty","tests","2026-08-18","passed","2026-08-18","","test_registration_required_field","",""
+"TC-61: verify the Last Name field rejects invalid special characters.
+
+        Test steps (from TC-61):
+            1. Click ""Редагувати профіль"" - the modal opens.
+            2. Clear ""Прізвище"", type invalid special characters and remove focus.
+               A validation error appears, the border turns red, an error icon is
+               shown and the save button remains active (no disabled attribute).
+            3. Click ""Зберегти зміни"" - the form is not submitted, the modal stays
+               open and the validation error is still displayed.
+        ","16","test_last_name_rejects_special_characters","tests","2026-08-18","broken","2026-08-18","TestProfileLastNameUpdate","test_profile_last_name_update","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","23","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-08-18","broken","2026-08-18","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"Verify that clicking the 'Новини' menu item in the header navigates the user to the News page with valid URL, title, and article list.","869","TC-06: Verify that the News page opens","tests","2026-08-18","passed","2026-08-18","TestNewsPage","test_news_page_opens","",""
+"Verify that entering an invalid password displays the correct validation error.","6895","TC-53 Verify registration password policy validation [Length > 20]","tests","2026-08-18","failed","2026-08-18","","test_sign_up","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","20","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-08-18","broken","2026-08-18","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"Verify updating phone number with a valid 10-digit value persists after refresh.","4642","TC-17: Update phone number using valid 10-digit numeric value","tests","2026-08-18","passed","2026-08-18","","test_update_phone_number","",""
+"Verify that entering an invalid password displays the correct validation error.","7131","TC-53 Verify registration password policy validation [Missing uppercase]","tests","2026-08-18","failed","2026-08-18","","test_sign_up","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","42","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-08-18","broken","2026-08-18","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"TC-60: verify ""Доступний онлайн"" auto-toggles on when no location is added.
+
+    Preconditions covered inline (per TC-60):
+        - User is authenticated (via `authenticated_driver`).
+        - ""Додати гурток"" modal is opened through the header user menu.
+        - Step ""Основна інформація"" is completed.
+
+    NOTE: the info message (""Ви не додали жодної локації, гурток автоматично
+    є онлайн"") renders as an antd `ant-message` toast at the top of the
+    modal, so it's checked via `DescriptionStep.is_toast_displayed()` /
+    `.get_toast_text()`, which already exist in the codebase. Since toasts
+    can be transient, the check happens immediately after `click_next()`.
+    ","20","test_online_status_auto_assigned_when_no_location","tests","2026-08-18","broken","2026-08-18","","test_add_club_modal","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","3184","TC-4: Registration — required field 'Email' left empty","tests","2026-08-18","passed","2026-08-18","","test_registration_required_field","",""
+"Verify title, amount, currency, express pay buttons, card form fields and submit button.","3073","TC-48: Verify payment page UI elements are displayed correctly","tests","2026-08-18","passed","2026-08-18","TestPaymentPageUI","test_payment_page_ui","",""
+"Verify that entering an invalid email format in the 'Реєстрація' modal displays the validation error 'Некоректний формат email' and keeps the 'Зареєструватися' button enabled.","2773","TC-54: Verify registration with invalid email format","tests","2026-08-18","passed","2026-08-18","","test_sign_up","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","3871","TC-4: Registration — required field 'Підтвердження паролю' left empty","tests","2026-08-18","passed","2026-08-18","","test_registration_required_field","",""
+"Test verifies that the 'Наші контакти' block is displayed on the news page, has the correct title, and contains all required social media icons: Facebook, YouTube, Instagram, and Mail.","4470","TC-28: Verify 'Наші контакти' section display","tests","2026-08-18","passed","2026-08-18","","test_social_buttons_ui","",""
+"Verify that entering an invalid password displays the correct validation error.","6960","TC-53 Verify registration password policy validation [Missing letters/special]","tests","2026-08-18","failed","2026-08-18","","test_sign_up","",""
