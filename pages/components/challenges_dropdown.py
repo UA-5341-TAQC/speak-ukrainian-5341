@@ -38,28 +38,49 @@ class ChallengeDropdown(BaseComponent):
     @allure.step("Click 'Єдині'")
     def click_unique_challenge(self) -> None:
         """Open the 'Єдині' challenge."""
-        self._wait_clickable(self.UNIQUE_CHALLENGE_LINK).click()
+        self._wait_clickable_from_driver(self.UNIQUE_CHALLENGE_LINK).click()
 
     @allure.step("Click 'Клуб української мови Розмовляй'")
     def click_speaking_club_challenge(self) -> None:
         """Open the 'Розмовляй' challenge."""
-        self._wait_clickable(
+        self._wait_clickable_from_driver(
             self.SPEAKING_CLUB_CHALLENGE_LINK
         ).click()
 
     @allure.step("Click 'Навчай українською челендж'")
     def click_teach_ukrainian_challenge(self) -> None:
         """Open the 'Навчай українською челендж'."""
-        self._wait_clickable(
+        self._wait_clickable_from_driver(
             self.TEACH_UKRAINIAN_CHALLENGE_LINK
         ).click()
 
     @allure.step("Click 'Мовомаратон'")
     def click_language_marathon(self) -> None:
         """Open the 'Мовомаратон' challenge."""
-        self._wait_clickable(self.LANGUAGE_MARATHON_LINK).click()
+        self._wait_clickable_from_driver(self.LANGUAGE_MARATHON_LINK).click()
 
     @allure.step("Click 'Навчай українською'")
     def click_teach_ukrainian(self) -> None:
         """Open the 'Навчай українською' challenge."""
-        self._wait_clickable(self.TEACH_UKRAINIAN_LINK).click()
+        self._wait_clickable_from_driver(self.TEACH_UKRAINIAN_LINK).click()
+
+    def select_challenge(self, challenge: str) -> None:
+        """Select a challenge by its name."""
+        challenge_actions = {
+            "Єдині": self.click_unique_challenge,
+            "Клуб української мови Розмовляй":
+                self.click_speaking_club_challenge,
+            "Навчай українською челендж":
+                self.click_teach_ukrainian_challenge,
+            "Мовомаратон":
+                self.click_language_marathon,
+            "Навчай українською":
+                self.click_teach_ukrainian,
+        }
+
+        if challenge not in challenge_actions:
+            raise ValueError(
+                f"Unknown challenge: {challenge}"
+            )
+
+        challenge_actions[challenge]()
