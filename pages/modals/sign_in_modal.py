@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import allure
+from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 
 from pages.modals.base_modal import BaseModal
@@ -40,13 +41,20 @@ class SignInModal(BaseModal):
 
     # Validation errors
     FIELD_ERROR_MESSAGES: Locator = (By.CSS_SELECTOR, "div.ant-form-item-explain-error")
+    TOAST_ERROR_MESSAGE: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-message-custom-content.ant-message-error",
+    )
 
     @allure.step("Check if Sign In modal is displayed")
     def is_displayed(self) -> bool:
         """Check if the sign-in modal window is visible on screen."""
         if self.root:
             return self.root.is_displayed()
-        return self._find_element(self.MODAL_CONTENT).is_displayed()
+        try:
+            return self._wait_visible(self.MODAL_CONTENT).is_displayed()
+        except TimeoutException:
+            return False
 
     @allure.step("Enter Email: '{email}'")
     def enter_email(self, email: str) -> SignInModal:
@@ -106,3 +114,13 @@ class SignInModal(BaseModal):
         """Retrieve texts of all active client-side validation error messages."""
         elements = self._find_elements(self.FIELD_ERROR_MESSAGES)
         return [elem.text.strip() for elem in elements if elem.is_displayed()]
+
+    @allure.step("Wait for login toast error message to appear")
+    def wait_for_login_error(self) -> str:
+        """Wait until the login error toast notification appears and return its text."""
+        try:
+            return self.wait.until(
+                lambda _: self._find_element(self.TOAST_ERROR_MESSAGE).text.strip() or False
+            )
+        except TimeoutException:
+            return ""
