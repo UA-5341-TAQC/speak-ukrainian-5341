@@ -43,6 +43,10 @@ class EditProfileModal(BaseModal):
         By.CSS_SELECTOR,
         "button.ant-btn[type='submit']",
     )
+    phone_valid_icon: Locator = (
+        By.CSS_SELECTOR,
+        "input#edit_phone ~ span.ant-input-suffix span.anticon-check-circle",
+    )
 
     @allure.step("Get modal title")
     def get_title(self) -> str:
@@ -123,3 +127,8 @@ class EditProfileModal(BaseModal):
     def save_changes(self) -> None:
         """Click the 'Зберегти зміни' button."""
         self._click(self.save_changes_btn)
+
+    @allure.step("Check if phone valid icon is displayed")
+    def is_phone_valid_icon_displayed(self) -> bool:
+        """Check if the phone valid icon is displayed."""
+        return self._wait_visible(self.phone_valid_icon).is_displayed()
