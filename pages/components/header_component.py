@@ -184,7 +184,6 @@ class HeaderComponent(BaseComponent):
     @allure.step("Click 'Зареєструватися' in user menu")
     def click_register_menu_item(self) -> None:
         """Click the 'Зареєструватися' item in the user dropdown."""
-        #self.click_user_profile()
         self._wait_clickable(self.REGISTER_MENU_ITEM, from_driver=True).click()
 
     @allure.step("Check whether the user is signed in")
