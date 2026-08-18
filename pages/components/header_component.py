@@ -6,7 +6,6 @@ from selenium.webdriver.common.by import By
 from pages.components.base_component import BaseComponent
 from pages.components.challenges_dropdown import ChallengeDropdown
 from pages.modals.sign_in_modal import SignInModal
-from pages.modals.sign_up_modal import SignUpModal
 from pages.types import Locator
 
 
