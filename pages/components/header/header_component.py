@@ -78,14 +78,11 @@ class HeaderComponent(BaseComponent):
         self._wait_clickable(self.CLUBS_LINK).click()
 
     @allure.step("Open 'Челендж' menu")
-    def click_challenge(self) -> None:
+    def click_challenge(self) -> ChallengeDropdown:
         """Open the Challenge dropdown."""
         self._wait_clickable(self.CHALLENGE_MENU).click()
-
-    @allure.step("Get Challenge dropdown")
-    def get_challenge_dropdown(self) -> ChallengeDropdown:
-        """Return the Challenge dropdown component."""
-        return ChallengeDropdown(self._find_element(self.CHALLENGE_DROPDOWN))
+        challege_drop_down = self._find_element(self.CHALLENGE_DROPDOWN, from_driver=True)
+        return ChallengeDropdown(challege_drop_down)
 
     @allure.step("Click 'Новини'")
     def click_news(self) -> None:

@@ -106,6 +106,7 @@ class UserProfileMenu(BaseComponent):
     def is_visible(self) -> bool:
         """Return whether user profile dropdown is displayed."""
         try:
+            self.wait.until(lambda _: self.root.is_displayed())
             return self.root.is_displayed()
         except Exception:
             return False

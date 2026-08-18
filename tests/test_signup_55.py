@@ -15,10 +15,8 @@ import allure
 import pytest
 
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.common.by import By
 
-from data.config import Config
-from pages.components.header_component import HeaderComponent
+from pages.home_page import HomePage
 
 @pytest.mark.parametrize("phone, expected_message",[
      ("991234567",["Телефон не відповідає вказаному формату", "Телефон не відповідає українському формату (+380)"]),
@@ -31,16 +29,14 @@ from pages.components.header_component import HeaderComponent
      ])
 @allure.title("TC-55 Registration — phone format — Реєстрація modal (invalid phone format).")
 def test_registration_inv_num(driver: WebDriver, phone: str, expected_message: list[str]) -> None:
-    driver.get(Config.BASE_UI_URL)
-    header = HeaderComponent(driver)
-    sign_up_mod = header.get_registration_modal()
-
+    homepage = HomePage(driver)
+    
     with allure.step("1.Click the user icon in the site header."):
-        header.click_user_profile()
-        assert header.is_user_profile_dropdown_visible() == True
+        user_profile = homepage.header.click_user_profile()
+        assert  user_profile.is_visible() == True
 
     with allure.step("2.Click 'Зареєструватися' in the dropdown."):
-        header.click_register_menu_item()
+        sign_up_mod = user_profile.click_register()
         assert sign_up_mod.is_displayed() ==True
 
     with allure.step("3.Observe the role selection."):
