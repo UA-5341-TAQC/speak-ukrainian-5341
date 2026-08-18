@@ -12,18 +12,15 @@ import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from data.config import Config
-from pages.components.header_component import HeaderComponent
+from pages.home_page import HomePage
 
 
 @pytest.mark.parametrize("email, password, expected_message",
     [("petro.visitor.qa@example.com", "WrongPass999!", "Введено невірний пароль або email")])
 @allure.title("TC-31 Login — wrong password — Вхід modal (confirmed account).")
 def test_login_wrong_password_tc31(driver: WebDriver, email:str, password:str, expected_message:list[str]) -> None:
-    driver.get(Config.BASE_UI_URL)
-    header = HeaderComponent(driver)
-    header.click_login_menu_item()
-    
-    sign_in_mod = header.get_sign_up_modal()
+    homepage = HomePage(driver)
+    sign_in_mod = homepage.header.click_login_menu_item()
 
     with allure.step("1.Click the user icon in the site header."):
         sign_in_mod.fill_login_form(email, password)
