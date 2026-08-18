@@ -20,7 +20,7 @@ from pages.home_page import HomePage
 @allure.title("TC-31 Login — wrong password — Вхід modal (confirmed account).")
 def test_login_wrong_password_tc31(driver: WebDriver, email:str, password:str, expected_message:list[str]) -> None:
     homepage = HomePage(driver)
-    sign_in_mod = homepage.header.click_login_menu_item()
+    sign_in_mod = homepage.header.click_user_profile().click_login()
 
     with allure.step("1.Click the user icon in the site header."):
         sign_in_mod.fill_login_form(email, password)
