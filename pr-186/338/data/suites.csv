@@ -1,0 +1,13 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","4465","TC-39 Verify header navigation links redirect to the correct pages.","tests","2026-08-18","broken","2026-08-18","","test_nav_39","",""
+"Verify that users can navigate through the 30 language marathon tasks using next/previous arrows and pagination dots.","1592","TC-11: Task carousel navigation via arrows and pagination dots","tests","2026-08-18","passed","2026-08-18","TestMarathonTaskCarousel","test_marathon_task_carousel_navigation","",""
+"Verify that 'Інші новини' carousel can be navigated using arrows.","7165","TC-24 Verify carousel navigation using left and right arrows","tests","2026-08-18","passed","2026-08-18","","test_news_details","",""
+"Verify title, amount, currency, express pay buttons, card form fields and submit button.","4293","TC-48: Verify payment page UI elements are displayed correctly","tests","2026-08-18","passed","2026-08-18","TestPaymentPageUI","test_payment_page_ui","",""
+"Verify webinar video blocks, playback and YouTube links.","30064","TC-63 Verify video blocks playback and YouTube links on the challenge page","tests","2026-08-18","broken","2026-08-18","","test_challenge_page_video_blocks","",""
+"Test verifies that the 'Наші контакти' block is displayed on the news page, has the correct title, and contains all required social media icons: Facebook, YouTube, Instagram, and Mail.","4612","TC-28: Verify 'Наші контакти' section display","tests","2026-08-18","passed","2026-08-18","","test_social_buttons_ui","",""
+"Verify opening another news article from the 'Інші новини' section.","9880","test_news_details_other_news_navigation","tests","2026-08-18","passed","2026-08-18","","test_news_details_other_news_navigation","",""
+"Returning the authenticated_driver fixture leaves the session active.
+
+    The fixture signs in via the /api/signin endpoint and injects the issued
+    tokens, so the header must report the user as logged in.
+    ","291","test_user_is_signed_in_after_api_fixture","tests","2026-08-18","passed","2026-08-18","","test_sign_in","",""
