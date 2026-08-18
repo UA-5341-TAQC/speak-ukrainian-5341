@@ -2,6 +2,7 @@
 
 import platform
 from typing import Literal
+from urllib.parse import urlparse
 
 from selenium.common.exceptions import (
     ElementNotInteractableException,
@@ -12,6 +13,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from data.config import Config
@@ -34,6 +36,19 @@ class Base:
             self.driver = context.parent
         else:
             raise TypeError(f"Invalid context type: {type(context)}")
+
+    def get_current_url(self) -> str:
+        """Return the current browser URL, normalized without a trailing slash."""
+        return self.driver.current_url.rstrip("/")
+
+    def get_base_url(self) -> str:
+        """Return the base UI URL, normalized without a trailing slash.
+
+        Exposed on the base class so pages and components can build absolute
+        URLs without importing Config directly.
+        """
+        url = urlparse(self.get_current_url())
+        return f"{url.scheme}://{url.netloc}".rstrip("/")
 
     @property
     def _target(self) -> WebDriver | WebElement:
@@ -60,9 +75,10 @@ class Base:
             return (by, "." + value)
         return locator
 
-    def _find_element(self, locator: Locator) -> WebElement:
+    def _find_element(self, locator: Locator, from_driver: bool = False) -> WebElement:
         """Find a single element within the current context."""
-        return self._target.find_element(*self._format_locator(locator))
+        target = self._target if not from_driver else self.driver
+        return target.find_element(*self._format_locator(locator))
 
     def _find_elements(self, locator: Locator) -> list[WebElement]:
         """Find all matching elements within the current context."""
@@ -84,12 +100,12 @@ class Base:
 
         return self.wait.until(_predicate)
 
-    def _wait_clickable(self, locator: Locator) -> WebElement:
+    def _wait_clickable(self, locator: Locator, from_driver: bool = False) -> WebElement:
         """Wait until an element is clickable within the active context."""
 
         def _predicate(_: object) -> WebElement | Literal[False]:
             try:
-                element = self._find_element(locator)
+                element = self._find_element(locator, from_driver)
                 return element if (element.is_displayed() and element.is_enabled()) else False
             except Exception:
                 return False
@@ -153,3 +169,9 @@ class Base:
         """Clear an input element using Ctrl+A and Backspace."""
         element.send_keys(Keys.CONTROL + "a")
         element.send_keys(Keys.BACKSPACE)
+
+    def _wait_clickable_from_driver(self, locator: Locator) -> WebElement:
+        """Wait until an element is clickable using the driver context."""
+        return self.wait.until(
+            EC.element_to_be_clickable(locator)
+        )

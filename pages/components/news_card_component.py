@@ -45,6 +45,14 @@ class NewsCardComponent(BaseComponent):
         """Open this news item by clicking the card."""
         self.root.click()
 
+    @allure.step("Get the details link URL")
+    def get_details_href(self) -> str:
+        """Return the absolute URL of the details link, normalized without a trailing slash."""
+        href = self._wait_visible(self.DETAILS_LINK).get_attribute("href") or ""
+        if href.startswith("/"):
+            return f"{self.get_base_url()}{href}".rstrip("/")
+        return href.rstrip("/")
+
     @allure.step("Open news details")
     def click_details(self) -> None:
         """Open this news item using the details link."""
