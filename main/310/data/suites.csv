@@ -1,0 +1,60 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"TC-60: verify ""Доступний онлайн"" auto-toggles on when no location is added.
+
+    Preconditions covered inline (per TC-60):
+        - User is authenticated (via `authenticated_driver`).
+        - ""Додати гурток"" modal is opened through the header user menu.
+        - Step ""Основна інформація"" is completed.
+
+    NOTE: the info message (""Ви не додали жодної локації, гурток автоматично
+    є онлайн"") renders as an antd `ant-message` toast at the top of the
+    modal, so it's checked via `DescriptionStep.is_toast_displayed()` /
+    `.get_toast_text()`, which already exist in the codebase. Since toasts
+    can be transient, the check happens immediately after `click_next()`.
+    ","2224","test_online_status_auto_assigned_when_no_location","tests","2026-08-18","failed","2026-08-18","","test_add_club_modal","",""
+"TC-37: Verify the structure and presence of elements in the 
+    ""Основна інформація"" step of ""Додати гурток"" modal.
+
+    Preconditions:
+        - User is registered and logged into the Навчай Українською
+
+    Test Steps:
+        1. Open the ""Додати гурток"" form
+        2. Verify the window title
+        3. Verify the step indicator on the left
+        4. Verify the ""Назва гуртка"" field
+        5. Verify the ""Категорія"" section with 12 checkboxes
+        6. Verify the ""Вік дитини"" section with ""Від"" and ""До"" fields
+        7. Verify the ""Приналежність до центру"" dropdown
+        8. Verify the ""Наступний крок"" button is active
+    ","1665","test_add_club_modal_basic_info_structure","tests","2026-08-18","passed","2026-08-18","","test_add_club_modal_basic_info_structure","",""
+"Verify updating phone number with a valid 10-digit value persists after refresh.","4883","TC-17: Update phone number using valid 10-digit numeric value","tests","2026-08-18","passed","2026-08-18","","test_update_phone_number","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","1776","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-08-18","passed","2026-08-18","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","1243","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-08-18","passed","2026-08-18","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","899","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-08-18","passed","2026-08-18","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"Test verifies that the 'Наші контакти' block is displayed on the news page, has the correct title, and contains all required social media icons: Facebook, YouTube, Instagram, and Mail.","2914","TC-28: Verify 'Наші контакти' section display","tests","2026-08-18","passed","2026-08-18","","test_social_buttons_ui","",""
+"Verify that entering an invalid password displays the correct validation error.","12890","TC-53 Verify registration password policy validation [Length < 8]","tests","2026-08-18","broken","2026-08-18","","test_sign_up","",""
+"Verify opening another news article from the 'Інші новини' section.","6842","test_news_details_other_news_navigation","tests","2026-08-18","passed","2026-08-18","","test_news_details_other_news_navigation","",""
+"Verify opening a news article from the list and returning back to the News page.","4942","TC-07: Navigation to the News details page","tests","2026-08-18","passed","2026-08-18","TestNewsDetailsNavigation","test_news_details_navigation","",""
+"Verify that entering an invalid password displays the correct validation error.","12944","TC-53 Verify registration password policy validation [Missing uppercase]","tests","2026-08-18","broken","2026-08-18","","test_sign_up","",""
+"Verify challenge and event banner navigation on the homepage.","5822","TC-50 Verify challenge and event banner navigation on the homepage","tests","2026-08-18","passed","2026-08-18","","test_home_page","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","1260","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-08-18","passed","2026-08-18","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"","3058","TC-39 Verify header navigation links redirect to the correct pages.","tests","2026-08-18","broken","2026-08-18","","test_nav_39","",""
+"Returning the authenticated_driver fixture leaves the session active.
+
+    The fixture signs in via the /api/signin endpoint and injects the issued
+    tokens, so the header must report the user as logged in.
+    ","101","test_user_is_signed_in_after_api_fixture","tests","2026-08-18","passed","2026-08-18","","test_sign_in","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","1407","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-08-18","passed","2026-08-18","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"Verify that users can navigate through the 30 language marathon tasks using next/previous arrows and pagination dots.","2371","TC-11: Task carousel navigation via arrows and pagination dots","tests","2026-08-18","passed","2026-08-18","TestMarathonTaskCarousel","test_marathon_task_carousel_navigation","",""
+"Verify that entering an invalid password displays the correct validation error.","13661","TC-53 Verify registration password policy validation [Contains Cyrillic]","tests","2026-08-18","broken","2026-08-18","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","12049","TC-53 Verify registration password policy validation [Missing letters/digits]","tests","2026-08-18","broken","2026-08-18","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","13270","TC-53 Verify registration password policy validation [Length > 20]","tests","2026-08-18","broken","2026-08-18","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","12792","TC-53 Verify registration password policy validation [Missing lowercase]","tests","2026-08-18","broken","2026-08-18","","test_sign_up","",""
+"Verify homepage hero carousel navigation and its slide redirects.","6062","test_homepage_carousel_navigation","tests","2026-08-18","passed","2026-08-18","","test_home_carousel_navigation","",""
+"Verify that entering an invalid password displays the correct validation error.","12297","TC-53 Verify registration password policy validation [Missing letters/special]","tests","2026-08-18","broken","2026-08-18","","test_sign_up","",""
+"Verify that clicking the 'Новини' menu item in the header navigates the user to the News page with valid URL, title, and article list.","754","TC-06: Verify that the News page opens","tests","2026-08-18","passed","2026-08-18","TestNewsPage","test_news_page_opens","",""
+"Verify alphabetical sorting in the advanced club search.","56794","test_tc_52_advanced_club_search_sorting","tests","2026-08-18","passed","2026-08-18","","test_52_Advanced_club_search","",""
+"Verify that 'Інші новини' carousel can be navigated using arrows.","5721","TC-24 Verify carousel navigation using left and right arrows","tests","2026-08-18","passed","2026-08-18","","test_news_details","",""
+"Verify title, amount, currency, express pay buttons, card form fields and submit button.","3658","TC-48: Verify payment page UI elements are displayed correctly","tests","2026-08-18","passed","2026-08-18","TestPaymentPageUI","test_payment_page_ui","",""
+"Verify webinar video blocks, playback and YouTube links.","23594","TC-63 Verify video blocks playback and YouTube links on the challenge page","tests","2026-08-18","broken","2026-08-18","","test_challenge_page_video_blocks","",""
