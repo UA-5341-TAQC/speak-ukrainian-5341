@@ -10,13 +10,10 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from pages.components.add_club.basic_info_step import BasicInfoStep
 from pages.home_page import HomePage
 
-# Expected number of category checkboxes in the "Категорія" section
 EXPECTED_CATEGORIES_COUNT = 12
 
-# Expected title of the modal
 EXPECTED_MODAL_TITLE = "Додати гурток"
 
-# Expected step names
 STEP_BASIC_INFO = "Основна інформація"
 STEP_CONTACTS = "Контакти"
 STEP_DESCRIPTION = "Опис"
