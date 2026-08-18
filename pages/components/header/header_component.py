@@ -111,7 +111,7 @@ class HeaderComponent(BaseComponent):
 
     @allure.step("Get SignUpModal")
     def get_sign_up_modal(self) -> SignUpModal:
-        """Return the Sign In Modal."""
+        """Return the Sign Up Modal."""
         return SignUpModal(self.driver)
 
     @allure.step("Return whether challenge dropdown menu is displayed.")
