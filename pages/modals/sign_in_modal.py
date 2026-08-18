@@ -116,7 +116,3 @@ class SignInModal(BaseModal):
         """Return the number of displayed validation error icons."""
         elements = self._find_elements(self.FIELD_ERROR_ICON)
         return sum(1 for element in elements if element.is_displayed())
-
-    def get_email_value(self) -> str:
-        element = self._find_element(self.EMAIL_INPUT)
-        return element.get_attribute("value") or ""
