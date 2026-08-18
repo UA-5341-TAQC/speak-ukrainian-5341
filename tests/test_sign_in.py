@@ -29,8 +29,9 @@ def test_user_is_signed_in_after_api_fixture(authenticated_driver: WebDriver) ->
 @allure.tag("login", "validation", "required-fields")
 def test_tc33_login_empty_fields(driver: WebDriver) -> None:
     with allure.step("Step 1: Click the user icon in the site header"):
-        header = HeaderComponent(driver)
-        user_menu = header.click_user_profile()
+        header = driver.find_element(By.TAG_NAME, "header")
+        header_component = HeaderComponent(header)
+        user_menu = header_component.click_user_profile()
 
     with allure.step("Step 2: Click 'Увійти' in the dropdown"):
         login_modal = user_menu.click_login()
