@@ -4,7 +4,7 @@ import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from pages.components.header_component import HeaderComponent
+from pages.components.header.header_component import HeaderComponent
 
 
 @pytest.mark.smoke
@@ -15,4 +15,4 @@ def test_user_is_signed_in_after_api_fixture(authenticated_driver: WebDriver) ->
     tokens, so the header must report the user as logged in.
     """
     header = HeaderComponent(authenticated_driver.find_element(By.TAG_NAME, "header"))
-    assert header.is_logged_in(), "Expected the header user menu to show a signed-in session."
+    assert header.click_user_profile().is_logged_in(), "Expected the header user menu to show a signed-in session."
