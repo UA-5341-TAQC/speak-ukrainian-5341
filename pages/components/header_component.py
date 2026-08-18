@@ -198,11 +198,6 @@ class HeaderComponent(BaseComponent):
         except Exception:
             return False
 
-    @allure.step("Get SignUpModal")
-    def get_sign_up_modal(self) -> SignUpModal:
-        """Return the Sign In Modal."""
-        return SignUpModal(self.driver)
-
     @allure.step("Return whether challenge dropdown menu is displayed.")
     def is_challenge_dropdown_visibile(self) ->bool:
         """Return whether challenge dropdown menu is displayed."""
@@ -216,6 +211,3 @@ class HeaderComponent(BaseComponent):
     def is_user_profile_dropdown_visible(self) ->bool:
         """Return whether challenge dropdown menu is displayed."""
         return self._wait_visible(self.USER_DROPDOWN_MENU).is_displayed()
-
-
-
