@@ -1,6 +1,7 @@
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.base import Base
 from pages.components.header_component import HeaderComponent
@@ -29,6 +30,7 @@ class BasePage(Base):
     def refresh(self) -> None:
         """Refresh the current browser page."""
         self.driver.refresh()
+
     @property
     def header(self) -> HeaderComponent:
         """Get the header component."""
@@ -42,3 +44,7 @@ class BasePage(Base):
     def get_error_message_text(self) -> str:
         """Get the text of the global error toast message."""
         return self._get_text(self.error_message)
+
+    def get_wait(self, timeout: int = 5) -> WebDriverWait:
+        """Get a WebDriverWait instance with the specified timeout."""
+        return WebDriverWait(self.driver, timeout)
