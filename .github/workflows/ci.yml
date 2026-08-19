@@ -81,6 +81,8 @@ jobs:
           EXPLICIT_WAIT: ${{ secrets.EXPLICIT_WAIT }}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+          MANAGER_EMAIL: ${{ secrets.MANAGER_EMAIL }}
+          MANAGER_PASSWORD: ${{ secrets.MANAGER_PASSWORD }}
          
 
       - name: Upload Allure results
@@ -92,7 +94,8 @@ jobs:
   report:
     runs-on: ubuntu-latest
     needs: tests
-    if: ${{ !cancelled() && needs.tests.result != 'skipped' }}
+    if: ${{ !cancelled() && needs.tests.result != 'skipped' }}
+
 
     steps:
       - name: Checkout repo

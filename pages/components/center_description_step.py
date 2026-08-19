@@ -25,7 +25,7 @@ class CenterDescriptionStep(BaseComponent):
 
     def wait_loaded(self) -> "CenterDescriptionStep":
         """Wait until the Description step is visible."""
-        self._wait_visible(self.STEP_TITLE)
+        self._wait_visible(self.DESCRIPTION_FORM)
         return self
 
     @allure.step("Upload center logo")
