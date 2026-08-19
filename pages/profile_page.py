@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from pages.components.footer_component import FooterComponent
 from pages.modals.edit_profile_modal import EditProfileModal
+from pages.profile_complaints_page import ProfileComplaintsPage
 from pages.types import Locator
 
 
@@ -24,6 +25,12 @@ class ProfilePage(BasePage):
     edit_profile_btn: Locator = (
         By.CSS_SELECTOR,
         "div.edit-button button",
+    )
+
+    # Left hand navigation menu of the personal cabinet ('Особистий кабінет').
+    complaints_menu_item: Locator = (
+        By.CSS_SELECTOR,
+        "ul.sider-profile a[href$='/complaints']",
     )
 
     @allure.step("Click 'Edit Profile' button")
@@ -85,6 +92,16 @@ class ProfilePage(BasePage):
         """
         src = self.get_avatar_src()
         return src if src else "default"
+
+    @allure.step("Open 'Скарги' page from the personal cabinet menu")
+    def open_complaints(self) -> "ProfileComplaintsPage":
+        """Click the 'Скарги' item in the left menu and return its page.
+
+        Returns:
+            An instance of ProfileComplaintsPage, already waited to load.
+        """
+        self._wait_clickable(self.complaints_menu_item).click()
+        return ProfileComplaintsPage(self.driver).wait_loaded()
 
     @property
     def footer(self) -> FooterComponent:

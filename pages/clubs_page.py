@@ -3,9 +3,11 @@
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 
 from pages.base_page import BasePage
+from pages.club_details_page import ClubDetailsPage
 
 # from pages.components.club_card_component import ClubCardComponent
 from pages.components.club_filters_component import ClubFiltersComponent
@@ -16,7 +18,6 @@ from pages.types import Locator
 class ClubPage(BasePage):
     """Page object representing the Speak Ukrainian clubs catalog page."""
 
-
     CLUBS_CONTENT: Locator = (By.TAG_NAME, "body")
     SEARCH_INPUT = (By.CSS_SELECTOR, "input.search-box, input[type='search']")
     CLUB_CARDS = (By.CSS_SELECTOR, "div.ant-card, div.type-list-card")
@@ -25,15 +26,18 @@ class ClubPage(BasePage):
     NO_RESULTS_MESSAGE = (By.CSS_SELECTOR, "div.clubs-not-found")
     PAGINATION_NEXT = (By.CSS_SELECTOR, "li.ant-pagination-next")
 
+    # "Детальніше" ("More details") button of a club card on the catalog page.
+    CLUB_DETAILS_BUTTON: Locator = (By.CSS_SELECTOR, "a.details-button")
+
     def __init__(self, driver: WebDriver):
         """Initialize the News page with a WebDriver."""
         super().__init__(driver)
 
-    def find(self, locator):
+    def find(self, locator: Locator) -> WebElement:
         """Helper to find one element."""
         return self.wait.until(EC.presence_of_element_located(locator))
 
-    def find_all(self, locator):
+    def find_all(self, locator: Locator) -> list[WebElement]:
         """Helper to find all elements for locator."""
         return self.wait.until(EC.presence_of_all_elements_located(locator))
 
@@ -42,6 +46,7 @@ class ClubPage(BasePage):
         """Open the Clubs page and wait until its main content is visible."""
         self.driver.get(f"{self.get_base_url()}/clubs")
         self._wait_visible(self.CLUBS_CONTENT)
+        return self
 
     def wait_loaded(self) -> "ClubPage":
         """Wait until the main Clubs content is visible."""
@@ -67,6 +72,17 @@ class ClubPage(BasePage):
     def is_no_results_displayed(self) -> bool:
         """Check if 'No clubs' message is displayed."""
         return len(self.driver.find_elements(*self.NO_RESULTS_MESSAGE)) > 0
+
+    @allure.step("Open the first club details page")
+    def open_first_club_details(self) -> "ClubDetailsPage":
+        """Click the 'Детальніше' button of the first club card.
+
+        Returns:
+            The club details page of the selected club.
+        """
+        self._wait_visible(self.CLUB_CARDS)
+        self._wait_clickable(self.CLUB_DETAILS_BUTTON).click()
+        return ClubDetailsPage(self.driver)
 
     def filter(self) -> ClubFiltersComponent:
         """Return filter object."""
