@@ -32,6 +32,7 @@ class NewsCardComponent(BaseComponent):
         """Return the text of the details link."""
         return self._wait_visible(self.DETAILS_LINK).text.strip()
 
+    @allure.step("Check whether news image is displayed.")
     def is_image_displayed(self) -> bool:
         """Return True when the news image is visible."""
         return self._wait_visible(self.IMAGE).is_displayed()
@@ -57,3 +58,19 @@ class NewsCardComponent(BaseComponent):
     def click_details(self) -> None:
         """Open this news item using the details link."""
         self._wait_clickable(self.DETAILS_LINK).click()
+
+    @allure.step("Check if news card is visible")
+    def is_visible(self) -> bool:
+        """Check whether news card is displayed."""
+        return self.root.is_displayed()
+
+    @allure.step("Check whether title is displayed.")
+    def is_title_visible(self)->bool:
+        """Check whether title is displayed."""
+        return self._wait_visible(self.TITLE).is_displayed()
+
+    @allure.step("Check whether publication date is displayed")
+    def is_date_visible(self) -> bool:
+        """Check whether publication date is displayed."""
+        return self._wait_visible(self.DATE).is_displayed()
+
