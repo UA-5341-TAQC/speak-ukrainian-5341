@@ -33,20 +33,16 @@ def test_tc28_contacts_section_display(driver: WebDriver) -> None:
         )
 
     with allure.step("Step 3: Verify Facebook icon availability"):
-        fb = social.root.find_element(*SocialButtons.FACEBOOK_BUTTON)
-        assert fb.is_displayed(), "Facebook icon should be visible"
+        assert social.is_facebook_button_displayed(), ("Facebook icon should be visible")
 
     with allure.step("Step 4: Verify YouTube icon availability"):
-        yt = social.root.find_element(*SocialButtons.YOUTUBE_BUTTON)
-        assert yt.is_displayed(), "YouTube icon should be visible"
+        assert social.is_youtube_button_displayed(), ("YouTube icon should be visible")
 
     with allure.step("Step 5: Verify Instagram icon availability"):
-        ig = social.root.find_element(*SocialButtons.INSTAGRAM_BUTTON)
-        assert ig.is_displayed(), "Instagram icon should be visible"
+        assert social.is_instagram_button_displayed(), ("Instagram icon should be visible")
 
     with allure.step("Step 6: Verify Mail icon availability"):
-        mail = social.root.find_element(*SocialButtons.MAIL_BUTTON)
-        assert mail.is_displayed(), "Mail icon should be visible"
+        assert social.is_mail_button_displayed(), ("Mail icon should be visible")
 
 @allure.title("TC-42: Verify Facebook social media link functionality")
 @allure.description(

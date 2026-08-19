@@ -88,3 +88,26 @@ class SocialButtons(BaseComponent):
     def get_donate_button_cursor(self) -> str:
         """Return the donate button cursor CSS value."""
         return self._find_element(self.DONATE_BUTTON).value_of_css_property("cursor")
+
+    @allure.step("Check if Facebook button is displayed")
+    def is_facebook_button_displayed(self) -> bool:
+        """Return whether the Facebook button is visible."""
+        return self._wait_visible(self.FACEBOOK_BUTTON).is_displayed()
+
+
+    @allure.step("Check if YouTube button is displayed")
+    def is_youtube_button_displayed(self) -> bool:
+        """Return whether the YouTube button is visible."""
+        return self._wait_visible(self.YOUTUBE_BUTTON).is_displayed()
+
+
+    @allure.step("Check if Instagram button is displayed")
+    def is_instagram_button_displayed(self) -> bool:
+        """Return whether the Instagram button is visible."""
+        return self._wait_visible(self.INSTAGRAM_BUTTON).is_displayed()
+
+
+    @allure.step("Check if email button is displayed")
+    def is_mail_button_displayed(self) -> bool:
+        """Return whether the mail button is visible."""
+        return self._wait_visible(self.MAIL_BUTTON).is_displayed()
