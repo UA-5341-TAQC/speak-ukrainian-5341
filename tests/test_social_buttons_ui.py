@@ -1,6 +1,7 @@
 import allure
 import pytest
 from selenium.webdriver import ActionChains
+from selenium.webdriver import ActionChains
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from pages.components.social_buttons import SocialButtons
