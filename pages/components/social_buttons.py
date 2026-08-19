@@ -64,11 +64,6 @@ class SocialButtons(BaseComponent):
         """Get the full mailto URL."""
         return (self._find_element(self.MAIL_BUTTON).get_attribute("href") or "")
 
-    @allure.step("Get email link URL")
-    def get_email_url(self) -> str:
-        """Get the full mailto URL."""
-        return (self._find_element(self.MAIL_BUTTON).get_attribute("href") or "")
-
     @allure.step("Get Donate button text")
     def get_donate_button_text(self) -> str:
         """Get text from the Donate button."""

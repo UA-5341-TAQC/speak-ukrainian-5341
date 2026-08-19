@@ -134,13 +134,3 @@ class SignInModal(BaseModal):
         """Return the number of displayed validation error icons."""
         elements = self._find_elements(self.FIELD_ERROR_ICON)
         return sum(1 for element in elements if element.is_displayed())
-
-    @allure.step("Wait for login toast error message to appear")
-    def wait_for_login_error(self) -> str:
-        """Wait until the login error toast notification appears and return its text."""
-        try:
-            return self.wait.until(
-                lambda _: self._find_element(self.TOAST_ERROR_MESSAGE).text.strip() or False
-            )
-        except TimeoutException:
-            return ""
