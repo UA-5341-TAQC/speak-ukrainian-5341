@@ -23,21 +23,26 @@ class LeaveCommentModal(BaseModal):
 
     # Contact fields, autofilled from user profile
     NAME_INPUT: Locator = (
-        By.XPATH, "//label[@title=\"Ім'я\"]/ancestor::div[contains(@class,'ant-form-item-row')]//input"  # noqa: E501
+        By.XPATH,
+        "//label[@title=\"Ім'я\"]/ancestor::div[contains(@class,'ant-form-item-row')]//input",  # noqa: E501
     )
     PHONE_INPUT: Locator = (
-        By.XPATH, "//label[@title='Телефон']/ancestor::div[contains(@class,'ant-form-item-row')]//input"  # noqa: E501
+        By.XPATH,
+        "//label[@title='Телефон']/ancestor::div[contains(@class,'ant-form-item-row')]//input",  # noqa: E501
     )
     EMAIL_INPUT: Locator = (
-        By.XPATH, "//label[@title='Email']/ancestor::div[contains(@class,'ant-form-item-row')]//input"  # noqa: E501
+        By.XPATH,
+        "//label[@title='Email']/ancestor::div[contains(@class,'ant-form-item-row')]//input",  # noqa: E501
     )
 
     # Rating and description -> only editable fields, "Коментар" tab
     RATING_WIDGET: Locator = (By.CSS_SELECTOR, "#comment-edit_rate")
     RATING_STAR_TEMPLATE: Locator = (
-        By.CSS_SELECTOR, "#comment-edit_rate div[role='radio'][aria-posinset='{stars}']")
+        By.CSS_SELECTOR,
+        "#comment-edit_rate div[role='radio'][aria-posinset='{stars}']",
+    )
 
-    #Description field
+    # Description field
     DESCRIPTION_LABEL: Locator = (By.CSS_SELECTOR, "label[for='comment-edit_commentText']")
     DESCRIPTION_FIELD: Locator = (By.CSS_SELECTOR, "#comment-edit_commentText")
 
@@ -49,6 +54,32 @@ class LeaveCommentModal(BaseModal):
     def is_modal_displayed(self) -> bool:
         """Check if the modal is currently open."""
         return self._find_element(self.MODAL_DIALOG).is_displayed()
+
+    def wait_for_visible(self) -> "LeaveCommentModal":
+        """Wait until the modal dialog becomes visible.
+
+        Returns:
+            The modal instance for chaining.
+        """
+        self._wait_visible(self.MODAL_DIALOG)
+        return self
+
+    def wait_for_closed(self) -> "LeaveCommentModal":
+        """Wait until the modal dialog has closed (removed or hidden).
+
+        Used right after submitting so the page is freed from the modal overlay
+        before navigating away.
+
+        Returns:
+            The modal instance for chaining.
+        """
+        self.wait.until(
+            lambda _: (
+                not self._find_elements(self.MODAL_DIALOG)
+                or not self._find_element(self.MODAL_DIALOG).is_displayed()
+            )
+        )
+        return self
 
     def click_comment_tab(self) -> None:
         """Switch to the 'Коментар' tab."""
@@ -108,13 +139,21 @@ class LeaveCommentModal(BaseModal):
         self._wait_clickable(self.CLOSE_BUTTON).click()
 
     def is_comment_tab_selected(self) -> bool:
-        """Check if the 'Коментар' tab is currently selected."""
+        """Check if the 'Коментар' tab is currently selected.
+
+        The ``aria-selected`` attribute is placed on the inner ``.ant-tabs-tab-btn``
+        element, so the selected state is read from the ``ant-tabs-tab-active`` class
+        added to the tab wrapper.
+        """
         tab = self._find_element(self.COMMENT_TAB)
-        # get_attribute завжди повертає рядок, тому порівнюється з текстом "true", а не з булевим True  # noqa: E501
-        return tab.get_attribute("aria-selected") == "true"
+        return "ant-tabs-tab-active" in (tab.get_attribute("class") or "")
 
     def is_complaint_tab_selected(self) -> bool:
-        """Check if the 'Скарга' tab is currently selected."""
-        tab = self._find_element(self.COMPLAINT_TAB)
-        return tab.get_attribute("aria-selected") == "true"
+        """Check if the 'Скарга' tab is currently selected.
 
+        The ``aria-selected`` attribute is placed on the inner ``.ant-tabs-tab-btn``
+        element, so the selected state is read from the ``ant-tabs-tab-active`` class
+        added to the tab wrapper.
+        """
+        tab = self._find_element(self.COMPLAINT_TAB)
+        return "ant-tabs-tab-active" in (tab.get_attribute("class") or "")
