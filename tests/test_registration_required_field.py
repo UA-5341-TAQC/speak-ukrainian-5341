@@ -67,8 +67,9 @@ def test_registration_required_field(driver: WebDriver, empty_field: str, field_
 
     with allure.step(f"Fill all fields with data EXCEPT '{field_label}' (leave empty)"):
         for field, value in FIELD_INPUTS.items():
-            setter = getattr(sign_up_modal, FIELD_METHODS[field])
-            setter(value if field != empty_field else "")
+            if field != empty_field:
+                setter = getattr(sign_up_modal, FIELD_METHODS[field])
+                setter(value)
 
         empty_field_locator = getattr(sign_up_modal, FIELD_LOCATOR_NAMES[empty_field])
         sign_up_modal.type_and_clear(empty_field_locator)
