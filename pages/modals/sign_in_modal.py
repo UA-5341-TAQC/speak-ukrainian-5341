@@ -119,6 +119,14 @@ class SignInModal(BaseModal):
         elements = self._find_elements(self.FIELD_ERROR_MESSAGES)
         return [elem.text.strip() for elem in elements if elem.is_displayed()]
 
+    @allure.step("Pop up error message text")
+    def pop_up_error_text(self) -> str:
+        """Method to trigger pop up error message and get the error text."""
+        self.click_submit()
+        pop_up = self._wait_present(self.TOAST_ERROR_MESSAGE)
+        textContent = pop_up.get_attribute("textContent") or ""
+        return textContent.strip()
+
     @allure.step("Wait for login toast error message to appear")
     def wait_for_login_error(self) -> str:
         """Wait until the login error toast notification appears and return its text."""
