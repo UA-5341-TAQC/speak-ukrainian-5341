@@ -22,7 +22,7 @@ class SignUpModal(BaseModal):
     """
 
     # --- LOCATORS ---
-    MODAL_CONTENT: Locator = (By.CSS_SELECTOR, "div.ant-modal-content")
+    MODAL_CONTENT: Locator = (By.CSS_SELECTOR, "div.ant-modal:has(div.registration-header)")
     CLOSE_BUTTON: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
     MODAL_TITLE: Locator = (
         By.CSS_SELECTOR,
@@ -56,6 +56,10 @@ class SignUpModal(BaseModal):
 
     # Validation errors
     FIELD_ERROR_MESSAGES: Locator = (By.CSS_SELECTOR, "div.ant-form-item-explain-error")
+    ACCOUNT_EXIST_ERROR: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-message-notice-error div.ant-message-custom-content"
+    )
 
     @allure.step("Check if Registration modal is displayed")
     def is_displayed(self) -> bool:
@@ -234,3 +238,13 @@ class SignUpModal(BaseModal):
         except TimeoutException:
             return self.get_error_messages()
 
+    @allure.step("Verify duplicate email error is displayed")
+    def is_duplicate_email_error_displayed(self) -> bool:
+        """Check whether the duplicate email error message is displayed."""
+        return bool(self._wait_visible(self.ACCOUNT_EXIST_ERROR))
+
+    @allure.step("Verify duplicate email error text")
+    def get_duplicate_email_error_text(self) -> str:
+        """Get the text of the duplicate email error message."""
+        element = self._find_elements(self.ACCOUNT_EXIST_ERROR)[0]
+        return element.text

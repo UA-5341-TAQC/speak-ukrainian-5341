@@ -6,7 +6,9 @@ from selenium.webdriver.remote.webdriver import WebDriver
 
 from data.config import Config
 from fixtures.email_api import TempMailAPI
+from pages.components.header.header_component import HeaderComponent
 from pages.home_page import HomePage
+from pages.modals.sign_in_modal import SignInModal
 from pages.modals.sign_up_modal import SignUpModal
 
 
@@ -224,3 +226,39 @@ def test_registration_flow(
         success_text = home_page.get_success_message_text()
         error_msg = f"Expected confirmation toast, got: {success_text}"
         assert "успішно зареєстрований" in success_text.lower(), error_msg
+
+    @allure.title("TC-57 Registration — duplicate email (already-registered email)")
+    @allure.tag("registration", "validation", "required-fields")
+    def test_tc57_register_existing_email(driver: WebDriver) -> None:
+        with allure.step("Step 1:Click the user icon in the site header"):
+            header = driver.find_element(By.TAG_NAME, "header")
+            header_component = HeaderComponent(header)
+            user_menu = header_component.click_user_profile()
+
+        with allure.step("Step 2: Click 'Зареєструватися' in the dropdown"):
+            sign_up_modal = user_menu.click_register()
+
+        with allure.step("Step 3: Observe the role selection"):
+            user_role = sign_up_modal.is_visitor_role_selected()
+            assert user_role == True, (
+                "'Відвідувач'role should be selected by default"
+            )
+
+        with allure.step("Step 4: Fill all fields with valid data (the already-registered email used)"):
+            sign_up_modal.fill_registration_form("Іванов", "Петро",
+                "0991234567", Config.USER_EMAIL,
+                "TestPass123!", "TestPass123!").click_submit()
+            assert sign_up_modal.is_duplicate_email_error_displayed(), (
+                "Duplicate email error message should be displayed"
+            )
+
+        assert sign_up_modal.get_duplicate_email_error_text() == (
+                "Вказаний email вже зареєстрований на сайті"
+            ), "Duplicate email error message has incorrect text"
+
+        with allure.step("Verify the login modal opened"):
+            login_modal = SignInModal(driver)
+
+            assert login_modal.is_displayed(), (
+                "Login modal should be displayed"
+            )
