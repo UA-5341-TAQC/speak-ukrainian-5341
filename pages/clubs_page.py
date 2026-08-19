@@ -131,4 +131,4 @@ class ClubPage(BasePage):
                 EC.visibility_of_element_located(self.FILTERS_PANEL)
             ).is_displayed()
         except Exception:
-            return False   
+            return False
