@@ -54,3 +54,8 @@ class NewsPage(BasePage):
             return self._wait_visible(self.NEWS_TITLE).is_displayed()
         except Exception:
             return False
+
+    @allure.step("Check if News page is opened")
+    def is_opened(self) -> bool:
+        """Check whether the News page is opened."""
+        return "/news" in self.driver.current_url

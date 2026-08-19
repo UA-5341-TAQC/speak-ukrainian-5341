@@ -3,6 +3,7 @@
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
 
 from pages.components.center_basic_info_step import CenterBasicInfoStep
 from pages.components.center_clubs_step import CenterClubsStep
@@ -35,7 +36,7 @@ class AddCenterModal(BaseModal):
         self._wait_visible(self.MODAL)
         return self
 
-    def _get_modal_root(self):
+    def _get_modal_root(self) -> WebElement:
         """Return the current modal root element."""
         return self._wait_visible(self.MODAL)
 
