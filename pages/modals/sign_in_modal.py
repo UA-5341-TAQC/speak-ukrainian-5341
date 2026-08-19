@@ -45,6 +45,10 @@ class SignInModal(BaseModal):
         By.CSS_SELECTOR,
         "div.ant-message-custom-content.ant-message-error",
     )
+    FIELD_ERROR_ICON: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-form-item.login-input.ant-form-item-has-error .ant-form-item-feedback-icon-error",
+    )
 
     @allure.step("Check if Sign In modal is displayed")
     def is_displayed(self) -> bool:
@@ -124,3 +128,9 @@ class SignInModal(BaseModal):
             )
         except TimeoutException:
             return ""
+
+    @allure.step("Get number of validation error icons")
+    def get_validation_error_count(self) -> int:
+        """Return the number of displayed validation error icons."""
+        elements = self._find_elements(self.FIELD_ERROR_ICON)
+        return sum(1 for element in elements if element.is_displayed())

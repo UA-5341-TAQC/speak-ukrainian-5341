@@ -4,15 +4,17 @@ import allure
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 
+from data.config import Config
 from pages.base_page import BasePage
 from pages.components.carousel import Carousel
-from pages.components.header.header_component import HeaderComponent
 from pages.components.home_content_card import HomeContentCard
 from pages.types import Locator
 
 
 class HomePage(BasePage):
     """Page object representing the Speak Ukrainian home page."""
+
+    URL = Config.BASE_UI_URL
 
     ALL_CLUBS_BUTTON: Locator = (
         By.CSS_SELECTOR,
@@ -58,13 +60,11 @@ class HomePage(BasePage):
         ".primitive-card",
     )
 
-    HEADER_ROOT: Locator = (By.CSS_SELECTOR, "header.header")
-
-    @property
-    def header(self) -> HeaderComponent:
-        """Get HeaderComponent instance for the site header."""
-        root = self._find_element(self.HEADER_ROOT)
-        return HeaderComponent(root)
+    @allure.step("Open the Home page")
+    def open(self) -> "HomePage":
+        """Open the Home page."""
+        self.driver.get(self.URL)
+        return self
 
     @allure.step("Click 'Всі гуртки' button")
     def click_all_clubs_button(self) -> None:
