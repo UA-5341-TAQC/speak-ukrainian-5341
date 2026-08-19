@@ -88,13 +88,3 @@ class ClubPage(BasePage):
 
         self.wait.until(lambda _: map_modal.is_displayed())
         return map_modal
-
-    @allure.step("Click 'Показати на мапі' button")
-    def open_map_modal(self) -> MapModal:
-        """Open map modal and return MapModal."""
-        self._wait_clickable(self.SHOW_MAP_BUTTON).click()
-
-        map_modal = MapModal(self.driver)
-
-        self.wait.until(lambda _: map_modal.is_displayed())
-        return map_modal
