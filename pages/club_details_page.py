@@ -1,8 +1,11 @@
 """Club details page /club/{id}."""
 
+import allure
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
+from pages.components.comment_card_component import CommentCardComponent
 from pages.types import Locator
 
 
@@ -46,6 +49,24 @@ class ClubDetailsPage(BasePage):
     # Comments
     LEAVE_COMMENT_BUTTON: Locator = (By.CSS_SELECTOR, "button.comment-button")
     COMMENTS_LABEL: Locator = (By.CSS_SELECTOR, ".comment-label")
+
+    TOOLTIP_INNER: Locator = (By.CSS_SELECTOR, "div.ant-tooltip-inner")
+    LOGIN_POPUP_MODAL: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-modal-content",
+    )
+    LOGIN_POPUP_TITLE: Locator = (
+        By.CSS_SELECTOR,
+        "span.ModalHint_title__ragND",
+    )
+    LOGIN_POPUP_CLOSE_BUTTON: Locator = (
+        By.CSS_SELECTOR,
+        "button.ant-modal-close",
+    )
+    COMMENT_CARD_ROOTS: Locator = (
+        By.CSS_SELECTOR,
+        ".comment-list .ant-comment, .comment-card",
+    )
 
     def open_page(self, club_id: int) -> None:
         """Navigate to the club details page for the given club id."""
@@ -141,3 +162,54 @@ class ClubDetailsPage(BasePage):
     def is_comments_label_displayed(self) -> bool:
         """Check if the 'Коментарі' section title is displayed."""
         return self._find_element(self.COMMENTS_LABEL).is_displayed()
+
+    @allure.step("Check if 'Записатись на гурток' button is disabled")
+    def is_enroll_button_disabled(self) -> bool:
+        """Return True if the enroll button is disabled (not clickable)."""
+        btn = self._wait_visible(self.ENROLL_BUTTON)
+        return not btn.is_enabled()
+
+    @allure.step("Hover over 'Записатись на гурток' button")
+    def hover_enroll_button(self) -> None:
+        """Hover over the enroll button to trigger the tooltip."""
+        btn = self._find_element(self.ENROLL_BUTTON)
+        ActionChains(self.driver).move_to_element(btn).pause(0.5).perform()
+
+    @allure.step("Get tooltip inner text")
+    def get_tooltip_text(self) -> str:
+        """Return text from the visible Ant Design tooltip."""
+        return self._wait_visible(self.TOOLTIP_INNER).text
+
+    @allure.step("Get enroll button CSS cursor value")
+    def get_enroll_button_cursor(self) -> str:
+        """Return the 'cursor' CSS property of the enroll button."""
+        return self._find_element(self.ENROLL_BUTTON).value_of_css_property("cursor")
+
+    @allure.step("Check if login popup modal is displayed")
+    def is_login_popup_displayed(self) -> bool:
+        """Return True if the 'Увійдіть або зареєструйтеся' modal is visible."""
+        return self._wait_visible(self.LOGIN_POPUP_MODAL).is_displayed()
+
+    @allure.step("Get login popup title text")
+    def get_login_popup_title(self) -> str:
+        """Return the modal title text."""
+        return self._find_element(self.LOGIN_POPUP_TITLE).text.strip()
+
+    @allure.step("Close login popup modal")
+    def close_login_popup(self) -> None:
+        """Click the X button on the login modal."""
+        self._click(self.LOGIN_POPUP_CLOSE_BUTTON)
+
+    @allure.step("Get list of comment cards")
+    def get_comment_cards(self) -> list[CommentCardComponent]:
+        """Find all comment cards and wrap them in CommentCardComponent instances."""
+        elements = self._find_elements(self.COMMENT_CARD_ROOTS)
+        return [CommentCardComponent(el) for el in elements]
+
+    @allure.step("Click 'Відповісти' on the first comment")
+    def click_reply_on_first_comment(self) -> None:
+        """Click the first 'Відповісти' button in the comments section."""
+        cards = self.get_comment_cards()
+        if not cards:
+            raise RuntimeError("No comments found on the page")
+        cards[0].click_reply()
