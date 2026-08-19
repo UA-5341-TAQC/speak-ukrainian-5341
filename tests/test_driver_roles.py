@@ -14,8 +14,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from data.config import Config
-from fixtures.signin_api import SignInSession
 from pages.components.header.header_component import HeaderComponent
+from utils.signin_api import SignInSession
 
 
 def _read_storage(driver: WebDriver, key: str) -> str:
