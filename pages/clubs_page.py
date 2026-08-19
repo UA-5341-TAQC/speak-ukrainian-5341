@@ -63,9 +63,8 @@ class ClubPage(BasePage):
 
     @allure.step("Get clubs count")
     def get_clubs_count(self) -> int:
-        """Get the count of club cards currently displayed on the page."""
-        elements = self.wait.until(lambda _: self._find_elements(self.CLUB_CARDS))
-        return len(elements)
+        """Return number of clubs displayed on page."""
+        return len(self._find_elements(self.CLUB_CARDS))
 
     @allure.step("Check if 'No clubs' message is displayed")
     def is_no_results_displayed(self) -> bool:
@@ -78,7 +77,17 @@ class ClubPage(BasePage):
 
     def sort(self) -> ClubSortComponent:
         """Return sort object."""
-        return ClubSortComponent(self._wait_visible(self.CLUBS_CONTENT))
+        return ClubSortComponent(self.find(self.CLUBS_CONTENT))
+
+    @allure.step("Click 'Показати на мапі' button")
+    def open_map_modal(self) -> MapModal:
+        """Open map modal and return MapModal."""
+        self._wait_clickable(self.SHOW_MAP_BUTTON).click()
+
+        map_modal = MapModal(self.driver)
+
+        self.wait.until(lambda _: map_modal.is_displayed())
+        return map_modal
 
     @allure.step("Click 'Показати на мапі' button")
     def open_map_modal(self) -> MapModal:

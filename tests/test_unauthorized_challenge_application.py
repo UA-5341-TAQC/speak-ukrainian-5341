@@ -9,7 +9,6 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from data.config import Config
 from pages.home_page import HomePage
 from pages.challenge_page import ChallengePage
-from pages.components.header.header_component import HeaderComponent
 
 
 CHALLENGES = [
@@ -49,9 +48,11 @@ class TestUnauthorizedChallengeApplication:
         challenge: str,
     ) -> None:
         """Verify unauthorized user cannot apply to the selected challenge."""
+        home_page = HomePage(driver)
 
         with allure.step("Step 1: Click the 'Челендж' from the top menu"):
-            dropdown = HomePage(driver).header.get_challenge_dropdown()
+            home_page.header.click_challenge()
+            dropdown = home_page.header.get_challenge_dropdown()
 
         with allure.step(
             f"Step 2: Select '{challenge}' from the dropdown menu"
