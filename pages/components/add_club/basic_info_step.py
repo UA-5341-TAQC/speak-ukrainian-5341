@@ -131,3 +131,37 @@ class BasicInfoStep(AddClubModal):
         if center:
             self.select_center(center)
         return self
+
+    def is_name_input_visible(self) -> bool:
+        """Check if the 'Назва гуртка' input field is visible."""
+        return self._find_element(self.NAME_INPUT).is_displayed()
+
+    def is_categories_container_visible(self) -> bool:
+        """Check if the categories container is visible."""
+        return self._find_element(self.CATEGORIES_CONTAINER).is_displayed()
+
+    def get_categories_count(self) -> int:
+        """Get the total number of category checkboxes."""
+        elements = self.driver.find_elements(*self.CATEGORIES_CONTAINER)
+        if not elements:
+            return 0
+        category_inputs = elements[0].find_elements(
+            By.XPATH, ".//input[@type='checkbox']"
+        )
+        return len(category_inputs)
+
+    def is_age_from_visible(self) -> bool:
+        """Check if the 'Від' age input field is visible."""
+        return self._find_element(self.AGE_FROM_INPUT).is_displayed()
+
+    def is_age_to_visible(self) -> bool:
+        """Check if the 'До' age input field is visible."""
+        return self._find_element(self.AGE_TO_INPUT).is_displayed()
+
+    def is_center_select_visible(self) -> bool:
+        """Check if the center selection dropdown is visible."""
+        return self._find_element(self.CENTER_SELECT_SELECTOR).is_displayed()
+
+    def is_next_button_enabled(self) -> bool:
+        """Check if the 'Наступний крок' button is enabled."""
+        return self._find_element(self.NEXT_STEP_BUTTON).is_enabled()
