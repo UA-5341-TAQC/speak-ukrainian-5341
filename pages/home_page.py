@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 
 from data.config import Config
 from pages.base_page import BasePage
+from pages.clubs_page import ClubPage
 from pages.components.carousel import Carousel
 from pages.components.home_content_card import HomeContentCard
 from pages.types import Locator
@@ -73,9 +74,10 @@ class HomePage(BasePage):
         return self
 
     @allure.step("Click 'Всі гуртки' button")
-    def click_all_clubs_button(self) -> None:
+    def click_all_clubs_button(self) -> ClubPage:
         """Click the 'Всі гуртки' button."""
         self._wait_clickable(self.ALL_CLUBS_BUTTON).click()
+        return ClubPage(self.driver)
 
     @allure.step("Switch club categories to previous")
     def click_categories_prev_arrow(self) -> None:
@@ -166,3 +168,12 @@ class HomePage(BasePage):
     def get_content_cards(self) -> list[HomeContentCard]:
         """Return all home page content cards."""
         return [HomeContentCard(card) for card in self.driver.find_elements(*self.CONTENT_CARDS)]
+
+    @allure.step("Get content card by title: {title}")
+    def get_content_card_by_title(self, title: str) -> HomeContentCard:
+        """Return content card with the specified title."""
+        for card in self.get_content_cards():
+            if card.get_title().strip() == title:
+                return card
+
+        raise AssertionError(f"Content card with title '{title}' was not found.")

@@ -12,7 +12,7 @@ class MarathonPage(BasePage):
 
     REGISTER_BUTTON: Locator = (
         By.CSS_SELECTOR,
-        'a[href$="/marathon/registration"]',
+        "button.details-button",
     )
     TASKS_PREV_ARROW: Locator = (
         By.CSS_SELECTOR,
