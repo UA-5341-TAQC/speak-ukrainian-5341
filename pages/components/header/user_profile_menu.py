@@ -4,6 +4,7 @@ import allure
 from selenium.webdriver.common.by import By
 
 from pages.components.base_component import BaseComponent
+from pages.modals.add_center_modal import AddCenterModal
 from pages.modals.sign_in_modal import SignInModal
 from pages.modals.sign_up_modal import SignUpModal
 from pages.types import Locator
@@ -53,9 +54,12 @@ class UserProfileMenu(BaseComponent):
         self._wait_clickable(self.ADD_CLUB_MENU_ITEM, from_driver=True).click()
 
     @allure.step("Click 'Додати центр' in user menu")
-    def click_add_centre_menu_item(self) -> None:
+    def click_add_centre_menu_item(self) -> AddCenterModal:
         """Click the 'Додати центр' item in the user dropdown."""
         self._wait_clickable(self.ADD_CENTRE_MENU_ITEM, from_driver=True).click()
+        add_center_modal = AddCenterModal(self.driver)
+        add_center_modal.wait_opened()
+        return add_center_modal
 
     @allure.step("Click 'Пошук сертифікатів' in user menu")
     def click_search_certificates_menu_item(self) -> None:
@@ -106,7 +110,6 @@ class UserProfileMenu(BaseComponent):
     def is_visible(self) -> bool:
         """Return whether user profile dropdown is displayed."""
         try:
-            self.wait.until(lambda _: self.root.is_displayed())
             return self.root.is_displayed()
         except Exception:
             return False
