@@ -16,8 +16,9 @@ def test_tc_51_club_search_negative(driver: WebDriver) -> None:
     """Verify that invalid search queries return no matching clubs."""
     driver.get(Config.BASE_UI_URL)
 
-    header = HomePage(driver).header
-    # header = home_page.header.wait_until_visible()
+    home_page = HomePage(driver).wait_loaded()
+    header = home_page.header
+    header_lower = home_page.header_lower
 
     with allure.step("Step 1: Click 'Гуртки' in the site header"):
         header.click_clubs()
@@ -30,11 +31,11 @@ def test_tc_51_club_search_negative(driver: WebDriver) -> None:
 
     for query in search_data:
         with allure.step(f"Enter '{query}' in the search field"):
-            header = clubs_page.header
-            header.enter_search_text(query)    
+            header_lower = clubs_page.header_lower
+            header_lower.search_club(query)
 
         with allure.step(f"Search for '{query}'"):
-            header.click_search()
+            header_lower.click_search()
 
             assert clubs_page.is_no_results_message_displayed(), (
                 f"Expected no-results message for search query '{query}'"
