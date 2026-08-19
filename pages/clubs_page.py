@@ -80,7 +80,7 @@ class ClubPage(BasePage):
         return len(self._find_elements(self.NO_RESULTS_MESSAGE)) > 0
 
     @allure.step("Open the first club details page")
-    def open_first_club_details(self) -> "ClubDetailsPage":
+    def open_first_club_details(self) -> ClubDetailsPage:
         """Click the 'Детальніше' button of the first club card.
 
         Returns:
