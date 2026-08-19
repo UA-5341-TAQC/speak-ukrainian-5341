@@ -32,7 +32,7 @@ class BasicInfoStep(AddClubModal):
     CENTER_DROPDOWN: Locator = (By.CSS_SELECTOR, ".ant-select-dropdown")
 
     CENTER_OPTIONS: Locator = (By.CSS_SELECTOR, ".ant-select-item-option")
-
+    CENTER_SELECT_ROOT: Locator = (By.CSS_SELECTOR, "div.add-club-select")
     CENTER_OPTION: Callable[[str], Locator] = staticmethod(
         lambda center_name: (
             By.XPATH,
@@ -131,6 +131,12 @@ class BasicInfoStep(AddClubModal):
         if center:
             self.select_center(center)
         return self
+
+    @allure.step("Check if 'Приналежність до центру' field has a validation error")
+    def is_center_field_has_error(self) -> bool:
+        """Check whether the center select is marked with an error status."""
+        classes = self._find_element(self.CENTER_SELECT_ROOT).get_attribute("class") or ""
+        return "ant-select-status-error" in classes
 
     def is_name_input_visible(self) -> bool:
         """Check if the 'Назва гуртка' input field is visible."""

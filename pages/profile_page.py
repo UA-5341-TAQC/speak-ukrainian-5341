@@ -4,6 +4,7 @@ import allure
 from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
+from pages.components.add_club.basic_info_step import BasicInfoStep
 from pages.components.footer_component import FooterComponent
 from pages.modals.edit_profile_modal import EditProfileModal
 from pages.types import Locator
@@ -25,6 +26,8 @@ class ProfilePage(BasePage):
         By.CSS_SELECTOR,
         "div.edit-button button",
     )
+    add_dropdown_button: Locator = (By.CSS_SELECTOR, "button.add-button")
+    add_club_button: Locator = (By.CSS_SELECTOR, "li[data-menu-id$='-add_club_admin']")
 
     @allure.step("Click 'Edit Profile' button")
     def click_edit_profile(self) -> "EditProfileModal":
@@ -60,6 +63,13 @@ class ProfilePage(BasePage):
     def is_avatar_visible(self) -> bool:
         """Check if the user's avatar is visible."""
         return self._wait_visible(self.avatar_img).is_displayed()
+
+    @allure.step("Click 'Додати' button and select 'Додати гурток'")
+    def click_add_club_button(self) -> "BasicInfoStep":
+        """Open the 'Додати' dropdown and click 'Додати гурток'."""
+        self._wait_clickable(self.add_dropdown_button).click()
+        self._wait_clickable(self.add_club_button).click()
+        return BasicInfoStep(self.driver)
 
     @allure.step("Get avatar source")
     def get_avatar_src(self) -> str | None:
