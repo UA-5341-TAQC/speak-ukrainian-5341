@@ -8,6 +8,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 
 from pages.base_page import BasePage
+from pages.components.club_card_component import ClubCardComponent
 from pages.components.club_filters_component import ClubFiltersComponent
 from pages.components.club_sort_component import ClubSortComponent
 from pages.modals.map_modal import MapModal
@@ -49,7 +50,7 @@ class ClubPage(BasePage):
 
     def wait_loaded(self) -> ClubPage:
         """Wait until the main Clubs content is visible."""
-        self._wait_visible(self.CLUBS_CONTENT)
+        self._wait_visible(self.CLUB_CARDS)
         return self
 
     """
@@ -88,3 +89,11 @@ class ClubPage(BasePage):
 
         self.wait.until(lambda _: map_modal.is_displayed())
         return map_modal
+
+    @allure.step("Get first club card")
+    def get_first_club_card(self) -> ClubCardComponent:
+        """Return the first visible club card."""
+        cards = self._find_elements(self.CLUB_CARDS)
+        if not cards:
+            raise RuntimeError("No club cards found")
+        return ClubCardComponent(cards[0])
