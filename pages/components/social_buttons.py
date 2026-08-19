@@ -17,7 +17,6 @@ class SocialButtons(BaseComponent):
     MAIL_BUTTON: Locator = (By.CSS_SELECTOR, "a[href^='mailto:']")
     DONATE_BUTTON: Locator = (By.CSS_SELECTOR, ".help-button .donate-button")
     DONATE_LINK: Locator = (By.CSS_SELECTOR, ".help-button a[href*='wayforpay.com']")
-    DONATE_LINK: Locator = (By.CSS_SELECTOR, ".help-button a[href*='wayforpay.com']")
 
     @allure.step("Get social media section title text")
     def get_social_section_title_text(self) -> str:
@@ -33,7 +32,6 @@ class SocialButtons(BaseComponent):
     def click_facebook_button(self) -> None:
         """Click the Facebook social button."""
         self._wait_clickable(self.FACEBOOK_BUTTON).click()
-        self._wait_clickable(self.FACEBOOK_BUTTON).click()
 
     @allure.step("Get YouTube link URL")
     def get_youtube_url(self) -> str:
@@ -44,7 +42,6 @@ class SocialButtons(BaseComponent):
     def click_youtube_button(self) -> None:
         """Click the YouTube social button."""
         self._wait_clickable(self.YOUTUBE_BUTTON).click()
-        self._wait_clickable(self.YOUTUBE_BUTTON).click()
 
     @allure.step("Get Instagram link URL")
     def get_instagram_url(self) -> str:
@@ -54,7 +51,6 @@ class SocialButtons(BaseComponent):
     @allure.step("Click Instagram button")
     def click_instagram_button(self) -> None:
         """Click the Instagram social button."""
-        self._wait_clickable(self.INSTAGRAM_BUTTON).click()
         self._wait_clickable(self.INSTAGRAM_BUTTON).click()
 
     @allure.step("Get email address from mailto link")
@@ -81,7 +77,6 @@ class SocialButtons(BaseComponent):
     @allure.step("Get Donate payment link URL")
     def get_donate_url(self) -> str:
         """Get payment URL from the Donate button."""
-        return self._find_element(self.DONATE_LINK).get_attribute("href") or ""
         return self._find_element(self.DONATE_LINK).get_attribute("href") or ""
 
     @allure.step("Click 'Donate' button")
