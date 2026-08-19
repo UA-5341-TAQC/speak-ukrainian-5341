@@ -4,9 +4,7 @@ from __future__ import annotations
 
 import allure
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support import expected_conditions as EC
 
 from pages.base_page import BasePage
 from pages.club_details_page import ClubDetailsPage
@@ -36,17 +34,13 @@ class ClubPage(BasePage):
     # "Детальніше" ("More details") button of a club card on the catalog page.
     CLUB_DETAILS_BUTTON: Locator = (By.CSS_SELECTOR, "a.details-button")
 
-    def __init__(self, driver: WebDriver):
-        """Initialize the News page with a WebDriver."""
-        super().__init__(driver)
-
     def find(self, locator: Locator) -> WebElement:
         """Helper to find one element."""
-        return self.wait.until(EC.presence_of_element_located(locator))
+        return self._wait_present(locator)
 
     def find_all(self, locator: Locator) -> list[WebElement]:
         """Helper to find all elements for locator."""
-        return self.wait.until(EC.presence_of_all_elements_located(locator))
+        return self.wait.until(lambda _: self._find_elements(locator))
 
     @allure.step("Open the Clubs page")
     def open(self) -> ClubPage:
@@ -60,14 +54,12 @@ class ClubPage(BasePage):
         self._wait_visible(self.CLUB_CARDS)
         return self
 
-    """
     @allure.step("Get list of all club cards on page")
     def get_club_cards(self) -> list[ClubCardComponent]:
-        Get list of all club cards on page.
-        self.wait.until(EC.presence_of_element_located(self.CLUB_CARDS))
-        elements = self.driver.find_elements(self.CLUB_CARDS)
+        """Get list of all club cards on page."""
+        self._wait_present(self.CLUB_CARDS)
+        elements = self._find_elements(self.CLUB_CARDS)
         return [ClubCardComponent(elem) for elem in elements]
-    """
 
     @allure.step("Get clubs count")
     def get_clubs_count(self) -> int:

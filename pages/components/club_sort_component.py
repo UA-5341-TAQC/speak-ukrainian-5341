@@ -1,6 +1,6 @@
 """Club Card Sort Component for the Speak Ukrainian website."""
 
-from typing import Literal, cast
+from typing import Literal
 
 import allure
 from selenium.webdriver.common.by import By
@@ -112,7 +112,6 @@ class ClubSortComponent(BaseComponent):
 
     # Common helpers (alphabet/rating sorting)
 
-    @allure.step("Get sorting direction from arrow state")
     def get_current_direction(self) -> Literal["asc", "desc"]:
         """Return current sorting direction based on active arrow color."""
         arrow_up = self.wait.until(EC.visibility_of_element_located(self.ARROW_UP))
@@ -181,7 +180,6 @@ class ClubSortComponent(BaseComponent):
 
         return self
 
-    @allure.step("Actual alphabet sort direction from displayed titles")
     def get_actual_alphabet_direction(self) -> Literal["asc", "desc", "unknown"]:
         """Determine direction by comparing actual club titles."""
         titles = self.get_club_titles()
@@ -205,8 +203,8 @@ class ClubSortComponent(BaseComponent):
     def get_alphabet_sort_state(self) -> Literal["asc", "desc", "unknown"]:
         """Get the current alphabet sort direction."""
         if self._is_alphabet_sort_active():
-            return cast(Literal["asc", "desc", "unknown"], self.get_current_direction())
-        return cast(Literal["asc", "desc", "unknown"], self.get_actual_alphabet_direction())
+            return self.get_current_direction()
+        return self.get_actual_alphabet_direction()
 
     @allure.step("Click on 'alphabet' sorting option")
     def click_alphabet_sort(self) -> "ClubSortComponent":
