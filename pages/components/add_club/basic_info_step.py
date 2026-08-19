@@ -171,3 +171,29 @@ class BasicInfoStep(AddClubModal):
     def is_next_button_enabled(self) -> bool:
         """Check if the 'Наступний крок' button is enabled."""
         return self._find_element(self.NEXT_STEP_BUTTON).is_enabled()
+
+    @allure.step("Get club name")
+    def get_name(self) -> str:
+        """Return the current club name."""
+        return self._find_element(self.NAME_INPUT).get_attribute("value") or ""
+
+
+    @allure.step("Get selected categories")
+    def get_selected_categories(self) -> list[str]:
+        """Return values of selected categories."""
+        elements = self._find_elements(
+            (By.CSS_SELECTOR, "#basic_categories input[type='checkbox']:checked")
+        )
+        return [element.get_attribute("value") or "" for element in elements]
+
+
+    @allure.step("Get minimum age")
+    def get_age_from(self) -> str:
+        """Return the current minimum age."""
+        return self._find_element(self.AGE_FROM_INPUT).get_attribute("value") or ""
+
+
+    @allure.step("Get maximum age")
+    def get_age_to(self) -> str:
+        """Return the current maximum age."""
+        return self._find_element(self.AGE_TO_INPUT).get_attribute("value") or ""
