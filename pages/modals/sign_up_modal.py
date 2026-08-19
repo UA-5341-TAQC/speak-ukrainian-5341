@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import allure
 from selenium.common import TimeoutException
-from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
 from pages.modals.base_modal import BaseModal
 from pages.types import Locator
@@ -57,140 +57,72 @@ class SignUpModal(BaseModal):
     # Validation errors
     FIELD_ERROR_MESSAGES: Locator = (By.CSS_SELECTOR, "div.ant-form-item-explain-error")
 
-    #Success icon for each field
+    # Success icon for each field
     SUCCESS_ICON_LAST_NAME: Locator = (
         By.CSS_SELECTOR,
-        ".ant-form-item:has(#lastName) .ant-form-item-feedback-icon-success"
+        ".ant-form-item:has(#lastName) .ant-form-item-feedback-icon-success",
     )
 
     SUCCESS_ICON_FIRST_NAME: Locator = (
         By.CSS_SELECTOR,
-        ".ant-form-item:has(#firstName) .ant-form-item-feedback-icon-success"
+        ".ant-form-item:has(#firstName) .ant-form-item-feedback-icon-success",
     )
 
     SUCCESS_ICON_PHONE: Locator = (
         By.CSS_SELECTOR,
-        ".ant-form-item:has(#phone) .ant-form-item-feedback-icon-success"
+        ".ant-form-item:has(#phone) .ant-form-item-feedback-icon-success",
     )
 
     SUCCESS_ICON_EMAIL: Locator = (
         By.CSS_SELECTOR,
-        ".ant-form-item:has(#email) .ant-form-item-feedback-icon-success"
+        ".ant-form-item:has(#email) .ant-form-item-feedback-icon-success",
     )
 
     SUCCESS_ICON_PASSWORD: Locator = (
         By.CSS_SELECTOR,
-        ".ant-form-item:has(#password) .ant-form-item-feedback-icon-success"
+        ".ant-form-item:has(#password) .ant-form-item-feedback-icon-success",
     )
 
-    SUCCESS_ICON_CONFIRM_PASSWORD: Locator =(
+    SUCCESS_ICON_CONFIRM_PASSWORD: Locator = (
         By.CSS_SELECTOR,
-        ".ant-form-item:has(#confirm) .ant-form-item-feedback-icon-success"
+        ".ant-form-item:has(#confirm) .ant-form-item-feedback-icon-success",
     )
 
-    #Error icon for each field
+    # Error icon for each field
     ERROR_ICON_LAST_NAME: Locator = (
         By.CSS_SELECTOR,
-        ".ant-form-item:has(#lastName) .ant-form-item-feedback-icon-error"
+        ".ant-form-item:has(#lastName) .ant-form-item-feedback-icon-error",
     )
 
     ERROR_ICON_FIRST_NAME: Locator = (
         By.CSS_SELECTOR,
-        ".ant-form-item:has(#firstName) .ant-form-item-feedback-icon-error"
+        ".ant-form-item:has(#firstName) .ant-form-item-feedback-icon-error",
     )
 
     ERROR_ICON_PHONE: Locator = (
         By.CSS_SELECTOR,
-        ".ant-form-item:has(#phone) .ant-form-item-feedback-icon-error"
+        ".ant-form-item:has(#phone) .ant-form-item-feedback-icon-error",
     )
 
     ERROR_ICON_EMAIL: Locator = (
         By.CSS_SELECTOR,
-         ".ant-form-item:has(#email) .ant-form-item-feedback-icon-error"
+        ".ant-form-item:has(#email) .ant-form-item-feedback-icon-error",
     )
 
     ERROR_ICON_PASSWORD: Locator = (
         By.CSS_SELECTOR,
-        ".ant-form-item:has(#password) .ant-form-item-feedback-icon-error"
+        ".ant-form-item:has(#password) .ant-form-item-feedback-icon-error",
     )
 
-    ERROR_ICON_CONFIRM_PASSWORD: Locator =(
+    ERROR_ICON_CONFIRM_PASSWORD: Locator = (
         By.CSS_SELECTOR,
-        ".ant-form-item:has(#confirm) .ant-form-item-feedback-icon-error"
+        ".ant-form-item:has(#confirm) .ant-form-item-feedback-icon-error",
     )
 
     # Validation error for phone
     FIELD_ERROR_MESSAGES_PHONE: Locator = (
         By.XPATH,
-        "//div[@id='phone_help']/div[@class='ant-form-item-explain-error']"
-    )
-
-    #Success icon for each field
-    SUCCESS_ICON_LAST_NAME: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#lastName) .ant-form-item-feedback-icon-success"
-    )
-
-    SUCCESS_ICON_FIRST_NAME: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#firstName) .ant-form-item-feedback-icon-success"
-    )
-
-    SUCCESS_ICON_PHONE: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#phone) .ant-form-item-feedback-icon-success"
-    )
-
-    SUCCESS_ICON_EMAIL: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#email) .ant-form-item-feedback-icon-success"
-    )
-
-    SUCCESS_ICON_PASSWORD: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#password) .ant-form-item-feedback-icon-success"
-    )
-
-    SUCCESS_ICON_CONFIRM_PASSWORD: Locator =(
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#confirm) .ant-form-item-feedback-icon-success"
-    )
-
-    #Error icon for each field
-    ERROR_ICON_LAST_NAME: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#lastName) .ant-form-item-feedback-icon-error"
-    )
-
-    ERROR_ICON_FIRST_NAME: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#firstName) .ant-form-item-feedback-icon-error"
-    )
-
-    ERROR_ICON_PHONE: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#phone) .ant-form-item-feedback-icon-error"
-    )
-
-    ERROR_ICON_EMAIL: Locator = (
-        By.CSS_SELECTOR,
-         ".ant-form-item:has(#email) .ant-form-item-feedback-icon-error"
-    )
-
-    ERROR_ICON_PASSWORD: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#password) .ant-form-item-feedback-icon-error"
-    )
-
-    ERROR_ICON_CONFIRM_PASSWORD: Locator =(
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#confirm) .ant-form-item-feedback-icon-error"
-    )
-
-    # Validation error for phone
-    FIELD_ERROR_MESSAGES_PHONE: Locator = (
-        By.XPATH,
-        "//div[@id='phone_help']/div[@class='ant-form-item-explain-error']"
+        "//div[@id='phone_help']/div[@class='ant-form-item-explain-error']",
     )
 
     @allure.step("Check if Registration modal is displayed")
@@ -396,7 +328,7 @@ class SignUpModal(BaseModal):
             elements = self._find_elements(self.FIELD_ERROR_MESSAGES_PHONE)
             return [elem.text.strip() for elem in elements if elem.is_displayed()]
         else:
-            return[]
+            return []
 
     @allure.step("Wait for validation error to appear")
     def wait_for_error_message(self, expected_error: str) -> None:
@@ -429,12 +361,13 @@ class SignUpModal(BaseModal):
     def wait_for_specific_error(self, expected_error: str) -> list[str]:
         """Wait until the expected error message appears among the displayed errors."""
         try:
-            return self.wait.until(
-                lambda _: (
-                    self.get_error_messages()
-                    if expected_error in self.get_error_messages()
-                    else False
+
+            def _check_error(_: object) -> list[str]:
+                return (
+                    self.get_error_messages() if expected_error in self.get_error_messages() else []
                 )
-            )
+
+            result: list[str] = self.wait.until(_check_error)
+            return result
         except TimeoutException:
-            return self.get_error_messages()
+            return self.get_error_messages() or []

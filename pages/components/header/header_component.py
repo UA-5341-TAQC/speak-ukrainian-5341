@@ -71,7 +71,6 @@ class HeaderComponent(BaseComponent):
         "ul.ant-dropdown-menu.ant-dropdown-menu-root",
     )
 
-
     @allure.step("Click logo")
     def click_logo(self) -> None:
         """Click the website logo."""
@@ -81,7 +80,6 @@ class HeaderComponent(BaseComponent):
     def click_clubs(self) -> "ClubPage":
         """Click the 'Гуртки' menu item."""
         self._wait_clickable(self.CLUBS_LINK).click()
-
         from pages.clubs_page import ClubPage
 
         return ClubPage(self.driver).wait_loaded()
@@ -117,29 +115,6 @@ class HeaderComponent(BaseComponent):
         user_profile_menu_root = self._find_element(self.USER_DROPDOWN_MENU_ROOT, from_driver=True)
         return UserProfileMenu(user_profile_menu_root)
 
-    @allure.step("Click 'Особистий кабінет' in user menu")
-    def click_profile_menu_item(self) -> None:
-        """Click the 'Особистий кабінет' item in the user dropdown."""
-        self.click_user_profile()
-        self._wait_clickable(self.PROFILE_MENU_ITEM).click()
-
-    @allure.step("Click 'Вийти' in user menu")
-    def click_logout_menu_item(self) -> None:
-        """Click the logout item in the user dropdown."""
-        self.click_user_profile()
-        self._wait_clickable(self.LOGOUT_MENU_ITEM, from_driver=True).click()
-
-    @allure.step("Click 'Увійти' in user menu")
-    def click_login_menu_item(self) -> None:
-        """Click the 'Увійти' item in the user dropdown."""
-        self.click_user_profile()
-        self._wait_clickable(self.LOGIN_MENU_ITEM, from_driver=True).click()
-
-    @allure.step("Click 'Зареєструватися' in user menu")
-    def click_register_menu_item(self) -> None:
-        """Click the 'Зареєструватися' item in the user dropdown."""
-        self._wait_clickable(self.REGISTER_MENU_ITEM, from_driver=True).click()
-
     @allure.step("Check whether the user is signed in")
     def is_logged_in(self) -> bool:
         """Return whether the current session is authenticated.
@@ -156,15 +131,10 @@ class HeaderComponent(BaseComponent):
             return False
 
     @allure.step("Return whether challenge dropdown menu is displayed.")
-    def is_challenge_dropdown_visibile(self) ->bool:
+    def is_challenge_dropdown_visibile(self) -> bool:
         """Return whether challenge dropdown menu is displayed."""
         try:
             self.wait.until(lambda _: self.driver.find_element(*self.CHALLENGE_DROPDOWN))
             return True
         except Exception:
             return False
-
-    @allure.step("Return whether user dropdown menu is displayed.")
-    def is_user_profile_dropdown_visible(self) ->bool:
-        """Return whether user dropdown menu is displayed."""
-        return self._wait_visible(self.USER_DROPDOWN_MENU).is_displayed()
