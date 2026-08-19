@@ -23,7 +23,7 @@ class ClubPage(BasePage):
     CLUBS_CONTENT: Locator = (By.CSS_SELECTOR, "div.content-clubs-list, div.ant-layout-content")
     SEARCH_INPUT = (By.CSS_SELECTOR, "input.search-box, input[type='search']")
     CLUB_CARDS = (By.CSS_SELECTOR, "div.ant-card, div.type-list-card")
-    FILTERS_PANEL = (By.CSS_SELECTOR, '[data-testid="filters-panel"]')
+    FILTERS_PANEL = (By.CSS_SELECTOR, 'aside.club-list-sider')
     SORT_PANEL = (By.CSS_SELECTOR, '[data-testid="sort-panel"]')
     NO_RESULTS_MESSAGE = (By.CSS_SELECTOR, "div.clubs-not-found")
     PAGINATION_NEXT = (By.CSS_SELECTOR, "li.ant-pagination-next")
@@ -122,3 +122,13 @@ class ClubPage(BasePage):
         if not cards:
             raise RuntimeError("No club cards found")
         return ClubCardComponent(cards[0])
+
+    @allure.step("Check if panel is displayed")
+    def is_panel_visible(self) -> bool:
+        """Check if the FILTERS_PANEL is currently displayed."""
+        try:
+            return self.wait.until(
+                EC.visibility_of_element_located(self.FILTERS_PANEL)
+            ).is_displayed()
+        except Exception:
+            return False   
