@@ -12,7 +12,7 @@ class MarathonPage(BasePage):
 
     REGISTER_BUTTON: Locator = (
         By.CSS_SELECTOR,
-        'a[href$="/marathon/registration"]',
+        "button.details-button",
     )
     TASKS_PREV_ARROW: Locator = (
         By.CSS_SELECTOR,
@@ -118,8 +118,3 @@ class MarathonPage(BasePage):
         self.get_wait(5).until(
             lambda _: self.get_active_dot_index() == index
         )
-
-    @allure.step("Scroll to task carousel section")
-    def scroll_to_tasks(self) -> None:
-        """Scroll the task carousel into view so elements load properly."""
-        self._scroll_into_view(self.VISIBLE_TASK_TITLES)

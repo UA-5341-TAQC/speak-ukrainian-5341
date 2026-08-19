@@ -58,10 +58,14 @@ class CenterBasicInfoStep(BaseComponent):
     @allure.step("Select the first available center location")
     def select_first_location(self) -> None:
         """Select the first available location checkbox."""
-        checkboxes = self._find_elements(self.LOCATION_CHECKBOXES)
-
-        if not checkboxes:
-            raise RuntimeError("No center location checkboxes were found.")
+        try:
+            checkboxes = self.wait.until(
+                lambda _: self._find_elements(self.LOCATION_CHECKBOXES) or False
+            )
+        except Exception as e:
+            raise AssertionError(
+                "No center location checkboxes were found " "(Possible backend bug)."
+            ) from e
 
         checkbox = checkboxes[0]
         if not checkbox.is_selected():

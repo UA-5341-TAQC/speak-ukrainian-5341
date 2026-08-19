@@ -17,11 +17,7 @@ class TestMarathonTaskCarousel:
     @pytest.fixture(autouse=True)
     def setup(self, driver) -> None:
         """Open the marathon page and scroll to tasks before each test."""
-        target_url = urljoin(Config.BASE_UI_URL, "/challenges/1")
-        driver.get(target_url)
-
-        marathon_page = MarathonPage(driver)
-        marathon_page.scroll_to_tasks()
+        driver.get(f"{Config.BASE_UI_URL}/marathon")
 
     @allure.issue("TC-11")
     @allure.title("TC-11: Task carousel navigation via arrows and pagination dots")

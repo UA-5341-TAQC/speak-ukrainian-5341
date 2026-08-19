@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import allure
+from selenium.common import TimeoutException
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 
 from pages.modals.base_modal import BaseModal
@@ -60,7 +62,10 @@ class SignUpModal(BaseModal):
         """Check if the registration modal window is visible on screen."""
         if self.root:
             return self.root.is_displayed()
-        return self._find_element(self.MODAL_CONTENT).is_displayed()
+        try:
+            return self._wait_visible(self.MODAL_CONTENT).is_displayed()
+        except TimeoutException:
+            return False
 
     @allure.step("Select role: Відвідувач (ROLE_USER)")
     def select_visitor_role(self) -> SignUpModal:
@@ -205,3 +210,27 @@ class SignUpModal(BaseModal):
             return not self.is_submit_button_enabled()
 
         self.wait.until(_is_button_disabled)
+
+    @allure.step("Type and clear a field")
+    def type_and_clear(self, field_locator: Locator) -> SignUpModal:
+        """Type a character then delete it."""
+        element = self._find_element(field_locator)
+        element.click()
+        element.send_keys("a")
+        element.send_keys(Keys.BACKSPACE)
+        return self
+
+    @allure.step("Wait for a specific validation error to appear")
+    def wait_for_specific_error(self, expected_error: str) -> list[str]:
+        """Wait until the expected error message appears among the displayed errors."""
+        try:
+            return self.wait.until(
+                lambda _: (
+                    self.get_error_messages()
+                    if expected_error in self.get_error_messages()
+                    else False
+                )
+            )
+        except TimeoutException:
+            return self.get_error_messages()
+
