@@ -58,9 +58,7 @@ class SignUpModal(BaseModal):
     @allure.step("Check if Registration modal is displayed")
     def is_displayed(self) -> bool:
         """Check if the registration modal window is visible on screen."""
-        if self.root:
-            return self.root.is_displayed()
-        return self._find_element(self.MODAL_CONTENT).is_displayed()
+        return self._wait_visible(self.MODAL_CONTENT).is_displayed()
 
     @allure.step("Select role: Відвідувач (ROLE_USER)")
     def select_visitor_role(self) -> SignUpModal:
