@@ -46,6 +46,7 @@ def test_header_navigation(driver: WebDriver) -> None:
         assert homepage.header.is_challenge_dropdown_visibile() == True
 
     with allure.step("4. Click the 'Єдині' challenge in the dropdown list."):
+
         challenge_dropdown.click_unique_challenge()
         assert (
                     "/challenges/5" in driver.current_url

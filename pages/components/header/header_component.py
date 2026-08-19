@@ -81,10 +81,6 @@ class HeaderComponent(BaseComponent):
     def click_challenge(self) -> ChallengeDropdown:
         """Open the Challenge dropdown."""
         self._wait_clickable(self.CHALLENGE_MENU).click()
-
-    @allure.step("Get Challenge dropdown")
-    def get_challenge_dropdown(self) -> ChallengeDropdown:
-        """Return the Challenge dropdown component."""
         dropdown_element = self.wait.until(
             lambda driver: driver.find_element(*self.CHALLENGE_DROPDOWN)
         )
