@@ -96,7 +96,14 @@ class ClubPage(BasePage):
 
     def sort(self) -> ClubSortComponent:
         """Return sort object."""
-        return ClubSortComponent(self.find(self.CLUBS_CONTENT))
+        return ClubSortComponent(self._wait_visible(self.CLUBS_CONTENT))
+
+    def is_no_results_message_displayed(self) -> bool:
+        """Check if the 'No results' message is displayed."""
+        try:
+            return self._wait_visible(self.NO_RESULTS_MESSAGE).is_displayed()
+        except Exception:
+            return False
 
     @allure.step("Click 'Показати на мапі' button")
     def open_map_modal(self) -> MapModal:
