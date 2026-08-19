@@ -125,7 +125,7 @@ class SignInModal(BaseModal):
         self.click_submit()
         pop_up = self._wait_present(self.TOAST_ERROR_MESSAGE)
         return pop_up.get_attribute("textContent").strip()
-    
+
     @allure.step("Get number of validation error icons")
     def get_validation_error_count(self) -> int:
         """Return the number of displayed validation error icons."""
