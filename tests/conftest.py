@@ -10,15 +10,19 @@ functions is enough.
 from typing import Generator, cast
 
 import allure
+import pytest
 from allure_commons.types import AttachmentType
 from pluggy import Result
-import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
 
+from fixtures.api_clients import *
 from fixtures.drivers import *
 
+
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo[None]) -> Generator[None, Result[pytest.TestReport], None]:
+def pytest_runtest_makereport(
+    item: pytest.Item, call: pytest.CallInfo[None]
+) -> Generator[None, Result[pytest.TestReport], None]:
     """Attach screenshot on test failure."""
     outcome = yield
     report = outcome.get_result()
@@ -34,4 +38,3 @@ def pytest_runtest_makereport(item: pytest.Item, call: pytest.CallInfo[None]) ->
                 )
             except Exception as e:
                 print(f"Failed to take screenshot: {e}")
-
