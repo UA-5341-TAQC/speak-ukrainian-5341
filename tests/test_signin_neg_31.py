@@ -24,6 +24,6 @@ def test_login_wrong_password_tc31(driver: WebDriver, email:str, password:str, e
 
     with allure.step("1.Click the user icon in the site header."):
         sign_in_mod.fill_login_form(email, password)
-        result = sign_in_mod.pop_up_error_trigger()
+        result = sign_in_mod.pop_up_error_text()
         assert result == expected_message
         assert sign_in_mod.is_displayed() == True
