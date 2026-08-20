@@ -204,6 +204,7 @@ def test_registration_flow(
             confirm_password=password,
             role=role,
         )
+<<<<<<< HEAD
         assert (
             sign_up_modal.is_submit_button_enabled()
         ), "Submit button should be enabled after filling all valid data."
@@ -239,6 +240,15 @@ def test_registration_flow(
 def test_registration_inv_num_55(driver: WebDriver, phone: str, expected_message: list[str]) -> None:
     homepage = HomePage(driver)
     
+=======
+
+
+
+@allure.title("TC-56 Registration — password mismatch — Реєстрація modal (confirm ≠ password).")
+def test_registration_password_missmatch_56(driver: WebDriver) -> None:
+    homepage = HomePage(driver)
+   
+>>>>>>> 5207d7f (TC-56 added)
     with allure.step("1.Click the user icon in the site header."):
         user_profile = homepage.header.click_user_profile()
         assert  user_profile.is_visible() == True
@@ -250,6 +260,7 @@ def test_registration_inv_num_55(driver: WebDriver, phone: str, expected_message
     with allure.step("3.Observe the role selection."):
         assert sign_up_mod.is_visitor_role_selected() == True
 
+<<<<<<< HEAD
     with allure.step("4. Fill all fields with valid data except 'Телефон'"):
         sign_up_mod.enter_first_name("Петро")
         sign_up_mod.enter_last_name("Іванов")
@@ -275,3 +286,28 @@ def test_registration_inv_num_55(driver: WebDriver, phone: str, expected_message
         assert sign_up_mod.is_successfull_icon_visible_email() == True
         assert sign_up_mod.is_successfull_icon_visible_password() == True
         assert sign_up_mod.is_successfull_icon_visible_password_confirm() == True
+=======
+    with allure.step("4.Fill all fields with valid data."):
+        sign_up_mod.enter_last_name("Іванов")
+        sign_up_mod.enter_first_name("Петро")
+        sign_up_mod.enter_phone("0123456789")
+        sign_up_mod.enter_email("petro.visitor.qa@example.com")
+        sign_up_mod.enter_password("TestPass123!")
+
+        assert sign_up_mod.is_successfull_icon_visible_first_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_last_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_phone() == True
+        assert sign_up_mod.is_successfull_icon_visible_email() == True
+        assert sign_up_mod.is_successfull_icon_visible_password() ==True
+
+    with allure.step("5. Set 'Підтвердження паролю' to a value different from 'Пароль', then submit"):
+        sign_up_mod.enter_confirm_password("OtherPass123!")
+        sign_up_mod.wait_for_error_message("Значення поля ‘Підтвердити пароль’ має бути еквівалентним значенню поля ‘Пароль’")
+
+        assert sign_up_mod.is_error_icon_visible_password_confirm() == True
+
+        errors = sign_up_mod.get_error_messages()
+        assert "Значення поля ‘Підтвердити пароль’ має бути еквівалентним значенню поля ‘Пароль’" in errors, (
+            f"Expected error message was not found. " f"Actual errors: {errors}"
+        )
+>>>>>>> 5207d7f (TC-56 added)
