@@ -85,7 +85,10 @@ class HeaderComponent(BaseComponent):
     @allure.step("Get Challenge dropdown")
     def get_challenge_dropdown(self) -> ChallengeDropdown:
         """Return the Challenge dropdown component."""
-        return ChallengeDropdown(self._find_element(self.CHALLENGE_DROPDOWN))
+        dropdown_element = self.wait.until(
+            lambda driver: driver.find_element(*self.CHALLENGE_DROPDOWN)
+        )
+        return ChallengeDropdown(dropdown_element)
 
     @allure.step("Click 'Новини'")
     def click_news(self) -> None:
@@ -111,7 +114,7 @@ class HeaderComponent(BaseComponent):
 
     @allure.step("Get SignUpModal")
     def get_sign_up_modal(self) -> SignUpModal:
-        """Return the Sign In Modal."""
+        """Return the Sign Up Modal."""
         return SignUpModal(self.driver)
 
     @allure.step("Return whether challenge dropdown menu is displayed.")

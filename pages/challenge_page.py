@@ -7,6 +7,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from pages.base_page import BasePage
 from pages.components.challenge_cta_button import ChallengeCtaButton
 from pages.components.challenge_video_card import ChallengeVideoCard
+from pages.components.social_buttons import SocialButtons
 from pages.types import Locator
 
 
@@ -14,6 +15,14 @@ class ChallengePage(BasePage):
     """Represent a Speak Ukrainian challenge page."""
 
     TITLE: Locator = (By.CSS_SELECTOR, ".banner .title")
+    DESCRIPTION_PARAGRAPHS: Locator = (
+        By.XPATH,
+        "//div[contains(@class, 'challenge-description')]/p[normalize-space()]",
+    )
+    CONTENT_TITLE: Locator = (
+        By.CSS_SELECTOR,
+        ".challenge-description h1",
+    )
     CTA_BUTTON: Locator = (
         By.CSS_SELECTOR,
         "button.apply-button",
@@ -25,6 +34,11 @@ class ChallengePage(BasePage):
     CTA_TOOLTIP: Locator = (
         By.CSS_SELECTOR,
         ".ant-tooltip-inner[role='tooltip']",
+    )
+
+    SOCIAL_BUTTONS: Locator = (
+        By.CSS_SELECTOR,
+        ".social-info",
     )
 
     VIDEO_CARDS: Locator = (
@@ -61,7 +75,22 @@ class ChallengePage(BasePage):
     @allure.step("Get challenge page title")
     def get_title_text(self) -> str:
         """Return the title shown in the challenge banner."""
-        return self._find_element(self.TITLE).text
+        return self._wait_visible(self.TITLE).text.strip()
+
+    @allure.step("Get challenge description paragraphs")
+    def get_description_paragraphs(self) -> list[str]:
+        """Return challenge description paragraphs."""
+        return [
+            element.text.strip()
+            for element in self.driver.find_elements(
+                *self.DESCRIPTION_PARAGRAPHS
+            )
+        ]
+
+    @allure.step("Get challenge content title")
+    def get_content_title(self) -> str:
+        """Return the main challenge content title."""
+        return self._find_element(self.CONTENT_TITLE).text.strip()
 
     @allure.step("Get challenge registration button component")
     def get_cta_button(self) -> ChallengeCtaButton:
@@ -78,12 +107,18 @@ class ChallengePage(BasePage):
         """Wait until all video iframes are rendered."""
         self._wait_present(self.VIDEO_CARDS)
 
-        return [ChallengeVideoCard(card) for card in self._find_elements(self.VIDEO_CARDS)]
+        return [
+            ChallengeVideoCard(card)
+            for card in self._find_elements(self.VIDEO_CARDS)
+        ]
 
     @allure.step("Get challenge webinar video cards")
     def get_video_cards(self) -> list[ChallengeVideoCard]:
         """Return all currently displayed webinar video cards."""
-        return [ChallengeVideoCard(card) for card in self._find_elements(self.VIDEO_CARDS)]
+        return [
+            ChallengeVideoCard(card)
+            for card in self._find_elements(self.VIDEO_CARDS)
+        ]
 
     @allure.step("Get challenge registration button component (visible)")
     def get_visible_cta_button(self) -> ChallengeCtaButton:
@@ -120,4 +155,11 @@ class ChallengePage(BasePage):
             });
             """,
             wrapper,
+        )
+
+    @allure.step("Get social buttons component")
+    def get_social_buttons(self) -> SocialButtons:
+        """Return social buttons component."""
+        return SocialButtons(
+            self._wait_visible(self.SOCIAL_BUTTONS)
         )

@@ -10,7 +10,9 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv()
+# Override existing environment variables so that .env always wins over any
+# ambient shell variables (e.g. a USER_EMAIL that may be inherited from the OS).
+load_dotenv(override=True)
 
 ENV_PATH = Path(__file__).parent.parent / ".env"
 
@@ -28,3 +30,5 @@ class Config:
     USER_NAME: str = os.getenv("USER_NAME", "")
     USER_PASSWORD: str = os.getenv("USER_PASSWORD", "")
     USER_EMAIL: str = os.getenv("USER_EMAIL", "")
+    MANAGER_EMAIL: str = os.getenv("MANAGER_EMAIL", "")
+    MANAGER_PASSWORD: str = os.getenv("MANAGER_PASSWORD", "")
