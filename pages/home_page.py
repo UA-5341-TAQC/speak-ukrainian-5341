@@ -61,6 +61,12 @@ class HomePage(BasePage):
         ".primitive-card",
     )
 
+    @allure.step("Wait until home page is loaded")
+    def wait_loaded(self) -> "HomePage":
+        """Wait until the home page is loaded."""
+        self._wait_visible(self.CAROUSEL)
+        return self
+
     @allure.step("Open the Home page")
     def open(self) -> "HomePage":
         """Open the Home page."""

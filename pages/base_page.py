@@ -5,6 +5,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.base import Base
 from pages.components.header.header_component import HeaderComponent
+from pages.components.header_lower import HeaderLower
 from pages.types import Locator
 
 
@@ -21,6 +22,7 @@ class BasePage(Base):
     )
 
     HEADER_ROOT: Locator = (By.CSS_SELECTOR, "header.header")
+    HEADER_LOWER_ROOT: Locator = (By.CSS_SELECTOR, ".lower-header-box")
 
     def __init__(self, driver: WebDriver):
         """Initialize the base page with a WebDriver."""
@@ -36,6 +38,12 @@ class BasePage(Base):
         """Get the header component."""
         header_element = self._find_element(self.HEADER_ROOT)
         return HeaderComponent(header_element)
+
+    @property
+    def header_lower(self) -> HeaderLower:
+        """Get the lower header component."""
+        header_element = self._find_element(self.HEADER_LOWER_ROOT)
+        return HeaderLower(header_element)
 
     def get_success_message_text(self) -> str:
         """Get the text of the global success toast message."""

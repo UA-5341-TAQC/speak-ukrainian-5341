@@ -75,7 +75,7 @@ class ChallengePage(BasePage):
     @allure.step("Get challenge page title")
     def get_title_text(self) -> str:
         """Return the title shown in the challenge banner."""
-        return self._find_element(self.TITLE).text
+        return self._wait_visible(self.TITLE).text.strip()
 
     @allure.step("Get challenge description paragraphs")
     def get_description_paragraphs(self) -> list[str]:
