@@ -1,7 +1,12 @@
 """Module containing the HeaderComponent class for interacting with the website header."""
 
+from typing import TYPE_CHECKING
+
 import allure
 from selenium.webdriver.common.by import By
+
+if TYPE_CHECKING:
+    from pages.clubs_page import ClubPage
 
 from pages.components.base_component import BaseComponent
 from pages.components.challenges_dropdown import ChallengeDropdown
@@ -73,9 +78,13 @@ class HeaderComponent(BaseComponent):
         self._wait_clickable(self.LOGO).click()
 
     @allure.step("Click 'Гуртки'")
-    def click_clubs(self) -> None:
+    def click_clubs(self) -> "ClubPage":
         """Click the 'Гуртки' menu item."""
         self._wait_clickable(self.CLUBS_LINK).click()
+
+        from pages.clubs_page import ClubPage
+
+        return ClubPage(self.driver).wait_loaded()
 
     @allure.step("Open 'Челендж' menu")
     def click_challenge(self) -> None:
