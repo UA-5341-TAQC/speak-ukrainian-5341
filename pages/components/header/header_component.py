@@ -6,7 +6,6 @@ from selenium.webdriver.common.by import By
 from pages.components.base_component import BaseComponent
 from pages.components.challenges_dropdown import ChallengeDropdown
 from pages.components.header.user_profile_menu import UserProfileMenu
-from pages.modals.sign_up_modal import SignUpModal
 from pages.types import Locator
 
 
@@ -67,16 +66,6 @@ class HeaderComponent(BaseComponent):
         "ul.ant-dropdown-menu.ant-dropdown-menu-root",
     )
 
-    REGISTRATION_OPTION: Locator =(
-        By.CSS_SELECTOR,
-        "li[data-menu-id$='register']"
-    )
-
-    SIGN_IN_OPTION: Locator = (
-        By.CSS_SELECTOR,
-        "li[data-menu-id$='login']"
-    )
-
 
     @allure.step("Click logo")
     def click_logo(self) -> None:
@@ -119,11 +108,6 @@ class HeaderComponent(BaseComponent):
         user_profile_menu_root = self._find_element(self.USER_DROPDOWN_MENU_ROOT, from_driver=True)
         return UserProfileMenu(user_profile_menu_root)
 
-    @allure.step("Get SignUpModal")
-    def get_sign_up_modal(self) -> SignUpModal:
-        """Return the Sign Up Modal."""
-        return SignUpModal(self.driver)
-
     @allure.step("Click 'Особистий кабінет' in user menu")
     def click_profile_menu_item(self) -> None:
         """Click the 'Особистий кабінет' item in the user dropdown."""
@@ -162,11 +146,6 @@ class HeaderComponent(BaseComponent):
         except Exception:
             return False
 
-    @allure.step("Get SignUpModal")
-    def get_registration_modal(self) -> SignUpModal:
-        """Return the Registration Modal."""
-        return SignUpModal(self.driver)
-
     @allure.step("Return whether challenge dropdown menu is displayed.")
     def is_challenge_dropdown_visibile(self) ->bool:
         """Return whether challenge dropdown menu is displayed."""
@@ -180,15 +159,3 @@ class HeaderComponent(BaseComponent):
     def is_user_profile_dropdown_visible(self) ->bool:
         """Return whether user dropdown menu is displayed."""
         return self._wait_visible(self.USER_DROPDOWN_MENU).is_displayed()
-
-    @allure.step("Click Sign in option")
-    def click_sign_in_button(self) -> None:
-        """Click the sign in item in the user dropdown."""
-        self._wait_clickable(self.SIGN_IN_OPTION).click()
-
-    @allure.step("Click Registration option")
-    def click_registration_in_button(self) -> None:
-        """Click the registration item in the user dropdown."""
-        self._wait_clickable(self.REGISTRATION_OPTION).click()
-
-
