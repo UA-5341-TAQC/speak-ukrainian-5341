@@ -67,6 +67,17 @@ class HeaderComponent(BaseComponent):
         "ul.ant-dropdown-menu.ant-dropdown-menu-root",
     )
 
+    REGISTRATION_OPTION: Locator =(
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='register']"
+    )
+
+    SIGN_IN_OPTION: Locator = (
+        By.CSS_SELECTOR,
+        "li[data-menu-id$='login']"
+    )
+
+
     @allure.step("Click logo")
     def click_logo(self) -> None:
         """Click the website logo."""
@@ -78,13 +89,9 @@ class HeaderComponent(BaseComponent):
         self._wait_clickable(self.CLUBS_LINK).click()
 
     @allure.step("Open 'Челендж' menu")
-    def click_challenge(self) -> None:
+    def click_challenge(self) -> ChallengeDropdown:
         """Open the Challenge dropdown."""
         self._wait_clickable(self.CHALLENGE_MENU).click()
-
-    @allure.step("Get Challenge dropdown")
-    def get_challenge_dropdown(self) -> ChallengeDropdown:
-        """Return the Challenge dropdown component."""
         dropdown_element = self.wait.until(
             lambda driver: driver.find_element(*self.CHALLENGE_DROPDOWN)
         )
@@ -117,11 +124,71 @@ class HeaderComponent(BaseComponent):
         """Return the Sign Up Modal."""
         return SignUpModal(self.driver)
 
+    @allure.step("Click 'Особистий кабінет' in user menu")
+    def click_profile_menu_item(self) -> None:
+        """Click the 'Особистий кабінет' item in the user dropdown."""
+        self.click_user_profile()
+        self._wait_clickable(self.PROFILE_MENU_ITEM).click()
+
+    @allure.step("Click 'Вийти' in user menu")
+    def click_logout_menu_item(self) -> None:
+        """Click the logout item in the user dropdown."""
+        self.click_user_profile()
+        self._wait_clickable(self.LOGOUT_MENU_ITEM, from_driver=True).click()
+
+    @allure.step("Click 'Увійти' in user menu")
+    def click_login_menu_item(self) -> None:
+        """Click the 'Увійти' item in the user dropdown."""
+        self.click_user_profile()
+        self._wait_clickable(self.LOGIN_MENU_ITEM, from_driver=True).click()
+
+    @allure.step("Click 'Зареєструватися' in user menu")
+    def click_register_menu_item(self) -> None:
+        """Click the 'Зареєструватися' item in the user dropdown."""
+        self._wait_clickable(self.REGISTER_MENU_ITEM, from_driver=True).click()
+
+    @allure.step("Check whether the user is signed in")
+    def is_logged_in(self) -> bool:
+        """Return whether the current session is authenticated.
+
+        A signed-in user menu contains the 'Вийти' (log out) item, which is
+        only rendered when an access token exists. The dropdown is rendered at
+        the document root, so it is searched on the driver scope.
+        """
+        self.click_user_profile()
+        try:
+            self.wait.until(lambda _: self.driver.find_element(*self.CHALLENGE_DROPDOWN))
+            return True
+        except Exception:
+            return False
+
+    @allure.step("Get SignUpModal")
+    def get_registration_modal(self) -> SignUpModal:
+        """Return the Registration Modal."""
+        return SignUpModal(self.driver)
+
     @allure.step("Return whether challenge dropdown menu is displayed.")
-    def is_challenge_dropdown_visibile(self) -> bool:
+    def is_challenge_dropdown_visibile(self) ->bool:
         """Return whether challenge dropdown menu is displayed."""
         try:
             self.wait.until(lambda _: self.driver.find_element(*self.CHALLENGE_DROPDOWN))
             return True
         except Exception:
             return False
+
+    @allure.step("Return whether user dropdown menu is displayed.")
+    def is_user_profile_dropdown_visible(self) ->bool:
+        """Return whether user dropdown menu is displayed."""
+        return self._wait_visible(self.USER_DROPDOWN_MENU).is_displayed()
+
+    @allure.step("Click Sign in option")
+    def click_sign_in_button(self) -> None:
+        """Click the sign in item in the user dropdown."""
+        self._wait_clickable(self.SIGN_IN_OPTION).click()
+
+    @allure.step("Click Registration option")
+    def click_registration_in_button(self) -> None:
+        """Click the registration item in the user dropdown."""
+        self._wait_clickable(self.REGISTRATION_OPTION).click()
+
+

@@ -25,8 +25,8 @@ def test_tc_52_advanced_club_search_sorting(driver: WebDriver) -> None:
         assert "/clubs" in driver.current_url
         assert clubs_page.get_clubs_count() > 0
 
-    club_sort = clubs_page.sort()
-    club_filters = clubs_page.filter()
+    club_sort = clubs_page.sort_club()
+    club_filters = clubs_page.filter_club()
 
     with allure.step("Step 2: Open advanced club search"):
         club_sort.toggle_advanced_search()
