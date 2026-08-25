@@ -55,6 +55,39 @@ def test_confirmed_user_can_log_in(driver: WebDriver) -> None:
         "Expected the user to remain authenticated after a reload."
     )
 
+@allure.title("TC-33: Login — empty fields(required-field enforcement)")
+@allure.tag("login", "validation", "required-fields")
+def test_tc33_login_empty_fields(driver: WebDriver) -> None:
+    with allure.step("Step 1: Click the user icon in the site header"):
+        header = driver.find_element(By.TAG_NAME, "header")
+        header_component = HeaderComponent(header)
+        user_menu = header_component.click_user_profile()
+
+    with allure.step("Step 2: Click 'Увійти' in the dropdown"):
+        login_modal = user_menu.click_login()
+
+    with allure.step("Step 3: Leave both 'Емейл:' and 'Пароль:' empty and click the 'Увійти' button"):
+        login_modal.click_submit()
+        assert login_modal.get_validation_error_count() == 2, (
+        "Both Email and Password fields should display validation errors."
+    )
+
+    with allure.step("Step 3: Fill only 'Емейл:' and leave 'Пароль:' empty, click the 'Увійти' button"):
+        login_modal.enter_email(Config.USER_EMAIL)
+        login_modal.click_submit()
+        assert login_modal.get_validation_error_count() == 1, (
+        "Password field should display validation errors."
+    )
+
+    with allure.step("Step 4: Fill only 'Пароль:' and leave 'Емейл:' empty, click the 'Увійти' button"):
+        login_modal.enter_email("")
+
+        login_modal.enter_password(Config.USER_PASSWORD)
+        login_modal.click_submit()
+        assert login_modal.get_validation_error_count() == 1, (
+        "Email field should display validation errors."
+    )
+
 @allure.title("TC-34 Login — unconfirmed account (link not clicked)")
 @allure.tag("login", "validation", "unconfirmed account")
 def test_tc34_login_in_unconfirmed_account(driver: WebDriver) -> None:
