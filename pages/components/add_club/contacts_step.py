@@ -299,3 +299,8 @@ class ContactsStep(AddClubModal):
             )
 
         return self
+
+    @allure.step("Get phone number")
+    def get_phone(self) -> str:
+        """Return the current phone number."""
+        return self._find_element(self.PHONE_INPUT).get_attribute("value") or ""
