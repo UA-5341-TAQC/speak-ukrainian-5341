@@ -1,12 +1,16 @@
 """Module containing the HeaderComponent class for interacting with the website header."""
 
+from typing import TYPE_CHECKING
+
 import allure
 from selenium.webdriver.common.by import By
+
+if TYPE_CHECKING:
+    from pages.clubs_page import ClubPage
 
 from pages.components.base_component import BaseComponent
 from pages.components.challenges_dropdown import ChallengeDropdown
 from pages.components.header.user_profile_menu import UserProfileMenu
-from pages.modals.sign_up_modal import SignUpModal
 from pages.types import Locator
 
 
@@ -73,18 +77,17 @@ class HeaderComponent(BaseComponent):
         self._wait_clickable(self.LOGO).click()
 
     @allure.step("Click 'Гуртки'")
-    def click_clubs(self) -> None:
+    def click_clubs(self) -> "ClubPage":
         """Click the 'Гуртки' menu item."""
         self._wait_clickable(self.CLUBS_LINK).click()
+        from pages.clubs_page import ClubPage
+
+        return ClubPage(self.driver).wait_loaded()
 
     @allure.step("Open 'Челендж' menu")
-    def click_challenge(self) -> None:
+    def click_challenge(self) -> ChallengeDropdown:
         """Open the Challenge dropdown."""
         self._wait_clickable(self.CHALLENGE_MENU).click()
-
-    @allure.step("Get Challenge dropdown")
-    def get_challenge_dropdown(self) -> ChallengeDropdown:
-        """Return the Challenge dropdown component."""
         dropdown_element = self.wait.until(
             lambda driver: driver.find_element(*self.CHALLENGE_DROPDOWN)
         )
@@ -112,10 +115,20 @@ class HeaderComponent(BaseComponent):
         user_profile_menu_root = self._find_element(self.USER_DROPDOWN_MENU_ROOT, from_driver=True)
         return UserProfileMenu(user_profile_menu_root)
 
-    @allure.step("Get SignUpModal")
-    def get_sign_up_modal(self) -> SignUpModal:
-        """Return the Sign Up Modal."""
-        return SignUpModal(self.driver)
+    @allure.step("Check whether the user is signed in")
+    def is_logged_in(self) -> bool:
+        """Return whether the current session is authenticated.
+
+        A signed-in user menu contains the 'Вийти' (log out) item, which is
+        only rendered when an access token exists. The dropdown is rendered at
+        the document root, so it is searched on the driver scope.
+        """
+        self.click_user_profile()
+        try:
+            self.wait.until(lambda _: self.driver.find_element(*self.CHALLENGE_DROPDOWN))
+            return True
+        except Exception:
+            return False
 
     @allure.step("Return whether challenge dropdown menu is displayed.")
     def is_challenge_dropdown_visibile(self) -> bool:

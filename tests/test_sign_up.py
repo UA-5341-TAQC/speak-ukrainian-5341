@@ -5,9 +5,8 @@ import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from data.config import Config
-from fixtures.email_api import TempMailAPI
 from pages.home_page import HomePage
-from pages.modals.sign_up_modal import SignUpModal
+from utils.email_api import TempMailAPIClient
 
 
 @pytest.mark.parametrize(
@@ -53,6 +52,7 @@ from pages.modals.sign_up_modal import SignUpModal
 def test_sign_up_password_policy(
     request: pytest.FixtureRequest,
     driver: WebDriver,
+    temp_mail: TempMailAPIClient,
     invalid_password: str,
     expected_error: str,
 ) -> None:
@@ -124,9 +124,9 @@ def test_verify_invalid_email_format(driver: WebDriver) -> None:
     with allure.step("Step 6: Verify email validation error"):
         errors = sign_up_modal.get_error_messages()
 
-        assert "Некоректний формат email" in errors, (
-            f"Expected error message was not found. " f"Actual errors: {errors}"
-        )
+        assert (
+            "Некоректний формат email" in errors
+        ), f"Expected error message was not found. Actual errors: {errors}"
 
     with allure.step("Step 7: Verify registration button remains enabled"):
         assert (
@@ -159,6 +159,7 @@ def test_verify_invalid_email_format(driver: WebDriver) -> None:
 )
 def test_registration_flow(
     driver: WebDriver,
+    temp_mail: TempMailAPIClient,
     tc_id: str,
     role: str,
     last_name: str,
@@ -189,8 +190,7 @@ def test_registration_flow(
                 sign_up_modal.is_manager_role_selected()
             ), "The 'Керівник' role should be selected after click."
 
-    mail_api = TempMailAPI()
-    test_email = mail_api.generate_email()
+    test_email = temp_mail.email_address
 
     with allure.step(
         f"Steps 4-9: Fill valid registration data for email: {test_email}"
@@ -213,9 +213,9 @@ def test_registration_flow(
     with allure.step(
         "Step 11: Open the test Email inbox and find the confirmation message"
     ):
-        message_id = mail_api.wait_for_email()
-        email_html = mail_api.get_email_content(message_id)
-        verification_link = mail_api.extract_verification_link(email_html)
+        message_id = temp_mail.wait_for_email()
+        email_html = temp_mail.get_email_content(message_id)
+        verification_link = temp_mail.extract_verification_link(email_html)
 
     with allure.step("Step 12: Click the confirmation link from the email"):
         driver.get(verification_link)
@@ -224,3 +224,54 @@ def test_registration_flow(
         success_text = home_page.get_success_message_text()
         error_msg = f"Expected confirmation toast, got: {success_text}"
         assert "успішно зареєстрований" in success_text.lower(), error_msg
+
+
+@pytest.mark.parametrize("phone, expected_message",[
+     ("991234567",["Телефон не відповідає вказаному формату", "Телефон не відповідає українському формату (+380)"]),
+     ("380991234567",["Телефон не відповідає вказаному формату", "Телефон не відповідає українському формату (+380)"]),
+     ("099123456",["Телефон не відповідає вказаному формату"]),
+     ("099123456789",["Телефон не відповідає вказаному формату"]),
+     ("+380****4567",["Телефон не відповідає вказаному формату", "Телефон не відповідає українському формату (+380)","Телефон не може містити спеціальні символи"]),
+     ("099-123-45-67",["Телефон не відповідає вказаному формату","Телефон не може містити спеціальні символи"]),
+     ("099 123 4567",["Телефон не може містити пробіли","Телефон не відповідає вказаному формату"])
+     ])
+@allure.title("TC-55 Registration — phone format — Реєстрація modal (invalid phone format).")
+def test_registration_inv_num_55(driver: WebDriver, phone: str, expected_message: list[str]) -> None:
+    homepage = HomePage(driver)
+    
+    with allure.step("1.Click the user icon in the site header."):
+        user_profile = homepage.header.click_user_profile()
+        assert  user_profile.is_visible() == True
+
+    with allure.step("2.Click 'Зареєструватися' in the dropdown."):
+        sign_up_mod = user_profile.click_register()
+        assert sign_up_mod.is_displayed() ==True
+
+    with allure.step("3.Observe the role selection."):
+        assert sign_up_mod.is_visitor_role_selected() == True
+
+    with allure.step("4. Fill all fields with valid data except 'Телефон'"):
+        sign_up_mod.enter_first_name("Петро")
+        sign_up_mod.enter_last_name("Іванов")
+        sign_up_mod.enter_email("petro.visitor.qa@example.com")
+        sign_up_mod.enter_password("TestPass123!")
+        sign_up_mod.enter_confirm_password("TestPass123!")
+
+        assert sign_up_mod.is_successfull_icon_visible_first_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_last_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_email() == True
+        assert sign_up_mod.is_successfull_icon_visible_password() == True
+        assert sign_up_mod.is_successfull_icon_visible_password_confirm() == True
+
+    
+    with allure.step("5.Enter an invalid phone suffix into the 'Телефон' field and observe the error"):
+        sign_up_mod.enter_phone(phone)
+        actual_result = sign_up_mod.get_error_messages_phone()
+
+        assert actual_result == expected_message
+        assert sign_up_mod.is_error_icon_visible_phone() == True
+        assert sign_up_mod.is_successfull_icon_visible_first_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_last_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_email() == True
+        assert sign_up_mod.is_successfull_icon_visible_password() == True
+        assert sign_up_mod.is_successfull_icon_visible_password_confirm() == True

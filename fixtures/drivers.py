@@ -9,7 +9,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from webdriver_manager.chrome import ChromeDriverManager
 
 from data.config import Config
-from fixtures.signin_api import SignInSession, sign_in_via_api
+from utils.signin_api import SignInSession, sign_in_via_api
 
 
 def _inject_session(driver: WebDriver, session: SignInSession) -> WebDriver:

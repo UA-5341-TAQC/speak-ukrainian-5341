@@ -1,8 +1,13 @@
 """Club details page /club/{id}."""
 
+from typing import TYPE_CHECKING
+
 import allure
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
+
+if TYPE_CHECKING:
+    from pages.modals.write_to_manager_modal import WriteToManagerModal
 
 from pages.base_page import BasePage
 from pages.components.comment_card_component import CommentCardComponent
@@ -68,50 +73,70 @@ class ClubDetailsPage(BasePage):
         ".comment-list .ant-comment, .comment-card",
     )
 
+    @allure.step("Open page")
     def open_page(self, club_id: int) -> None:
         """Navigate to the club details page for the given club id."""
         self.driver.get(f"{self.get_base_url()}/club/{club_id}")
 
+    @allure.step("Get title")
     def get_title(self) -> str:
         """Return the club title."""
-        return self._find_element(self.TITLE).text
+        return self._get_text(self.TITLE)
 
+    def get_categories(self) -> list[str]:
+        """Return all category tag texts, e.g. -> ['Спортивні секції', ...]."""
+        elements = self._find_elements(self.CATEGORY_TAG)
+        return [(el.get_attribute("textContent") or "").strip() for el in elements]
+
+    @allure.step("Get category")
     def get_category(self) -> str:
         """Return the category tag text, e.g. -> 'Спортивні секції'."""
         return self._find_element(self.CATEGORY_TAG).text
 
+    @allure.step("Click enroll button")
     def click_enroll_button(self) -> None:
         """Click the 'Записатись на гурток' button."""
         self._wait_clickable(self.ENROLL_BUTTON).click()
 
-    def click_write_to_manager_button(self) -> None:
+    @allure.step("Click write to manager button")
+    def click_write_to_manager_button(self) -> "WriteToManagerModal":
         """Click the 'Написати менеджеру' button."""
         self._wait_clickable(self.WRITE_TO_MANAGER_BUTTON).click()
+        from pages.modals.write_to_manager_modal import WriteToManagerModal
 
+        return WriteToManagerModal(self.driver)
+
+    @allure.step("Click download button")
     def click_download_button(self) -> None:
         """Click the 'Завантажити' button."""
         self._wait_clickable(self.DOWNLOAD_BUTTON).click()
 
+    @allure.step("Get reviews count")
     def get_reviews_count(self) -> str:
         """Return the reviews(comments) count."""
         return self._find_element(self.REVIEWS_COUNT_TEXT).text
 
+    @allure.step("Get description")
     def get_description(self) -> str:
         """Return the club description text."""
         return self._find_element(self.DESCRIPTION_TEXT).text
 
+    @allure.step("Get address")
     def get_address(self) -> str:
         """Return the club address."""
         return self._find_element(self.ADDRESS_TEXT).text
 
+    @allure.step("Get age range value")
     def get_age_range_value(self) -> str:
         """Return the age range value."""
         return self._find_element(self.AGE_RANGE_VALUE).text
 
+    @allure.step("Get website url")
     def get_website_url(self) -> str | None:
         """Return the club website URL (href attribute)."""
         return self._find_element(self.CONTACT_WEBSITE_LINK).get_attribute("href")
 
+    @allure.step("Get phone")
     def get_phone(self) -> str:
         """Return the club phone number."""
         # знаходимо всі елементи .contact-name (сайт і телефон)
@@ -123,42 +148,51 @@ class ClubDetailsPage(BasePage):
 
         raise ValueError("Phone contact not found")
 
+    @allure.step("Get similar clubs title")
     def get_similar_clubs_title(self) -> str:
         """Return the 'Схожі гуртки' title."""
         return self._find_element(self.SIMILAR_CLUBS_TITLE).text
 
+    @allure.step("Is map displayed")
     def is_map_displayed(self) -> bool:
         """Check if the map widget is visible on the page."""
         return self._find_element(self.MAP_WIDGET).is_displayed()
 
+    @allure.step("Is category icon displayed")
     def is_category_icon_displayed(self) -> bool:
         """Check if the category icon is visible on the page."""
         return self._find_element(self.CATEGORY_ICON).is_displayed()
 
     # Перевірити потім у тестах чи повертається 200 статус
+    @allure.step("Get header banner image url")
     def get_header_banner_image_url(self) -> str:
         """Return the header background image URL from its CSS style."""
         element = self._find_element(self.HEADER_BANNER)
         bg_style = element.value_of_css_property("background-image")
         return bg_style.removeprefix('url("').removesuffix('")')
 
+    @allure.step("Get blur filter value")
     def get_blur_filter_value(self) -> str:
         """Return the CSS filter of the blur overlay."""
         element = self._find_element(self.BLUR_OVERLAY)
         return element.value_of_css_property("filter")
 
+    @allure.step("Is rating stars displayed")
     def is_rating_stars_displayed(self) -> bool:
         """Check if the star rating widget is visible on the page."""
         return self._find_element(self.RATING_STARS).is_displayed()
 
+    @allure.step("Get age range label")
     def get_age_range_label(self) -> str:
         """Return the age range label text -> 'Вік аудиторії:'."""
         return self._find_element(self.AGE_RANGE_LABEL).text
 
+    @allure.step("Click leave comment button")
     def click_leave_comment_button(self) -> None:
         """Click the 'Залишити коментар' button, which opens the leave comment modal."""
         self._wait_clickable(self.LEAVE_COMMENT_BUTTON).click()
 
+    @allure.step("Is comments label displayed")
     def is_comments_label_displayed(self) -> bool:
         """Check if the 'Коментарі' section title is displayed."""
         return self._find_element(self.COMMENTS_LABEL).is_displayed()

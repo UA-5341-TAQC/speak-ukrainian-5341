@@ -172,6 +172,8 @@ class Base:
 
     def _wait_clickable_from_driver(self, locator: Locator) -> WebElement:
         """Wait until an element is clickable using the driver context."""
-        return self.wait.until(
-            EC.element_to_be_clickable(locator)
-        )
+        return self.wait.until(EC.element_to_be_clickable(locator))
+
+    def get_wait(self, timeout: int = 5) -> WebDriverWait[WebDriver]:
+        """Get a WebDriverWait instance with the specified timeout."""
+        return WebDriverWait(self.driver, timeout)

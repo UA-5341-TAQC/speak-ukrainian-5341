@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import allure
 from selenium.common import TimeoutException
-from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
 from pages.modals.base_modal import BaseModal
 from pages.types import Locator
@@ -57,15 +57,78 @@ class SignUpModal(BaseModal):
     # Validation errors
     FIELD_ERROR_MESSAGES: Locator = (By.CSS_SELECTOR, "div.ant-form-item-explain-error")
 
+    # Success icon for each field
+    SUCCESS_ICON_LAST_NAME: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#lastName) .ant-form-item-feedback-icon-success",
+    )
+
+    SUCCESS_ICON_FIRST_NAME: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#firstName) .ant-form-item-feedback-icon-success",
+    )
+
+    SUCCESS_ICON_PHONE: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#phone) .ant-form-item-feedback-icon-success",
+    )
+
+    SUCCESS_ICON_EMAIL: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#email) .ant-form-item-feedback-icon-success",
+    )
+
+    SUCCESS_ICON_PASSWORD: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#password) .ant-form-item-feedback-icon-success",
+    )
+
+    SUCCESS_ICON_CONFIRM_PASSWORD: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#confirm) .ant-form-item-feedback-icon-success",
+    )
+
+    # Error icon for each field
+    ERROR_ICON_LAST_NAME: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#lastName) .ant-form-item-feedback-icon-error",
+    )
+
+    ERROR_ICON_FIRST_NAME: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#firstName) .ant-form-item-feedback-icon-error",
+    )
+
+    ERROR_ICON_PHONE: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#phone) .ant-form-item-feedback-icon-error",
+    )
+
+    ERROR_ICON_EMAIL: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#email) .ant-form-item-feedback-icon-error",
+    )
+
+    ERROR_ICON_PASSWORD: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#password) .ant-form-item-feedback-icon-error",
+    )
+
+    ERROR_ICON_CONFIRM_PASSWORD: Locator = (
+        By.CSS_SELECTOR,
+        ".ant-form-item:has(#confirm) .ant-form-item-feedback-icon-error",
+    )
+
+    # Validation error for phone
+    FIELD_ERROR_MESSAGES_PHONE: Locator = (
+        By.XPATH,
+        "//div[@id='phone_help']/div[@class='ant-form-item-explain-error']",
+    )
+
     @allure.step("Check if Registration modal is displayed")
     def is_displayed(self) -> bool:
         """Check if the registration modal window is visible on screen."""
-        if self.root:
-            return self.root.is_displayed()
-        try:
-            return self._wait_visible(self.MODAL_CONTENT).is_displayed()
-        except TimeoutException:
-            return False
+        return self._wait_visible(self.MODAL_CONTENT).is_displayed()
 
     @allure.step("Select role: Відвідувач (ROLE_USER)")
     def select_visitor_role(self) -> SignUpModal:
@@ -193,6 +256,80 @@ class SignUpModal(BaseModal):
         elements = self._find_elements(self.FIELD_ERROR_MESSAGES)
         return [elem.text.strip() for elem in elements if elem.is_displayed()]
 
+    @allure.step("Check whether successful icon for Last Name is visible")
+    def is_successfull_icon_visible_last_name(self) -> bool:
+        """Check if the successful icon for last name is visible on screen."""
+        return self._wait_visible(self.SUCCESS_ICON_LAST_NAME).is_displayed()
+
+    @allure.step("Check whether successful icon for First Name is visible")
+    def is_successfull_icon_visible_first_name(self) -> bool:
+        """Check if the successful icon for first name is visible on screen."""
+        return self._wait_visible(self.SUCCESS_ICON_FIRST_NAME).is_displayed()
+
+    @allure.step("Check whether successful icon for email is visible")
+    def is_successfull_icon_visible_email(self) -> bool:
+        """Check if the successful icon for email is visible on screen."""
+        return self._wait_visible(self.SUCCESS_ICON_EMAIL).is_displayed()
+
+    @allure.step("Check whether successful icon for phone is visible")
+    def is_successfull_icon_visible_phone(self) -> bool:
+        """Check if the successful icon for phone is visible on screen."""
+        return self._wait_visible(self.SUCCESS_ICON_PHONE).is_displayed()
+
+    @allure.step("Check whether successful icon for password is visible")
+    def is_successfull_icon_visible_password(self) -> bool:
+        """Check if the successful icon for password is visible on screen."""
+        return self._wait_visible(self.SUCCESS_ICON_PASSWORD).is_displayed()
+
+    @allure.step("Check whether successful icon for confirm password is visible")
+    def is_successfull_icon_visible_password_confirm(self) -> bool:
+        """Check if the successful icon for password is visible on screen."""
+        return self._wait_visible(self.SUCCESS_ICON_CONFIRM_PASSWORD).is_displayed()
+
+    @allure.step("Check whether error icon for Last Name is visible")
+    def is_error_icon_visible_last_name(self) -> bool:
+        """Check if the error icon for last name is visible on screen."""
+        return self._wait_visible(self.ERROR_ICON_LAST_NAME).is_displayed()
+
+    @allure.step("Check whether error icon for First Name is visible")
+    def is_error_icon_visible_first_name(self) -> bool:
+        """Check if the error icon for first name is visible on screen."""
+        return self._wait_visible(self.ERROR_ICON_FIRST_NAME).is_displayed()
+
+    @allure.step("Check whether error icon for email is visible")
+    def is_error_icon_visible_email(self) -> bool:
+        """Check if the error icon for email is visible on screen."""
+        return self._wait_visible(self.ERROR_ICON_EMAIL).is_displayed()
+
+    @allure.step("Check whether error icon for phone is visible")
+    def is_error_icon_visible_phone(self) -> bool:
+        """Check if the error icon for phone is visible on screen."""
+        return self._wait_visible(self.ERROR_ICON_PHONE).is_displayed()
+
+    @allure.step("Check whether error icon for password is visible")
+    def is_error_icon_visible_password(self) -> bool:
+        """Check if the error icon for password is visible on screen."""
+        return self._wait_visible(self.ERROR_ICON_PASSWORD).is_displayed()
+
+    @allure.step("Check whether error icon for confirm password is visible")
+    def is_error_icon_visible_password_confirm(self) -> bool:
+        """Check if the error icon for password is visible on screen."""
+        return self._wait_visible(self.ERROR_ICON_CONFIRM_PASSWORD).is_displayed()
+
+    @allure.step("Check whether validation error messages in the form for phone field is visible")
+    def is_error_message_displayed_phone(self) -> bool:
+        """Check if the error messages in the form for phone field is visible on screen."""
+        return self._wait_visible(self.FIELD_ERROR_MESSAGES_PHONE).is_displayed()
+
+    @allure.step("Get all displayed validation error messages in the form for phone field")
+    def get_error_messages_phone(self) -> list[str]:
+        """Retrieve texts of all active client-side validation error messages for phone field."""
+        if self.is_error_message_displayed_phone():
+            elements = self._find_elements(self.FIELD_ERROR_MESSAGES_PHONE)
+            return [elem.text.strip() for elem in elements if elem.is_displayed()]
+        else:
+            return []
+
     @allure.step("Wait for validation error to appear")
     def wait_for_error_message(self, expected_error: str) -> None:
         """Wait until a specific validation error message is displayed."""
@@ -224,13 +361,13 @@ class SignUpModal(BaseModal):
     def wait_for_specific_error(self, expected_error: str) -> list[str]:
         """Wait until the expected error message appears among the displayed errors."""
         try:
-            return self.wait.until(
-                lambda _: (
-                    self.get_error_messages()
-                    if expected_error in self.get_error_messages()
-                    else False
-                )
-            )
-        except TimeoutException:
-            return self.get_error_messages()
 
+            def _check_error(_: object) -> list[str]:
+                return (
+                    self.get_error_messages() if expected_error in self.get_error_messages() else []
+                )
+
+            result: list[str] = self.wait.until(_check_error)
+            return result
+        except TimeoutException:
+            return self.get_error_messages() or []

@@ -1,11 +1,11 @@
-"""Automated test for TC-60: automatic "Доступний онлайн" status assignment
-when no location is specified in the "Додати гурток" modal form.
+"""Automated test for TC-60: automatic "Доступний онлайн" status assignment.
+
+When no location is specified in the "Додати гурток" modal form.
 """
 from __future__ import annotations
 
 import allure
 import pytest
-from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -14,6 +14,7 @@ from pages.components.add_club.basic_info_step import BasicInfoStep
 from pages.components.add_club.contacts_step import ContactsStep
 from pages.components.add_club.description_step import DescriptionStep
 from pages.home_page import HomePage
+
 
 @allure.feature("Add Club modal")
 @allure.story("TC-60: Auto-assign 'Доступний онлайн' when no location is added")
@@ -34,7 +35,6 @@ def test_online_status_auto_assigned_when_no_location(authenticated_driver: WebD
     when `is_toast_displayed()` and `get_toast_text()` were called as two
     separate, sequential DOM lookups (the toast could disappear between them).
     """
-    
     VALID_PHONE = "0991234567"
     EXPECTED_INFO_BANNER_TEXT = "Ви не додали жодної локації, гурток автоматично є онлайн"
 
@@ -42,7 +42,7 @@ def test_online_status_auto_assigned_when_no_location(authenticated_driver: WebD
     STEP_DESCRIPTION = "Опис"
 
     BASIC_INFO_CATEGORY = "Студії раннього розвитку"
-    
+
     with allure.step("Precondition: open 'Додати гурток' modal"):
         header = HomePage(authenticated_driver).header
         header.click_user_profile().click_add_club_menu_item()
@@ -105,12 +105,13 @@ def test_online_status_auto_assigned_when_no_location(authenticated_driver: WebD
 
     with allure.step("Postcondition: close the Add Club modal"):
         contacts_step.close()
- 
+
 @allure.feature("Add Club modal")
 @allure.story("TC-37: Checking the structure of 'Основна інформація' step")
 @pytest.mark.smoke
 def test_add_club_modal_basic_info_structure(authenticated_driver: WebDriver) -> None:
-    """TC-37: Verify the structure and presence of elements in the 
+    """TC-37: Verify the structure and presence of elements in the step.
+
     "Основна інформація" step of "Додати гурток" modal.
 
     Preconditions:
@@ -126,7 +127,6 @@ def test_add_club_modal_basic_info_structure(authenticated_driver: WebDriver) ->
         7. Verify the "Приналежність до центру" dropdown
         8. Verify the "Наступний крок" button is active
     """
-    
     EXPECTED_CATEGORIES_COUNT = 12
 
     EXPECTED_MODAL_TITLE = "Додати гурток"
@@ -134,7 +134,7 @@ def test_add_club_modal_basic_info_structure(authenticated_driver: WebDriver) ->
     STEP_BASIC_INFO = "Основна інформація"
     STEP_CONTACTS = "Контакти"
     STEP_DESCRIPTION = "Опис"
-    
+
     with allure.step("Step 1: Open the 'Додати гурток' form"):
         header = HomePage(authenticated_driver).header
         header.click_user_profile().click_add_club_menu_item()
