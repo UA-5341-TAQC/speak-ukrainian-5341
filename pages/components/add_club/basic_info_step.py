@@ -41,6 +41,9 @@ class BasicInfoStep(AddClubModal):
         )
     )
 
+    SELECTED_CATEGORIES: Locator = (By.CSS_SELECTOR,
+    "#basic_categories input[type='checkbox']:checked",)
+
     @allure.step("Enter club name (Назва): '{name}'")
     def enter_name(self, name: str) -> BasicInfoStep:
         """Enter the club name in the name input field."""
@@ -181,9 +184,7 @@ class BasicInfoStep(AddClubModal):
     @allure.step("Get selected categories")
     def get_selected_categories(self) -> list[str]:
         """Return values of selected categories."""
-        elements = self._find_elements(
-            (By.CSS_SELECTOR, "#basic_categories input[type='checkbox']:checked")
-        )
+        elements = self._find_elements(self.SELECTED_CATEGORIES)
         return [element.get_attribute("value") or "" for element in elements]
 
 
