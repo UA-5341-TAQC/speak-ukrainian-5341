@@ -224,3 +224,54 @@ def test_registration_flow(
         success_text = home_page.get_success_message_text()
         error_msg = f"Expected confirmation toast, got: {success_text}"
         assert "успішно зареєстрований" in success_text.lower(), error_msg
+
+
+@pytest.mark.parametrize("phone, expected_message",[
+     ("991234567",["Телефон не відповідає вказаному формату", "Телефон не відповідає українському формату (+380)"]),
+     ("380991234567",["Телефон не відповідає вказаному формату", "Телефон не відповідає українському формату (+380)"]),
+     ("099123456",["Телефон не відповідає вказаному формату"]),
+     ("099123456789",["Телефон не відповідає вказаному формату"]),
+     ("+380****4567",["Телефон не відповідає вказаному формату", "Телефон не відповідає українському формату (+380)","Телефон не може містити спеціальні символи"]),
+     ("099-123-45-67",["Телефон не відповідає вказаному формату","Телефон не може містити спеціальні символи"]),
+     ("099 123 4567",["Телефон не може містити пробіли","Телефон не відповідає вказаному формату"])
+     ])
+@allure.title("TC-55 Registration — phone format — Реєстрація modal (invalid phone format).")
+def test_registration_inv_num_55(driver: WebDriver, phone: str, expected_message: list[str]) -> None:
+    homepage = HomePage(driver)
+    
+    with allure.step("1.Click the user icon in the site header."):
+        user_profile = homepage.header.click_user_profile()
+        assert  user_profile.is_visible() == True
+
+    with allure.step("2.Click 'Зареєструватися' in the dropdown."):
+        sign_up_mod = user_profile.click_register()
+        assert sign_up_mod.is_displayed() ==True
+
+    with allure.step("3.Observe the role selection."):
+        assert sign_up_mod.is_visitor_role_selected() == True
+
+    with allure.step("4. Fill all fields with valid data except 'Телефон'"):
+        sign_up_mod.enter_first_name("Петро")
+        sign_up_mod.enter_last_name("Іванов")
+        sign_up_mod.enter_email("petro.visitor.qa@example.com")
+        sign_up_mod.enter_password("TestPass123!")
+        sign_up_mod.enter_confirm_password("TestPass123!")
+
+        assert sign_up_mod.is_successfull_icon_visible_first_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_last_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_email() == True
+        assert sign_up_mod.is_successfull_icon_visible_password() == True
+        assert sign_up_mod.is_successfull_icon_visible_password_confirm() == True
+
+    
+    with allure.step("5.Enter an invalid phone suffix into the 'Телефон' field and observe the error"):
+        sign_up_mod.enter_phone(phone)
+        actual_result = sign_up_mod.get_error_messages_phone()
+
+        assert actual_result == expected_message
+        assert sign_up_mod.is_error_icon_visible_phone() == True
+        assert sign_up_mod.is_successfull_icon_visible_first_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_last_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_email() == True
+        assert sign_up_mod.is_successfull_icon_visible_password() == True
+        assert sign_up_mod.is_successfull_icon_visible_password_confirm() == True

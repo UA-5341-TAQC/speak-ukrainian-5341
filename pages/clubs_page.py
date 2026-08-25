@@ -90,11 +90,11 @@ class ClubPage(BasePage):
         self._wait_clickable(self.CLUB_DETAILS_BUTTON).click()
         return ClubDetailsPage(self.driver)
 
-    def filter(self) -> ClubFiltersComponent:
+    def filter_club(self) -> ClubFiltersComponent:
         """Return filter object."""
         return ClubFiltersComponent(self.find(self.FILTERS_PANEL))
 
-    def sort(self) -> ClubSortComponent:
+    def sort_club(self) -> ClubSortComponent:
         """Return sort object."""
         return ClubSortComponent(self._wait_visible(self.CLUBS_CONTENT))
 
