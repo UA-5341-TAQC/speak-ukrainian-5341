@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import allure
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -20,7 +21,10 @@ from pages.types import Locator
 class ClubPage(BasePage):
     """Page object representing the Speak Ukrainian clubs catalog page."""
 
-    CLUBS_CONTENT: Locator = (By.CSS_SELECTOR, "div.content-clubs-list, div.ant-layout-content")
+    CLUBS_CONTENT: Locator = (
+        By.CSS_SELECTOR,
+        "div.content-clubs-list, div.ant-layout-content",
+    )
     SEARCH_INPUT = (By.CSS_SELECTOR, "input.search-box, input[type='search']")
     CLUB_CARDS = (By.CSS_SELECTOR, "div.ant-card, div.type-list-card")
     FILTERS_PANEL = (By.CSS_SELECTOR, '[data-testid="filters-panel"]')
@@ -60,14 +64,25 @@ class ClubPage(BasePage):
         self._wait_visible(self.CLUB_CARDS)
         return self
 
-    """
+    @allure.step("Wait for search results to match '{keyword}'")
+    def wait_for_search_results_contain(self, keyword: str) -> None:
+        """Wait until the first club card contains the search keyword."""
+
+        def _first_card_matches(_driver: WebDriver) -> bool:
+            try:
+                first_card = self._find_element(self.CLUB_CARDS)
+                return keyword.lower() in (first_card.get_attribute("textContent") or "").lower()
+            except StaleElementReferenceException:
+                return False
+
+        self.wait.until(_first_card_matches, message=f"First club card did not contain '{keyword}'")
+
     @allure.step("Get list of all club cards on page")
     def get_club_cards(self) -> list[ClubCardComponent]:
-        Get list of all club cards on page.
-        self.wait.until(EC.presence_of_element_located(self.CLUB_CARDS))
-        elements = self.driver.find_elements(self.CLUB_CARDS)
+        """Get list of all club cards on page."""
+        self._wait_visible(self.CLUB_CARDS)
+        elements = self._find_elements(self.CLUB_CARDS)
         return [ClubCardComponent(elem) for elem in elements]
-    """
 
     @allure.step("Get clubs count")
     def get_clubs_count(self) -> int:
@@ -90,11 +105,11 @@ class ClubPage(BasePage):
         self._wait_clickable(self.CLUB_DETAILS_BUTTON).click()
         return ClubDetailsPage(self.driver)
 
-    def filter(self) -> ClubFiltersComponent:
+    def filter_club(self) -> ClubFiltersComponent:
         """Return filter object."""
         return ClubFiltersComponent(self.find(self.FILTERS_PANEL))
 
-    def sort(self) -> ClubSortComponent:
+    def sort_club(self) -> ClubSortComponent:
         """Return sort object."""
         return ClubSortComponent(self._wait_visible(self.CLUBS_CONTENT))
 

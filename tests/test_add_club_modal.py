@@ -1,5 +1,7 @@
-"""Automated test for TC-60: automatic "Доступний онлайн" status assignment
-when no location is specified in the "Додати гурток" modal form.
+"""Tests for the "Add Club" modal.
+
+Verify automatic assignment of the "Available online" status when no location
+is specified for the club, as well as the structure of the "Basic Information" step.
 """
 from __future__ import annotations
 
@@ -209,3 +211,112 @@ def test_add_club_modal_basic_info_structure(authenticated_driver: WebDriver) ->
 
     with allure.step("Postcondition: Close the Add Club modal"):
         basic_info.close()
+
+@allure.feature("Add Club modal")
+@allure.story("TC-59: Verify 'Назад' navigation and data persistence between sections")
+@pytest.mark.regression
+def test_add_club_back_navigation_and_data_persistence(
+    authenticated_driver: WebDriver,
+) -> None:
+    """TC-59: Verify navigation with 'Назад' and data persistence between steps.
+
+    Preconditions:
+        - User is registered and logged into Навчай Українською.
+        - Add Club modal is opened.
+        - "Основна інформація" and "Контакти" sections are filled.
+
+    Test Steps:
+        1. On "Контакти", click "Назад".
+        2. Verify "Основна інформація" data is preserved.
+        3. Open "Опис" section.
+        4. On "Опис", click "Назад".
+        5. Verify "Контакти" data is preserved.
+
+    Postcondition:
+        - Close the Add Club modal.
+    """
+
+    CLUB_NAME = "QA Test Club"
+    CATEGORY = "Студії раннього розвитку"
+    AGE_FROM = 6
+    AGE_TO = 12
+    PHONE = "0991234567"
+
+    STEP_BASIC_INFO = "Основна інформація"
+    STEP_CONTACTS = "Контакти"
+    STEP_DESCRIPTION = "Опис"
+
+    with allure.step("Precondition: open 'Додати гурток' modal"):
+        header = HomePage(authenticated_driver).header
+        header.click_user_profile().click_add_club_menu_item()
+
+    basic_info = BasicInfoStep(authenticated_driver)
+
+    with allure.step("Precondition: fill 'Основна інформація'"):
+        basic_info.fill(
+            name=CLUB_NAME,
+            categories=[CATEGORY],
+            age_from=AGE_FROM,
+            age_to=AGE_TO,
+        )
+        basic_info.click_next()
+
+    contacts_step = ContactsStep(authenticated_driver)
+
+    with allure.step("Precondition: fill 'Контакти'"):
+        contacts_step.enter_phone(PHONE)
+
+    with allure.step("Step 1: click 'Назад' on 'Контакти'"):
+        contacts_step.click_prev()
+
+    with allure.step("Verify: returned to 'Основна інформація'"):
+        assert basic_info.get_active_step() == STEP_BASIC_INFO, (
+            f"Expected active step to be '{STEP_BASIC_INFO}', "
+            f"but got '{basic_info.get_active_step()}'."
+        )
+
+    with allure.step("Step 2: verify 'Основна інформація' data is preserved"):
+        assert basic_info.get_name() == CLUB_NAME, (
+            "Club name was not preserved."
+        )
+
+        assert CATEGORY in basic_info.get_selected_categories(), (
+            f"Category '{CATEGORY}' was not preserved."
+        )
+
+        assert basic_info.get_age_from() == str(AGE_FROM), (
+            "Minimum age was not preserved."
+        )
+
+        assert basic_info.get_age_to() == str(AGE_TO), (
+            "Maximum age was not preserved."
+        )
+
+    with allure.step("Step 3: open 'Опис' section"):
+        basic_info.click_next()
+
+        contacts_step = ContactsStep(authenticated_driver)
+        contacts_step.click_next()
+
+        description_step = DescriptionStep(authenticated_driver)
+
+        assert description_step.get_active_step() == STEP_DESCRIPTION, (
+            f"Expected active step to be '{STEP_DESCRIPTION}', "
+            f"but got '{description_step.get_active_step()}'.")
+
+    with allure.step("Step 4: click 'Назад' on 'Опис'"):
+        description_step.click_prev()
+
+    contacts_step = ContactsStep(authenticated_driver)
+
+    with allure.step("Verify: returned to 'Контакти'"):
+        assert contacts_step.get_active_step() == STEP_CONTACTS, (
+            f"Expected active step to be '{STEP_CONTACTS}', "
+            f"but got '{contacts_step.get_active_step()}'.")
+
+    with allure.step("Verify: 'Контакти' data is preserved"):
+        assert contacts_step.get_phone() == PHONE, (
+            "Phone number was not preserved after returning to 'Контакти'.")
+
+    with allure.step("Postcondition: close the Add Club modal"):
+        contacts_step.close()

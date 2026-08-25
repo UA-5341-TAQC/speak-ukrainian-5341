@@ -76,9 +76,10 @@ class ClubDetailsPage(BasePage):
         """Return the club title."""
         return self._find_element(self.TITLE).text
 
-    def get_category(self) -> str:
-        """Return the category tag text, e.g. -> 'Спортивні секції'."""
-        return self._find_element(self.CATEGORY_TAG).text
+    def get_categories(self) -> list[str]:
+        """Return all category tag texts, e.g. -> ['Спортивні секції', ...]."""
+        elements = self._find_elements(self.CATEGORY_TAG)
+        return [(el.get_attribute("textContent") or "").strip() for el in elements]
 
     def click_enroll_button(self) -> None:
         """Click the 'Записатись на гурток' button."""
