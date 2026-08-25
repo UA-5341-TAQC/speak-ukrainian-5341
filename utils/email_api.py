@@ -9,24 +9,33 @@ import allure
 import requests
 
 
-class TempMailAPI:
+class TempMailAPIClient:
     """Helper class to interact with the mail.tm API.
 
     Usage:
-        mail_api = TempMailAPI()
-        email = mail_api.generate_email("test_user")
+        mail_api = TempMailAPIClient()
+        email = mail_api.email_address
         msg_id = mail_api.wait_for_email()
         content = mail_api.get_email_content(msg_id)
     """
 
+    BASE_URL = "https://api.mail.tm"
+    DEFAULT_PASSWORD = "Password123!"
+    DEFAULT_TIMEOUT = 10
+
     def __init__(self) -> None:
-        """Initialize the API client and fetch an active domain."""
-        self.base_url = "https://api.mail.tm"
-        self.token: str | None = None
+        """Initialize the API client, create a temp email, and authenticate."""
         self.domain: str = self._get_domain()
+        self.email_address: str = self._generate_email_address()
+        self.password: str = self.DEFAULT_PASSWORD
+
+        self._create_account()
+        self.token: str = self._authenticate()
 
     def _request_with_retry(self, method: str, url: str, **kwargs: Any) -> requests.Response:
         """Execute a request with exponential backoff on 429 Too Many Requests."""
+        kwargs.setdefault("timeout", self.DEFAULT_TIMEOUT)
+
         for attempt in range(5):
             response = requests.request(method, url, **kwargs)
             if response.status_code == 429:
@@ -34,43 +43,43 @@ class TempMailAPI:
                 continue
             response.raise_for_status()
             return response
+
         raise RuntimeError(f"Max retries exceeded with 429 errors for {method} {url}")
 
     def _get_domain(self) -> str:
         """Fetch an active domain from mail.tm."""
-        response = self._request_with_retry("GET", f"{self.base_url}/domains", timeout=10)
-        return str(response.json()["hydra:member"][0]["domain"])
+        response = self._request_with_retry("GET", f"{self.BASE_URL}/domains")
+        data = response.json()
 
-    @allure.step("Generate temporary email")
-    def generate_email(self) -> str:
-        """Create a new temporary email account and save the auth token.
+        domains = data.get("hydra:member", [])
+        if not domains:
+            raise RuntimeError("No domains available from mail.tm API")
 
-        Generates a unique local part (username) automatically using UUID to
-        ensure isolation for parallel test execution.
+        return str(domains[0].get("domain"))
 
-        Returns:
-            A string containing the full email address.
-        """
+    def _generate_email_address(self) -> str:
+        """Generate a unique email address string."""
         username = f"qavisitor{uuid.uuid4().hex[:8]}"
-        address = f"{username}@{self.domain}"
-        password = "Password123!"
+        return f"{username}@{self.domain}"
 
+    @allure.step("Create temporary email account")
+    def _create_account(self) -> None:
+        """Create a new temporary email account."""
         self._request_with_retry(
             "POST",
-            f"{self.base_url}/accounts",
-            json={"address": address, "password": password},
-            timeout=10,
+            f"{self.BASE_URL}/accounts",
+            json={"address": self.email_address, "password": self.password},
         )
 
+    @allure.step("Authenticate to get token")
+    def _authenticate(self) -> str:
+        """Authenticate and retrieve the token."""
         token_resp = self._request_with_retry(
             "POST",
-            f"{self.base_url}/token",
-            json={"address": address, "password": password},
-            timeout=10,
+            f"{self.BASE_URL}/token",
+            json={"address": self.email_address, "password": self.password},
         )
-
-        self.token = token_resp.json()["token"]
-        return address
+        return str(token_resp.json().get("token", ""))
 
     @allure.step("Wait for an email to arrive")
     def wait_for_email(self, timeout: int = 30, poll_frequency: int = 3) -> str:
@@ -90,7 +99,9 @@ class TempMailAPI:
         headers = {"Authorization": f"Bearer {self.token}"}
 
         while time.time() < end_time:
-            response = requests.get(f"{self.base_url}/messages", headers=headers, timeout=10)
+            response = requests.get(
+                f"{self.BASE_URL}/messages", headers=headers, timeout=self.DEFAULT_TIMEOUT
+            )
             response.raise_for_status()
             messages: list[dict[str, Any]] = response.json().get("hydra:member", [])
 
@@ -101,21 +112,24 @@ class TempMailAPI:
 
         raise TimeoutError(f"No email received within {timeout} seconds.")
 
-    @allure.step("Fetch email content for message ID: {message_id}")
+    @allure.step("Fetch received email content")
     def get_email_content(self, message_id: str) -> str:
         """Fetch the HTML content of a specific email message."""
         headers = {"Authorization": f"Bearer {self.token}"}
 
         response = requests.get(
-            f"{self.base_url}/messages/{message_id}", headers=headers, timeout=10
+            f"{self.BASE_URL}/messages/{message_id}", headers=headers, timeout=self.DEFAULT_TIMEOUT
         )
         response.raise_for_status()
 
         data: dict[str, Any] = response.json()
-
         html_content = data.get("html", "")
-        if isinstance(html_content, list) and len(html_content) > 0:
+
+        if isinstance(html_content, list):
+            if not html_content:
+                raise ValueError("Email HTML content is empty.")
             return str(html_content[0])
+
         return str(html_content)
 
     @allure.step("Extract verification link from email HTML")
