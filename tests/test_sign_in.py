@@ -9,6 +9,7 @@ from data.config import Config
 from pages.components.header.header_component import HeaderComponent
 from pages.home_page import HomePage
 
+EXPECTED_ERROR = "Введено невірний пароль або email"
 
 @pytest.mark.smoke
 def test_user_is_signed_in_after_api_fixture(authenticated_driver: WebDriver) -> None:
@@ -17,8 +18,9 @@ def test_user_is_signed_in_after_api_fixture(authenticated_driver: WebDriver) ->
     The fixture signs in via the /api/signin endpoint and injects the issued
     tokens, so the header must report the user as logged in.
     """
-    header = HeaderComponent(authenticated_driver.find_element(By.TAG_NAME, "header"))
-    assert header.click_user_profile().is_logged_in(), (
+    home_page = HomePage(authenticated_driver)
+    user_menu = home_page.header.click_user_profile()
+    assert user_menu.is_logged_in(), (
         "Expected the header user menu to show a signed-in session."
     )
 
@@ -55,16 +57,11 @@ def test_confirmed_user_can_log_in(driver: WebDriver) -> None:
     )
 
 @allure.title("TC-33: Login — empty fields(required-field enforcement)")
-@allure.description(
-    "Test verifies required-field validation for the Email and Password fields "
-    "when submitting the login form with one field left empty."
-)
 @allure.tag("login", "validation", "required-fields")
 def test_tc33_login_empty_fields(driver: WebDriver) -> None:
     with allure.step("Step 1: Click the user icon in the site header"):
-        header = driver.find_element(By.TAG_NAME, "header")
-        header_component = HeaderComponent(header)
-        user_menu = header_component.click_user_profile()
+        home_page = HomePage(driver)
+        user_menu = home_page.header.click_user_profile()
 
     with allure.step("Step 2: Click 'Увійти' in the dropdown"):
         login_modal = user_menu.click_login()
@@ -90,3 +87,18 @@ def test_tc33_login_empty_fields(driver: WebDriver) -> None:
         assert login_modal.get_validation_error_count() == 1, (
         "Email field should display validation errors."
     )
+
+@allure.title("TC-34 Login — unconfirmed account (link not clicked)")
+@allure.tag("login", "validation", "unconfirmed account")
+def test_tc34_login_in_unconfirmed_account(driver: WebDriver) -> None:
+    with allure.step("Step 1: Enter the Email and correct Password of an UNCONFIRMED account, then click 'Увійти'"):
+        home_page = HomePage(driver)
+        user_menu = home_page.header.click_user_profile()
+
+        login_modal = user_menu.click_login()
+        login_modal.fill_login_form("unconfirmed.qa@example.com", "TestPass123!")
+        login_modal.click_submit()
+        login_modal.is_displayed()
+        assert login_modal.wait_for_login_error() == EXPECTED_ERROR, (
+            "One error message 'Введено невірний пароль або email' should be displayed"
+        )
