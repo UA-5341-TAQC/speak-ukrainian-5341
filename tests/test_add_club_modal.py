@@ -7,6 +7,8 @@ import allure
 import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 from pages.components.add_club.basic_info_step import BasicInfoStep
 from pages.components.add_club.contacts_step import ContactsStep
@@ -26,9 +28,11 @@ def test_online_status_auto_assigned_when_no_location(authenticated_driver: WebD
 
     NOTE: the info message ("Ви не додали жодної локації, гурток автоматично
     є онлайн") renders as an antd `ant-message` toast at the top of the
-    modal, so it's checked via `DescriptionStep.is_toast_displayed()` /
-    `.get_toast_text()`, which already exist in the codebase. Since toasts
-    can be transient, the check happens immediately after `click_next()`.
+    modal. It's transient, so it's captured with a single explicit wait on
+    `DescriptionStep.TOAST_TEXT` visibility, reading `.text` off the same
+    element the wait returns — this avoids the race condition that occurred
+    when `is_toast_displayed()` and `get_toast_text()` were called as two
+    separate, sequential DOM lookups (the toast could disappear between them).
     """
     
     VALID_PHONE = "0991234567"
@@ -76,11 +80,15 @@ def test_online_status_auto_assigned_when_no_location(authenticated_driver: WebD
         assert description_step.get_active_step() == STEP_DESCRIPTION, (
             "Expected step 'Опис' to open after clicking 'Наступний крок'."
         )
-        assert description_step.is_toast_displayed(), (
-            "Expected an info toast to be displayed on step 'Опис'."
+
+        # Single wait -> read .text off the same element, no gap for the
+        # transient toast to disappear in between separate lookups.
+        toast_element = WebDriverWait(authenticated_driver, 5).until(
+            EC.visibility_of_element_located(DescriptionStep.TOAST_TEXT)
         )
-        assert description_step.get_toast_text() == EXPECTED_INFO_BANNER_TEXT, (
-            "Toast text does not match the expected message."
+        toast_text = toast_element.text.strip()
+        assert toast_text == EXPECTED_INFO_BANNER_TEXT, (
+            f"Toast text does not match the expected message. Got: '{toast_text}'."
         )
 
     with allure.step("Step 4: go back to step 'Контакти' and check the switch"):
