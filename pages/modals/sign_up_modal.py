@@ -58,78 +58,10 @@ class SignUpModal(BaseModal):
     FIELD_ERROR_MESSAGES: Locator = (By.CSS_SELECTOR, "div.ant-form-item-explain-error")
 
     ACCOUNT_EXIST_ERROR: Locator = (
-            By.CSS_SELECTOR,
-            "div.ant-message-notice-error div.ant-message-custom-content"
-        )
+        By.CSS_SELECTOR,
+        "div.ant-message-notice-error div.ant-message-custom-content",
+    )
     # Success icon for each field
-    SUCCESS_ICON_LAST_NAME: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#lastName) .ant-form-item-feedback-icon-success",
-    )
-
-    SUCCESS_ICON_FIRST_NAME: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#firstName) .ant-form-item-feedback-icon-success",
-    )
-
-    SUCCESS_ICON_PHONE: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#phone) .ant-form-item-feedback-icon-success",
-    )
-
-    SUCCESS_ICON_EMAIL: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#email) .ant-form-item-feedback-icon-success",
-    )
-
-    SUCCESS_ICON_PASSWORD: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#password) .ant-form-item-feedback-icon-success",
-    )
-
-    SUCCESS_ICON_CONFIRM_PASSWORD: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#confirm) .ant-form-item-feedback-icon-success",
-    )
-
-    # Error icon for each field
-    ERROR_ICON_LAST_NAME: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#lastName) .ant-form-item-feedback-icon-error",
-    )
-
-    ERROR_ICON_FIRST_NAME: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#firstName) .ant-form-item-feedback-icon-error",
-    )
-
-    ERROR_ICON_PHONE: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#phone) .ant-form-item-feedback-icon-error",
-    )
-
-    ERROR_ICON_EMAIL: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#email) .ant-form-item-feedback-icon-error",
-    )
-
-    ERROR_ICON_PASSWORD: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#password) .ant-form-item-feedback-icon-error",
-    )
-
-    ERROR_ICON_CONFIRM_PASSWORD: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-form-item:has(#confirm) .ant-form-item-feedback-icon-error",
-    )
-
-    # Validation error for phone
-    FIELD_ERROR_MESSAGES_PHONE: Locator = (
-        By.XPATH,
-        "//div[@id='phone_help']/div[@class='ant-form-item-explain-error']"
-    )
-
-    #Success icon for each field
     SUCCESS_ICON_LAST_NAME: Locator = (
         By.CSS_SELECTOR,
         ".ant-form-item:has(#lastName) .ant-form-item-feedback-icon-success",
@@ -442,7 +374,7 @@ class SignUpModal(BaseModal):
             result: list[str] = self.wait.until(_check_error)
             return result
         except TimeoutException:
-            return self.get_error_messages()
+            return result or []
 
     @allure.step("Verify duplicate email error is displayed")
     def is_duplicate_email_error_displayed(self) -> bool:
