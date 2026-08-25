@@ -204,7 +204,6 @@ def test_registration_flow(
             confirm_password=password,
             role=role,
         )
-<<<<<<< HEAD
         assert (
             sign_up_modal.is_submit_button_enabled()
         ), "Submit button should be enabled after filling all valid data."
@@ -240,15 +239,6 @@ def test_registration_flow(
 def test_registration_inv_num_55(driver: WebDriver, phone: str, expected_message: list[str]) -> None:
     homepage = HomePage(driver)
     
-=======
-
-
-
-@allure.title("TC-56 Registration — password mismatch — Реєстрація modal (confirm ≠ password).")
-def test_registration_password_missmatch_56(driver: WebDriver) -> None:
-    homepage = HomePage(driver)
-   
->>>>>>> 5207d7f (TC-56 added)
     with allure.step("1.Click the user icon in the site header."):
         user_profile = homepage.header.click_user_profile()
         assert  user_profile.is_visible() == True
@@ -260,7 +250,6 @@ def test_registration_password_missmatch_56(driver: WebDriver) -> None:
     with allure.step("3.Observe the role selection."):
         assert sign_up_mod.is_visitor_role_selected() == True
 
-<<<<<<< HEAD
     with allure.step("4. Fill all fields with valid data except 'Телефон'"):
         sign_up_mod.enter_first_name("Петро")
         sign_up_mod.enter_last_name("Іванов")
@@ -286,7 +275,23 @@ def test_registration_password_missmatch_56(driver: WebDriver) -> None:
         assert sign_up_mod.is_successfull_icon_visible_email() == True
         assert sign_up_mod.is_successfull_icon_visible_password() == True
         assert sign_up_mod.is_successfull_icon_visible_password_confirm() == True
-=======
+
+
+@allure.title("TC-56 Registration — password mismatch — Реєстрація modal (confirm ≠ password).")
+def test_registration_password_missmatch_56(driver: WebDriver) -> None:
+    homepage = HomePage(driver)
+   
+    with allure.step("1.Click the user icon in the site header."):
+        user_profile = homepage.header.click_user_profile()
+        assert  user_profile.is_visible() == True
+
+    with allure.step("2.Click 'Зареєструватися' in the dropdown."):
+        sign_up_mod = user_profile.click_register()
+        assert sign_up_mod.is_displayed() ==True
+
+    with allure.step("3.Observe the role selection."):
+        assert sign_up_mod.is_visitor_role_selected() == True
+
     with allure.step("4.Fill all fields with valid data."):
         sign_up_mod.enter_last_name("Іванов")
         sign_up_mod.enter_first_name("Петро")
@@ -310,4 +315,3 @@ def test_registration_password_missmatch_56(driver: WebDriver) -> None:
         assert "Значення поля ‘Підтвердити пароль’ має бути еквівалентним значенню поля ‘Пароль’" in errors, (
             f"Expected error message was not found. " f"Actual errors: {errors}"
         )
->>>>>>> 5207d7f (TC-56 added)
