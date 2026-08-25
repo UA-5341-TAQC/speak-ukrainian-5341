@@ -24,7 +24,7 @@ class ClubPage(BasePage):
     CLUBS_CONTENT: Locator = (By.CSS_SELECTOR, "div.content-clubs-list, div.ant-layout-content")
     SEARCH_INPUT = (By.CSS_SELECTOR, "input.search-box, input[type='search']")
     CLUB_CARDS = (By.CSS_SELECTOR, "div.ant-card, div.type-list-card")
-    FILTERS_PANEL = (By.CSS_SELECTOR, 'aside.club-list-sider')
+    FILTERS_PANEL = (By.CSS_SELECTOR, "aside.club-list-sider")
     SORT_PANEL = (By.CSS_SELECTOR, '[data-testid="sort-panel"]')
     NO_RESULTS_MESSAGE = (By.CSS_SELECTOR, "div.clubs-not-found")
     PAGINATION_NEXT = (By.CSS_SELECTOR, "li.ant-pagination-next")
