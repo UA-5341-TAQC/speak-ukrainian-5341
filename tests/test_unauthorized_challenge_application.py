@@ -51,8 +51,7 @@ class TestUnauthorizedChallengeApplication:
         home_page = HomePage(driver)
 
         with allure.step("Step 1: Click the 'Челендж' from the top menu"):
-            home_page.header.click_challenge()
-            dropdown = home_page.header.get_challenge_dropdown()
+            dropdown = home_page.header.click_challenge()
 
         with allure.step(
             f"Step 2: Select '{challenge}' from the dropdown menu"
