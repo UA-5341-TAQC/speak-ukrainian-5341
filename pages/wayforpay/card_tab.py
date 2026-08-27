@@ -20,11 +20,6 @@ class CardTab(BasePage):
     EMAIL_INPUT: Locator = (By.CSS_SELECTOR, "#cardpay-clientemail")
     SUBMIT_BUTTON: Locator = (By.CSS_SELECTOR, "#cardpay-submit")
 
-    def _type_slowly(self, element: WebElement, text: str, delay: float = 0.05) -> None:
-        """Type text one character at a time, pausing between keystrokes."""
-        for char in text:
-            element.send_keys(char)
-            time.sleep(delay)
 
     @allure.step("Fill complete payment form in WayForPay")
     def fill_complete_form(

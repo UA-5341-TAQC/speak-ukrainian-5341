@@ -7,7 +7,7 @@ from pages.news_details_page import NewsDetailsPage
 from pages.news_page import NewsPage
 
 NEWS_TITLE = 'Новий курс "Єдині": почніть літо із переходу на українську'
-EXPECTED_NEWS_URL = "https://speak-ukrainian.org.ua/news/27"
+NEWS_ID = 27
 EXPECTED_DATE = "28.05.2023"
 EXPECTED_DESCRIPTION_FIRST_PARAGRAPH = "Проєкт «Єдині» допоможе вашим друзям перейти на українську!"
 EXPECTED_IMAGE_FILENAME = "14_course_registrationpost.jpg"
@@ -17,6 +17,7 @@ EXPECTED_IMAGE_FILENAME = "14_course_registrationpost.jpg"
 def test_open_specific_news_article(driver: WebDriver) -> None:
     """Verify that opening a news card leads to the correct, fully rendered details page."""
     news_page = NewsPage(driver).open()
+    expected_news_url = f"{news_page.get_base_url()}/news/{NEWS_ID}"
 
     with allure.step("Review available news cards on the page"):
         cards = news_page.get_news_list().get_cards()
@@ -37,8 +38,8 @@ def test_open_specific_news_article(driver: WebDriver) -> None:
     news_details_page = NewsDetailsPage(driver)
 
     with allure.step("Verify the opened URL"):
-        news_details_page.wait_for_current_url(EXPECTED_NEWS_URL)
-        assert driver.current_url.rstrip("/") == EXPECTED_NEWS_URL
+        news_details_page.wait_for_current_url(expected_news_url)
+        assert driver.current_url.rstrip("/") == expected_news_url
 
     with allure.step("Verify news title on the opened page"):
         news_details_page.wait_for_article_title(NEWS_TITLE)
@@ -50,12 +51,11 @@ def test_open_specific_news_article(driver: WebDriver) -> None:
         width, height = news_details_page.get_banner_image_size()
         assert width > 0 and height > 0
 
-    with allure.step("Verify the publication date"):
-        assert news_details_page.get_news_publication_date_text() == EXPECTED_DATE
 
-    with allure.step("Verify the article description"):
-        description = news_details_page.get_news_description_text()
-        assert description.startswith(EXPECTED_DESCRIPTION_FIRST_PARAGRAPH)
+    assert news_details_page.get_news_publication_date_text() == EXPECTED_DATE
+
+    description = news_details_page.get_news_description_text()
+    assert description.startswith(EXPECTED_DESCRIPTION_FIRST_PARAGRAPH)
 
     with allure.step("Scroll through the article description"):
         news_details_page.scroll_to_contacts()
@@ -65,7 +65,7 @@ def test_open_specific_news_article(driver: WebDriver) -> None:
         driver.refresh()
         news_details_page.wait_for_article_title(NEWS_TITLE)
 
-        assert driver.current_url.rstrip("/") == EXPECTED_NEWS_URL
+        assert driver.current_url.rstrip("/") == expected_news_url
         assert news_details_page.get_news_major_title_text() == NEWS_TITLE
         assert news_details_page.is_banner_image_available()
         assert news_details_page.get_news_publication_date_text() == EXPECTED_DATE
