@@ -40,3 +40,8 @@ class AmountSectionComponent(BaseComponent):
     def get_selected_currency(self) -> str:
         """Get the currency currently shown (e.g. UAH)."""
         return self._find_element(self.CURRENCY_BUTTON).text.strip()
+
+    @allure.step("Get entered payment amount in WayForPay")
+    def get_amount_value(self) -> str:
+        """Get value from amount input field."""
+        return self._find_element(self.AMOUNT_INPUT).get_attribute("value") or ""

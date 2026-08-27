@@ -1,4 +1,7 @@
 """Page object for the News Details page on the Speak Ukrainian website."""
+import re
+from urllib.error import HTTPError, URLError
+from urllib.request import urlopen
 
 import allure
 from selenium.webdriver.common.by import By
@@ -180,3 +183,32 @@ class NewsDetailsPage(BasePage):
     def is_description_displayed(self) -> bool:
         """Check whether the full article content is visible."""
         return self._wait_visible(self.NEWS_DESCRIPTION).is_displayed()
+
+    @allure.step("Get main news image URL")
+    def get_banner_image_url(self) -> str:
+        """Return the URL of the banner image extracted from its CSS background-image."""
+        image = self._wait_visible(self.NEWS_BANNER_IMAGE)
+        style = image.value_of_css_property("background-image")
+
+        match = re.search(r'url\(["\']?(.*?)["\']?\)', style)
+        return match.group(1) if match else ""
+
+    @allure.step("Check if the main news image is displayed correctly")
+    def is_banner_image_available(self) -> bool:
+        """Verify the main banner image is visible and its background URL loads successfully."""
+        image_url = self.get_banner_image_url()
+        if not image_url:
+            return False
+
+        try:
+            with urlopen(image_url, timeout=10) as response:
+                return response.status == 200 and len(response.read()) > 0
+        except (URLError, HTTPError):
+            return False
+
+    @allure.step("Get main news image container dimensions")
+    def get_banner_image_size(self) -> tuple[int, int]:
+        """Return the rendered (width, height) of the image container in pixels."""
+        image = self._wait_visible(self.NEWS_BANNER_IMAGE)
+        size = image.size
+        return size["width"], size["height"]
