@@ -21,7 +21,7 @@ class UserClient(BaseClient):
             method="GET",
             endpoint="/users",
             timeout=30,
-        )               
+        )
 
     def get_user(self, user_id: int) -> requests.Response:
         """Perform a request to get a specific user by ID from the API.
@@ -36,4 +36,4 @@ class UserClient(BaseClient):
             method="GET",
             endpoint=f"/user/{user_id}",
             timeout=30,
-        )               
+        )
