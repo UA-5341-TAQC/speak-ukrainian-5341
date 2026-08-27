@@ -36,5 +36,5 @@ def generate_child() -> ChildData:
     return ChildData(
         first_name=f"{random.choice(FIRST_NAMES)}{uuid.uuid4().hex[:4]}",
         last_name=f"{random.choice(LAST_NAMES)}{uuid.uuid4().hex[:4]}",
-        age=random.randint(5, 16),
+        age=random.randint(2, 18),
     )
