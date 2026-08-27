@@ -9,9 +9,9 @@ LOGIN_SUCCESS_RESPONSE_SCHEMA = {
     "properties": {
         "id": {"type": "integer"},
         "email": {"type": "string"},
-        "roleName": {"type": "string"},
-        "accessToken": {"type": "string"},
-        "refreshToken": {"type": "string"},
+        "roleName": {"type": "string", "minLength": 1,},
+        "accessToken": {"type": "string", "minLength": 1,},
+        "refreshToken": {"type": "string", "minLength": 1,},
     },
     "required": [
         "id",
@@ -54,10 +54,6 @@ def test_successful_login():
         validate(instance=data, schema=LOGIN_SUCCESS_RESPONSE_SCHEMA)
 
         assert data["email"] == Config.DEV_USER_EMAIL
-        assert data["roleName"] 
-        assert data["accessToken"]
-        assert data["refreshToken"]
-
 
 @allure.feature("API")
 @allure.story("Login")
