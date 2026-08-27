@@ -28,4 +28,4 @@ class LoginClient(BaseClient):
             endpoint="/signin",
             json=payload,
             timeout=30,
-        )              
+        )
