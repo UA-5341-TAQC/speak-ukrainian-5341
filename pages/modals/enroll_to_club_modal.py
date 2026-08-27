@@ -38,7 +38,7 @@ class EnrollToClubModal(BaseModal):
 
     def wait_for_visible(self) -> "EnrollToClubModal":
             """Wait until the modal dialog becomes visible.
-    
+
             Returns:
                 The modal instance for chaining.
             """
@@ -79,14 +79,15 @@ class EnrollToClubModal(BaseModal):
     @allure.step("Verify that the child '{child_info}' is displayed")
     def is_child_displayed(self, child_info: str) -> bool:
         """Check whether a child is displayed in the enrollment modal."""
-
         locator = self._get_child_checkbox_locator(child_info)
 
-        try:
+        elements = self._find_elements(locator)
+
+        if elements:
             self._scroll_into_view(locator)
             return True
-        except:
-            return False
+
+        return False
 
     def click_add_child(self) -> None:
         """Click the "Додати дитину" button."""
@@ -95,7 +96,6 @@ class EnrollToClubModal(BaseModal):
     @allure.step("Verify child added success message is displayed")
     def is_child_added_message_displayed(self) -> bool:
         """Check whether the child added success message is displayed."""
-
         return bool(self._wait_visible(self.CHILD_ADDED_MESSAGE))
 
     def enter_comment(self, text: str) -> None:

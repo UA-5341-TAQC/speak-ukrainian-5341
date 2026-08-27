@@ -258,7 +258,7 @@ class ContactsStep(AddClubModal):
         return self
 
     @allure.step("Fill Step 2 — Контакти")
-    def (
+    def fill(
         self,
         phone: str | None = None,
         facebook: str | None = None,
