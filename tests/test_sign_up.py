@@ -279,6 +279,46 @@ def test_registration_inv_num_55(driver: WebDriver, phone: str, expected_message
         assert sign_up_mod.is_successfull_icon_visible_password() == True
         assert sign_up_mod.is_successfull_icon_visible_password_confirm() == True
 
+
+@allure.title("TC-56 Registration — password mismatch — Реєстрація modal (confirm ≠ password).")
+def test_registration_password_missmatch_56(driver: WebDriver) -> None:
+    homepage = HomePage(driver)
+   
+    with allure.step("1.Click the user icon in the site header."):
+        user_profile = homepage.header.click_user_profile()
+        assert  user_profile.is_visible() == True
+
+    with allure.step("2.Click 'Зареєструватися' in the dropdown."):
+        sign_up_mod = user_profile.click_register()
+        assert sign_up_mod.is_displayed() ==True
+
+    with allure.step("3.Observe the role selection."):
+        assert sign_up_mod.is_visitor_role_selected() == True
+
+    with allure.step("4.Fill all fields with valid data."):
+        sign_up_mod.enter_last_name("Іванов")
+        sign_up_mod.enter_first_name("Петро")
+        sign_up_mod.enter_phone("0123456789")
+        sign_up_mod.enter_email("petro.visitor.qa@example.com")
+        sign_up_mod.enter_password("TestPass123!")
+
+        assert sign_up_mod.is_successfull_icon_visible_first_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_last_name() == True
+        assert sign_up_mod.is_successfull_icon_visible_phone() == True
+        assert sign_up_mod.is_successfull_icon_visible_email() == True
+        assert sign_up_mod.is_successfull_icon_visible_password() ==True
+
+    with allure.step("5. Set 'Підтвердження паролю' to a value different from 'Пароль', then submit"):
+        sign_up_mod.enter_confirm_password("OtherPass123!")
+        sign_up_mod.wait_for_error_message("Значення поля ‘Підтвердити пароль’ має бути еквівалентним значенню поля ‘Пароль’")
+
+        assert sign_up_mod.is_error_icon_visible_password_confirm() == True
+
+        errors = sign_up_mod.get_error_messages()
+        assert "Значення поля ‘Підтвердити пароль’ має бути еквівалентним значенню поля ‘Пароль’" in errors, (
+            f"Expected error message was not found. " f"Actual errors: {errors}"
+        )
+
 @allure.title("TC-57 Registration — duplicate email (already-registered email)")
 @allure.tag("registration", "validation", "required-fields")
 def test_tc57_register_existing_email(driver: WebDriver) -> None:
