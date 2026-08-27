@@ -19,7 +19,7 @@ class TestPaymentPageUI:
         """Verify title, amount, currency, express pay buttons, card form fields and submit button."""
         driver.get(PAYMENT_PAGE_URL)
         page = WayForPayPage(driver)
-        header = page.header
+        header = page.wayforpay_header
         amount_section = page.amount_section
         card_tab = page.card_tab
 

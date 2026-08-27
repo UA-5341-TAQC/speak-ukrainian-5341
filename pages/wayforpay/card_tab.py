@@ -1,7 +1,9 @@
 """Credit card payment tab component for WayForPay page."""
+import time
 
 import allure
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 
 from pages.base_page import BasePage
 from pages.types import Locator
@@ -18,14 +20,26 @@ class CardTab(BasePage):
     EMAIL_INPUT: Locator = (By.CSS_SELECTOR, "#cardpay-clientemail")
     SUBMIT_BUTTON: Locator = (By.CSS_SELECTOR, "#cardpay-submit")
 
+    def _type_slowly(self, element: WebElement, text: str, delay: float = 0.05) -> None:
+        """Type text one character at a time, pausing between keystrokes."""
+        for char in text:
+            element.send_keys(char)
+            time.sleep(delay)
+
     @allure.step("Fill complete payment form in WayForPay")
     def fill_complete_form(
         self, number: str, validity: str, cvv: str, holder: str, phone: str, email: str
     ) -> "CardTab":
         """Fill all card and payer contact details in the form."""
+        card_number_field = self._find_element(self.CARD_NUMBER_INPUT)
+        self.clear(card_number_field)
+        self._type_slowly(card_number_field, number)
+
+        validity_field = self._find_element(self.VALIDITY_INPUT)
+        self.clear(validity_field)
+        self._type_slowly(validity_field, validity)
+
         fields = [
-            (self.CARD_NUMBER_INPUT, number),
-            (self.VALIDITY_INPUT, validity),
             (self.CVV_INPUT, cvv),
             (self.CARDHOLDER_INPUT, holder),
             (self.PHONE_INPUT, phone),

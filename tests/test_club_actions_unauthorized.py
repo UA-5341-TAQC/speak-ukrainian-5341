@@ -7,13 +7,10 @@ from data.config import Config
 from pages.clubs_page import ClubPage
 from pages.club_details_page import ClubDetailsPage
 from pages.components.header.header_component import HeaderComponent
+from pages.home_page import HomePage
 
 
 @allure.title("TC-15: Verify unauthorized user cannot use restricted club actions")
-@allure.description(
-    "Test verifies that 'Записатися на гурток', 'Написати менеджеру', "
-    "'Залишити коментар', and 'Відповісти' are unavailable for unauthenticated users."
-)
 @allure.tag("clubs", "ui", "button", "unauthenticated")
 def test_tc15_unauthorized_user_cannot_use_club_actions(driver: WebDriver) -> None:
     """Verify that the buttons functionalities are unavailable for unauthenticated users"""
@@ -21,11 +18,8 @@ def test_tc15_unauthorized_user_cannot_use_club_actions(driver: WebDriver) -> No
         driver.get(Config.BASE_UI_URL)
 
     with allure.step("Step 2: Click 'Гуртки' in navigation"):
-        header = HeaderComponent(
-            driver.find_element(By.TAG_NAME, "header")
-        )
-        
-        header.click_clubs()
+        home_page = HomePage(driver)
+        home_page.header.click_clubs()
 
     with allure.step("Step 3: Select first club and click 'Детальніше'"):
         club_page = ClubPage(driver)

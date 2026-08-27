@@ -20,7 +20,7 @@ class SignInModal(BaseModal):
     """
 
     # --- LOCATORS ---
-    MODAL_CONTENT: Locator = (By.CSS_SELECTOR, "div.ant-modal-content")
+    MODAL_CONTENT: Locator = (By.CSS_SELECTOR, "div.ant-modal.modal-login div.ant-modal-content")
     CLOSE_BUTTON: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
     MODAL_TITLE: Locator = (
         By.CSS_SELECTOR,

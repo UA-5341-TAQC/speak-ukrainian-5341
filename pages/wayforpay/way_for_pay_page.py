@@ -28,13 +28,13 @@ class WayForPayPage(BasePage):
 
     APPLE_PAY_BUTTON: Locator = (By.CSS_SELECTOR, "#apple-pay")
     GPAY_BUTTON: Locator = (By.CSS_SELECTOR, "#gpay-button-online-api-id")
-    HEADER_ROOT: Locator = (By.CSS_SELECTOR, ".block-info")
+    WAY_FOR_PAY_HEADER_ROOT: Locator = (By.CSS_SELECTOR, ".block-info")
     AMOUNT_ROOT: Locator = (By.CSS_SELECTOR, "div.price.form-group.validation-wrapper")
 
     @property
-    def header(self) -> WayForPayHeaderComponent:
+    def wayforpay_header(self) -> WayForPayHeaderComponent:
         """Get WayForPayHeaderComponent instance."""
-        root = self._find_element(self.HEADER_ROOT)
+        root = self._find_element(self.WAY_FOR_PAY_HEADER_ROOT)
         return WayForPayHeaderComponent(root)
 
     @property
