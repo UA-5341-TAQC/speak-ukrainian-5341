@@ -1,8 +1,38 @@
 import allure
+from jsonschema import validate
 
 from api.login_client import LoginClient
 from data.config import Config
 
+LOGIN_SUCCESS_RESPONSE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "id": {"type": "integer"},
+        "email": {"type": "string"},
+        "roleName": {"type": "string"},
+        "accessToken": {"type": "string"},
+        "refreshToken": {"type": "string"},
+    },
+    "required": [
+        "id",
+        "email",
+        "roleName",
+        "accessToken",
+        "refreshToken",
+    ],
+}
+
+LOGIN_ERROR_RESPONSE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "status": {"type": "integer"},
+        "message": {"type": "string"},
+    },
+    "required": [
+        "status",
+        "message",
+    ],
+}
 
 @allure.feature("API")
 @allure.story("Login")
@@ -21,6 +51,7 @@ def test_successful_login():
         assert response.status_code == 200
 
         data = response.json()
+        validate(instance=data, schema=LOGIN_SUCCESS_RESPONSE_SCHEMA)
 
         assert data["email"] == Config.DEV_USER_EMAIL
         assert data["roleName"] == "ROLE_USER"
@@ -45,6 +76,7 @@ def test_login_with_wrong_password():
         assert response.status_code == 401
 
         data = response.json()
+        validate(instance=data, schema=LOGIN_ERROR_RESPONSE_SCHEMA)
 
         assert data["status"] == 401
         assert data["message"] == "Wrong password"
