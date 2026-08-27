@@ -1,5 +1,5 @@
 """Module containing the API client for managing challenges."""
-
+import json
 from pathlib import Path
 from typing import Any
 
@@ -36,6 +36,16 @@ class ChallengeClient:
                 "application/json",
             ),
         }
+
+        if not image_file_path:
+            try:
+                parsed_json = json.loads(json_content)
+                picture_path = parsed_json.get("picture")
+                if picture_path:
+
+                    image_file_path = picture_path.lstrip("/")
+            except Exception:
+                pass
 
         if image_file_path:
             image_path = Path(image_file_path)
@@ -75,11 +85,11 @@ class ChallengeClient:
         """Get challenge details by its ID."""
         return self.session.get(self._get_challenge_url(challenge_id))
 
-    @allure.step("Create challenge with JSON and image")
-    def create_challenge(self, json_file_path: str, image_file_path: str | None = None,
-                         ) -> requests.Response:
+    @allure.step("Create challenge")
+    def create_challenge(self, json_file_path: str,
+                         image_file_path: str | None = None) -> requests.Response:
         """Create a new challenge."""
-        files = self._prepare_challenge_files(json_file_path, image_file_path,)
+        files = self._prepare_challenge_files(json_file_path, image_file_path)
         return self.session.post(self.challenge_url, files=files)
 
     @allure.step("Update challenge (PUT) ID: {challenge_id}")
