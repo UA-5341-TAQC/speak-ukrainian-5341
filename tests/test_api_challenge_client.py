@@ -1,11 +1,10 @@
 """Comprehensive integration test suite for Challenge API endpoints."""
+from typing import Any
 
 import allure
 import pytest
 
 from api.challenge_client import ChallengeClient
-from utils.signin_api import sign_in_via_api
-from data.config import Config
 
 
 @allure.feature("Challenge API - Lifecycle & CRUD")
@@ -14,14 +13,9 @@ class TestChallengeApi:
     create_payload_path = "data/assets/challenge_create_payload.json"
 
     @pytest.fixture(autouse=True)
-    def setup(self) -> None:
-        """Precondition: Initialize client and authenticate using Config credentials."""
-        self.challenge_client = ChallengeClient()
-
-        auth_data = sign_in_via_api(Config.MANAGER_EMAIL, Config.MANAGER_PASSWORD)
-        self.challenge_client.session.headers.update({
-            "Authorization": f"Bearer {auth_data.access_token}"
-        })
+    def setup(self, authorized_client: Any) -> None:
+        """Initialize authorized Challenge API client."""
+        self.challenge_client = authorized_client(ChallengeClient, role="manager")
 
     @pytest.mark.parametrize(
         "active_status, expected_status",
