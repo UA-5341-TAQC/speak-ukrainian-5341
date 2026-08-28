@@ -1,10 +1,13 @@
 """API-related fixtures for tests."""
 
 from collections.abc import Callable
+from typing import Any
 
 import pytest
+from _pytest.fixtures import SubRequest
 
 from api.base_client import BaseClient
+from api.categories_client import CategoriesClient
 from api.complaint_client import ComplaintClient
 from api.news_client import NewsClient
 from data.config import Config
@@ -18,6 +21,7 @@ def temp_mail() -> TempMailAPIClient:
     return TempMailAPIClient()
 
 
+<<<<<<< HEAD
 @pytest.fixture(scope="session")
 def news_api() -> NewsClient:
     """Provide an unauthenticated client for the public news endpoints."""
@@ -95,6 +99,8 @@ def complaint_api_user() -> tuple[ComplaintClient, str]:
     return client, session.user_id
 
 
+=======
+>>>>>>> 6366b831 (feat(api): implement Categories API client, RBAC tests, and allure reporting)
 @pytest.fixture
 def authorized_client() -> Callable[..., BaseClient]:
     """Fixture factory to instantiate and authenticate any API client."""
@@ -123,3 +129,34 @@ def authorized_client() -> Callable[..., BaseClient]:
         return client
 
     return _factory
+
+
+@pytest.fixture
+def categories_api() -> CategoriesClient:
+    """Provides a client for the Category API endpoints."""
+    return CategoriesClient(base_url=Config.BASE_API_URL)
+
+
+@pytest.fixture
+def rbac_client(request: SubRequest) -> Any:
+    """Universal factory fixture for initializing any API client with authentication.
+
+    Designed for Role-Based Access Control (RBAC) testing using indirect parametrization.
+
+    Requires `request.param` to provide a tuple of exactly three elements:
+    1. client_class (Type[BaseClient]): The specific API client class to instantiate.
+    2. role (str): The role name ('user' or 'manager') to authenticate as.
+
+    Returns:
+        An instance of the provided `client_class` authenticated with the corresponding token.
+    """
+    client_class, role = request.param
+    if role == "user":
+        email, password = Config.USER_EMAIL, Config.USER_PASSWORD
+    elif role == "manager":
+        email, password = Config.MANAGER_EMAIL, Config.MANAGER_PASSWORD
+    else:
+        raise ValueError(f"Unknown role: {role}")
+
+    session = sign_in_via_api(email, password)
+    return client_class(base_url=Config.BASE_API_URL, access_token=session.access_token)
