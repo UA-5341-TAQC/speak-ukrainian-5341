@@ -1,11 +1,11 @@
 """API tests for the Category endpoints."""
 
+from typing import Any, cast
+
 import allure
 import pytest
-from typing import Any
 
 from api.categories_client import CategoriesClient
-from data.config import Config
 
 
 @pytest.fixture
@@ -13,7 +13,6 @@ def existing_category(categories_api: CategoriesClient) -> dict[str, Any]:
     """Fixture that fetches and returns a real category dictionary from the database."""
     categories = categories_api.get_categories().json()
     assert len(categories) > 0, "No categories available to test"
-    from typing import cast
     return cast(dict[str, Any], categories[0])
 
 
@@ -32,6 +31,7 @@ FORBIDDEN_ROLES = [
     pytest.param((CategoriesClient, "user"), "User", id="role_user"),
     pytest.param((CategoriesClient, "manager"), "Manager", id="role_manager"),
 ]
+
 
 @allure.epic("Categories API")
 @allure.feature("Read Categories")
@@ -96,6 +96,7 @@ class TestCategoriesRead:
             ), "Returned ID does not match requested ID"
             assert category["name"] == expected_name, "Category name mismatch"
 
+
 @allure.epic("Categories API")
 @allure.feature("Security & RBAC")
 class TestCategoriesSecurity:
@@ -127,8 +128,8 @@ class TestCategoriesSecurity:
     ) -> None:
         """Verify that guests cannot update categories."""
         response = categories_api.update_category(
-                existing_category["id"], payload=DUMMY_CATEGORY_PAYLOAD
-            )
+            existing_category["id"], payload=DUMMY_CATEGORY_PAYLOAD
+        )
 
         with allure.step("Verify PUT response is 401 Unauthorized"):
             assert (
@@ -153,10 +154,16 @@ class TestCategoriesSecurity:
                 response.status_code == 401
             ), f"Expected 401, got {response.status_code}"
 
-    @allure.title("Category-API-07: POST /category returns 403 Forbidden for {role_name}")
+    @allure.title(
+        "Category-API-07: POST /category returns 403 Forbidden for {role_name}"
+    )
     @allure.tag("api", "security", "category")
-    @pytest.mark.parametrize("rbac_client, role_name", FORBIDDEN_ROLES, indirect=["rbac_client"])
-    def test_create_category_forbidden_roles(self, rbac_client: CategoriesClient, role_name: str) -> None:
+    @pytest.mark.parametrize(
+        "rbac_client, role_name", FORBIDDEN_ROLES, indirect=["rbac_client"]
+    )
+    def test_create_category_forbidden_roles(
+        self, rbac_client: CategoriesClient, role_name: str
+    ) -> None:
         """Verify Role-Based Access Control: Users and Managers get 403 Forbidden."""
         response = rbac_client.create_category(payload=DUMMY_CATEGORY_PAYLOAD)
 
@@ -165,24 +172,42 @@ class TestCategoriesSecurity:
                 response.status_code == 403
             ), f"Expected 403, got {response.status_code}"
 
-    @allure.title("Category-API-08: PUT /category/{{id}} returns 403 Forbidden for {role_name}")
+    @allure.title(
+        "Category-API-08: PUT /category/{{id}} returns 403 Forbidden for {role_name}"
+    )
     @allure.tag("api", "security", "category")
-    @pytest.mark.parametrize("rbac_client, role_name", FORBIDDEN_ROLES, indirect=["rbac_client"])
-    def test_update_category_forbidden_roles(self, rbac_client: CategoriesClient, role_name: str, existing_category: dict[str, Any]) -> None:
+    @pytest.mark.parametrize(
+        "rbac_client, role_name", FORBIDDEN_ROLES, indirect=["rbac_client"]
+    )
+    def test_update_category_forbidden_roles(
+        self,
+        rbac_client: CategoriesClient,
+        role_name: str,
+        existing_category: dict[str, Any],
+    ) -> None:
         """Verify Role-Based Access Control: Users and Managers cannot update categories."""
         response = rbac_client.update_category(
-                existing_category["id"], payload=DUMMY_CATEGORY_PAYLOAD
-            )
+            existing_category["id"], payload=DUMMY_CATEGORY_PAYLOAD
+        )
 
         with allure.step("Verify response is 403 Forbidden"):
             assert (
                 response.status_code == 403
             ), f"Expected 403, got {response.status_code}"
 
-    @allure.title("Category-API-09: DELETE /category/{{id}} returns 403 Forbidden for {role_name}")
+    @allure.title(
+        "Category-API-09: DELETE /category/{{id}} returns 403 Forbidden for {role_name}"
+    )
     @allure.tag("api", "security", "category")
-    @pytest.mark.parametrize("rbac_client, role_name", FORBIDDEN_ROLES, indirect=["rbac_client"])
-    def test_delete_category_forbidden_roles(self, rbac_client: CategoriesClient, role_name: str, existing_category: dict[str, Any]) -> None:
+    @pytest.mark.parametrize(
+        "rbac_client, role_name", FORBIDDEN_ROLES, indirect=["rbac_client"]
+    )
+    def test_delete_category_forbidden_roles(
+        self,
+        rbac_client: CategoriesClient,
+        role_name: str,
+        existing_category: dict[str, Any],
+    ) -> None:
         """Verify Role-Based Access Control: Users and Managers cannot delete categories."""
         response = rbac_client.delete_category(existing_category["id"])
 
