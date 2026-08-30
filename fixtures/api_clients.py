@@ -2,6 +2,7 @@
 
 import pytest
 
+from api.complaint_client import ComplaintClient
 from api.news_client import NewsClient
 from data.config import Config
 from utils.email_api import TempMailAPIClient
@@ -14,13 +15,13 @@ def temp_mail() -> TempMailAPIClient:
     return TempMailAPIClient()
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def news_api() -> NewsClient:
     """Provide an unauthenticated client for the public news endpoints."""
     return NewsClient(base_url=Config.BASE_API_URL)
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def news_api_user() -> NewsClient:
     """Provide a news client authenticated with the regular-user token.
 
@@ -35,7 +36,7 @@ def news_api_user() -> NewsClient:
     )
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def news_api_manager() -> NewsClient:
     """Provide a news client authenticated with the manager token.
 
@@ -48,3 +49,44 @@ def news_api_manager() -> NewsClient:
         base_url=Config.BASE_API_URL,
         access_token=session.access_token,
     )
+
+
+@pytest.fixture(scope="session")
+def complaint_api() -> ComplaintClient:
+    """Provide an unauthenticated client for the public complaint endpoints.
+
+    The complaint list, list-by-club, list-by-recipient, list-by-sender and
+    get-by-id endpoints are publicly accessible without a token, so this
+    fixture is enough to exercise every read path. The write/maintenance
+    operations (``POST``, ``PUT /{id}``, ``PUT /{id}/answer``,
+    ``PUT /isActive/{id}``, ``DELETE /{id}``) are exercised in dedicated
+    tests through this unauthenticated client to confirm the backend rejects
+    anonymous callers, and through ``complaint_api_user`` to confirm the
+    authenticated behaviour.
+    """
+    return ComplaintClient(base_url=Config.BASE_API_URL)
+
+
+@pytest.fixture(scope="session")
+def complaint_api_user() -> tuple[ComplaintClient, str]:
+    """Provide a user-authenticated client together with the sender's user id.
+
+    Authenticates through the sign-in API using the ``USER_*`` credentials
+    and returns ``(client, user_id)``. The backend's ``POST /complaint``
+    requires the body's ``userId`` to match the authenticated user; this
+    fixture exposes both pieces so tests building a POST body can use the
+    right id without re-running the sign-in dance.
+
+    The probe shows that USER and MANAGER have the same write permissions
+    on this deployment, so a single user-role fixture covers the full
+    authenticated-write matrix. ``POST /complaint``, ``PUT /{id}/answer``,
+    ``PUT /isActive/{id}`` and ``DELETE /{id}`` succeed with this token;
+    ``PUT /{id}`` currently returns 400 from the backend regardless of role
+    (a known bug pinned by the test suite).
+    """
+    session = sign_in_via_api(Config.USER_EMAIL, Config.USER_PASSWORD)
+    client = ComplaintClient(
+        base_url=Config.BASE_API_URL,
+        access_token=session.access_token,
+    )
+    return client, session.user_id

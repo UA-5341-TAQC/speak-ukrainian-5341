@@ -21,6 +21,6 @@
       ]
     },
     "isActive": {"type": "boolean"},
-    "user": {"$ref": "user_preview.json"}
+    "user": {"$ref": "news/user_preview.json"}
   }
 }
