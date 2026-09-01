@@ -29,7 +29,9 @@ def test_get_user_applications_with_existing_application(user_client: ChallengeR
     assert isinstance(applications, list)
     assert applications
 
-    application = next(app for app in applications if app["challenge"]["id"] == REGISTERED_CHALLENGE_ID_FOR_USER)
+    application: dict | None = next((app for app in applications if app["challenge"]["id"] == REGISTERED_CHALLENGE_ID_FOR_USER), None)
+    assert application is not None, f"Application for challenge ID {REGISTERED_CHALLENGE_ID_FOR_USER} was not found"
+
     assert application["user"]["id"] == user_id
     assert application["active"] is True
     assert application["approved"] is False
@@ -45,7 +47,9 @@ def test_get_user_children(user_client: ChallengeRegistrationClient, user_id: in
     assert isinstance(children, list)
     assert children
 
-    expected_child = next(child for child in children if child["id"] == EXPECTED_CHILD_ID)
+    expected_child: dict | None = next((child for child in children if child["id"] == EXPECTED_CHILD_ID), None)
+    assert expected_child is not None, f"Child with ID {EXPECTED_CHILD_ID} was not found"
+
     assert expected_child["firstName"] == "AAA"
     assert expected_child["lastName"] == "SSS"
     assert expected_child["age"] == 12
