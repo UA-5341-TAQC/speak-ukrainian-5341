@@ -39,7 +39,7 @@ class HomePage(BasePage):
     )
     SPEAKING_CLUB_LINK: Locator = (
         By.CSS_SELECTOR,
-        "a[href='/speakingclub']",
+        "a[href*='/speakingclub']",
     )
     BANNER_IMAGE: Locator = (
         By.CSS_SELECTOR,
@@ -172,7 +172,8 @@ class HomePage(BasePage):
     @allure.step("Get content card by title: {title}")
     def get_content_card_by_title(self, title: str) -> HomeContentCard:
         """Return content card with the specified title."""
-        for card in self.get_content_cards():
+        cards: list[HomeContentCard] = self.get_content_cards()
+        for card in cards:
             if card.get_title().strip() == title:
                 return card
 

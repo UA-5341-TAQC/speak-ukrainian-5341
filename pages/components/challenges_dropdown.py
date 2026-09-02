@@ -43,16 +43,12 @@ class ChallengeDropdown(BaseComponent):
     @allure.step("Click 'Клуб української мови Розмовляй'")
     def click_speaking_club_challenge(self) -> None:
         """Open the 'Розмовляй' challenge."""
-        self._wait_clickable_from_driver(
-            self.SPEAKING_CLUB_CHALLENGE_LINK
-        ).click()
+        self._wait_clickable_from_driver(self.SPEAKING_CLUB_CHALLENGE_LINK).click()
 
     @allure.step("Click 'Навчай українською челендж'")
     def click_teach_ukrainian_challenge(self) -> None:
         """Open the 'Навчай українською челендж'."""
-        self._wait_clickable_from_driver(
-            self.TEACH_UKRAINIAN_CHALLENGE_LINK
-        ).click()
+        self._wait_clickable_from_driver(self.TEACH_UKRAINIAN_CHALLENGE_LINK).click()
 
     @allure.step("Click 'Мовомаратон'")
     def click_language_marathon(self) -> None:
@@ -68,19 +64,13 @@ class ChallengeDropdown(BaseComponent):
         """Select a challenge by its name."""
         challenge_actions = {
             "Єдині": self.click_unique_challenge,
-            "Клуб української мови Розмовляй":
-                self.click_speaking_club_challenge,
-            "Навчай українською челендж":
-                self.click_teach_ukrainian_challenge,
-            "Мовомаратон":
-                self.click_language_marathon,
-            "Навчай українською":
-                self.click_teach_ukrainian,
+            "Клуб української мови Розмовляй": self.click_speaking_club_challenge,
+            "Навчай українською челендж": self.click_teach_ukrainian_challenge,
+            "Мовомаратон": self.click_language_marathon,
+            "Навчай українською": self.click_teach_ukrainian,
         }
 
         if challenge not in challenge_actions:
-            raise ValueError(
-                f"Unknown challenge: {challenge}"
-            )
+            raise ValueError(f"Unknown challenge: {challenge}")
 
         challenge_actions[challenge]()
