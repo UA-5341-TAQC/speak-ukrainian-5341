@@ -1,3 +1,5 @@
+"""Tests for Archive API."""
+
 import allure
 from jsonschema import validate
 
@@ -8,8 +10,10 @@ from api.schemas.archive_schema import ARCHIVE_SCHEMA
 @allure.feature("API")
 @allure.story("Archive")
 @allure.title("Successful retrieval of all archives")
-def test_get_archives(archive_client: ArchiveClient):
+def test_get_archives(authorized_client) -> None:
     """Verify successful retrieval of all archives."""
+    archive_client = authorized_client(ArchiveClient, role="admin")
+
     with allure.step("Get all archives"):
         response = archive_client.get_archives()
 
@@ -26,17 +30,23 @@ def test_get_archives(archive_client: ArchiveClient):
 @allure.feature("API")
 @allure.story("Archive")
 @allure.title("Successful retrieval of archives by class name")
-def test_get_archives_by_class_name(
-    archive_client: ArchiveClient,
-):
+def test_get_archives_by_class_name(authorized_client) -> None:
     """Verify successful retrieval of archives by class name."""
+    archive_client = authorized_client(
+        ArchiveClient,
+        role="admin",
+    )
+
     with allure.step("Get all archives"):
         response = archive_client.get_archives()
 
-    assert response.status_code == 200
+    with allure.step("Verify successful response"):
+        assert response.status_code == 200
 
     archives = response.json()
-    assert archives, "Archive list is empty."
+
+    with allure.step("Verify archive list is not empty"):
+        assert archives, "Archive list is empty."
 
     class_name = archives[0]["className"]
 
