@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "club_preview.json",
+  "title": "ClubPreview",
+  "description": "Subset of `ClubResponse` embedded in a complaint. The OpenAPI declares the full `ClubResponse` shape; the smoke tests only exercise `id` and `name`, but the response may include the entire club object — `additionalProperties: true` keeps the contract permissive.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "id": {"type": "integer"},
+    "name": {"type": ["string", "null"]}
+  }
+}

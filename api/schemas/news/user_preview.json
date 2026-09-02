@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "news/user_preview.json",
+  "title": "UserPreview",
+  "description": "A short preview of the user who authored a news article. Matches the OpenAPI component schema `UserPreview`. All non-id fields are nullable because the live backend emits `null` for empty values.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "id": {"type": "integer"},
+    "firstName": {"type": ["string", "null"]},
+    "lastName": {"type": ["string", "null"]},
+    "urlLogo": {"type": ["string", "null"]}
+  }
+}

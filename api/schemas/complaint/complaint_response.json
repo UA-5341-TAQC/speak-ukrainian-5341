@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "complaint_response.json",
+  "title": "ComplaintResponse",
+  "description": "A single complaint as returned by the Speak Ukrainian Complaint API. The `date` field is serialized by the API as a `[year, month, day]` integer array (the OpenAPI docs describe it as a `date` string, but the live backend emits an array — see news_response.json for the same pattern). Every nullable field uses `[\"string\", \"null\"]` because the live backend emits `null` for unset values (for example `answerText` is null until someone answers, `urlLogo` is null for users without an avatar). `additionalProperties: true` keeps the contract permissive for nested `user` / `club` / `recipient` objects, which carry more fields than the strict OpenAPI shapes declare.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "id": {"type": "integer"},
+    "text": {"type": ["string", "null"]},
+    "date": {
+      "oneOf": [
+        {"type": "string"},
+        {"type": "array", "items": {"type": "integer"}, "minItems": 3},
+        {"type": "null"}
+      ]
+    },
+    "user": {"$ref": "complaint/user_preview.json"},
+    "club": {"$ref": "club_preview.json"},
+    "recipient": {"$ref": "complaint/user_preview.json"},
+    "isActive": {"type": ["boolean", "null"]},
+    "hasAnswer": {"type": ["boolean", "null"]},
+    "answerText": {"type": ["string", "null"]}
+  }
+}
