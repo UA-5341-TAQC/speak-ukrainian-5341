@@ -4,9 +4,9 @@ from collections.abc import Callable
 
 import pytest
 
-from api.login_client import LoginClient
 from api.base_client import BaseClient
 from api.complaint_client import ComplaintClient
+from api.login_client import LoginClient
 from api.news_client import NewsClient
 from data.config import Config
 from utils.email_api import TempMailAPIClient
