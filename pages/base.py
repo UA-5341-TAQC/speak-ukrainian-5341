@@ -1,6 +1,7 @@
 """Base class for all pages and components."""
 
 import platform
+import time
 from typing import Literal
 from urllib.parse import urlparse
 
@@ -177,3 +178,10 @@ class Base:
     def get_wait(self, timeout: int = 5) -> WebDriverWait[WebDriver]:
         """Get a WebDriverWait instance with the specified timeout."""
         return WebDriverWait(self.driver, timeout)
+
+    @staticmethod
+    def _type_slowly(element: WebElement, text: str, delay: float = 0.05) -> None:
+        """Type text one character at a time, pausing between keystrokes."""
+        for char in text:
+            element.send_keys(char)
+            time.sleep(delay)

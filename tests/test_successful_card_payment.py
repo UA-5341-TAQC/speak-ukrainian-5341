@@ -33,30 +33,20 @@ def test_successful_card_payment_form_filling(driver: WebDriver) -> None:
         page.amount_section.select_currency(CURRENCY)
         assert page.amount_section.get_selected_currency() == CURRENCY
 
-    with allure.step("Fill in card and payer details"):
-        card_tab.fill_complete_form(
-            number=CARD_NUMBER,
-            validity=VALIDITY,
-            cvv=CVV,
-            holder=CARDHOLDER,
-            phone=PHONE,
-            email=EMAIL,
-        )
+    card_tab.fill_complete_form(
+        number=CARD_NUMBER,
+        validity=VALIDITY,
+        cvv=CVV,
+        holder=CARDHOLDER,
+        phone=PHONE,
+        email=EMAIL,
+    )
 
-    with allure.step("Verify card number is formatted with spaces"):
-        assert card_tab.get_card_number_value() == "5555 5555 5555 4444"
-
-    with allure.step("Verify expiry date is accepted in MM/YY format"):
-        assert card_tab.get_validity_value() == VALIDITY
-
-    with allure.step("Verify cardholder name is accepted correctly"):
-        assert card_tab.get_cardholder_value() == CARDHOLDER
-
-    with allure.step("Verify phone number is fully entered"):
-        assert card_tab.get_phone_value() == PHONE
-
-    with allure.step("Verify email address is accepted in correct format"):
-        assert card_tab.get_email_value() == EMAIL
+    assert card_tab.get_card_number_value() == "5555 5555 5555 4444"
+    assert card_tab.get_validity_value() == VALIDITY
+    assert card_tab.get_cardholder_value() == CARDHOLDER
+    assert card_tab.get_phone_value() == PHONE
+    assert card_tab.get_email_value() == EMAIL
 
     with allure.step("Verify the state of the 'Оплатити' submit button after all fields are filled"):
         assert card_tab.is_submit_button_displayed()
