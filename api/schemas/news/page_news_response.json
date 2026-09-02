@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "page_news_response.json",
+  "title": "PageNewsResponse",
+  "description": "Paginated search result returned by GET /api/newslist/search. Matches the OpenAPI component schema `PageNewsResponse`.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "totalElements": {"type": "integer"},
+    "totalPages": {"type": "integer"},
+    "first": {"type": "boolean"},
+    "size": {"type": "integer"},
+    "content": {"type": "array", "items": {"$ref": "news_response.json"}},
+    "number": {"type": "integer"},
+    "sort": {"$ref": "sort_object.json"},
+    "last": {"type": "boolean"},
+    "numberOfElements": {"type": "integer"},
+    "pageable": {"$ref": "pageable_object.json"},
+    "empty": {"type": "boolean"}
+  }
+}

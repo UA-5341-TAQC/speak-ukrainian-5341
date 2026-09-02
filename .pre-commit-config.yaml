@@ -15,5 +15,6 @@ repos:
         additional_dependencies: [
                   "types-requests",
                   "selenium",
-                  "allure-python-commons==2.16.0"
+                  "allure-python-commons==2.16.0",
+                  "pydantic==2.13.4"
                 ]
