@@ -1,16 +1,13 @@
-import pytest
-
-from api.archive_client import ArchiveClient
 """API-related fixtures for tests."""
 
-from collections.abc import Callable
+import collections.abc
 
 import pytest
 
+import utils.signin_api
 from api.base_client import BaseClient
 from data.config import Config
 from utils.email_api import TempMailAPIClient
-from utils.signin_api import sign_in_via_api
 
 
 @pytest.fixture
@@ -19,7 +16,7 @@ def temp_mail() -> TempMailAPIClient:
     return TempMailAPIClient()
 
 @pytest.fixture
-def authorized_client() -> Callable[..., BaseClient]:
+def authorized_client() -> collections.abc.Callable[..., BaseClient]:
     """Fixture factory to instantiate and authenticate any API client."""
 
     def _factory(client_class: type[BaseClient], role: str = "user") -> BaseClient:
@@ -35,7 +32,7 @@ def authorized_client() -> Callable[..., BaseClient]:
             email = Config.USER_EMAIL
             password = Config.USER_PASSWORD
 
-        auth_data = sign_in_via_api(email, password)
+        auth_data = utils.signin_api.sign_in_via_api(email, password)
 
         client.session.headers.update(
             {
