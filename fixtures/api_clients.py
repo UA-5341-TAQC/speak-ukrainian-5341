@@ -6,9 +6,9 @@ import pytest
 from pydantic.dataclasses import dataclass
 
 from api.base_client import BaseClient
+from api.club_registration_client import ClubRegistrationClient
 from api.complaint_client import ComplaintClient
 from api.news_client import NewsClient
-from api.club_registration_client import ClubRegistrationClient
 from data.config import Config
 from utils.email_api import TempMailAPIClient
 from utils.signin_api import sign_in_via_api
@@ -17,9 +17,11 @@ from utils.signin_api import sign_in_via_api
 @dataclass
 class ApiUserCredentials:
     """Container for API authentication data."""
+
     access_token: str
     user_id: int | None = None
     email: str | None = None
+
 
 @pytest.fixture
 def temp_mail() -> TempMailAPIClient:
