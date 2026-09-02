@@ -24,7 +24,7 @@ class HeaderComponent(BaseComponent):
 
     CLUBS_LINK: Locator = (
         By.CSS_SELECTOR,
-        ".nav-menu a[href='/clubs']",
+        ".nav-menu a[href='/dev/clubs']",
     )
 
     CHALLENGE_MENU: Locator = (
@@ -39,17 +39,17 @@ class HeaderComponent(BaseComponent):
 
     NEWS_LINK: Locator = (
         By.CSS_SELECTOR,
-        ".nav-menu a[href='/news']",
+        ".nav-menu a[href='/dev/news']",
     )
 
     ABOUT_LINK: Locator = (
         By.CSS_SELECTOR,
-        ".nav-menu a[href='/about']",
+        ".nav-menu a[href='/dev/about']",
     )
 
     SERVICES_LINK: Locator = (
         By.CSS_SELECTOR,
-        ".nav-menu a[href='/service']",
+        ".nav-menu a[href='/dev/service']",
     )
 
     CITY_SELECTOR: Locator = (

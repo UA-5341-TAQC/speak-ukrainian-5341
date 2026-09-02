@@ -47,9 +47,9 @@ def test_header_navigation(driver: WebDriver) -> None:
 
     with allure.step("4. Click the 'Єдині' challenge in the dropdown list."):
 
-        challenge_dropdown.click_unique_challenge()
+        challenge_dropdown.click_unique_upd_challenge()
         assert (
-                    "/challenges/5" in driver.current_url
+                    "/challenges/1" in driver.current_url
                 ), "User is redirected to the 'Єдині' challenge page."
 
     with allure.step("5. Navigate back to the homepage."):
@@ -58,7 +58,25 @@ def test_header_navigation(driver: WebDriver) -> None:
             "/"
         ), "Homepage is displayed again."
 
-    with allure.step("6.1. Repeat for 'Клуб Української мови Розмовляй'."):
+    with allure.step("6.1. Repeat for 'Навачай українською'."):
+        challenge_dropdown = homepage.header.click_challenge()
+        
+        assert homepage.header.is_challenge_dropdown_visibile() == True
+        
+        challenge_dropdown.click_learn_upd_challenge()
+        assert (
+            "/challenges/2" in driver.current_url
+             ), "User is redirected to the 'Навчай українською' challenge page."
+        
+        driver.back()
+        assert driver.current_url.rstrip("/") == Config.BASE_UI_URL.rstrip(
+            "/"
+        ), "Homepage is displayed again."
+
+    """
+    Temporary commented, due to site version change
+
+        with allure.step("6.1. Repeat for 'Клуб Української мови Розмовляй'."):
         challenge_dropdown = homepage.header.click_challenge()
 
         assert homepage.header.is_challenge_dropdown_visibile() == True
@@ -104,21 +122,8 @@ def test_header_navigation(driver: WebDriver) -> None:
         assert driver.current_url.rstrip("/") == Config.BASE_UI_URL.rstrip(
                "/"
         ), "Homepage is displayed again."
+    """
 
-    with allure.step("6.4. Repeat for 'Навчай українською'."):
-        challenge_dropdown = homepage.header.click_challenge()
-        
-        assert homepage.header.is_challenge_dropdown_visibile() == True
-        
-        challenge_dropdown.click_teach_ukrainian()
-        assert (
-            "/challenges/2" in driver.current_url
-             ), "User is redirected to the 'Навчай українською' challenge page."
-        
-        driver.back()
-        assert driver.current_url.rstrip("/") == Config.BASE_UI_URL.rstrip(
-            "/"
-        ), "Homepage is displayed again."
 
     with allure.step("7. Click the 'Новини' menu item."):
         homepage.header.click_news()

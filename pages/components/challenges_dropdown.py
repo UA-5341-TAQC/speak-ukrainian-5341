@@ -12,7 +12,7 @@ class ChallengeDropdown(BaseComponent):
 
     UNIQUE_CHALLENGE_LINK: Locator = (
         By.CSS_SELECTOR,
-        "a[href='/challenges/5']",
+       "a[href='/challenges/5']",
     )
 
     SPEAKING_CLUB_CHALLENGE_LINK: Locator = (
@@ -35,10 +35,31 @@ class ChallengeDropdown(BaseComponent):
         "a[href='/challenges/2']",
     )
 
+    LEARN_UPD_LINK: Locator = (
+        By.CSS_SELECTOR,
+        "a[href='/dev/challenges/2']",
+    )
+
+    UNIQUE_UPD_LINK: Locator = (
+        By.CSS_SELECTOR,
+       "a[href='/dev/challenges/1']",
+    )
+
     @allure.step("Click 'Єдині'")
     def click_unique_challenge(self) -> None:
         """Open the 'Єдині' challenge."""
         self._wait_clickable_from_driver(self.UNIQUE_CHALLENGE_LINK).click()
+
+
+    @allure.step("Click 'Єдині', updated")
+    def click_unique_upd_challenge(self) -> None:
+        """Open the 'Єдині' challenge for updated page."""
+        self._wait_clickable_from_driver(self.UNIQUE_UPD_LINK).click()
+
+    @allure.step("Click 'Навчай', updated")
+    def click_learn_upd_challenge(self) -> None:
+        """Open the 'Навчай' challenge for updated page."""
+        self._wait_clickable_from_driver(self.LEARN_UPD_LINK).click()
 
     @allure.step("Click 'Клуб української мови Розмовляй'")
     def click_speaking_club_challenge(self) -> None:
