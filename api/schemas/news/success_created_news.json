@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "success_created_news.json",
+  "title": "SuccessCreatedNews",
+  "description": "Success response returned by POST /api/news and PUT /api/news/{id}. Matches the OpenAPI component schema `SuccessCreatedNews`.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "id": {"type": "integer"},
+    "title": {"type": "string"},
+    "description": {"type": "string"},
+    "urlTitleLogo": {"type": "string"},
+    "isActive": {"type": "boolean"},
+    "date": {"type": "string"},
+    "userId": {"type": "integer"}
+  }
+}
