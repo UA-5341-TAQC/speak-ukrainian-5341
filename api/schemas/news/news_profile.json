@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "news_profile.json",
+  "title": "NewsProfile",
+  "description": "Request body used by POST /api/news and PUT /api/news/{id}. Matches the OpenAPI component schema `NewsProfile`.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["date", "title", "description", "urlTitleLogo"],
+  "properties": {
+    "date": {"type": "string"},
+    "title": {"type": "string"},
+    "description": {"type": "string"},
+    "urlTitleLogo": {"type": "string"},
+    "isActive": {"type": "boolean"}
+  }
+}
