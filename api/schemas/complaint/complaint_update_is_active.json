@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "complaint_update_is_active.json",
+  "title": "ComplaintUpdateIsActive",
+  "description": "Request body used by PUT /api/complaint/isActive/{id}. Matches the OpenAPI component schema `ComplaintUpdateIsActive`.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["isActive"],
+  "properties": {
+    "isActive": {"type": "boolean"}
+  }
+}

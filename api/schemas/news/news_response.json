@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "news_response.json",
+  "title": "NewsResponse",
+  "description": "A single news article as returned by the Speak Ukrainian News API. The `date` field is serialized by the API as a `[year, month, day]` integer array in responses (the OpenAPI docs describe it as a string).",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "id": {"type": "integer"},
+    "title": {"type": "string"},
+    "description": {"type": "string"},
+    "urlTitleLogo": {"type": "string"},
+    "date": {
+      "oneOf": [
+        {"type": "string"},
+        {
+          "type": "array",
+          "items": {"type": "integer"},
+          "minItems": 3
+        }
+      ]
+    },
+    "isActive": {"type": "boolean"},
+    "user": {"$ref": "news/user_preview.json"}
+  }
+}

@@ -26,7 +26,7 @@ class ClubDetailsPage(BasePage):
 
     # Action buttons
     WRITE_TO_MANAGER_BUTTON: Locator = (By.CSS_SELECTOR, ".apply-box button.apply-button")
-    ENROLL_BUTTON: Locator = (By.CSS_SELECTOR, ".button-box button.apply-button")
+    ENROLL_BUTTON: Locator = (By.CSS_SELECTOR, "div.button-box button.apply-button")
     DOWNLOAD_BUTTON: Locator = (By.CSS_SELECTOR, "button.details-button")
 
     # Rating
@@ -71,6 +71,11 @@ class ClubDetailsPage(BasePage):
     COMMENT_CARD_ROOTS: Locator = (
         By.CSS_SELECTOR,
         ".comment-list .ant-comment, .comment-card",
+    )
+
+    REGISTRATION_SUCCESS_MESSAGE: Locator = (
+        By.CSS_SELECTOR,
+        "div.ant-message-notice-content:has(div.ant-message-success)"
     )
 
     @allure.step("Open page")
@@ -247,3 +252,8 @@ class ClubDetailsPage(BasePage):
         if not cards:
             raise RuntimeError("No comments found on the page")
         cards[0].click_reply()
+
+    @allure.step("Verify that the club registration success message is displayed")
+    def is_registration_success_message_displayed(self) -> bool:
+        """Check if the successful club registration message is displayed."""
+        return self._wait_visible(self.REGISTRATION_SUCCESS_MESSAGE).is_displayed()

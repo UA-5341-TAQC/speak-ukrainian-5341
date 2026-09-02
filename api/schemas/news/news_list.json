@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "news_list.json",
+  "title": "NewsList",
+  "description": "A list of news articles returned by GET /api/newslist and /api/newslist/current.",
+  "type": "array",
+  "items": {"$ref": "news_response.json"}
+}
