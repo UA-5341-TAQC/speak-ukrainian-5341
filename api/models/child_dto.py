@@ -1,12 +1,11 @@
 """Module containing Child Pydantic model."""
 
-from pydantic import BaseModel
-
+from api.models.base_dto import BaseDto
 from api.models.child_gender_dto import GenderDto
 from api.models.parent_dto import ParentDto
 
 
-class ChildDto(BaseModel):
+class ChildDto(BaseDto):
     """Model representing a child registered for a club."""
     id: int
     firstName: str

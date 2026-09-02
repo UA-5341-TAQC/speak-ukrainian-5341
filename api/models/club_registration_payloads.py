@@ -1,14 +1,14 @@
-from pydantic import BaseModel
+from api.models.base_dto import BaseDto
 
 
-class ClubRegistrationCreatePayload(BaseModel):
+class ClubRegistrationCreatePayload(BaseDto):
     """Request payload for registering children to a club."""
     childIds: list[int]
     clubId: int
     comment: str
 
 
-class ClubRegistrationResponseDto(BaseModel):
+class ClubRegistrationResponseDto(BaseDto):
     """Response item after successful child club registration."""
     id: int
     childId: int
@@ -19,14 +19,14 @@ class ClubRegistrationResponseDto(BaseModel):
     approved: bool
 
 
-class ClubUserRegistrationPayload(BaseModel):
+class ClubUserRegistrationPayload(BaseDto):
     """Request payload for registering a user (adult) to a club."""
     userId: int
     clubId: int
     comment: str
 
 
-class ClubUserRegistrationResponseDto(BaseModel):
+class ClubUserRegistrationResponseDto(BaseDto):
     """Response item after successful user club registration."""
     id: int
     userId: int

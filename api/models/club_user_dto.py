@@ -1,9 +1,9 @@
 """Module containing Pydantic models for Club Registration API."""
 
-from pydantic import BaseModel
+from api.models.base_dto import BaseDto
 
 
-class UserDto(BaseModel):
+class UserDto(BaseDto):
     """Short model for user in registration response."""
     id: int
     firstName: str

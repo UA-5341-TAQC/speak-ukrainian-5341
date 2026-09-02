@@ -1,9 +1,9 @@
 """Module containing Parent Pydantic model."""
 
-from pydantic import BaseModel
+from api.models.base_dto import BaseDto
 
 
-class ParentDto(BaseModel):
+class ParentDto(BaseDto):
     """Model representing a parent."""
     id: int
     firstName: str

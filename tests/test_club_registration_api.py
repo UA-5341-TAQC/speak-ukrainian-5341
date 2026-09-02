@@ -3,7 +3,7 @@
 import allure
 import pytest
 
-from api.models.club_registration_dto import ChildDto, UserApplicationDto
+from api.models.club_registration_dto import ChildDto, ClubApplicationDto
 from api.models.club_registration_payloads import ClubRegistrationResponseDto
 from fixtures.api_clients import ApiUserCredentials, ClubRegistrationClient
 
@@ -31,7 +31,7 @@ class TestClubRegistrationApi:
 
         with allure.step("Step 3: Parse and validate response body"):
             data = response.json()
-            applications = [UserApplicationDto(**item) for item in data]
+            applications = [ClubApplicationDto(**item) for item in data]
             assert len(applications) > 0
 
         with allure.step("Step 4: Validate common fields"):
@@ -80,16 +80,16 @@ class TestClubRegistrationApi:
             assert len(data) == 0
 
     @allure.story("Get User Applications — Schema Validation")
-    @allure.title("Verify response schema matches UserApplicationDto")
+    @allure.title("Verify response schema matches ClubApplicationDto")
     @allure.label("owner")
     def test_get_user_applications_schema_validation(self) -> None:
         with allure.step(f"Step 1: Fetch applications for user {self.user_id}"):
             response = self.client.get_user_applications(self.user_id)
             assert response.status_code == 200
 
-        with allure.step("Step 2: Validate each item against UserApplicationDto"):
+        with allure.step("Step 2: Validate each item against ClubApplicationDto"):
             for item in response.json():
-                model = UserApplicationDto(**item)
+                model = ClubApplicationDto(**item)
                 assert model.id is not None
                 assert model.club is not None
 

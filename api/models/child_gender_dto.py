@@ -1,9 +1,9 @@
 """Module containing Gender Pydantic model."""
 
-from pydantic import BaseModel
+from api.models.base_dto import BaseDto
 
 
-class GenderDto(BaseModel):
+class GenderDto(BaseDto):
     """Model representing gender."""
     id: int
-    value: str  # e.g., "MALE", "FEMALE"
+    value: str

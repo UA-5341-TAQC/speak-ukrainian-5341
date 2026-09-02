@@ -1,9 +1,9 @@
 """Module containing Club Pydantic model."""
 
-from pydantic import BaseModel
+from api.models.base_dto import BaseDto
 
 
-class ClubDto(BaseModel):
+class ClubDto(BaseDto):
     """Model representing a club."""
     id: int
     name: str
