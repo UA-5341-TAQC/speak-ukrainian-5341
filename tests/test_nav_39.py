@@ -32,7 +32,7 @@ def test_header_navigation(driver: WebDriver) -> None:
     with allure.step("1. Click the 'Гуртки' menu item in the header."):
         homepage.header.click_clubs()
         assert (
-            "/clubs" in driver.current_url
+            "dev/clubs" in driver.current_url
         ), "User is redirected to the Clubs page."
 
     with allure.step("2. Navigate back to the homepage."):
