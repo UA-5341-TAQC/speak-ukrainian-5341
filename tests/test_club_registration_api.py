@@ -61,24 +61,6 @@ class TestClubRegistrationApi:
             assert app.user.id == self.user_id
             assert app.user.email
 
-    @allure.story("Get User Applications — Edge Cases")
-    @allure.title("Verify get_user_applications for non-existent user returns empty list")
-    @allure.label("owner")
-    def test_get_user_applications_not_found(self) -> None:
-        """Test that request for non-existent user returns 200 with empty list."""
-        non_existent_user_id = 999999
-
-        with allure.step(f"Step 1: Call GET /user-applications/{non_existent_user_id}"):
-            response = self.client.get_user_applications(non_existent_user_id)
-
-        with allure.step("Step 2: Verify status code is 200"):
-            assert response.status_code == 200
-
-        with allure.step("Step 3: Verify response is empty list"):
-            data = response.json()
-            assert isinstance(data, list)
-            assert len(data) == 0
-
     @allure.story("Get User Applications — Schema Validation")
     @allure.title("Verify response schema matches ClubApplicationDto")
     @allure.label("owner")

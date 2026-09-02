@@ -40,14 +40,6 @@ class BaseClient:
         if self.access_token is not None:
             request_headers.setdefault("Authorization", f"Bearer {self.access_token}")
 
-        # Log request headers for debugging
-        auth_header = request_headers.get("Authorization", "MISSING")
-        allure.attach(
-            f"Authorization: {auth_header}",
-            name="Request headers",
-            attachment_type=allure.attachment_type.TEXT,
-        )
-
         with allure.step(f"{method.upper()} {url}"):
             response = self.session.request(
                 method=method,
