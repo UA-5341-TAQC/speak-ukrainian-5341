@@ -15,8 +15,8 @@ def temp_mail() -> TempMailAPIClient:
 def archive_client() -> ArchiveClient:
     """Provides an authenticated Archive API client."""
     session = sign_in_via_api(
-        Config.USER_EMAIL,
-        Config.USER_PASSWORD,
+        Config.MANAGER_EMAIL,
+        Config.MANAGER_PASSWORD,
     )
 
     return ArchiveClient(
