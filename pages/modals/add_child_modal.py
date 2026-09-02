@@ -1,5 +1,6 @@
 """Add child modal, opened from the enroll to club modal."""
 
+import allure
 from selenium.webdriver.common.by import By
 
 from pages.modals.base_modal import BaseModal
@@ -10,7 +11,7 @@ class AddChildModal(BaseModal):
     """Modal for adding a new child."""
 
     # Modal container and header
-    MODAL_DIALOG: Locator = (By.CSS_SELECTOR, "div[role='dialog'].add-child-modal")
+    MODAL_DIALOG: Locator = (By.CSS_SELECTOR, "div.add-child-modal")
     MODAL_TITLE: Locator = (By.CSS_SELECTOR, "div.ant-modal-title")
     CLOSE_BUTTON: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
 
@@ -29,10 +30,20 @@ class AddChildModal(BaseModal):
         """Check if the modal is open."""
         return self._find_element(self.MODAL_DIALOG).is_displayed()
 
+    def wait_for_visible(self) -> "AddChildModal":
+        """Wait until the modal dialog becomes visible.
+
+        Returns:
+            The modal instance for chaining.
+        """
+        self._wait_visible(self.MODAL_DIALOG)
+        return self
+
     def is_modal_title_displayed(self) -> bool:
         """Check if the "Додати дитину" title is visible."""
         return self._find_element(self.MODAL_TITLE).is_displayed()
 
+    @allure.step("Enter first name: '{text}'")
     def enter_first_name(self, text: str) -> None:
         """Enter text into the first name field."""
         field = self._find_element(self.FIRST_NAME_FIELD)
@@ -40,6 +51,7 @@ class AddChildModal(BaseModal):
         self.clear(field)
         field.send_keys(text)
 
+    @allure.step("Enter last name: '{text}'")
     def enter_last_name(self, text: str) -> None:
         """Enter text into the last name field."""
         field = self._find_element(self.LAST_NAME_FIELD)
@@ -47,6 +59,7 @@ class AddChildModal(BaseModal):
         self.clear(field)
         field.send_keys(text)
 
+    @allure.step("Enter age: '{age}'")
     def enter_age(self, age: str) -> None:
         """Enter text into the age field."""
         field = self._find_element(self.AGE_FIELD)
@@ -54,13 +67,15 @@ class AddChildModal(BaseModal):
         self.clear(field)
         field.send_keys(age)
 
+    @allure.step('Select "Хлопчик" gender')
     def select_boy(self) -> None:
         """Select the "Хлопчик" gender radio button."""
-        self._wait_clickable(self.BOY_RADIO_BUTTON).click()
+        self._find_element(self.BOY_RADIO_BUTTON).click()
 
+    @allure.step('Select "Дівчинка" gender')
     def select_girl(self) -> None:
         """Select the "Дівчинка" gender radio button."""
-        self._wait_clickable(self.GIRL_RADIO_BUTTON).click()
+        self._find_element(self.GIRL_RADIO_BUTTON).click()
 
     def is_submit_button_enabled(self) -> bool:
         """Check if the submit button is enabled."""
