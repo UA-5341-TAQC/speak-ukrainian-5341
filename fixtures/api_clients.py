@@ -8,6 +8,7 @@ import utils.signin_api
 from api.base_client import BaseClient
 from data.config import Config
 from utils.email_api import TempMailAPIClient
+from utils.signin_api import sign_in_via_api
 
 
 @pytest.fixture
