@@ -60,3 +60,22 @@ class ChallengeClient(BaseClient):
     def delete_challenge(self, challenge_id: int,) -> requests.Response:
         """Archive/delete a challenge by ID."""
         return self._request("DELETE", f"challenge/{challenge_id}")
+
+    def get_free_sort_number(self) -> int:
+        """Return the first available sort number."""
+        response = self.get_all_challenges()
+        response.raise_for_status()
+
+        challenges = response.json()
+
+        used_sort_numbers = {
+            challenge["sortNumber"]
+            for challenge in challenges
+        }
+
+        sort_number = 1
+
+        while sort_number in used_sort_numbers:
+            sort_number += 1
+
+        return sort_number

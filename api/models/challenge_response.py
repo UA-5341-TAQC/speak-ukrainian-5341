@@ -1,6 +1,6 @@
 """Module containing main ChallengeResponse Pydantic model."""
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from api.models.challenge_task_dto import ChallengeTaskDto
 from api.models.сhallenge_user_dto import ChallengeUserDto
@@ -15,6 +15,6 @@ class ChallengeResponse(BaseModel):
     picture: str
     sortNumber: int
     isActive: bool
-    tasks: list[ChallengeTaskDto] | None = []
+    tasks: list[ChallengeTaskDto] = Field(default_factory=list)
     user: ChallengeUserDto | None = None
     registrationLink: str | None = None
