@@ -1,4 +1,5 @@
 """Page object for the News Details page on the Speak Ukrainian website."""
+
 import re
 from urllib.error import HTTPError, URLError
 from urllib.request import urlopen
@@ -34,6 +35,14 @@ class NewsDetailsPage(BasePage):
     NEWS_ACTIVE_SLIDE_CARDS: Locator = (
         By.CSS_SELECTOR,
         ".other-news .slick-slide.slick-active .carousel-item",
+    )
+    NEWS_PAGINATION_DOTS: Locator = (
+        By.CSS_SELECTOR,
+        ".other-news .slick-dots li",
+    )
+    NEWS_ACTIVE_PAGINATION_DOT: Locator = (
+        By.CSS_SELECTOR,
+        ".other-news .slick-dots li.slick-active",
     )
 
     SOCIAL_SECTION_CONTAINER: Locator = (
@@ -136,6 +145,49 @@ class NewsDetailsPage(BasePage):
     def get_other_news_title(self) -> str:
         """Get the title text of the 'Інші новини' block."""
         return self._get_text(self.NEWS_CAROUSEL_TITLE).strip()
+
+    @allure.step("Get the 'Інші новини' pagination dot count")
+    def get_other_news_dots_count(self) -> int:
+        """Return the number of pagination dots under the 'Інші новини' carousel."""
+        self._wait_present(self.NEWS_PAGINATION_DOTS)
+        return len(self._find_elements(self.NEWS_PAGINATION_DOTS))
+
+    @allure.step("Get the index of the active 'Інші новини' pagination dot")
+    def get_other_news_active_dot_index(self) -> int:
+        """Return the 1-based index of the currently active pagination dot.
+
+        Raises:
+            ValueError: If no dot is marked active.
+        """
+        dots = self._find_elements(self.NEWS_PAGINATION_DOTS)
+        for index, dot in enumerate(dots, start=1):
+            if "slick-active" in (dot.get_attribute("class") or ""):
+                return index
+        raise ValueError("No active pagination dot found in the 'Інші новини' carousel.")
+
+    @allure.step("Count active 'Інші новини' pagination dots")
+    def get_other_news_active_dot_count(self) -> int:
+        """Return how many dots currently have the slick-active class."""
+        return len(self._find_elements(self.NEWS_ACTIVE_PAGINATION_DOT))
+
+    @allure.step("Click the 'Інші новини' pagination dot at index {index}")
+    def click_other_news_dot(self, index: int) -> None:
+        """Click a pagination dot to jump the carousel to that group.
+
+        Args:
+            index: 1-based position of the dot to click.
+
+        Raises:
+            ValueError: If ``index`` is outside the available dot range.
+        """
+        dots = self._find_elements(self.NEWS_PAGINATION_DOTS)
+        if not 1 <= index <= len(dots):
+            raise ValueError(
+                f"Dot index {index} out of range (1..{len(dots)}) for the 'Інші новини' carousel."
+            )
+        self._wait_clickable(self.NEWS_PAGINATION_DOTS)
+        dots[index - 1].click()
+        self.wait.until(lambda _: self.get_other_news_active_dot_index() == index)
 
     @allure.step("Get list of currently active news cards in carousel")
     def get_active_carousel_cards(self) -> list[NewsCardComponent]:

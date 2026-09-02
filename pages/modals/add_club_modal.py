@@ -58,12 +58,9 @@ class AddClubModal(BaseModal):
     @allure.step("Get active step title")
     def get_active_step(self) -> str:
         """Get the title of the currently active step in the Add Club modal."""
-
-        def _title_ready(_: object) -> str | Literal[False]:
-            text = self._find_element(self.ACTIVE_STEP_TITLE).text.strip()
-            return text if text else False
-
-        title = self.wait.until(_title_ready)
+        title = self.wait.until(
+            lambda _: (text := self._find_element(self.ACTIVE_STEP_TITLE).text.strip()) or False
+        )
         allure.attach(title, "Active Step")
         return title
 

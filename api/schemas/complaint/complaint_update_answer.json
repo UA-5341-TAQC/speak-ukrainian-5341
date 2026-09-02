@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "complaint_update_answer.json",
+  "title": "ComplaintUpdateAnswer",
+  "description": "Request body used by PUT /api/complaint/{id}/answer. Matches the OpenAPI component schema `ComplaintUpdateAnswer`.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["answerText"],
+  "properties": {
+    "answerText": {"type": "string"}
+  }
+}

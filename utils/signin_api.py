@@ -48,9 +48,13 @@ def sign_in_via_api(email: str, password: str) -> SignInSession:
     url: str = f"{Config.BASE_API_URL}/signin"
     payload: dict[str, Any] = {"email": email, "password": password}
     with allure.step(f"POST {url}"):
+        print(f"{url=}, {payload=}")
         response = requests.post(url, json=payload, timeout=30)
         response.raise_for_status()
         data: dict[str, Any] = response.json()
+    from pprint import pprint
+
+    pprint(data)
     return SignInSession(
         access_token=data["accessToken"],
         refresh_token=data["refreshToken"],
