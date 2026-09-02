@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "complaints_list.json",
+  "title": "ComplaintsList",
+  "description": "A list of complaints returned by GET /api/complaints, /api/complaints/club/{id}, /api/complaints/recipient/{id} and /api/complaints/sender/{id}. The OpenAPI docs declare the response as `List<ComplaintResponse>`.",
+  "type": "array",
+  "items": {"$ref": "complaint_response.json"}
+}

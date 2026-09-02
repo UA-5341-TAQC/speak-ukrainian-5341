@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "success_created_complaint.json",
+  "title": "SuccessCreatedComplaint",
+  "description": "Success response returned by POST /api/complaint. Matches the OpenAPI component schema `SuccessCreatedComplaint`.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "id": {"type": "integer"},
+    "text": {"type": ["string", "null"]},
+    "userId": {"type": ["integer", "null"]},
+    "clubId": {"type": ["integer", "null"]},
+    "recipientId": {"type": ["integer", "null"]},
+    "isActive": {"type": ["boolean", "null"]},
+    "hasAnswer": {"type": ["boolean", "null"]}
+  }
+}
