@@ -1,14 +1,14 @@
 """API-related fixtures for tests."""
 
-import os
 
-from pydantic.dataclasses import dataclass
 import pytest
+from pydantic.dataclasses import dataclass
 
 from api.club_registration_client import ClubRegistrationClient
 from data.config import Config
 from utils.email_api import TempMailAPIClient
 from utils.signin_api import sign_in_via_api
+
 
 @dataclass
 class ApiUserCredentials:
@@ -27,8 +27,6 @@ def temp_mail() -> TempMailAPIClient:
 def user_api_credentials() -> ApiUserCredentials:
     """Login as regular user via API and return token + user_id."""
     auth_data = sign_in_via_api(Config.USER_EMAIL, Config.USER_PASSWORD)
-
-    # Extract user_id if backend returns it; otherwise None
     user_id = getattr(auth_data, "id", None) or getattr(auth_data, "user_id", None)
 
     return ApiUserCredentials(
@@ -59,6 +57,8 @@ def club_registration_client(user_api_credentials: ApiUserCredentials) -> ClubRe
 
 
 @pytest.fixture
-def club_registration_client_manager(manager_api_credentials: ApiUserCredentials) -> ClubRegistrationClient:
+def club_registration_client_manager(
+    manager_api_credentials: ApiUserCredentials,
+) -> ClubRegistrationClient:
     """Provides authorized ClubRegistrationClient (manager role)."""
     return ClubRegistrationClient(access_token=manager_api_credentials.access_token)

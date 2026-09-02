@@ -212,7 +212,7 @@ class TestClubRegistrationApi:
             assert reg.comment == "Test registration via API"
             assert reg.active is True
             assert reg.approved is False
-            assert reg.registrationDate  # non-empty date string
+            assert reg.registrationDate
 
     @allure.story("Register for Club — Negative")
     @allure.title("Verify non-existent child returns 404")

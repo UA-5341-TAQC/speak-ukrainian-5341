@@ -24,7 +24,7 @@ class ClubRegistrationClient(BaseClient):
             "GET",
             f"club-registration/user-applications/{user_id}"
         )
-    
+
     @allure.step("Get children registered for club ID: {club_id}")
     def get_user_children(self, club_id: int) -> requests.Response:
         """Get list of children registered for a specific club."""
