@@ -1,0 +1,259 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Test verifies that the Instagram icon on the news details page opens the project's official Instagram page in a new browser tab.","10388","TC-44: Verify Instagram social media link functionality","tests","2026-09-02","broken","2026-09-02","","test_social_buttons_ui","",""
+"Test verifies that the Facebook icon on the news details page opens the project's official Facebook page in a new browser tab.","10245","TC-42: Verify Facebook social media link functionality","tests","2026-09-02","broken","2026-09-02","","test_social_buttons_ui","",""
+"Verify GET /challenge-registration/unapproved/{managerId} returns an empty list.","0","Get unapproved registrations for a manager with none pending","tests","2026-09-02","broken","2026-09-02","","test_challenge_registration_get_response","",""
+"TC-62: verify an unsupported profile photo format is rejected.
+
+        Test steps (from TC-62):
+            1. Click ""Редагувати профіль"" - the modal opens.
+            2. Click ""Завантажити фото"" - the file dialog opens (simulated).
+            3. Select the unsupported ``document.pdf`` - an error is shown, the
+               file is not added and the save button becomes disabled.
+            4. Click Close (X) - the modal closes.
+            5. The avatar on the profile page remains unchanged.
+        ","94","test_unsupported_profile_photo_is_rejected","tests","2026-09-02","broken","2026-09-02","TestProfilePhotoUpload","test_profile_photo_upload","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","10442","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-09-02","broken","2026-09-02","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"PUT /complaint/isActive/{id} must succeed for an authenticated USER caller.","65","Complaint-API-15: USER PUT /complaint/isActive/{id} returns 200","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"Verify updating phone number with a valid 10-digit value persists after refresh.","2802","TC-17: Update phone number using valid 10-digit numeric value","tests","2026-09-02","passed","2026-09-02","","test_update_phone_number","",""
+"","2332","TC-31 Login — wrong password — Вхід modal (confirmed account).","tests","2026-09-02","passed","2026-09-02","","test_signin_neg_31","",""
+"","3456","TC-36: Validation check for required fields in the 'Основна інформація' step of the 'Додати гурток' modal form","tests","2026-09-02","passed","2026-09-02","","test_add_club_basic_info_validation","",""
+"TC-61: verify the Last Name field rejects invalid special characters.
+
+        Test steps (from TC-61):
+            1. Click ""Редагувати профіль"" - the modal opens.
+            2. Clear ""Прізвище"", type invalid special characters and remove focus.
+               A validation error appears, the border turns red, an error icon is
+               shown and the save button remains active (no disabled attribute).
+            3. Click ""Зберегти зміни"" - the form is not submitted, the modal stays
+               open and the validation error is still displayed.
+        ","64","test_last_name_rejects_special_characters","tests","2026-09-02","broken","2026-09-02","TestProfileLastNameUpdate","test_profile_last_name_update","",""
+"POST/PUT require an admin access token, so a plain user must get a 4xx.
+
+    The user fixture has no admin token. With a partial body the backend rejects
+    the request via body validation (4xx) before it could be accepted, so the
+    test only asserts the write does not succeed from a non-admin account.
+    ","73","News-API-10: non-admin cannot POST /news or PUT /news/{id}","tests","2026-09-02","passed","2026-09-02","","test_news_api","",""
+"Verify navigation from the homepage to the Clubs page via the 'Всі гуртки' button and individual club category cards ('Спортивні секції', 'Танці, хореографія', 'Студії раннього розвитку').","1638","TC-38: Verify navigation to the Clubs page from the homepage","tests","2026-09-02","failed","2026-09-02","TestHomePageClubsNavigation","test_home_page_clubs_navigation","",""
+"The current-news endpoint must return 200 with a JSON list.","14","News-API-02: GET /newslist/current returns 200 with current news","tests","2026-09-02","passed","2026-09-02","","test_news_api","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","10338","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-09-02","broken","2026-09-02","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"Verify that entering an invalid password displays the correct validation error.","3883","TC-53 Verify registration password policy validation [Missing uppercase]","tests","2026-09-02","failed","2026-09-02","","test_sign_up","",""
+"The similar-news endpoint must respond with 200 and valid JSON.","9","News-API-04: GET /newslist/search/similar returns 200","tests","2026-09-02","passed","2026-09-02","","test_news_api","",""
+"Verify POST /challenge-registration/children creates a new registration for a child.","0","Create a challenge registration for a child","tests","2026-09-02","broken","2026-09-02","","test_challenge_registration_post_response","",""
+"Verify that opening a news card leads to the correct, fully rendered details page.","3744","TC-18: Opening a specific news article from the News page","tests","2026-09-02","passed","2026-09-02","","test_open_specific_news_article","",""
+"PUT /complaint/isActive/{id} must require an authenticated caller.","25","Complaint-API-09: PUT /complaint/isActive/{id} requires authentication (401)","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","4262","TC-4: Registration — required field 'Телефон' left empty","tests","2026-09-02","passed","2026-09-02","","test_registration_required_field","",""
+"","4356","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-02","passed","2026-09-02","","test_sign_up","",""
+"TC-59: Verify navigation with 'Назад' and data persistence between steps.
+
+    Preconditions:
+        - User is registered and logged into Навчай Українською.
+        - Add Club modal is opened.
+        - ""Основна інформація"" and ""Контакти"" sections are filled.
+
+    Test Steps:
+        1. On ""Контакти"", click ""Назад"".
+        2. Verify ""Основна інформація"" data is preserved.
+        3. Open ""Опис"" section.
+        4. On ""Опис"", click ""Назад"".
+        5. Verify ""Контакти"" data is preserved.
+
+    Postcondition:
+        - Close the Add Club modal.
+    ","5106","test_add_club_back_navigation_and_data_persistence","tests","2026-09-02","passed","2026-09-02","","test_add_club_modal","",""
+"Verify homepage hero carousel navigation and its slide redirects.","11396","test_homepage_carousel_navigation","tests","2026-09-02","broken","2026-09-02","","test_home_carousel_navigation","",""
+"Verify opening another news article from the 'Інші новини' section.","10511","test_news_details_other_news_navigation","tests","2026-09-02","broken","2026-09-02","","test_news_details_other_news_navigation","",""
+"Verify that the user can find a club by name.","11326","TC-27: Verify that the user can find a club by name","tests","2026-09-02","broken","2026-09-02","","test_clubs_page","",""
+"The user driver boots the SPA with the regular-user API session.
+
+    Args:
+        authenticated_driver: Browser signed in with the user credentials.
+        session_driver: The API session issued for the user credentials.
+    ","255","test_authenticated_driver_returns_user_session","tests","2026-09-02","passed","2026-09-02","","test_driver_roles","",""
+"PUT /complaint/{id} must succeed for an authenticated USER caller.","70","Complaint-API-13: USER PUT /complaint/{id} returns 200","tests","2026-09-02","failed","2026-09-02","","test_complaint_api","",""
+"Verify that the 'Навчай українською' challenge page displays the correct title, description paragraphs, social media links and donation button.","391","TC-35: Verify challenge page content — title, description and header icons","tests","2026-09-02","broken","2026-09-02","TestChallengePageContent","test_challenge_page_content","",""
+"Complaints filtered by sender id must return 200 with a JSON list.","56","Complaint-API-04: GET /complaints/sender/{id} returns 200 with a list","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"Verify GET /challenge-registration/user-children/{challengeId} returns the registered child.","0","Get children registered for a challenge","tests","2026-09-02","broken","2026-09-02","","test_challenge_registration_get_response","",""
+"","10557","TC-26: Verify visitor can add a child and register for a club","tests","2026-09-02","broken","2026-09-02","","test_club_details","",""
+"A non-existent complaint id must yield a 404 response.","27","Complaint-API-06: GET /complaint/{id} returns 404 for a missing complaint","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"","0","Verify get_all_challenges method","tests","2026-09-02","broken","2026-09-02","TestChallengeApi","test_api_challenge_client","",""
+"An existing news article must be fetchable by id without auth.","37","News-API-05: GET /news/{id} returns 200 for an existing article","tests","2026-09-02","passed","2026-09-02","","test_news_api","",""
+"An anonymous caller must not be able to delete a complaint (401).","22","Complaint-API-07: DELETE /complaint/{id} requires authentication (401)","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","5858","TC-4: Registration — required field 'Прізвище' left empty","tests","2026-09-02","passed","2026-09-02","","test_registration_required_field","",""
+"Verify that login with a non-existent email is rejected with an error, keeping the user unauthenticated and the modal open.","2887","TC-32: Login — non-existent email — Вхід modal (unknown user)","tests","2026-09-02","passed","2026-09-02","","test_login_non_existent_email","",""
+"TC-60: verify ""Доступний онлайн"" auto-toggles on when no location is added.
+
+    Preconditions covered inline (per TC-60):
+        - User is authenticated (via `authenticated_driver`).
+        - ""Додати гурток"" modal is opened through the header user menu.
+        - Step ""Основна інформація"" is completed.
+
+    NOTE: the info message (""Ви не додали жодної локації, гурток автоматично
+    є онлайн"") renders as an antd `ant-message` toast at the top of the
+    modal. It's transient, so it's captured with a single explicit wait on
+    `DescriptionStep.TOAST_TEXT` visibility, reading `.text` off the same
+    element the wait returns — this avoids the race condition that occurred
+    when `is_toast_displayed()` and `get_toast_text()` were called as two
+    separate, sequential DOM lookups (the toast could disappear between them).
+    ","5494","test_online_status_auto_assigned_when_no_location","tests","2026-09-02","passed","2026-09-02","","test_add_club_modal","",""
+"Verify that entering an invalid password displays the correct validation error.","4941","TC-53 Verify registration password policy validation [Length < 8]","tests","2026-09-02","passed","2026-09-02","","test_sign_up","",""
+"Test verifies that the donation button is displayed, has the correct text and cursor, contains the expected WayForPay URL, and redirects to the payment page.","10447","TC-47: Verify 'Допомогти проєкту' button display, styling, and payment redirection","tests","2026-09-02","broken","2026-09-02","","test_social_buttons_ui","",""
+"","3298","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-02","passed","2026-09-02","","test_sign_up","",""
+"Complaints filtered by club id must return a 200 response with a JSON list.","76","Complaint-API-02: GET /complaints/club/{id} returns 200 with a list","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"Verify that entering an invalid password displays the correct validation error.","0","test_sign_up_password_policy[Missing letters/special]","tests","2026-09-02","broken","2026-09-02","","test_sign_up","",""
+"","3844","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-02","passed","2026-09-02","","test_sign_up","",""
+"Verify that the 'Інші новини' carousel can be navigated via pagination dots.
+
+    Steps:
+        1. Open a news article and scroll down to the 'Інші новини' block.
+        2. Confirm pagination dots are visible and the first dot is active.
+        3. Click the second dot.
+        4. Verify the active dot transferred to the second dot and the
+           displayed news cards belong to group 2.
+        5. Click another (non-adjacent) dot.
+        6. Verify the active dot transferred to the clicked dot and only
+           one dot is active at a time.
+    ","10354","TC-25 Verify carousel pagination dots functionality","tests","2026-09-02","broken","2026-09-02","","test_tc_25_carousel_pagination_dots","",""
+"A schema-valid write payload must still be rejected for a non-admin role.
+
+    ``POST``/``PUT`` are admin-only operations. The payload is built with the
+    typed ``NewsProfile`` model and validated against the stored
+    ``news_profile`` schema before sending (proving the model satisfies the
+    contract), then the user client must get a 4xx because it has no admin
+    access token.
+    ","105","News-API-12: schema-valid POST/PUT body rejected for a non-admin","tests","2026-09-02","passed","2026-09-02","","test_news_api","",""
+"Verify that all card payment fields accept and correctly display valid data.","4486","TC-41: Verify successful card payment form filling with valid input data","tests","2026-09-02","passed","2026-09-02","","test_successful_card_payment","",""
+"The news search endpoint must return 200 for a plain keyword.","33","News-API-03: GET /newslist/search?keyword= returns 200 with a search result","tests","2026-09-02","passed","2026-09-02","","test_news_api","",""
+"A manager (also not admin) must get 403 when deleting news.","0","News-API-09: DELETE /news/{id} forbidden for a manager","tests","2026-09-02","broken","2026-09-02","","test_news_api","",""
+"TC-37: Verify the structure and presence of elements in the step.
+
+    ""Основна інформація"" step of ""Додати гурток"" modal.
+
+    Preconditions:
+        - User is registered and logged into the Навчай Українською
+
+    Test Steps:
+        1. Open the ""Додати гурток"" form
+        2. Verify the window title
+        3. Verify the step indicator on the left
+        4. Verify the ""Назва гуртка"" field
+        5. Verify the ""Категорія"" section with 12 checkboxes
+        6. Verify the ""Вік дитини"" section with ""Від"" and ""До"" fields
+        7. Verify the ""Приналежність до центру"" dropdown
+        8. Verify the ""Наступний крок"" button is active
+    ","1774","test_add_club_modal_basic_info_structure","tests","2026-09-02","failed","2026-09-02","","test_add_club_modal","",""
+"A regular user (no admin token) must get 403 when deleting news.","39","News-API-08: DELETE /news/{id} forbidden for a regular user","tests","2026-09-02","passed","2026-09-02","","test_news_api","",""
+"The base URL must be configured correctly for news requests.","0","News-API-11: news read endpoints are reachable on the configured base URL","tests","2026-09-02","passed","2026-09-02","","test_news_api","",""
+"An anonymous caller must not be able to update a complaint (401).","35","Complaint-API-11: PUT /complaint/{id} requires authentication (401)","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"Verify title, amount, currency, express pay buttons, card form fields and submit button.","5029","TC-48: Verify payment page UI elements are displayed correctly","tests","2026-09-02","passed","2026-09-02","","test_payment_page_ui","",""
+"DELETE /complaint/{id} must succeed for an authenticated USER caller.
+
+    The probe confirmed both USER and MANAGER can delete. The test creates
+    a complaint, deletes it, then re-reads via the public list to confirm
+    the row is gone.
+    ","102","Complaint-API-16: USER DELETE /complaint/{id} returns 200 and removes the row","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"","3379","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-02","passed","2026-09-02","","test_sign_up","",""
+"Verify navigation to the registration form for the 'Розмовляй' challenge.","781","TC-65 User can register for the “Клуб української мови ""Розмовляй"" challenge","tests","2026-09-02","broken","2026-09-02","","test_tc_65_challenge_registration_navigation","",""
+"Returning the authenticated_driver fixture leaves the session active.
+
+    The fixture signs in via the /api/signin endpoint and injects the issued
+    tokens, so the header must report the user as logged in.
+    ","216","test_user_is_signed_in_after_api_fixture","tests","2026-09-02","passed","2026-09-02","","test_sign_in","",""
+"Verify webinar video blocks, playback and YouTube links.","10410","TC-63 Verify video blocks playback and YouTube links on the challenge page","tests","2026-09-02","broken","2026-09-02","","test_challenge_page_video_blocks","",""
+"The public complaints list must return a 200 response with a JSON list.","65","Complaint-API-01: GET /complaints returns 200 with a complaint list","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"","10478","TC-39 Verify header navigation links redirect to the correct pages.","tests","2026-09-02","broken","2026-09-02","","test_nav_39","",""
+"Verify that the user can find a club by name.","10855","TC-27: Verify that the user can find a club by name","tests","2026-09-02","broken","2026-09-02","","test_clubs_page","",""
+"","3500","TC-57 Registration — duplicate email (already-registered email)","tests","2026-09-02","passed","2026-09-02","","test_sign_up","",""
+"Verify that users can navigate through the 30 language marathon tasks using next/previous arrows and pagination dots.","2798","TC-11: Task carousel navigation via arrows and pagination dots","tests","2026-09-02","passed","2026-09-02","TestMarathonTaskCarousel","test_marathon_task_carousel_navigation","",""
+"","3459","TC-56 Registration — password mismatch — Реєстрація modal (confirm ≠ password).","tests","2026-09-02","passed","2026-09-02","","test_sign_up","",""
+"Verify that entering an invalid password displays the correct validation error.","5181","TC-53 Verify registration password policy validation [Missing lowercase]","tests","2026-09-02","failed","2026-09-02","","test_sign_up","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","5670","TC-4: Registration — required field 'Ім'я' left empty","tests","2026-09-02","passed","2026-09-02","","test_registration_required_field","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","5123","TC-4: Registration — required field 'Пароль' left empty","tests","2026-09-02","passed","2026-09-02","","test_registration_required_field","",""
+"Test verifies that the 'Наші контакти' block is displayed on the news page, has the correct title, and contains all required social media icons: Facebook, YouTube, Instagram, and Mail.","10222","TC-28: Verify 'Наші контакти' section display","tests","2026-09-02","broken","2026-09-02","","test_social_buttons_ui","",""
+"","0","Verify get_challenge_by_id method","tests","2026-09-02","broken","2026-09-02","TestChallengeApi","test_api_challenge_client","",""
+"A non-existent news id must yield a 404 response.","11","News-API-06: GET /news/{id} returns 404 for a missing article","tests","2026-09-02","passed","2026-09-02","","test_news_api","",""
+"","2642","TC-08: News card displays information in fields.","tests","2026-09-02","passed","2026-09-02","","test_news_display_08","",""
+"Verify opening a news article from the list and returning back to the News page.","3400","TC-07: Navigation to the News details page","tests","2026-09-02","passed","2026-09-02","","test_news_details_navigation","",""
+"An existing complaint must be fetchable by id without auth.","50","Complaint-API-05: GET /complaint/{id} returns 200 for an existing complaint","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"Verify that an authenticated user can successfully fill out the 'Add Center' modal and reach the final step to submit the center.","17141","TC-58: Center creation functionality","tests","2026-09-02","failed","2026-09-02","","test_add_center","",""
+"","3067","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-02","passed","2026-09-02","","test_sign_up","",""
+"ComplaintProfile.model_dump must keep every required field verbatim.
+
+    The expected payload is a hand-written literal derived from the JSON
+    Schema, not from re-reading the model, so the assertion can disagree
+    with the model if a field is silently dropped or renamed.
+    ","67","Complaint-API-17: ComplaintProfile preserves required fields and drops None","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"POST /complaint must succeed for an authenticated USER caller.
+
+    The probe confirmed that both USER and MANAGER tokens can create a
+    complaint. The response body matches the ``SuccessCreatedComplaint``
+    schema (``id``/``userId``/``clubId``/``recipientId``/``hasAnswer``) and
+    can be deserialized into the typed ``SuccessCreatedComplaint`` model.
+    The body's ``userId`` must match the authenticated user's id — the
+    backend rejects mismatched ids with 400.
+    ","115","Complaint-API-12: USER POST /complaint returns 200 with SuccessCreatedComplaint","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"Complaints filtered by recipient id must return 200 with a JSON list.","73","Complaint-API-03: GET /complaints/recipient/{id} returns 200 with a list","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"Test verifies that the email icon in the 'Наші контакти' section contains the correct project email address and uses a mailto link.","10313","TC-45: Verify email link functionality in contacts section","tests","2026-09-02","broken","2026-09-02","","test_social_buttons_ui","",""
+"The manager driver boots a session with the manager API credentials.
+
+    Args:
+        authenticated_manager_driver: Browser signed in as the manager credentials.
+        manager_session_driver: The API session issued for the manager credentials.
+    ","0","test_authenticated_manager_driver_returns_manager_session","tests","2026-09-02","broken","2026-09-02","","test_driver_roles","",""
+"Verify POST /challenge-registration creates a new registration for the user.","0","Create a challenge registration for a user","tests","2026-09-02","broken","2026-09-02","","test_challenge_registration_post_response","",""
+"Verify PATCH /challenge-registration/approve/{id} marks the registration as approved.","0","Approve a pending registration","tests","2026-09-02","broken","2026-09-02","","test_challenge_registration_patch_response","",""
+"Verify that entering an invalid password displays the correct validation error.","6408","TC-53 Verify registration password policy validation [Length > 20]","tests","2026-09-02","failed","2026-09-02","","test_sign_up","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","10368","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-09-02","broken","2026-09-02","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"Verify successful registration with email confirmation (TC-2 and TC-3).","8884","TC-2 Verify successful user registration with email confirmation","tests","2026-09-02","broken","2026-09-02","","test_sign_up","",""
+"","0","Verify get_all_challenges method","tests","2026-09-02","broken","2026-09-02","TestChallengeApi","test_api_challenge_client","",""
+"","10628","TC-30: Verify that an authenticated user can send a message to a club manager","tests","2026-09-02","broken","2026-09-02","","test_club_details","",""
+"Verify that the map modal displays clubs according to the selected city and category.","11116","TC-10: Catalog: Club's Location","tests","2026-09-02","broken","2026-09-02","TestCatalogClubLocation","test_catalog_club_location","",""
+"","0","Verify get_challenge_by_id method","tests","2026-09-02","broken","2026-09-02","TestChallengeApi","test_api_challenge_client","",""
+"Verify that entering an invalid password displays the correct validation error.","4766","TC-53 Verify registration password policy validation [Contains Cyrillic]","tests","2026-09-02","failed","2026-09-02","","test_sign_up","",""
+"PUT /complaint/{id}/answer must require an authenticated caller.","22","Complaint-API-08: PUT /complaint/{id}/answer requires authentication (401)","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"Ensure both user and manager credentials are present in the environment.","0","test_user_and_manager_credentials_are_configured","tests","2026-09-02","passed","2026-09-02","","test_driver_roles","",""
+"Verify that clicking the 'Новини' menu item in the header navigates the user to the News page with valid URL, title, and article list.","336","TC-06: Verify that the News page opens","tests","2026-09-02","passed","2026-09-02","TestNewsPage","test_news_page_opens","",""
+"Verify that the user can find a club by name.","11661","TC-27: Verify that the user can find a club by name","tests","2026-09-02","broken","2026-09-02","","test_clubs_page","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","4101","TC-4: Registration — required field 'Email' left empty","tests","2026-09-02","passed","2026-09-02","","test_registration_required_field","",""
+"Verify challenge and event banner navigation on the homepage.","3663","TC-50 Verify challenge and event banner navigation on the homepage","tests","2026-09-02","passed","2026-09-02","","test_home_page","",""
+"","3378","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-02","passed","2026-09-02","","test_sign_up","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","10296","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-09-02","broken","2026-09-02","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"An anonymous caller must not be able to delete news (401).","20","News-API-07: DELETE /news/{id} is admin-only (401 when unauthenticated)","tests","2026-09-02","passed","2026-09-02","","test_news_api","",""
+"Verify that an authenticated user can submit a complaint about a club.
+
+    Args:
+        authenticated_driver: Browser already signed in via the API fixture.
+    ","10376","test_tc_20_authenticated_user_can_submit_complaint","tests","2026-09-02","broken","2026-09-02","","test_tc_20_complaint_submission","",""
+"Verify successful registration with email confirmation (TC-2 and TC-3).","0","test_registration_flow[Manager]","tests","2026-09-02","broken","2026-09-02","","test_sign_up","",""
+"Verify GET /challenge-registration/user-applications/{userId} returns the submitted application.","0","Get applications submitted by a user with an existing application","tests","2026-09-02","broken","2026-09-02","","test_challenge_registration_get_response","",""
+"PUT /complaint/{id}/answer must succeed for an authenticated USER caller.","61","Complaint-API-14: USER PUT /complaint/{id}/answer returns 200","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"Verify that entering an invalid email format in the 'Реєстрація' modal displays the validation error 'Некоректний формат email' and keeps the 'Зареєструватися' button enabled.","3574","TC-54: Verify registration with invalid email format","tests","2026-09-02","passed","2026-09-02","","test_sign_up","",""
+"","2739","TC-34 Login — unconfirmed account (link not clicked)","tests","2026-09-02","passed","2026-09-02","","test_sign_in","",""
+"Verify that 'Інші новини' carousel can be navigated using arrows.","10474","TC-24 Verify carousel navigation using left and right arrows","tests","2026-09-02","broken","2026-09-02","","test_news_details","",""
+"","3551","TC-33: Login — empty fields(required-field enforcement)","tests","2026-09-02","passed","2026-09-02","","test_sign_in","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","10392","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-09-02","broken","2026-09-02","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"","0","Verify get_all_challenges method","tests","2026-09-02","broken","2026-09-02","TestChallengeApi","test_api_challenge_client","",""
+"Verify that the buttons functionalities are unavailable for unauthenticated users","11162","TC-15: Verify unauthorized user cannot use restricted club actions","tests","2026-09-02","broken","2026-09-02","","test_club_actions_unauthorized","",""
+"Verify that the 'Зареєструватись' button is visible and enabled, opens the registration page, supports browser back navigation, and the registration page is accessible directly.","1522","TC-13: 'Зареєструватись' CTA opens registration page","tests","2026-09-02","passed","2026-09-02","TestMarathonRegistrationCTA","test_marathon_registration_cta","",""
+"Test verifies that the YouTube icon on the news details page opens the project's official YouTube page in a new browser tab.","10331","TC-43: Verify YouTube social media link functionality","tests","2026-09-02","broken","2026-09-02","","test_social_buttons_ui","",""
+"Verify GET /challenge-registration/{challengeId}/{userId} returns true when registered.","0","Check registration status for a user registered on a challenge","tests","2026-09-02","broken","2026-09-02","","test_challenge_registration_get_response","",""
+"An anonymous caller must not be able to create a complaint (401).","44","Complaint-API-10: POST /complaint requires authentication (401)","tests","2026-09-02","passed","2026-09-02","","test_complaint_api","",""
+"Verify GET /challenge-registration/{managerId} returns an empty list.","0","Get all registrations for a manager with none existing","tests","2026-09-02","broken","2026-09-02","","test_challenge_registration_get_response","",""
+"","4299","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-02","passed","2026-09-02","","test_sign_up","",""
+"The public news list must return a 200 response with a JSON list.","84","News-API-01: GET /newslist returns 200 with a news list","tests","2026-09-02","passed","2026-09-02","","test_news_api","",""
+"Verify PATCH /challenge-registration/cancel/{id} marks the registration as inactive.","0","Cancel an active registration","tests","2026-09-02","broken","2026-09-02","","test_challenge_registration_patch_response","",""
+"Verify alphabetical sorting in the advanced club search.","11767","test_tc_52_advanced_club_search_sorting","tests","2026-09-02","broken","2026-09-02","","test_52_Advanced_club_search","",""
+"TC-5: a confirmed user can log in via the 'Вхід' modal and stays signed in.
+
+    Fills valid credentials for a confirmed account, submits the login form,
+    and verifies the user menu reports a signed-in session, including after
+    a page reload.
+
+    Uses the current `UserProfileMenu` API: `HeaderComponent.click_user_profile()`
+    opens the dropdown and returns a `UserProfileMenu`; its `click_login()`
+    opens the ""Вхід"" modal and returns the `SignInModal`; `is_logged_in()`
+    lives on `UserProfileMenu`, so the dropdown must be reopened each time
+    the auth state is checked.
+    ","4080","test_confirmed_user_can_log_in","tests","2026-09-02","passed","2026-09-02","","test_sign_in","",""
+"Verify that entering an invalid password displays the correct validation error.","4624","TC-53 Verify registration password policy validation [Missing letters/digits]","tests","2026-09-02","failed","2026-09-02","","test_sign_up","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","5356","TC-4: Registration — required field 'Підтвердження паролю' left empty","tests","2026-09-02","passed","2026-09-02","","test_registration_required_field","",""
+"Verify that invalid search queries return no matching clubs.","11208","test_tc_51_club_search_negative","tests","2026-09-02","broken","2026-09-02","","test_51_club_search_negative","",""
