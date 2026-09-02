@@ -32,5 +32,6 @@ class Config:
     USER_EMAIL: str = os.getenv("USER_EMAIL", "")
     MANAGER_EMAIL: str = os.getenv("MANAGER_EMAIL", "")
     MANAGER_PASSWORD: str = os.getenv("MANAGER_PASSWORD", "")
+
     ADMIN_EMAIL: str = os.getenv("ADMIN_EMAIL", "")
     ADMIN_PASSWORD: str = os.getenv("ADMIN_PASSWORD", "")
