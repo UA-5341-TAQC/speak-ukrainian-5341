@@ -15,13 +15,12 @@ from utils.email_api import TempMailAPIClient
 from utils.signin_api import sign_in_via_api
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def temp_mail() -> TempMailAPIClient:
     """Provides an authenticated temporary email client."""
     return TempMailAPIClient()
 
 
-<<<<<<< HEAD
 @pytest.fixture(scope="session")
 def news_api() -> NewsClient:
     """Provide an unauthenticated client for the public news endpoints."""
@@ -99,9 +98,7 @@ def complaint_api_user() -> tuple[ComplaintClient, str]:
     return client, session.user_id
 
 
-=======
->>>>>>> 6366b831 (feat(api): implement Categories API client, RBAC tests, and allure reporting)
-@pytest.fixture
+@pytest.fixture(scope="session")
 def authorized_client() -> Callable[..., BaseClient]:
     """Fixture factory to instantiate and authenticate any API client."""
 
@@ -131,13 +128,13 @@ def authorized_client() -> Callable[..., BaseClient]:
     return _factory
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def categories_api() -> CategoriesClient:
     """Provides a client for the Category API endpoints."""
     return CategoriesClient(base_url=Config.BASE_API_URL)
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def rbac_client(request: SubRequest) -> Any:
     """Universal factory fixture for initializing any API client with authentication.
 
