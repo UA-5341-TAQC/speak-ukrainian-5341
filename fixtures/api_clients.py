@@ -4,6 +4,7 @@ from collections.abc import Callable
 
 import pytest
 
+from api.base_client import BaseClient
 from api.complaint_client import ComplaintClient
 from api.news_client import NewsClient
 from data.config import Config
@@ -92,6 +93,8 @@ def complaint_api_user() -> tuple[ComplaintClient, str]:
         access_token=session.access_token,
     )
     return client, session.user_id
+
+
 @pytest.fixture
 def authorized_client() -> Callable[..., BaseClient]:
     """Fixture factory to instantiate and authenticate any API client."""
