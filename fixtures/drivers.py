@@ -46,7 +46,7 @@ def driver() -> Iterator[WebDriver]:
 @pytest.fixture(scope="session")
 def session_driver() -> SignInSession:
     """Provide API session data for the authenticated user."""
-    return sign_in_via_api(Config.USER_EMAIL, Config.USER_PASSWORD)
+    return sign_in_via_api(Config.API_USER_EMAIL, Config.API_USER_PASSWORD)
 
 
 @pytest.fixture(scope="session")

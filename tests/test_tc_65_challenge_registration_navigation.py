@@ -25,8 +25,7 @@ def test_tc_65_speaking_club_challenge_registration(
     home_page = HomePage(driver)
 
     with allure.step("Step 1: Open the 'Челендж' dropdown menu"):
-        home_page.header.click_challenge()
-        challenge_dropdown = home_page.header.get_challenge_dropdown()
+        challenge_dropdown = home_page.header.click_challenge()  #get_challenge_dropdown()
 
     with allure.step("Step 2: Open the 'Клуб української мови Розмовляй' challenge"):
         challenge_dropdown.click_speaking_club_challenge()
