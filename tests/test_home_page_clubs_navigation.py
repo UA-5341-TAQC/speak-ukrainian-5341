@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import allure
 import pytest
+from selenium.webdriver.remote.webdriver import WebDriver
 
 from data.config import Config
 from pages.home_page import HomePage
@@ -15,7 +16,7 @@ class TestHomePageClubsNavigation:
     """Test suite for verifying navigation to the Clubs page (TC-38)."""
 
     @pytest.fixture(autouse=True)
-    def setup(self, driver) -> None:
+    def setup(self, driver: WebDriver) -> None:
         """Open home page before each test."""
         driver.get(Config.BASE_UI_URL)
 
@@ -28,7 +29,7 @@ class TestHomePageClubsNavigation:
         "button and individual club category cards ('Спортивні секції', 'Танці, хореографія', 'Студії раннього розвитку')."
     )
     @allure.label("owner", "Svitlana Kovalova")
-    def test_verify_clubs_navigation_and_categories(self, driver) -> None:
+    def test_verify_clubs_navigation_and_categories(self, driver: WebDriver) -> None:
         home_page = HomePage(driver)
 
         with allure.step(

@@ -77,7 +77,7 @@ class MarathonPage(BasePage):
         if current_dot > 1:
             def _is_dot_changed(_: object) -> bool:
                 try:
-                    return self.get_active_dot_index() != current_dot
+                    return bool(self.get_active_dot_index() != current_dot)
                 except ValueError:
                     return False
 
@@ -93,7 +93,7 @@ class MarathonPage(BasePage):
         if current_dot < total_dots:
             def _is_dot_changed(_: object) -> bool:
                 try:
-                    return self.get_active_dot_index() != current_dot
+                    return bool(self.get_active_dot_index() != current_dot)
                 except ValueError:
                     return False
 
