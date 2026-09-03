@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
+import requests
+
 from api.base_client import BaseClient
 
 VERSION_ENDPOINT = "version"
@@ -12,12 +14,14 @@ VERSION_ENDPOINT = "version"
 class VersionClient(BaseClient):
     """Client for the ``/version`` endpoint of the Speak Ukrainian API."""
 
-    def get_version(self, **kwargs: Any) -> dict[str, Any]:
+    def get_version(self, **kwargs: Any) -> requests.Response:
         """Retrieve the backend build/commit metadata.
 
+        Args:
+            **kwargs: Extra keyword arguments forwarded to the HTTP request.
+
         Returns:
-            Parsed JSON object with version details such as
+            The raw HTTP response containing version details such as
             ``backendCommitNumber``, ``backendCommitDate`` and ``buildDate``.
         """
-        response = self._request("GET", VERSION_ENDPOINT, **kwargs)
-        return dict(response.json())
+        return self._request("GET", VERSION_ENDPOINT, **kwargs)
