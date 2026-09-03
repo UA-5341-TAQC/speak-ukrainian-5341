@@ -33,8 +33,8 @@ class Config:
     MANAGER_EMAIL: str = os.getenv("MANAGER_EMAIL", "")
     MANAGER_PASSWORD: str = os.getenv("MANAGER_PASSWORD", "")
 
-    DEV_API_URL: str = os.getenv("DEV_API_URL", "")
-    DEV_USER_EMAIL: str = os.getenv("DEV_USER_EMAIL", "")
-    DEV_USER_PASSWORD: str = os.getenv("DEV_USER_PASSWORD", "")
     ADMIN_EMAIL: str = os.getenv("ADMIN_EMAIL", "")
     ADMIN_PASSWORD: str = os.getenv("ADMIN_PASSWORD", "")
+
+    API_USER_EMAIL: str = os.getenv("API_USER_EMAIL", "")
+    API_USER_PASSWORD: str = os.getenv("API_USER_PASSWORD", "")
