@@ -16,6 +16,7 @@ from api.challenge_registration_client import ChallengeRegistrationClient
 from api.complaint_client import ComplaintClient
 from api.location_client import LocationClient
 from api.news_client import NewsClient
+from api.version_client import VersionClient
 from data.config import Config
 from utils.email_api import TempMailAPIClient
 
@@ -28,6 +29,10 @@ def temp_mail() -> TempMailAPIClient:
 @pytest.fixture
 def authorized_client() -> collections.abc.Callable[..., BaseClient]:
 
+@pytest.fixture
+def version_api() -> VersionClient:
+    """Provides a client for the public ``/version`` endpoint."""
+    return VersionClient(base_url=Config.BASE_API_URL)
 @pytest.fixture(scope="session")
 def news_api() -> NewsClient:
     """Provide an unauthenticated client for the public news endpoints."""
