@@ -6,10 +6,12 @@ from typing import Any
 import pytest
 from _pytest.fixtures import SubRequest
 
+from api.address_controller import AddressControllerClient
 from api.base_client import BaseClient
 from api.categories_client import CategoriesClient
 from api.challenge_registration_client import ChallengeRegistrationClient
 from api.complaint_client import ComplaintClient
+from api.location_client import LocationClient
 from api.news_client import NewsClient
 from data.config import Config
 from utils.email_api import TempMailAPIClient
@@ -128,6 +130,15 @@ def authorized_client() -> Callable[..., BaseClient]:
 
     return _factory
 
+@pytest.fixture
+def location_api() -> LocationClient:
+    """Provides a client for the Location API endpoints."""
+    return LocationClient(base_url=Config.BASE_API_URL)
+
+@pytest.fixture
+def addres_control_api() -> AddressControllerClient:
+    """Provides a client for the Address Controller  API endpoints."""
+    return AddressControllerClient(base_url=Config.BASE_API_URL)
 
 @pytest.fixture(scope="session")
 def categories_api() -> CategoriesClient:
