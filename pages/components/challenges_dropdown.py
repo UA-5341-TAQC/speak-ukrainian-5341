@@ -10,77 +10,66 @@ from pages.types import Locator
 class ChallengeDropdown(BaseComponent):
     """Component representing the Challenge dropdown menu."""
 
+    TEACH_LINK: Locator = (
+        By.CSS_SELECTOR,
+        "a[href*='/challenges/2']",
+    )
+
+    HISTORICAL_CHALLENGE_2026_LINK: Locator = (
+        By.CSS_SELECTOR,
+        "a[href*='/challenges/13']",
+    )
+
+    UPDATED_HISTORICAL_CHALLENGE_LINK: Locator = (
+        By.CSS_SELECTOR,
+        "a[href*='/challenges/15']",
+    )
+
     UNIQUE_CHALLENGE_LINK: Locator = (
         By.CSS_SELECTOR,
-        "a[href='/challenges/5']",
+        "a[href*='/challenges/1']",
     )
 
-    SPEAKING_CLUB_CHALLENGE_LINK: Locator = (
-        By.CSS_SELECTOR,
-        "a[href='/challenges/4']",
-    )
+    @allure.step("Click 'Навчайся'")
+    def click_teach(self) -> None:
+        """Open the 'Навчайся' challenge."""
+        self._wait_clickable_from_driver(self.TEACH_LINK).click()
 
-    TEACH_UKRAINIAN_CHALLENGE_LINK: Locator = (
-        By.CSS_SELECTOR,
-        "a[href='/challenges/3']",
-    )
+    @allure.step("Click 'Історичний челендж 2026'")
+    def click_historical_challenge_2026(self) -> None:
+        """Open the 'Історичний челендж 2026'."""
+        self._wait_clickable_from_driver(
+            self.HISTORICAL_CHALLENGE_2026_LINK
+        ).click()
 
-    LANGUAGE_MARATHON_LINK: Locator = (
-        By.CSS_SELECTOR,
-        "a[href='/challenges/1']",
-    )
-
-    TEACH_UKRAINIAN_LINK: Locator = (
-        By.CSS_SELECTOR,
-        "a[href='/challenges/2']",
-    )
+    @allure.step("Click 'Оновлений історичний челендж'")
+    def click_updated_historical_challenge(self) -> None:
+        """Open the 'Оновлений історичний челендж'."""
+        self._wait_clickable_from_driver(
+            self.UPDATED_HISTORICAL_CHALLENGE_LINK
+        ).click()
 
     @allure.step("Click 'Єдині'")
     def click_unique_challenge(self) -> None:
         """Open the 'Єдині' challenge."""
         self._wait_clickable_from_driver(self.UNIQUE_CHALLENGE_LINK).click()
 
-    @allure.step("Click 'Клуб української мови Розмовляй'")
-    def click_speaking_club_challenge(self) -> None:
-        """Open the 'Розмовляй' challenge."""
-        self._wait_clickable_from_driver(
-            self.SPEAKING_CLUB_CHALLENGE_LINK
-        ).click()
-
-    @allure.step("Click 'Навчай українською челендж'")
-    def click_teach_ukrainian_challenge(self) -> None:
-        """Open the 'Навчай українською челендж'."""
-        self._wait_clickable_from_driver(
-            self.TEACH_UKRAINIAN_CHALLENGE_LINK
-        ).click()
-
-    @allure.step("Click 'Мовомаратон'")
-    def click_language_marathon(self) -> None:
-        """Open the 'Мовомаратон' challenge."""
-        self._wait_clickable_from_driver(self.LANGUAGE_MARATHON_LINK).click()
-
-    @allure.step("Click 'Навчай українською'")
-    def click_teach_ukrainian(self) -> None:
-        """Open the 'Навчай українською' challenge."""
-        self._wait_clickable_from_driver(self.TEACH_UKRAINIAN_LINK).click()
-
     def select_challenge(self, challenge: str) -> None:
-        """Select a challenge by its name."""
-        challenge_actions = {
-            "Єдині": self.click_unique_challenge,
-            "Клуб української мови Розмовляй":
-                self.click_speaking_club_challenge,
-            "Навчай українською челендж":
-                self.click_teach_ukrainian_challenge,
-            "Мовомаратон":
-                self.click_language_marathon,
-            "Навчай українською":
-                self.click_teach_ukrainian,
+        """Select a challenge by its name using JavaScript click to prevent interception."""
+        challenge_links = {
+            "Навчайся": self.TEACH_LINK,
+            "Історичний челендж 2026": self.HISTORICAL_CHALLENGE_2026_LINK,
+            "Оновлений історичний челендж": self.UPDATED_HISTORICAL_CHALLENGE_LINK,
+            "Єдині": self.UNIQUE_CHALLENGE_LINK,
         }
 
-        if challenge not in challenge_actions:
+        if challenge not in challenge_links:
             raise ValueError(
                 f"Unknown challenge: {challenge}"
             )
 
-        challenge_actions[challenge]()
+        locator = challenge_links[challenge]
+        element = self._wait_clickable_from_driver(locator)
+
+        with allure.step(f"Click '{challenge}' challenge link via JavaScript"):
+            self.driver.execute_script("arguments[0].click();", element)

@@ -5,6 +5,7 @@ from collections.abc import Callable
 import pytest
 
 from api.base_client import BaseClient
+from api.challenge_registration_client import ChallengeRegistrationClient
 from api.complaint_client import ComplaintClient
 from api.news_client import NewsClient
 from data.config import Config
@@ -123,3 +124,18 @@ def authorized_client() -> Callable[..., BaseClient]:
         return client
 
     return _factory
+
+@pytest.fixture(scope="session")
+def challenge_registration_api_user() -> tuple[ChallengeRegistrationClient, str]:
+    """Provide a user-authenticated ChallengeRegistrationClient together with the user's id."""
+    session = sign_in_via_api(Config.API_USER_EMAIL, Config.API_USER_PASSWORD)  # noqa: E501
+    client = ChallengeRegistrationClient(base_url=Config.BASE_API_URL, access_token=session.access_token)  # noqa: E501
+    return client, session.user_id
+
+
+@pytest.fixture(scope="session")
+def challenge_registration_api_manager() -> tuple[ChallengeRegistrationClient, str]:
+    """Provide a manager-authenticated ChallengeRegistrationClient together with the manager's id."""  # noqa: E501
+    session = sign_in_via_api(Config.API_MANAGER_EMAIL, Config.API_MANAGER_PASSWORD)
+    client = ChallengeRegistrationClient(base_url=Config.BASE_API_URL, access_token=session.access_token)  # noqa: E501
+    return client, session.user_id
