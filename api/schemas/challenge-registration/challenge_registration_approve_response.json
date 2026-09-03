@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "challenge_registration_approve_response.json",
+  "title": "ChallengeRegistrationApproveResponse",
+  "description": "Response body returned by PATCH /api/challenge-registration/approve/{challengeRegistrationId}.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["id", "approved"],
+  "properties": {
+    "id": {"type": "integer"},
+    "approved": {"type": "boolean"}
+  }
+}
