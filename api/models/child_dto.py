@@ -7,6 +7,7 @@ from api.models.parent_dto import ParentDto
 
 class ChildDto(BaseDto):
     """Model representing a child registered for a club."""
+
     id: int
     firstName: str
     lastName: str

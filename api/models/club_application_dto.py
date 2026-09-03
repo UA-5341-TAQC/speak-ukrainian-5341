@@ -6,6 +6,7 @@ from api.models.club_user_dto import UserDto
 
 class ClubApplicationDto(BaseDto):
     """Model representing a club registration application."""
+
     id: int
     user: UserDto | None = None
     child: ChildDto | None = None

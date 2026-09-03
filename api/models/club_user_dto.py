@@ -5,6 +5,7 @@ from api.models.base_dto import BaseDto
 
 class UserDto(BaseDto):
     """Short model for user in registration response."""
+
     id: int
     firstName: str
     lastName: str

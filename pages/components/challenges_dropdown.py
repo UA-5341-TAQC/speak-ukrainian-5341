@@ -42,14 +42,13 @@ class ChallengeDropdown(BaseComponent):
 
     UNIQUE_UPD_LINK: Locator = (
         By.CSS_SELECTOR,
-       "a[href*='/challenges/1']",
+        "a[href*='/challenges/1']",
     )
 
     @allure.step("Click 'Єдині'")
     def click_unique_challenge(self) -> None:
         """Open the 'Єдині' challenge."""
         self._wait_clickable_from_driver(self.UNIQUE_CHALLENGE_LINK).click()
-
 
     @allure.step("Click 'Єдині', updated")
     def click_unique_upd_challenge(self) -> None:
@@ -64,24 +63,16 @@ class ChallengeDropdown(BaseComponent):
     @allure.step("Click 'Клуб української мови Розмовляй'")
     def click_speaking_club_challenge(self) -> None:
         """Open the 'Розмовляй' challenge."""
+
     @allure.step("Click 'Історичний челендж 2026'")
     def click_historical_challenge_2026(self) -> None:
         """Open the 'Історичний челендж 2026'."""
-        self._wait_clickable_from_driver(
-            self.HISTORICAL_CHALLENGE_2026_LINK
-        ).click()
+        self._wait_clickable_from_driver(self.HISTORICAL_CHALLENGE_2026_LINK).click()
 
     @allure.step("Click 'Оновлений історичний челендж'")
     def click_updated_historical_challenge(self) -> None:
         """Open the 'Оновлений історичний челендж'."""
-        self._wait_clickable_from_driver(
-            self.UPDATED_HISTORICAL_CHALLENGE_LINK
-        ).click()
-
-    @allure.step("Click 'Єдині'")
-    def click_unique_challenge(self) -> None:
-        """Open the 'Єдині' challenge."""
-        self._wait_clickable_from_driver(self.UNIQUE_CHALLENGE_LINK).click()
+        self._wait_clickable_from_driver(self.UPDATED_HISTORICAL_CHALLENGE_LINK).click()
 
     def select_challenge(self, challenge: str) -> None:
         """Select a challenge by its name using JavaScript click to prevent interception."""
@@ -93,9 +84,7 @@ class ChallengeDropdown(BaseComponent):
         }
 
         if challenge not in challenge_links:
-            raise ValueError(
-                f"Unknown challenge: {challenge}"
-            )
+            raise ValueError(f"Unknown challenge: {challenge}")
 
         locator = challenge_links[challenge]
         element = self._wait_clickable_from_driver(locator)

@@ -8,6 +8,7 @@ from api.models.сhallenge_user_dto import ChallengeUserDto
 
 class ChallengeResponse(BaseModel):
     """Main detailed model for a challenge."""
+
     id: int
     name: str
     title: str

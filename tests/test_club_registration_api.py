@@ -48,8 +48,10 @@ class TestClubRegistrationApi:
             assert len(child_apps) > 0
             app = child_apps[0]
             assert app.user is None
+            assert app.child is not None
             assert app.child.id > 0
             assert app.child.firstName
+            assert app.child.parent is not None
             assert app.child.parent.id == self.user_id
             assert app.child.gender.value in ("MALE", "FEMALE")
 
@@ -58,6 +60,7 @@ class TestClubRegistrationApi:
             assert len(user_apps) > 0
             app = user_apps[0]
             assert app.child is None
+            assert app.user is not None
             assert app.user.id == self.user_id
             assert app.user.email
 

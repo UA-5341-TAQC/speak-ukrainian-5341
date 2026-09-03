@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.3.0 # Use the latest stable version
+    rev: v0.16.5 # Use the latest stable version
     hooks:
       # Run the linter with auto-fixing
       - id: ruff
@@ -9,7 +9,7 @@ repos:
       - id: ruff-format
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v2.3.0 # Use the latest stable version
+    rev: v2.3.1 # Use the latest stable version
     hooks:
       - id: mypy
         additional_dependencies: [

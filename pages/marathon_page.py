@@ -47,8 +47,7 @@ class MarathonPage(BasePage):
 
         def _has_visible_titles(_: object) -> list[str]:
             return [
-                el.text for el in self._find_elements(self.VISIBLE_TASK_TITLES)
-                if el.text.strip()
+                el.text for el in self._find_elements(self.VISIBLE_TASK_TITLES) if el.text.strip()
             ]
 
         self.get_wait(5).until(_has_visible_titles)
@@ -75,6 +74,7 @@ class MarathonPage(BasePage):
         self._wait_clickable(self.TASKS_PREV_ARROW).click()
 
         if current_dot > 1:
+
             def _is_dot_changed(_: object) -> bool:
                 try:
                     return bool(self.get_active_dot_index() != current_dot)
@@ -91,6 +91,7 @@ class MarathonPage(BasePage):
         total_dots = self.get_pagination_dot_count()
 
         if current_dot < total_dots:
+
             def _is_dot_changed(_: object) -> bool:
                 try:
                     return bool(self.get_active_dot_index() != current_dot)
@@ -115,6 +116,4 @@ class MarathonPage(BasePage):
 
         dots[index - 1].click()
 
-        self.get_wait(5).until(
-            lambda _: self.get_active_dot_index() == index
-        )
+        self.get_wait(5).until(lambda _: self.get_active_dot_index() == index)

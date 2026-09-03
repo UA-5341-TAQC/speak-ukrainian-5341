@@ -16,14 +16,8 @@ class DescriptionStep(AddClubModal):
         By.CSS_SELECTOR,
         ".ant-upload-picture-card-wrapper input[type='file']",
     )
-    VIEW_UPLOAD_IMG_BUTTON: Locator = (
-        By.CSS_SELECTOR,
-       "span[aria-label='eye']"
-    )
-    DELETE_BUTTON: Locator = (
-        By.CSS_SELECTOR,
-        "span[aria-label='delete']"
-    )
+    VIEW_UPLOAD_IMG_BUTTON: Locator = (By.CSS_SELECTOR, "span[aria-label='eye']")
+    DELETE_BUTTON: Locator = (By.CSS_SELECTOR, "span[aria-label='delete']")
 
     DESCRIPTION_TEXTAREA: Locator = (By.ID, "basic_description")
 

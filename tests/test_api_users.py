@@ -1,12 +1,12 @@
 import allure
-
+from typing import Any
 from api.user_client import UserClient
 
 
 @allure.feature("API")
 @allure.story("User")
 @allure.title("Successful retrieval of user information by ID")
-def test_get_user(auth_data: dict):
+def test_get_user(auth_data: dict[str, Any])-> None:
     """Verify successful retrieval of user information by ID."""
     client = UserClient(
         access_token=auth_data["accessToken"],
@@ -28,7 +28,7 @@ def test_get_user(auth_data: dict):
 @allure.feature("API")
 @allure.story("User")
 @allure.title("Regular user cannot get all users")
-def test_get_users_as_regular_user(auth_data: dict):
+def test_get_users_as_regular_user(auth_data: dict[str, Any])-> None:
     """Verify regular user cannot get all users."""
     client = UserClient(
         access_token=auth_data["accessToken"],

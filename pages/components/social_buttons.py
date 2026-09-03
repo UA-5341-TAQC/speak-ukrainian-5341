@@ -62,7 +62,7 @@ class SocialButtons(BaseComponent):
     @allure.step("Get email link URL")
     def get_email_url(self) -> str:
         """Get the full mailto URL."""
-        return (self._find_element(self.MAIL_BUTTON).get_attribute("href") or "")
+        return self._find_element(self.MAIL_BUTTON).get_attribute("href") or ""
 
     @allure.step("Get Donate button text")
     def get_donate_button_text(self) -> str:
@@ -94,18 +94,15 @@ class SocialButtons(BaseComponent):
         """Return whether the Facebook button is visible."""
         return self._wait_visible(self.FACEBOOK_BUTTON).is_displayed()
 
-
     @allure.step("Check if YouTube button is displayed")
     def is_youtube_button_displayed(self) -> bool:
         """Return whether the YouTube button is visible."""
         return self._wait_visible(self.YOUTUBE_BUTTON).is_displayed()
 
-
     @allure.step("Check if Instagram button is displayed")
     def is_instagram_button_displayed(self) -> bool:
         """Return whether the Instagram button is visible."""
         return self._wait_visible(self.INSTAGRAM_BUTTON).is_displayed()
-
 
     @allure.step("Check if email button is displayed")
     def is_mail_button_displayed(self) -> bool:

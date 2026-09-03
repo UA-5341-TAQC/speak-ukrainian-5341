@@ -2,6 +2,7 @@
 
 import allure
 
+from typing import Any
 from api.challenge_registration_client import ChallengeRegistrationClient
 from api.schemas.validator import assert_response_matches
 
@@ -25,8 +26,8 @@ def test_get_unapproved_for_manager_with_no_registrations(challenge_registration
 @allure.title("Get applications submitted by a user with an existing application")
 def test_get_user_applications_with_existing_application(challenge_registration_api_user: tuple[ChallengeRegistrationClient, str]) -> None:
     """Verify GET /challenge-registration/user-applications/{userId} returns the submitted application."""
-    user_client, user_id = challenge_registration_api_user
-    user_id = int(user_id)
+    user_client, raw_user_id = challenge_registration_api_user
+    user_id = int(raw_user_id)
 
     response = user_client.get_user_applications(user_id)
     assert response.status_code == 200
@@ -39,11 +40,11 @@ def test_get_user_applications_with_existing_application(challenge_registration_
             name="GET /challenge-registration/user-applications/{userId}",
         )
 
-    application: dict | None = next(
+    application: dict[str, Any] | None = next(
         (app for app in applications if app["challenge"]["id"] == REGISTERED_CHALLENGE_ID_FOR_USER), None
     )
     assert application is not None, f"Application for challenge ID {REGISTERED_CHALLENGE_ID_FOR_USER} was not found"
-
+    assert application["user"] is not None, "User information is missing in the application"
     assert application["user"]["id"] == user_id
     assert application["active"] is True
     assert application["approved"] is False
@@ -52,8 +53,8 @@ def test_get_user_applications_with_existing_application(challenge_registration_
 @allure.title("Get children registered for a challenge")
 def test_get_user_children(challenge_registration_api_user: tuple[ChallengeRegistrationClient, str]) -> None:
     """Verify GET /challenge-registration/user-children/{challengeId} returns the registered child."""
-    user_client, user_id = challenge_registration_api_user
-    user_id = int(user_id)
+    user_client, raw_user_id = challenge_registration_api_user
+    user_id = int(raw_user_id)
 
     response = user_client.get_user_children(REGISTERED_CHALLENGE_ID_FOR_CHILD)
     assert response.status_code == 200
@@ -66,7 +67,7 @@ def test_get_user_children(challenge_registration_api_user: tuple[ChallengeRegis
             name="GET /challenge-registration/user-children/{challengeId}",
         )
 
-    expected_child: dict | None = next((child for child in children if child["id"] == EXPECTED_CHILD_ID), None)
+    expected_child: dict[str, Any] | None = next((child for child in children if child["id"] == EXPECTED_CHILD_ID), None)
     assert expected_child is not None, f"Child with ID {EXPECTED_CHILD_ID} was not found"
 
     assert expected_child["firstName"] == "Test"
@@ -80,8 +81,8 @@ def test_get_user_children(challenge_registration_api_user: tuple[ChallengeRegis
 @allure.title("Check registration status for a user registered on a challenge")
 def test_is_user_registered_returns_true(challenge_registration_api_user: tuple[ChallengeRegistrationClient, str]) -> None:
     """Verify GET /challenge-registration/{challengeId}/{userId} returns true when registered."""
-    user_client, user_id = challenge_registration_api_user
-    user_id = int(user_id)
+    user_client, raw_user_id = challenge_registration_api_user
+    user_id = int(raw_user_id)
 
     response = user_client.get_registration(REGISTERED_CHALLENGE_ID_FOR_USER, user_id)
     assert response.status_code == 200

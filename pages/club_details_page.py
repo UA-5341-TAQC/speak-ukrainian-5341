@@ -75,7 +75,7 @@ class ClubDetailsPage(BasePage):
 
     REGISTRATION_SUCCESS_MESSAGE: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-message-notice-content:has(div.ant-message-success)"
+        "div.ant-message-notice-content:has(div.ant-message-success)",
     )
 
     @allure.step("Open page")

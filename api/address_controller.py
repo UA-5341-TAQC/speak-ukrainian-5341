@@ -13,7 +13,8 @@ import requests
 from api.base_client import BaseClient
 
 GET_BAD_ADDRESS = "getAllBadAddress"
-REPLACE_INCORRECT_CITY ="replaceIncorrectCity"
+REPLACE_INCORRECT_CITY = "replaceIncorrectCity"
+
 
 class AddressControllerClient(BaseClient):
     """Client for the address controller endpoints of the Speak Ukrainian API.
@@ -24,7 +25,7 @@ class AddressControllerClient(BaseClient):
 
     def get_all_bad_address(self, **kwargs: Any) -> requests.Response:
         """Return the full list of bad addresses (admin only)."""
-        return self._request("GET",GET_BAD_ADDRESS,**kwargs)
+        return self._request("GET", GET_BAD_ADDRESS, **kwargs)
 
     def replace_incorrect_city(self, **kwargs: Any) -> requests.Response:
         """Replace the incorrect city (admin only)."""

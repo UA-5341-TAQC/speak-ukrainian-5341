@@ -17,6 +17,7 @@ from api.base_client import BaseClient
 LOCATION_END_POINT = "location"
 LOCATIONS_END_POINT = "locations"
 
+
 class LocationClient(BaseClient):
     """Client for the location endpoints of the Speak Ukrainian API.
 
@@ -29,7 +30,7 @@ class LocationClient(BaseClient):
         """Return the full list of locations."""
         return self._request("GET", LOCATIONS_END_POINT, **kwargs)
 
-    def get_location(self, location_id: int ,**kwargs: Any) -> requests.Response:
+    def get_location(self, location_id: int, **kwargs: Any) -> requests.Response:
         """Return single location by its numeric ID."""
         return self._request("GET", f"{LOCATION_END_POINT}/{location_id}", **kwargs)
 
@@ -38,11 +39,11 @@ class LocationClient(BaseClient):
         return self._request("POST", LOCATION_END_POINT, json=payload, **kwargs)
 
     def update_location(
-            self, location_id: int, payload: dict[str, Any], **kwargs: Any
-        ) -> requests.Response:
+        self, location_id: int, payload: dict[str, Any], **kwargs: Any
+    ) -> requests.Response:
         """Fully update an existing location (admin only)."""
         return self._request("PUT", f"{LOCATION_END_POINT}/{location_id}", json=payload, **kwargs)
 
-    def delete_location(self, location_id: int ,**kwargs: Any) -> requests.Response:
+    def delete_location(self, location_id: int, **kwargs: Any) -> requests.Response:
         """Delete a news article by its ID (admin only)."""
         return self._request("DELETE", f"{LOCATION_END_POINT}/{location_id}", **kwargs)

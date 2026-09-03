@@ -62,7 +62,7 @@ class CenterClubsStep(BaseComponent):
             )
         except Exception as e:
             raise AssertionError(
-                "No club checkboxes were found " "(Possible backend bug: Clubs list is empty)."
+                "No club checkboxes were found (Possible backend bug: Clubs list is empty)."
             ) from e
 
         checkbox = checkboxes[0]

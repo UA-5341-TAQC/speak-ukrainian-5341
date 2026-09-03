@@ -1,7 +1,7 @@
 """API tests for POST /api/challenge-registration."""
 
 import allure
-
+from typing import Any
 from api.challenge_registration_client import ChallengeRegistrationClient
 from api.models.challenge_registration_create_dto import ChallengeRegistrationCreateDto
 from api.models.challenge_registration_create_for_children_dto import ChallengeRegistrationCreateForChildrenDto
@@ -16,8 +16,8 @@ EXPECTED_CHILD_ID = 18
 @allure.title("Create a challenge registration for a user")
 def test_create_registration_for_user(challenge_registration_api_user: tuple[ChallengeRegistrationClient, str]) -> None:
     """Verify POST /challenge-registration creates a new registration for the user."""
-    user_client, user_id = challenge_registration_api_user
-    user_id = int(user_id)
+    user_client, raw_user_id = challenge_registration_api_user
+    user_id = int(raw_user_id)
 
     payload = ChallengeRegistrationCreateDto(userId=str(user_id), challengeId=EXPECTED_CHALLENGE_ID)
 
@@ -71,7 +71,7 @@ def test_create_registration_for_child(challenge_registration_api_user: tuple[Ch
             )
 
         with allure.step("Verify the registration was created correctly"):
-            expected_registration: dict | None = next(
+            expected_registration: dict[str, Any] | None = next(
                 (registration for registration in registrations if registration["childId"] == EXPECTED_CHILD_ID), None
             )
             assert expected_registration is not None, (
