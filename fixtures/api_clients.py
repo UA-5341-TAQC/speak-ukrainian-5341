@@ -1,11 +1,14 @@
 """API-related fixtures for tests."""
 
+import collections.abc
 from collections.abc import Callable
 from typing import Any
 
 import pytest
 from _pytest.fixtures import SubRequest
 
+import utils.signin_api
+from api.base_client import BaseClient
 from api.address_controller import AddressControllerClient
 from api.base_client import BaseClient
 from api.categories_client import CategoriesClient
@@ -15,7 +18,6 @@ from api.location_client import LocationClient
 from api.news_client import NewsClient
 from data.config import Config
 from utils.email_api import TempMailAPIClient
-from utils.signin_api import sign_in_via_api
 
 
 @pytest.fixture(scope="session")
@@ -23,6 +25,8 @@ def temp_mail() -> TempMailAPIClient:
     """Provides an authenticated temporary email client."""
     return TempMailAPIClient()
 
+@pytest.fixture
+def authorized_client() -> collections.abc.Callable[..., BaseClient]:
 
 @pytest.fixture(scope="session")
 def news_api() -> NewsClient:
@@ -118,7 +122,7 @@ def authorized_client() -> Callable[..., BaseClient]:
             email = Config.USER_EMAIL
             password = Config.USER_PASSWORD
 
-        auth_data = sign_in_via_api(email, password)
+        auth_data = utils.signin_api.sign_in_via_api(email, password)
 
         client.session.headers.update(
             {
