@@ -10,7 +10,7 @@ from api.news_client import NewsClient
 from data.config import Config
 from utils.email_api import TempMailAPIClient
 from utils.signin_api import sign_in_via_api
-
+from api.center_client import CenterClient
 
 @pytest.fixture
 def temp_mail() -> TempMailAPIClient:
@@ -22,6 +22,12 @@ def temp_mail() -> TempMailAPIClient:
 def news_api() -> NewsClient:
     """Provide an unauthenticated client for the public news endpoints."""
     return NewsClient(base_url=Config.BASE_API_URL)
+
+
+@pytest.fixture(scope="session")
+def center_api() -> CenterClient:
+    """Provide an unauthenticated client for the public center endpoints."""
+    return CenterClient(base_url=Config.BASE_API_URL)
 
 
 @pytest.fixture(scope="session")
