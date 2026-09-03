@@ -5,12 +5,12 @@ from collections.abc import Callable
 import pytest
 
 from api.base_client import BaseClient
+from api.center_client import CenterClient
 from api.complaint_client import ComplaintClient
 from api.news_client import NewsClient
 from data.config import Config
 from utils.email_api import TempMailAPIClient
 from utils.signin_api import sign_in_via_api
-from api.center_client import CenterClient
 
 @pytest.fixture
 def temp_mail() -> TempMailAPIClient:
