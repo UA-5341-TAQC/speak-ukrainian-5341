@@ -3,7 +3,6 @@
 import allure
 
 from api.version_client import VersionClient
-from data.config import Config
 
 
 @allure.feature("Version API")
@@ -26,11 +25,10 @@ class TestVersionApi:
 
     @allure.title("API-02: /version responds to a plain GET without auth")
     @allure.tag("api", "smoke", "version")
-    def test_version_endpoint_requires_no_auth(self) -> None:
+    def test_version_endpoint_requires_no_auth(self, version_api: VersionClient) -> None:
         """The version endpoint is public and must not require authentication."""
         with allure.step("Send an unauthenticated GET to /version"):
-            client = VersionClient(base_url=Config.BASE_API_URL)
-            response = client.get_version()
+            response = version_api.get_version()
 
         with allure.step("Confirm the request succeeds without credentials"):
             assert response.status_code == 200, (
