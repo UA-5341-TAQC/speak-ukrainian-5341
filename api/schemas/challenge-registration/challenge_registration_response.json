@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "challenge_registration_response.json",
+  "title": "ChallengeRegistrationResponse",
+  "description": "Response body returned by POST /api/challenge-registration and included in list responses from the GET endpoints.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["id", "userId", "challengeId", "active", "approved"],
+  "properties": {
+    "id": {"type": "integer"},
+    "userId": {"type": "integer"},
+    "challengeId": {"type": "integer"},
+    "registrationDate": {"type": "string"},
+    "comment": {"type": ["string", "null"]},
+    "active": {"type": "boolean"},
+    "approved": {"type": "boolean"}
+  }
+}

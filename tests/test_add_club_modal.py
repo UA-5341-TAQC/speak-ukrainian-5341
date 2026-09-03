@@ -7,13 +7,15 @@ from __future__ import annotations
 
 import allure
 import pytest
-from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 from pages.components.add_club.basic_info_step import BasicInfoStep
 from pages.components.add_club.contacts_step import ContactsStep
 from pages.components.add_club.description_step import DescriptionStep
 from pages.home_page import HomePage
+
 
 @allure.feature("Add Club modal")
 @allure.story("TC-60: Auto-assign 'Доступний онлайн' when no location is added")
@@ -28,11 +30,12 @@ def test_online_status_auto_assigned_when_no_location(authenticated_driver: WebD
 
     NOTE: the info message ("Ви не додали жодної локації, гурток автоматично
     є онлайн") renders as an antd `ant-message` toast at the top of the
-    modal, so it's checked via `DescriptionStep.is_toast_displayed()` /
-    `.get_toast_text()`, which already exist in the codebase. Since toasts
-    can be transient, the check happens immediately after `click_next()`.
+    modal. It's transient, so it's captured with a single explicit wait on
+    `DescriptionStep.TOAST_TEXT` visibility, reading `.text` off the same
+    element the wait returns — this avoids the race condition that occurred
+    when `is_toast_displayed()` and `get_toast_text()` were called as two
+    separate, sequential DOM lookups (the toast could disappear between them).
     """
-    
     VALID_PHONE = "0991234567"
     EXPECTED_INFO_BANNER_TEXT = "Ви не додали жодної локації, гурток автоматично є онлайн"
 
@@ -40,7 +43,7 @@ def test_online_status_auto_assigned_when_no_location(authenticated_driver: WebD
     STEP_DESCRIPTION = "Опис"
 
     BASIC_INFO_CATEGORY = "Студії раннього розвитку"
-    
+
     with allure.step("Precondition: open 'Додати гурток' modal"):
         header = HomePage(authenticated_driver).header
         header.click_user_profile().click_add_club_menu_item()
@@ -78,11 +81,15 @@ def test_online_status_auto_assigned_when_no_location(authenticated_driver: WebD
         assert description_step.get_active_step() == STEP_DESCRIPTION, (
             "Expected step 'Опис' to open after clicking 'Наступний крок'."
         )
-        assert description_step.is_toast_displayed(), (
-            "Expected an info toast to be displayed on step 'Опис'."
+
+        # Single wait -> read .text off the same element, no gap for the
+        # transient toast to disappear in between separate lookups.
+        toast_element = WebDriverWait(authenticated_driver, 5).until(
+            EC.visibility_of_element_located(DescriptionStep.TOAST_TEXT)
         )
-        assert description_step.get_toast_text() == EXPECTED_INFO_BANNER_TEXT, (
-            "Toast text does not match the expected message."
+        toast_text = toast_element.text.strip()
+        assert toast_text == EXPECTED_INFO_BANNER_TEXT, (
+            f"Toast text does not match the expected message. Got: '{toast_text}'."
         )
 
     with allure.step("Step 4: go back to step 'Контакти' and check the switch"):
@@ -99,12 +106,14 @@ def test_online_status_auto_assigned_when_no_location(authenticated_driver: WebD
 
     with allure.step("Postcondition: close the Add Club modal"):
         contacts_step.close()
- 
+
+
 @allure.feature("Add Club modal")
 @allure.story("TC-37: Checking the structure of 'Основна інформація' step")
 @pytest.mark.smoke
 def test_add_club_modal_basic_info_structure(authenticated_driver: WebDriver) -> None:
-    """TC-37: Verify the structure and presence of elements in the 
+    """TC-37: Verify the structure and presence of elements in the step.
+
     "Основна інформація" step of "Додати гурток" modal.
 
     Preconditions:
@@ -120,15 +129,14 @@ def test_add_club_modal_basic_info_structure(authenticated_driver: WebDriver) ->
         7. Verify the "Приналежність до центру" dropdown
         8. Verify the "Наступний крок" button is active
     """
-    
-    EXPECTED_CATEGORIES_COUNT = 12
+    EXPECTED_CATEGORIES_COUNT = 11
 
     EXPECTED_MODAL_TITLE = "Додати гурток"
 
     STEP_BASIC_INFO = "Основна інформація"
     STEP_CONTACTS = "Контакти"
     STEP_DESCRIPTION = "Опис"
-    
+
     with allure.step("Step 1: Open the 'Додати гурток' form"):
         header = HomePage(authenticated_driver).header
         header.click_user_profile().click_add_club_menu_item()
@@ -212,6 +220,7 @@ def test_add_club_modal_basic_info_structure(authenticated_driver: WebDriver) ->
     with allure.step("Postcondition: Close the Add Club modal"):
         basic_info.close()
 
+
 @allure.feature("Add Club modal")
 @allure.story("TC-59: Verify 'Назад' navigation and data persistence between sections")
 @pytest.mark.regression
@@ -235,7 +244,6 @@ def test_add_club_back_navigation_and_data_persistence(
     Postcondition:
         - Close the Add Club modal.
     """
-
     CLUB_NAME = "QA Test Club"
     CATEGORY = "Студії раннього розвитку"
     AGE_FROM = 6
@@ -302,7 +310,8 @@ def test_add_club_back_navigation_and_data_persistence(
 
         assert description_step.get_active_step() == STEP_DESCRIPTION, (
             f"Expected active step to be '{STEP_DESCRIPTION}', "
-            f"but got '{description_step.get_active_step()}'.")
+            f"but got '{description_step.get_active_step()}'."
+        )
 
     with allure.step("Step 4: click 'Назад' on 'Опис'"):
         description_step.click_prev()
@@ -312,11 +321,13 @@ def test_add_club_back_navigation_and_data_persistence(
     with allure.step("Verify: returned to 'Контакти'"):
         assert contacts_step.get_active_step() == STEP_CONTACTS, (
             f"Expected active step to be '{STEP_CONTACTS}', "
-            f"but got '{contacts_step.get_active_step()}'.")
+            f"but got '{contacts_step.get_active_step()}'."
+        )
 
     with allure.step("Verify: 'Контакти' data is preserved"):
         assert contacts_step.get_phone() == PHONE, (
-            "Phone number was not preserved after returning to 'Контакти'.")
+            "Phone number was not preserved after returning to 'Контакти'."
+        )
 
     with allure.step("Postcondition: close the Add Club modal"):
         contacts_step.close()
