@@ -24,8 +24,8 @@ def auth_data() -> dict:
     client = LoginClient()
 
     response = client.sign_in(
-        Config.DEV_USER_EMAIL,
-        Config.DEV_USER_PASSWORD,
+        Config.API_USER_EMAIL,
+        Config.API_USER_PASSWORD,
     )
 
     assert response.status_code == 200

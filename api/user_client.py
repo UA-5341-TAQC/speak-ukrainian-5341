@@ -7,7 +7,7 @@ from data.config import Config
 class UserClient(BaseClient):
     """Client for working with the User API."""
 
-    def __init__(self, base_url: str = Config.DEV_API_URL, access_token: str | None = None):
+    def __init__(self, base_url: str = Config.BASE_API_URL, access_token: str | None = None):
         """Initialize the client with the base URL."""
         super().__init__(base_url=base_url, access_token=access_token)
 
