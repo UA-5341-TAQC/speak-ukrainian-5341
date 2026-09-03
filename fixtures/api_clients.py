@@ -14,6 +14,7 @@ from api.base_client import BaseClient
 from api.categories_client import CategoriesClient
 from api.challenge_registration_client import ChallengeRegistrationClient
 from api.complaint_client import ComplaintClient
+from api.login_client import LoginClient
 from api.location_client import LocationClient
 from api.news_client import NewsClient
 from api.version_client import VersionClient
@@ -26,6 +27,19 @@ def temp_mail() -> TempMailAPIClient:
     """Provides an authenticated temporary email client."""
     return TempMailAPIClient()
 
+@pytest.fixture(scope="session")
+def auth_data() -> dict:
+    """Return authentication data for API tests."""
+    client = LoginClient()
+
+    response = client.sign_in(
+        Config.API_USER_EMAIL,
+        Config.API_USER_PASSWORD,
+    )
+
+    assert response.status_code == 200
+
+    return response.json()
 @pytest.fixture
 def authorized_client() -> collections.abc.Callable[..., BaseClient]:
 
