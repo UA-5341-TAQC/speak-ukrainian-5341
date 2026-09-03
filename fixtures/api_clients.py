@@ -112,15 +112,15 @@ def authorized_client() -> Callable[..., BaseClient]:
     def _factory(client_class: type[BaseClient], role: str = "user") -> BaseClient:
         client = client_class(base_url=Config.BASE_API_URL)
 
-        if role == "admin":
-            email = Config.ADMIN_EMAIL
-            password = Config.ADMIN_PASSWORD
-        elif role == "manager":
-            email = Config.MANAGER_EMAIL
-            password = Config.MANAGER_PASSWORD
-        else:
-            email = Config.USER_EMAIL
-            password = Config.USER_PASSWORD
+        credentials = {
+        "admin": (Config.API_ADMIN_EMAIL, Config.API_ADMIN_PASSWORD),
+        "manager": (Config.API_MANAGER_EMAIL, Config.API_MANAGER_PASSWORD),
+        "user": (Config.API_USER_EMAIL, Config.API_USER_PASSWORD),
+        }
+
+        if role not in credentials:
+            raise ValueError(f"Unsupported role: {role}")
+        email, password = credentials[role]
 
         auth_data = utils.signin_api.sign_in_via_api(email, password)
 
