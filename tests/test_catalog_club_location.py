@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import allure
 import pytest
+from selenium.webdriver.remote.webdriver import WebDriver
 
 from data.config import Config
 from pages.clubs_page import ClubPage
@@ -15,7 +16,7 @@ class TestCatalogClubLocation:
     """Test suite for verifying club locations on the map."""
 
     @pytest.fixture(autouse=True)
-    def setup(self, driver) -> None:
+    def setup(self, driver: WebDriver) -> None:
         """Open home page before each test."""
         driver.get(Config.BASE_UI_URL)
 
@@ -26,7 +27,7 @@ class TestCatalogClubLocation:
         "to the selected city and category."
     )
     @allure.label("owner", "Svitlana Kovalova")
-    def test_catalog_club_location(self, driver) -> None:
+    def test_catalog_club_location(self, driver: WebDriver) -> None:
         home_page = HomePage(driver)
 
         with allure.step("Step 1: Open 'Гуртки' catalog"):
@@ -72,17 +73,17 @@ class TestCatalogClubLocation:
                 "Location pins should be displayed for Kharkiv"
             )
 
-        with allure.step("Step 4: Select city 'Полтава'"):
-            map_modal.select_city("Полтава")
+        with allure.step("Step 4: Select city 'Львів'"):
+            map_modal.select_city("Львів")
 
-            assert map_modal.get_selected_city() == "Полтава", (
+            assert map_modal.get_selected_city() == "Львів", (
                 "Poltava should be selected"
             )
 
             no_results_message = map_modal.get_no_results_text()
 
-            assert "Нічого не знайдено" in no_results_message, (
-                f"Expected 'Нічого не знайдено' message, "
+            assert "Нічого не знайдено :(" in no_results_message, (
+                f"Expected 'Нічого не знайдено :(' message, "
                 f"but got '{no_results_message}'"
             )
 
