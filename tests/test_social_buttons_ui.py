@@ -63,7 +63,7 @@ def test_tc42_facebook_link_redirects_to_official_page(
 
     with allure.step("Step 1: Open news article"):
         page = NewsDetailsPage(driver)
-        page.open(news_id=27)
+        page.open(news_id=36)
 
     with allure.step("Step 2: Scroll to 'Наші контакти' block"):
         page.scroll_to_contacts()
@@ -122,7 +122,7 @@ def test_tc43_youtube_link_redirects_to_official_page(
 
     with allure.step("Step 1: Open news article"):
         page = NewsDetailsPage(driver)
-        page.open(news_id=27)
+        page.open(news_id=36)
 
     with allure.step("Step 2: Scroll to 'Наші контакти' block"):
         page.scroll_to_contacts()
@@ -181,7 +181,7 @@ def test_tc44_instagram_link_redirects_to_official_page(
 
     with allure.step("Step 1: Open news article"):
         page = NewsDetailsPage(driver)
-        page.open(news_id=27)
+        page.open(news_id=36)
 
     with allure.step("Step 2: Scroll to 'Наші контакти' block"):
         page.scroll_to_contacts()
@@ -254,7 +254,7 @@ def test_tc45_email_link_contains_correct_recipient(
 
     with allure.step("Step 1: Open news article"):
         page = NewsDetailsPage(driver)
-        page.open(news_id=27)
+        page.open(news_id=36)
 
     with allure.step("Step 2: Scroll to 'Наші контакти' block"):
         page.scroll_to_contacts()
@@ -301,7 +301,7 @@ def test_tc47_donate_button_redirects_to_wayforpay(
 
     with allure.step("Step 1: Open news article"):
         page = NewsDetailsPage(driver)
-        page.open(news_id=27)
+        page.open(news_id=36)
 
     with allure.step("Step 2: Scroll to donation block"):
         page.scroll_to_contacts()

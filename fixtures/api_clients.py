@@ -1,10 +1,14 @@
 """API-related fixtures for tests."""
 
 from collections.abc import Callable
+from typing import Any
 
 import pytest
+from _pytest.fixtures import SubRequest
 
 from api.base_client import BaseClient
+from api.categories_client import CategoriesClient
+from api.challenge_registration_client import ChallengeRegistrationClient
 from api.complaint_client import ComplaintClient
 from api.news_client import NewsClient
 from data.config import Config
@@ -12,7 +16,7 @@ from utils.email_api import TempMailAPIClient
 from utils.signin_api import sign_in_via_api
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def temp_mail() -> TempMailAPIClient:
     """Provides an authenticated temporary email client."""
     return TempMailAPIClient()
@@ -95,7 +99,7 @@ def complaint_api_user() -> tuple[ComplaintClient, str]:
     return client, session.user_id
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def authorized_client() -> Callable[..., BaseClient]:
     """Fixture factory to instantiate and authenticate any API client."""
 
@@ -123,3 +127,49 @@ def authorized_client() -> Callable[..., BaseClient]:
         return client
 
     return _factory
+
+
+@pytest.fixture(scope="session")
+def categories_api() -> CategoriesClient:
+    """Provides a client for the Category API endpoints."""
+    return CategoriesClient(base_url=Config.BASE_API_URL)
+
+
+@pytest.fixture(scope="session")
+def rbac_client(request: SubRequest) -> Any:
+    """Universal factory fixture for initializing any API client with authentication.
+
+    Designed for Role-Based Access Control (RBAC) testing using indirect parametrization.
+
+    Requires `request.param` to provide a tuple of exactly three elements:
+    1. client_class (Type[BaseClient]): The specific API client class to instantiate.
+    2. role (str): The role name ('user' or 'manager') to authenticate as.
+
+    Returns:
+        An instance of the provided `client_class` authenticated with the corresponding token.
+    """
+    client_class, role = request.param
+    if role == "user":
+        email, password = Config.USER_EMAIL, Config.USER_PASSWORD
+    elif role == "manager":
+        email, password = Config.MANAGER_EMAIL, Config.MANAGER_PASSWORD
+    else:
+        raise ValueError(f"Unknown role: {role}")
+
+    session = sign_in_via_api(email, password)
+    return client_class(base_url=Config.BASE_API_URL, access_token=session.access_token)
+
+@pytest.fixture(scope="session")
+def challenge_registration_api_user() -> tuple[ChallengeRegistrationClient, str]:
+    """Provide a user-authenticated ChallengeRegistrationClient together with the user's id."""
+    session = sign_in_via_api(Config.API_USER_EMAIL, Config.API_USER_PASSWORD)  # noqa: E501
+    client = ChallengeRegistrationClient(base_url=Config.BASE_API_URL, access_token=session.access_token)  # noqa: E501
+    return client, session.user_id
+
+
+@pytest.fixture(scope="session")
+def challenge_registration_api_manager() -> tuple[ChallengeRegistrationClient, str]:
+    """Provide a manager-authenticated ChallengeRegistrationClient together with the manager's id."""  # noqa: E501
+    session = sign_in_via_api(Config.API_MANAGER_EMAIL, Config.API_MANAGER_PASSWORD)
+    client = ChallengeRegistrationClient(base_url=Config.BASE_API_URL, access_token=session.access_token)  # noqa: E501
+    return client, session.user_id
