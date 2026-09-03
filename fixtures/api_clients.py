@@ -5,10 +5,12 @@ from collections.abc import Callable
 from typing import Any
 
 import pytest
+from pydantic.dataclasses import dataclass
 from _pytest.fixtures import SubRequest
 
 import utils.signin_api
 from api.base_client import BaseClient
+from api.club_registration_client import ClubRegistrationClient
 from api.address_controller import AddressControllerClient
 from api.base_client import BaseClient
 from api.categories_client import CategoriesClient
@@ -22,6 +24,16 @@ from data.config import Config
 from utils.email_api import TempMailAPIClient
 
 
+@dataclass
+class ApiUserCredentials:
+    """Container for API authentication data."""
+
+    access_token: str
+    user_id: int | None = None
+    email: str | None = None
+
+
+@pytest.fixture
 @pytest.fixture(scope="session")
 def temp_mail() -> TempMailAPIClient:
     """Provides an authenticated temporary email client."""
@@ -48,6 +60,28 @@ def version_api() -> VersionClient:
     """Provides a client for the public ``/version`` endpoint."""
     return VersionClient(base_url=Config.BASE_API_URL)
 @pytest.fixture(scope="session")
+def user_api_credentials() -> ApiUserCredentials:
+    """Authenticate the API test user and return its session credentials."""
+    session = sign_in_via_api(Config.API_USER_EMAIL, Config.API_USER_PASSWORD)
+    return ApiUserCredentials(
+        access_token=session.access_token,
+        user_id=int(session.user_id),
+        email=Config.API_USER_EMAIL,
+    )
+
+
+@pytest.fixture
+def club_registration_client(
+    user_api_credentials: ApiUserCredentials,
+) -> ClubRegistrationClient:
+    """Provide a club registration client authenticated as the API user."""
+    return ClubRegistrationClient(
+        base_url=Config.BASE_API_URL,
+        access_token=user_api_credentials.access_token,
+    )
+
+
+@pytest.fixture(scope="session")
 def news_api() -> NewsClient:
     """Provide an unauthenticated client for the public news endpoints."""
     return NewsClient(base_url=Config.BASE_API_URL)
@@ -61,7 +95,7 @@ def news_api_user() -> NewsClient:
     attaches the issued access token so the client can hit user-permissioned
     news endpoints.
     """
-    session = sign_in_via_api(Config.USER_EMAIL, Config.USER_PASSWORD)
+    session = sign_in_via_api(Config.API_USER_EMAIL, Config.API_USER_PASSWORD)
     return NewsClient(
         base_url=Config.BASE_API_URL,
         access_token=session.access_token,
@@ -116,7 +150,7 @@ def complaint_api_user() -> tuple[ComplaintClient, str]:
     ``PUT /{id}`` currently returns 400 from the backend regardless of role
     (a known bug pinned by the test suite).
     """
-    session = sign_in_via_api(Config.USER_EMAIL, Config.USER_PASSWORD)
+    session = sign_in_via_api(Config.API_USER_EMAIL, Config.API_USER_PASSWORD)
     client = ComplaintClient(
         base_url=Config.BASE_API_URL,
         access_token=session.access_token,

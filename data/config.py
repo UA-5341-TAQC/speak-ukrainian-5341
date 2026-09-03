@@ -36,9 +36,9 @@ class Config:
     ADMIN_EMAIL: str = os.getenv("ADMIN_EMAIL", "")
     ADMIN_PASSWORD: str = os.getenv("ADMIN_PASSWORD", "")
 
-    API_USER_EMAIL: str = os.getenv("API_USER_EMAIL", "")
-    API_USER_PASSWORD: str = os.getenv("API_USER_PASSWORD", "")
-    API_MANAGER_EMAIL: str = os.getenv("API_MANAGER_EMAIL", "")
-    API_MANAGER_PASSWORD: str = os.getenv("API_MANAGER_PASSWORD", "")
-    API_ADMIN_EMAIL: str = os.getenv("API_ADMIN_EMAIL", "")
-    API_ADMIN_PASSWORD: str = os.getenv("API_ADMIN_PASSWORD", "")
+    API_USER_EMAIL: str = os.getenv("API_USER_EMAIL") or USER_EMAIL
+    API_USER_PASSWORD: str = os.getenv("API_USER_PASSWORD") or USER_PASSWORD
+    API_ADMIN_EMAIL: str = os.getenv("API_ADMIN_EMAIL") or ADMIN_EMAIL
+    API_ADMIN_PASSWORD: str = os.getenv("API_ADMIN_PASSWORD") or ADMIN_PASSWORD
+    API_MANAGER_EMAIL: str = os.getenv("API_MANAGER_EMAIL") or MANAGER_EMAIL
+    API_MANAGER_PASSWORD: str = os.getenv("API_MANAGER_PASSWORD") or MANAGER_PASSWORD
