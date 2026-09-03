@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "get_children_registration_response.json",
+  "title": "GetChildrenRegistrationResponse",
+  "description": "Response body returned by GET /api/challenge-registration/user-children/{challengeId}.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": true,
+    "required": ["id", "firstName", "lastName", "age", "gender", "disabled", "parent"],
+    "properties": {
+      "id": {"type": "integer"},
+      "firstName": {"type": "string"},
+      "lastName": {"type": "string"},
+      "age": {"type": "integer"},
+      "gender": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "value": {"type": "string"}
+        }
+      },
+      "disabled": {"type": "boolean"},
+      "parent": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"}
+        }
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import allure
 import pytest
+from selenium.webdriver.remote.webdriver import WebDriver
 
 from data.config import Config
 from pages.marathon_page import MarathonPage
@@ -14,7 +15,7 @@ class TestMarathonRegistrationCTA:
     """Test suite for verifying 'Зареєструватись' CTA on the marathon page."""
 
     @pytest.fixture(autouse=True)
-    def setup(self, driver) -> None:
+    def setup(self, driver: WebDriver) -> None:
         """Open marathon page before each test."""
         driver.get(f"{Config.BASE_UI_URL}/marathon")
 
@@ -28,7 +29,7 @@ class TestMarathonRegistrationCTA:
         "and the registration page is accessible directly."
     )
     @allure.label("owner", "Svitlana Kovalova")
-    def test_marathon_registration_cta(self, driver) -> None:
+    def test_marathon_registration_cta(self, driver: WebDriver) -> None:
         marathon_page = MarathonPage(driver)
 
         with allure.step(
