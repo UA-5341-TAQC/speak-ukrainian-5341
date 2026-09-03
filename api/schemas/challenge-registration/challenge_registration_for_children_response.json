@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "challenge_registration_for_children_response.json",
+  "title": "ChallengeRegistrationForChildrenResponse",
+  "description": "Response body returned by POST /api/challenge-registration/children.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": true,
+    "required": ["id", "childId", "challengeId", "active", "approved"],
+    "properties": {
+      "id": {"type": "integer"},
+      "childId": {"type": "integer"},
+      "challengeId": {"type": "integer"},
+      "registrationDate": {"type": "string"},
+      "comment": {"type": ["string", "null"]},
+      "active": {"type": "boolean"},
+      "approved": {"type": "boolean"}
+    }
+  }
+}

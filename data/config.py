@@ -38,3 +38,7 @@ class Config:
 
     API_USER_EMAIL: str = os.getenv("API_USER_EMAIL", "")
     API_USER_PASSWORD: str = os.getenv("API_USER_PASSWORD", "")
+    API_MANAGER_EMAIL: str = os.getenv("API_MANAGER_EMAIL", "")
+    API_MANAGER_PASSWORD: str = os.getenv("API_MANAGER_PASSWORD", "")
+    API_ADMIN_EMAIL: str = os.getenv("API_ADMIN_EMAIL", "")
+    API_ADMIN_PASSWORD: str = os.getenv("API_ADMIN_PASSWORD", "")

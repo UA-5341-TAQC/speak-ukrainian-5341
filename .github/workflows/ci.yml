@@ -83,6 +83,12 @@ jobs:
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
           MANAGER_EMAIL: ${{ secrets.MANAGER_EMAIL }}
           MANAGER_PASSWORD: ${{ secrets.MANAGER_PASSWORD }}
+          API_USER_EMAIL: ${{ secrets.API_USER_EMAIL }}
+          API_USER_PASSWORD: ${{ secrets.API_USER_PASSWORD }}
+          API_MANAGER_EMAIL: ${{ secrets.API_MANAGER_EMAIL }}
+          API_MANAGER_PASSWORD: ${{ secrets.API_MANAGER_PASSWORD }}
+          API_ADMIN_EMAIL: ${{ secrets.API_ADMIN_EMAIL }}
+          API_ADMIN_PASSWORD: ${{ secrets.API_ADMIN_PASSWORD }}
          
 
       - name: Upload Allure results

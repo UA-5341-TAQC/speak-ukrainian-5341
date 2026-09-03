@@ -3,7 +3,6 @@
 import platform
 import time
 from typing import Literal
-from urllib.parse import urlparse
 
 from selenium.common.exceptions import (
     ElementNotInteractableException,
@@ -43,13 +42,8 @@ class Base:
         return self.driver.current_url.rstrip("/")
 
     def get_base_url(self) -> str:
-        """Return the base UI URL, normalized without a trailing slash.
-
-        Exposed on the base class so pages and components can build absolute
-        URLs without importing Config directly.
-        """
-        url = urlparse(self.get_current_url())
-        return f"{url.scheme}://{url.netloc}".rstrip("/")
+        """Return the configured base UI URL without a trailing slash."""
+        return Config.BASE_UI_URL.rstrip("/")
 
     @property
     def _target(self) -> WebDriver | WebElement:
