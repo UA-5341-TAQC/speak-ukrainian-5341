@@ -44,12 +44,12 @@ class HeaderComponent(BaseComponent):
 
     ABOUT_LINK: Locator = (
         By.CSS_SELECTOR,
-        ".nav-menu a[href='/about']",
+        ".nav-menu a[href*='/about']",
     )
 
     SERVICES_LINK: Locator = (
         By.CSS_SELECTOR,
-        ".nav-menu a[href='/service']",
+        ".nav-menu a[href*='/service']",
     )
 
     CITY_SELECTOR: Locator = (
