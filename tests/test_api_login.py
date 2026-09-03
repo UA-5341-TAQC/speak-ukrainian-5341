@@ -43,8 +43,8 @@ def test_successful_login():
 
     with allure.step("Sign in with valid credentials"):
         response = client.sign_in(
-            Config.DEV_USER_EMAIL,
-            Config.DEV_USER_PASSWORD,
+            Config.API_USER_EMAIL,
+            Config.API_USER_PASSWORD,
         )
 
     with allure.step("Verify successful login response"):
@@ -64,7 +64,7 @@ def test_login_with_wrong_password():
 
     with allure.step("Sign in with wrong password"):
         response = client.sign_in(
-            Config.DEV_USER_EMAIL,
+            Config.API_USER_EMAIL,
             "wrong_password",
         )
 
