@@ -12,27 +12,27 @@ class ChallengeDropdown(BaseComponent):
 
     UNIQUE_CHALLENGE_LINK: Locator = (
         By.CSS_SELECTOR,
-       "a[href*='/challenges/5']",
+       "a[href='/challenges/5']",
     )
 
     SPEAKING_CLUB_CHALLENGE_LINK: Locator = (
         By.CSS_SELECTOR,
-        "a[href*='/challenges/4']",
+        "a[href='/challenges/4']",
     )
 
     TEACH_UKRAINIAN_CHALLENGE_LINK: Locator = (
         By.CSS_SELECTOR,
-        "a[href*='/challenges/3']",
+        "a[href='/challenges/3']",
     )
 
     LANGUAGE_MARATHON_LINK: Locator = (
         By.CSS_SELECTOR,
-        "a[href*='/challenges/1']",
+        "a[href='/challenges/1']",
     )
 
     TEACH_UKRAINIAN_LINK: Locator = (
         By.CSS_SELECTOR,
-        "a[href*='/challenges/2']",
+        "a[href='/challenges/2']",
     )
 
     LEARN_UPD_LINK: Locator = (
