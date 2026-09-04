@@ -269,6 +269,7 @@ class EditProfileModal(BaseModal):
     def is_save_changes_enabled(self) -> bool:
         """Return whether the 'Зберегти зміни' button is enabled (no disabled attr)."""
         return self._wait_visible(self.save_changes_btn).is_enabled()
+
     @allure.step("Check if phone valid icon is displayed")
     def is_phone_valid_icon_displayed(self) -> bool:
         """Check if the phone valid icon is displayed."""

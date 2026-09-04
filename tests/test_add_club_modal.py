@@ -129,7 +129,7 @@ def test_add_club_modal_basic_info_structure(authenticated_driver: WebDriver) ->
         7. Verify the "Приналежність до центру" dropdown
         8. Verify the "Наступний крок" button is active
     """
-    EXPECTED_CATEGORIES_COUNT = 12
+    EXPECTED_CATEGORIES_COUNT = 11
 
     EXPECTED_MODAL_TITLE = "Додати гурток"
 

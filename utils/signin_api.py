@@ -49,7 +49,13 @@ def sign_in_via_api(email: str, password: str) -> SignInSession:
     payload: dict[str, Any] = {"email": email, "password": password}
     with allure.step(f"POST {url}"):
         response = requests.post(url, json=payload, timeout=30)
-        response.raise_for_status()
+        if not response.ok:
+            allure.attach(
+                f"status={response.status_code}\nbody={response.text}",
+                name="Sign-in error response",
+                attachment_type=allure.attachment_type.TEXT,
+            )
+            response.raise_for_status()
         data: dict[str, Any] = response.json()
     return SignInSession(
         access_token=data["accessToken"],

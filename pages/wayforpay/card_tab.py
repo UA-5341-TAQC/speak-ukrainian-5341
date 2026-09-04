@@ -18,7 +18,6 @@ class CardTab(BasePage):
     EMAIL_INPUT: Locator = (By.CSS_SELECTOR, "#cardpay-clientemail")
     SUBMIT_BUTTON: Locator = (By.CSS_SELECTOR, "#cardpay-submit")
 
-
     @allure.step("Fill complete payment form in WayForPay")
     def fill_complete_form(
         self, number: str, validity: str, cvv: str, holder: str, phone: str, email: str

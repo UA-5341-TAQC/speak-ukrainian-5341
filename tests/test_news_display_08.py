@@ -16,7 +16,7 @@ from pages.home_page import HomePage
 from pages.news_page import NewsPage
 
 @allure.title("TC-08: News card displays information in fields.")
-def test_news_display_tc_38(driver:WebDriver):
+def test_news_display_tc_38(driver:WebDriver)-> None:
     home_page = HomePage(driver)
 
 

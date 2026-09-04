@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from urllib.parse import urljoin
 import allure
 import pytest
+from selenium.webdriver.remote.webdriver import WebDriver
 
 from data.config import Config
 from pages.marathon_page import MarathonPage
@@ -15,7 +15,7 @@ class TestMarathonTaskCarousel:
     """Test suite for verifying carousel navigation via arrows and pagination dots."""
 
     @pytest.fixture(autouse=True)
-    def setup(self, driver) -> None:
+    def setup(self, driver: WebDriver) -> None:
         """Open the marathon page and scroll to tasks before each test."""
         driver.get(f"{Config.BASE_UI_URL}/marathon")
 
@@ -26,7 +26,7 @@ class TestMarathonTaskCarousel:
         "using next/previous arrows and pagination dots."
     )
     @allure.label("owner", "Svitlana Kovalova")
-    def test_task_carousel_navigation(self, driver) -> None:
+    def test_task_carousel_navigation(self, driver: WebDriver) -> None:
         marathon_page = MarathonPage(driver)
 
         with allure.step("Step 1 & 4: Verify task cards are displayed on page 1"):

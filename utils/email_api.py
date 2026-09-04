@@ -145,7 +145,7 @@ class TempMailAPIClient:
         Raises:
             ValueError: If the verification link cannot be found in the HTML.
         """
-        match = re.search(r'href="(https?://[^"]*speak-ukrainian[^"]+)"', email_html)
+        match = re.search(r'href="(https?://[^"]+/verify\?code=[^"]+)"', email_html)
         if not match:
             raise ValueError("Verification link not found in the email content.")
         return match.group(1)
