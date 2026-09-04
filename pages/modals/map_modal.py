@@ -36,8 +36,7 @@ class MapModal(BaseModal):
 
     CITY_SELECTED_ITEM: Locator = (
         By.CSS_SELECTOR,
-        "div.selectBlock div.ant-select:nth-child(1) "
-        "span.ant-select-selection-item",
+        "div.selectBlock div.ant-select:nth-child(1) span.ant-select-selection-item",
     )
 
     CATEGORY_SELECT_CONTAINER: Locator = (
@@ -47,15 +46,13 @@ class MapModal(BaseModal):
 
     CATEGORY_SELECTED_ITEM: Locator = (
         By.CSS_SELECTOR,
-        "div.selectBlock div.ant-select:nth-child(2) "
-        "span.ant-select-selection-item",
+        "div.selectBlock div.ant-select:nth-child(2) span.ant-select-selection-item",
     )
 
     # Ant Design options
     ACTIVE_DROPDOWN_OPTIONS: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-select-dropdown:not(.ant-select-dropdown-hidden) "
-        "div.ant-select-item-option",
+        "div.ant-select-dropdown:not(.ant-select-dropdown-hidden) div.ant-select-item-option",
     )
 
     CLUB_ITEMS: Locator = (
@@ -80,8 +77,7 @@ class MapModal(BaseModal):
 
     DROPDOWN_LIST_HOLDER: Locator = (
         By.CSS_SELECTOR,
-        "div.ant-select-dropdown:not(.ant-select-dropdown-hidden) "
-        "div.rc-virtual-list-holder",
+        "div.ant-select-dropdown:not(.ant-select-dropdown-hidden) div.rc-virtual-list-holder",
     )
 
     @staticmethod
@@ -158,25 +154,19 @@ class MapModal(BaseModal):
 
             option_locator = self.get_city_locator(city_name)
 
-        option = self.wait.until(
-            EC.element_to_be_clickable(option_locator)
-        )
+        option = self.wait.until(EC.element_to_be_clickable(option_locator))
 
         self.driver.execute_script(
             "arguments[0].click();",
             option,
         )
 
-        self.wait.until(
-            lambda _: self.get_selected_city() == city_name
-        )
+        self.wait.until(lambda _: self.get_selected_city() == city_name)
 
         try:
             elements = self._find_elements(self.CLUB_NAMES)
             if elements:
-                self.get_wait(timeout=5).until(
-                    EC.staleness_of(elements[0])
-                )
+                self.get_wait(timeout=5).until(EC.staleness_of(elements[0]))
         except Exception:
             pass
 
@@ -190,14 +180,10 @@ class MapModal(BaseModal):
 
         option_locator = self.get_category_locator(category_name)
 
-        option = self.wait.until(
-            EC.element_to_be_clickable(option_locator)
-        )
+        option = self.wait.until(EC.element_to_be_clickable(option_locator))
 
         self.driver.execute_script("arguments[0].click();", option)
-        self.wait.until(
-            lambda _: self.get_selected_category() == category_name
-        )
+        self.wait.until(lambda _: self.get_selected_category() == category_name)
 
         return self
 
@@ -215,19 +201,13 @@ class MapModal(BaseModal):
     def get_club_cards(self) -> list[str]:
         """Return names of clubs displayed in sidebar."""
         elements = self._find_elements(self.CLUB_NAMES)
-        return [
-            element.text.strip()
-            for element in elements
-            if element.text.strip()
-        ]
+        return [element.text.strip() for element in elements if element.text.strip()]
 
     @allure.step("Get count of club items in map sidebar")
     def get_clubs_count(self) -> int:
         """Return number of clubs displayed in sidebar with wait."""
         try:
-            self.wait.until(
-                EC.presence_of_all_elements_located(self.CLUB_ITEMS)
-            )
+            self.wait.until(EC.presence_of_all_elements_located(self.CLUB_ITEMS))
         except Exception:
             pass
 
@@ -237,9 +217,7 @@ class MapModal(BaseModal):
     def get_pins_count(self) -> int:
         """Return number of location markers displayed on map with wait."""
         try:
-            self.wait.until(
-                lambda _: len(self.driver.find_elements(*self.MAP_PINS)) > 0
-            )
+            self.wait.until(lambda _: len(self.driver.find_elements(*self.MAP_PINS)) > 0)
         except Exception:
             pass
 
@@ -248,7 +226,5 @@ class MapModal(BaseModal):
     @allure.step("Get 'No results' message text")
     def get_no_results_text(self) -> str:
         """Wait for and return no-results message text."""
-        element = self.wait.until(
-            EC.visibility_of_element_located(self.NO_RESULTS_MESSAGE)
-        )
+        element = self.wait.until(EC.visibility_of_element_located(self.NO_RESULTS_MESSAGE))
         return element.text.strip()

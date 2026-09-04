@@ -64,7 +64,7 @@ class CenterBasicInfoStep(BaseComponent):
             )
         except Exception as e:
             raise AssertionError(
-                "No center location checkboxes were found " "(Possible backend bug)."
+                "No center location checkboxes were found (Possible backend bug)."
             ) from e
 
         checkbox = checkboxes[0]

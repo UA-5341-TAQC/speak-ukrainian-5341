@@ -39,7 +39,7 @@ class HomePage(BasePage):
     )
     SPEAKING_CLUB_LINK: Locator = (
         By.CSS_SELECTOR,
-        "a[href='/speakingclub']",
+        "a[href*='/speakingclub']",
     )
     BANNER_IMAGE: Locator = (
         By.CSS_SELECTOR,
@@ -138,10 +138,23 @@ class HomePage(BasePage):
         except Exception:
             return False
 
+    @allure.step("Check if carousel is displayed")
+    def is_carousel_displayed(self) -> bool:
+        """Return True if the carousel section is displayed."""
+        try:
+            return self._wait_visible(self.CAROUSEL).is_displayed()
+        except Exception:
+            return False
+
     @allure.step("Get carousel")
     def get_carousel(self) -> Carousel:
         """Return the carousel component."""
         return Carousel(self._find_element(self.CAROUSEL))
+
+    @allure.step("Get carousel slide count")
+    def get_carousel_slide_count(self) -> int:
+        """Return the number of non-cloned slides in the home page carousel."""
+        return int(self.get_carousel().get_slide_count())
 
     @allure.step("Pause carousel autoplay and sync to the first slide")
     def pause_autoplay_and_sync(self) -> Carousel:
@@ -172,7 +185,8 @@ class HomePage(BasePage):
     @allure.step("Get content card by title: {title}")
     def get_content_card_by_title(self, title: str) -> HomeContentCard:
         """Return content card with the specified title."""
-        for card in self.get_content_cards():
+        cards: list[HomeContentCard] = self.get_content_cards()
+        for card in cards:
             if card.get_title().strip() == title:
                 return card
 

@@ -82,9 +82,7 @@ class ChallengePage(BasePage):
         """Return challenge description paragraphs."""
         return [
             element.text.strip()
-            for element in self.driver.find_elements(
-                *self.DESCRIPTION_PARAGRAPHS
-            )
+            for element in self.driver.find_elements(*self.DESCRIPTION_PARAGRAPHS)
         ]
 
     @allure.step("Get challenge content title")
@@ -107,18 +105,12 @@ class ChallengePage(BasePage):
         """Wait until all video iframes are rendered."""
         self._wait_present(self.VIDEO_CARDS)
 
-        return [
-            ChallengeVideoCard(card)
-            for card in self._find_elements(self.VIDEO_CARDS)
-        ]
+        return [ChallengeVideoCard(card) for card in self._find_elements(self.VIDEO_CARDS)]
 
     @allure.step("Get challenge webinar video cards")
     def get_video_cards(self) -> list[ChallengeVideoCard]:
         """Return all currently displayed webinar video cards."""
-        return [
-            ChallengeVideoCard(card)
-            for card in self._find_elements(self.VIDEO_CARDS)
-        ]
+        return [ChallengeVideoCard(card) for card in self._find_elements(self.VIDEO_CARDS)]
 
     @allure.step("Get challenge registration button component (visible)")
     def get_visible_cta_button(self) -> ChallengeCtaButton:
@@ -160,6 +152,4 @@ class ChallengePage(BasePage):
     @allure.step("Get social buttons component")
     def get_social_buttons(self) -> SocialButtons:
         """Return social buttons component."""
-        return SocialButtons(
-            self._wait_visible(self.SOCIAL_BUTTONS)
-        )
+        return SocialButtons(self._wait_visible(self.SOCIAL_BUTTONS))

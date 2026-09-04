@@ -21,13 +21,22 @@ from pages.types import Locator
 class ChallengeVideoCard(BaseComponent):
     """Represent one webinar video block on the challenge page."""
 
-    TITLE: Locator = (By.XPATH, "./preceding-sibling::h1[1]",)
+    TITLE: Locator = (
+        By.XPATH,
+        "./preceding-sibling::h1[1]",
+    )
 
-    THUMBNAIL: Locator = (By.CSS_SELECTOR, "div.ytmVideoCoverThumbnail",)
+    THUMBNAIL: Locator = (
+        By.CSS_SELECTOR,
+        "div.ytmVideoCoverThumbnail",
+    )
 
     PLAY_BUTTON: Locator = (By.CSS_SELECTOR, "button.ytmCuedOverlayPlayButton")
 
-    YOUTUBE_LINK: Locator = (By.CSS_SELECTOR, "a[href*='youtube.com/watch']",)
+    YOUTUBE_LINK: Locator = (
+        By.CSS_SELECTOR,
+        "a[href*='youtube.com/watch']",
+    )
 
     def __init__(self, root: WebElement) -> None:
         """Initialize the video card with the YouTube iframe."""
@@ -42,7 +51,8 @@ class ChallengeVideoCard(BaseComponent):
                 block: 'center'
             });
             """,
-            self.root,)
+            self.root,
+        )
 
     @contextmanager
     def _inside_frame(self) -> Iterator[None]:
@@ -81,7 +91,8 @@ class ChallengeVideoCard(BaseComponent):
                 paused: video.paused,
                 error: video.error ? video.error.code : null
             };
-            """)
+            """
+        )
 
         return cast(dict[str, object] | None, state)
 
@@ -104,11 +115,7 @@ class ChallengeVideoCard(BaseComponent):
             link = WebDriverWait(
                 self.driver,
                 Config.EXPLICIT_WAIT,
-            ).until(
-                lambda _: self.driver.find_element(
-                    *self.YOUTUBE_LINK
-                )
-            )
+            ).until(lambda _: self.driver.find_element(*self.YOUTUBE_LINK))
 
             return link.get_attribute("href") or ""
 
@@ -218,11 +225,7 @@ class ChallengeVideoCard(BaseComponent):
                 thumbnail = WebDriverWait(
                     self.driver,
                     Config.EXPLICIT_WAIT,
-                ).until(
-                    lambda _: self.driver.find_elements(
-                        *self.THUMBNAIL
-                    )
-                )
+                ).until(lambda _: self.driver.find_elements(*self.THUMBNAIL))
 
                 if not thumbnail:
                     return False
@@ -254,11 +257,7 @@ class ChallengeVideoCard(BaseComponent):
             button = WebDriverWait(
                 self.driver,
                 Config.EXPLICIT_WAIT,
-            ).until(
-                lambda _: self.driver.find_element(
-                    *self.PLAY_BUTTON
-                )
-            )
+            ).until(lambda _: self.driver.find_element(*self.PLAY_BUTTON))
 
             button.click()
 
@@ -270,17 +269,12 @@ class ChallengeVideoCard(BaseComponent):
                 state = WebDriverWait(
                     self.driver,
                     Config.EXPLICIT_WAIT,
-                ).until(
-                    lambda _: self._video_element_state()
-                )
+                ).until(lambda _: self._video_element_state())
 
             if state is None:
                 return False
 
-            return (
-                state["paused"] is False
-                and state["error"] is None
-            )
+            return state["paused"] is False and state["error"] is None
 
         except Exception:
             return False
@@ -292,10 +286,6 @@ class ChallengeVideoCard(BaseComponent):
             link = WebDriverWait(
                 self.driver,
                 Config.EXPLICIT_WAIT,
-            ).until(
-                lambda _: self.driver.find_element(
-                    *self.YOUTUBE_LINK
-                )
-            )
+            ).until(lambda _: self.driver.find_element(*self.YOUTUBE_LINK))
 
             link.click()

@@ -1,6 +1,7 @@
 """Page object for the edit profile modal."""
 
 import allure
+from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 
 from pages.modals.base_modal import BaseModal
@@ -245,8 +246,10 @@ class EditProfileModal(BaseModal):
     @allure.step("Check if Last Name validation error is displayed")
     def is_last_name_error_displayed(self) -> bool:
         """Return whether the Last Name validation error message is visible."""
-        elements = self._find_elements(self.last_name_error)
-        return bool(elements) and any(el.is_displayed() for el in elements)
+        try:
+            return self._wait_visible(self.last_name_error).is_displayed()
+        except TimeoutException:
+            return False
 
     @allure.step("Get Last Name validation error text")
     def get_last_name_error_text(self) -> str:
@@ -256,19 +259,24 @@ class EditProfileModal(BaseModal):
     @allure.step("Check if Last Name error icon is displayed")
     def is_last_name_error_icon_displayed(self) -> bool:
         """Return whether the error icon inside the Last Name field is visible."""
-        elements = self._find_elements(self.last_name_error_icon)
-        return bool(elements) and any(el.is_displayed() for el in elements)
+        try:
+            return self._wait_visible(self.last_name_error_icon).is_displayed()
+        except TimeoutException:
+            return False
 
     @allure.step("Check if Last Name field has an error border")
     def has_last_name_error_border(self) -> bool:
         """Return whether the Last Name input is styled with the error status."""
-        elements = self._find_elements(self.last_name_error_input)
-        return bool(elements) and any(el.is_displayed() for el in elements)
+        try:
+            return self._wait_visible(self.last_name_error_input).is_displayed()
+        except TimeoutException:
+            return False
 
     @allure.step("Check if 'Save Changes' button is enabled")
     def is_save_changes_enabled(self) -> bool:
         """Return whether the 'Зберегти зміни' button is enabled (no disabled attr)."""
         return self._wait_visible(self.save_changes_btn).is_enabled()
+
     @allure.step("Check if phone valid icon is displayed")
     def is_phone_valid_icon_displayed(self) -> bool:
         """Check if the phone valid icon is displayed."""
