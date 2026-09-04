@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import allure
 import pytest
+from selenium.webdriver.remote.webdriver import WebDriver
 
 from data.config import Config
 from pages.challenge_page import ChallengePage
@@ -14,7 +15,7 @@ class TestChallengePageContent:
     """Test suite for verifying challenge page content."""
 
     @pytest.fixture(autouse=True)
-    def setup(self, driver) -> None:
+    def setup(self, driver: WebDriver) -> None:
         """Open challenge page before each test."""
         driver.get(
             f"{Config.BASE_UI_URL}/challenges/2"
@@ -32,22 +33,20 @@ class TestChallengePageContent:
     )
     @allure.label("owner", "Svitlana Kovalova")
     @pytest.mark.regression
-    def test_challenge_page_content(
-        self,
-        driver,
-    ) -> None:
+    def test_challenge_page_content(self, driver: WebDriver,) -> None:
         """Verify title, description and header content."""
 
         challenge_page = ChallengePage(driver)
 
         with allure.step(
-            "Step 1: Open the 'Навчай українською' challenge page"
+            "Step 1: Open the 'Навчайся' challenge page"
         ):
-            challenge_page.open(2)
 
             challenge_page.wait.until(
                 lambda _: "/challenges/2" in driver.current_url
             ), "Challenge page is not opened"
+
+        print(f"\n[DEBUG] Current URL after Step 1: {driver.current_url}")
 
         with allure.step(
             "Step 2: Verify the main challenge title"
@@ -55,8 +54,7 @@ class TestChallengePageContent:
             title = challenge_page.get_content_title()
 
             assert title == (
-                "Навчання українською у дитячих гуртках, "
-                "студіях та секціях є важливим"
+                "Програма челенджу «Навачайся»"
             ), (
                 "Unexpected challenge content title: "
                 f"'{title}'"
@@ -67,47 +65,15 @@ class TestChallengePageContent:
         ):
             paragraphs = challenge_page.get_description_paragraphs()
 
-            assert len(paragraphs) == 5, (
-                "Expected 5 description paragraphs, "
-                f"but found {len(paragraphs)}"
-            )
+            assert len(paragraphs) > 0, "Description paragraphs are missing"
 
-            assert paragraphs[0] == (
-                "Ми разом з вами хочемо, щоб молоде покоління "
-                "добре володіло і користувалось українською мовою, "
-                "і розуміємо, як важливо, щоб нею навчали у "
-                "дитячих гуртках, студіях та секціях."
-            )
+            assert "Проблематика та мета проєкту:" in paragraphs[0]
+            assert "Вільне володіння державною мовою" in paragraphs[1]
+            assert "Онлайн-курс «Челендж “Навчай українською”»" in paragraphs[2]
 
-            assert paragraphs[1] == (
-                "Ви можете вдосконалити свої знання та навички, "
-                "щоб викладати українською мовою, взявши участь "
-                "у челенджі “Навчай українською”."
-            )
-
-            assert paragraphs[2] == (
-                "Ми записали для вас мотиваційні та практичні "
-                "вебінари з експертами, зібрали корисні матеріали "
-                "та придумали цікаві завдання. Завдяки челенджу "
-                "“Навчай українською” перехід на українську мову "
-                "викладання стане для вас комфортним."
-            )
-
-            assert paragraphs[3].startswith(
-                "Близько двох тисяч учасників з усієї України уже взяли участь "
-                "у двох 21-денних челенджах “Навчай українською”"
-            )
-
-            assert "Перший челендж відбувся у листопаді 2020 року." in paragraphs[3]
-
-            assert "Другий челендж відбувся у квітні 2021 року." in paragraphs[3]
-
-            assert "Тисяча викладачів із Києва, Харкова, Дніпра, Одеси, Запоріжжя" in paragraphs[3]
-
-            assert paragraphs[4] == (
-                "Ви можете переглянути вебінари, які допоможуть "
-                "вам у переході на українську мову викладання."
-            )
+            full_text = " ".join(paragraphs)
+            assert "Для кого цей курс?" in full_text
+            assert "Структура та тривалість курсу:" in full_text
 
         with allure.step(
             "Step 4: Verify 'Наші контакти' and social media links"

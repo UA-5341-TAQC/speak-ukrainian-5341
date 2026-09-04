@@ -41,8 +41,10 @@ class BasicInfoStep(AddClubModal):
         )
     )
 
-    SELECTED_CATEGORIES: Locator = (By.CSS_SELECTOR,
-    "#basic_categories input[type='checkbox']:checked",)
+    SELECTED_CATEGORIES: Locator = (
+        By.CSS_SELECTOR,
+        "#basic_categories input[type='checkbox']:checked",
+    )
 
     @allure.step("Enter club name (Назва): '{name}'")
     def enter_name(self, name: str) -> BasicInfoStep:
@@ -154,9 +156,7 @@ class BasicInfoStep(AddClubModal):
         elements = self.driver.find_elements(*self.CATEGORIES_CONTAINER)
         if not elements:
             return 0
-        category_inputs = elements[0].find_elements(
-            By.XPATH, ".//input[@type='checkbox']"
-        )
+        category_inputs = elements[0].find_elements(By.XPATH, ".//input[@type='checkbox']")
         return len(category_inputs)
 
     def is_age_from_visible(self) -> bool:
@@ -180,19 +180,16 @@ class BasicInfoStep(AddClubModal):
         """Return the current club name."""
         return self._find_element(self.NAME_INPUT).get_attribute("value") or ""
 
-
     @allure.step("Get selected categories")
     def get_selected_categories(self) -> list[str]:
         """Return values of selected categories."""
         elements = self._find_elements(self.SELECTED_CATEGORIES)
         return [element.get_attribute("value") or "" for element in elements]
 
-
     @allure.step("Get minimum age")
     def get_age_from(self) -> str:
         """Return the current minimum age."""
         return self._find_element(self.AGE_FROM_INPUT).get_attribute("value") or ""
-
 
     @allure.step("Get maximum age")
     def get_age_to(self) -> str:

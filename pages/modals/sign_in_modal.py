@@ -137,8 +137,26 @@ class SignInModal(BaseModal):
         except TimeoutException:
             return ""
 
+    def _count_visible_error_icons(self) -> int:
+        """Count currently visible field validation error icons."""
+        return sum(1 for el in self._find_elements(self.FIELD_ERROR_ICON) if el.is_displayed())
+
+    def _has_expected_error_count(self, expected_count: int) -> bool:
+        """Return True if visible validation error icons match expected_count."""
+        return self._count_visible_error_icons() == expected_count
+
+    @allure.step("Wait for validation error icon count to be {expected_count}")
+    def wait_for_validation_error_count(self, expected_count: int) -> int:
+        """Wait until the visible validation error icons match expected_count."""
+        try:
+            self.wait.until(lambda _: self._has_expected_error_count(expected_count))
+        except TimeoutException:
+            pass
+        return self._count_visible_error_icons()
+
     @allure.step("Get number of validation error icons")
-    def get_validation_error_count(self) -> int:
+    def get_validation_error_count(self, expected_count: int | None = None) -> int:
         """Return the number of displayed validation error icons."""
-        elements = self._find_elements(self.FIELD_ERROR_ICON)
-        return sum(1 for element in elements if element.is_displayed())
+        if expected_count is not None:
+            return int(self.wait_for_validation_error_count(expected_count))
+        return self._count_visible_error_icons()

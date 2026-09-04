@@ -6,11 +6,17 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from pages.news_details_page import NewsDetailsPage
 from pages.news_page import NewsPage
 
-NEWS_TITLE = 'Новий курс "Єдині": почніть літо із переходу на українську'
-NEWS_ID = 27
-EXPECTED_DATE = "28.05.2023"
-EXPECTED_DESCRIPTION_FIRST_PARAGRAPH = "Проєкт «Єдині» допоможе вашим друзям перейти на українську!"
-EXPECTED_IMAGE_FILENAME = "14_course_registrationpost.jpg"
+NEWS_TITLE = 'Тест новина ОЛ. Новий етап розвитку освіти: Українські школи отримають доступ до передових технологій'
+NEWS_ID = 36
+EXPECTED_DATE = "03.01.2024"
+EXPECTED_DESCRIPTION_FIRST_PARAGRAPH = (
+    "Текст заголовка 3. Сьогодні Міністерство освіти України оголосило про "
+    "запровадження інноваційного проєкту для українських шкіл. Національна "
+    "програма розвитку освіти передбачає впровадження передових технологій "
+    "у навчальний процес, що дозволить забезпечити високий стандарт освіти "
+    "для українських учнів."
+)
+EXPECTED_IMAGE_FILENAME = "вчитель.jpeg"
 
 @allure.feature("News")
 @allure.title("TC-18: Opening a specific news article from the News page")

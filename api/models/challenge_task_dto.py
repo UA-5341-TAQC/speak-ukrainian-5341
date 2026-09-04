@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 class ChallengeTaskDto(BaseModel):
     """Model representing a task inside a challenge."""
+
     id: int
     name: str
     headerText: str | None = None
