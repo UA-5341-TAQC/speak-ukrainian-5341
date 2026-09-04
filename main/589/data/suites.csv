@@ -1,0 +1,339 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Verify that PATCH /centers/rating requires authentication.","6","test_update_center_rating_requires_authentication","tests","2026-09-04","passed","2026-09-04","","test_center_api","",""
+"Complaints filtered by sender id must return 200 with a JSON list.","95","Complaint-API-04: GET /complaints/sender/{id} returns 200 with a list","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Verify updating challenge preview using PATCH.","3416","Verify update_challenge_preview for role: admin","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"An anonymous caller must not be able to create a complaint (401).","31","Complaint-API-10: POST /complaint requires authentication (401)","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Verify getting all challenges for all roles.","2764","Verify get_all_challenges method","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"","1186","TC-08: News card displays information in fields.","tests","2026-09-04","passed","2026-09-04","","test_news_display_08","",""
+"Returning the authenticated_driver fixture leaves the session active.
+
+    The fixture signs in via the /api/signin endpoint and injects the issued
+    tokens, so the header must report the user as logged in.
+    ","553","test_user_is_signed_in_after_api_fixture","tests","2026-09-04","passed","2026-09-04","","test_sign_in","",""
+"Verify deleting/archiving a challenge.","14","Verify delete_challenge for role: unauthorized","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"The public complaints list must return a 200 response with a JSON list.","84","Complaint-API-01: GET /complaints returns 200 with a complaint list","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","1643","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-09-04","passed","2026-09-04","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","3843","TC-4: Registration — required field 'Прізвище' left empty","tests","2026-09-04","passed","2026-09-04","","test_registration_required_field","",""
+"The current-news endpoint must return 200 with a JSON list.","9","News-API-02: GET /newslist/current returns 200 with current news","tests","2026-09-04","passed","2026-09-04","","test_news_api","",""
+"TC-62: verify an unsupported profile photo format is rejected.
+
+        Test steps (from TC-62):
+            1. Click ""Редагувати профіль"" - the modal opens.
+            2. Click ""Завантажити фото"" - the file dialog opens (simulated).
+            3. Select the unsupported ``document.pdf`` - an error is shown, the
+               file is not added and the save button becomes disabled.
+            4. Click Close (X) - the modal closes.
+            5. The avatar on the profile page remains unchanged.
+        ","3334","test_unsupported_profile_photo_is_rejected","tests","2026-09-04","failed","2026-09-04","TestProfilePhotoUpload","test_profile_photo_upload","",""
+"","5341","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-04","passed","2026-09-04","","test_sign_up","",""
+"The user driver boots the SPA with the regular-user API session.
+
+    Args:
+        authenticated_driver: Browser signed in with the user credentials.
+        session_driver: The API session issued for the user credentials.
+    ","231","test_authenticated_driver_returns_user_session","tests","2026-09-04","passed","2026-09-04","","test_driver_roles","",""
+"","2697","TC-31 Login — wrong password — Вхід modal (confirmed account).","tests","2026-09-04","passed","2026-09-04","","test_signin_neg_31","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","4789","TC-4: Registration — required field 'Email' left empty","tests","2026-09-04","passed","2026-09-04","","test_registration_required_field","",""
+"Verify that a specific location can be fetched by its ID.","11","Location-API-02: GET /location/{id} returns 200 OK for an existing location","tests","2026-09-04","passed","2026-09-04","TestLocationRead","test_location_api","",""
+"Verify Role-Based Access Control: Guests cannot create categories.","4","Category-API-04: POST /category returns 401 for unauthenticated users","tests.api","2026-09-04","passed","2026-09-04","TestCategoriesSecurity","test_categories","",""
+"PUT /complaint/{id} must succeed for an authenticated USER caller.","105","Complaint-API-13: USER PUT /complaint/{id} returns 200","tests","2026-09-04","failed","2026-09-04","","test_complaint_api","",""
+"Verify cloning a challenge.","10","Verify clone_challenge for role: unauthorized","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify Role-Based Access Control: Users and Managers cannot update categories.","329","Category-API-08: PUT /category/{id} returns 403 Forbidden for User","tests.api","2026-09-04","passed","2026-09-04","TestCategoriesSecurity","test_categories","",""
+"Verify that PUT /center/{id} requires authentication.","14","test_update_center_requires_authentication","tests","2026-09-04","passed","2026-09-04","","test_center_api","",""
+"","7817","TC-26: Verify visitor can add a child and register for a club","tests","2026-09-04","passed","2026-09-04","","test_club_details","",""
+"Verify successful retrieval of user information by ID.","23","Successful retrieval of user information by ID","tests","2026-09-04","passed","2026-09-04","","test_api_users","",""
+"DELETE /complaint/{id} must succeed for an authenticated USER caller.
+
+    The probe confirmed both USER and MANAGER can delete. The test creates
+    a complaint, deletes it, then re-reads via the public list to confirm
+    the row is gone.
+    ","68","Complaint-API-16: USER DELETE /complaint/{id} returns 200 and removes the row","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Verify getting a challenge by ID.","16","Verify get_challenge_by_id method","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify Role-Based Access Control: Users and Managers cannot delete categories.","10","Category-API-09: DELETE /category/{id} returns 403 Forbidden for Manager","tests.api","2026-09-04","passed","2026-09-04","TestCategoriesSecurity","test_categories","",""
+"Verify GET /challenge-registration/{managerId} returns an empty list.","6","Get all registrations for a manager with none existing","tests","2026-09-04","passed","2026-09-04","","test_challenge_registration_get_response","",""
+"Verify that opening a news card leads to the correct, fully rendered details page.","2008","TC-18: Opening a specific news article from the News page","tests","2026-09-04","failed","2026-09-04","","test_open_specific_news_article","",""
+"","3530","TC-36: Validation check for required fields in the 'Основна інформація' step of the 'Додати гурток' modal form","tests","2026-09-04","passed","2026-09-04","","test_add_club_basic_info_validation","",""
+"Verify that GET /centers returns a list of centers.","713","test_get_all_centers_returns_success","tests","2026-09-04","passed","2026-09-04","","test_center_api","",""
+"Verify title, amount, currency, express pay buttons, card form fields and submit button.","5816","TC-48: Verify payment page UI elements are displayed correctly","tests","2026-09-04","passed","2026-09-04","","test_payment_page_ui","",""
+"Verify updating challenge preview using PATCH.","8","Verify update_challenge_preview for role: unauthorized","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"ComplaintProfile.model_dump must keep every required field verbatim.
+
+    The expected payload is a hand-written literal derived from the JSON
+    Schema, not from re-reading the model, so the assertion can disagree
+    with the model if a field is silently dropped or renamed.
+    ","15","Complaint-API-17: ComplaintProfile preserves required fields and drops None","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Verify POST /challenge-registration/children creates a new registration for a child.","70","Create a challenge registration for a child","tests","2026-09-04","passed","2026-09-04","","test_challenge_registration_post_response","",""
+"Verify navigation from the homepage to the Clubs page via the 'Всі гуртки' button and individual club category cards ('Спортивні секції', 'Танці, хореографія', 'Студії раннього розвитку').","7838","TC-38: Verify navigation to the Clubs page from the homepage","tests","2026-09-04","failed","2026-09-04","TestHomePageClubsNavigation","test_home_page_clubs_navigation","",""
+"","5114","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-04","passed","2026-09-04","","test_sign_up","",""
+"","6402","TC-57 Registration — duplicate email (already-registered email)","tests","2026-09-04","passed","2026-09-04","","test_sign_up","",""
+"Verify that DELETE /center/{id} requires authentication.","34","test_delete_center_requires_authentication","tests","2026-09-04","passed","2026-09-04","","test_center_api","",""
+"Verify that the 'Інші новини' carousel can be navigated via pagination dots.
+
+    Steps:
+        1. Open a news article and scroll down to the 'Інші новини' block.
+        2. Confirm pagination dots are visible and the first dot is active.
+        3. Click the second dot.
+        4. Verify the active dot transferred to the second dot and the
+           displayed news cards belong to group 2.
+        5. Click another (non-adjacent) dot.
+        6. Verify the active dot transferred to the clicked dot and only
+           one dot is active at a time.
+    ","2687","TC-25 Verify carousel pagination dots functionality","tests","2026-09-04","passed","2026-09-04","","test_tc_25_carousel_pagination_dots","",""
+"Verify alphabetical sorting in the advanced club search.","14771","test_tc_52_advanced_club_search_sorting","tests","2026-09-04","failed","2026-09-04","","test_52_Advanced_club_search","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","1416","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-09-04","passed","2026-09-04","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"Verify creating a challenge for all roles.","2494","Verify create_challenge for role: user","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify that clicking the 'Новини' menu item in the header navigates the user to the News page with valid URL, title, and article list.","963","TC-06: Verify that the News page opens","tests","2026-09-04","passed","2026-09-04","TestNewsPage","test_news_page_opens","",""
+"","7721","TC-39 Verify header navigation links redirect to the correct pages.","tests","2026-09-04","passed","2026-09-04","","test_nav_39","",""
+"Verify webinar video blocks, playback and YouTube links.","3646","TC-63 Verify video blocks playback and YouTube links on the challenge page","tests","2026-09-04","failed","2026-09-04","","test_challenge_page_video_blocks","",""
+"","72","Verify response schema matches ClubApplicationDto","tests","2026-09-04","passed","2026-09-04","TestClubRegistrationApi","test_club_registration_api","",""
+"Verify PATCH /challenge-registration/approve/{id} marks the registration as approved.","68","Approve a pending registration","tests","2026-09-04","passed","2026-09-04","","test_challenge_registration_patch_response","",""
+"Test verifies that the donation button is displayed, has the correct text and cursor, contains the expected WayForPay URL, and redirects to the payment page.","3624","TC-47: Verify 'Допомогти проєкту' button display, styling, and payment redirection","tests","2026-09-04","passed","2026-09-04","","test_social_buttons_ui","",""
+"Verify opening another news article from the 'Інші новини' section.","3101","test_news_details_other_news_navigation","tests","2026-09-04","passed","2026-09-04","","test_news_details_other_news_navigation","",""
+"Verify that entering an invalid password displays the correct validation error.","5542","TC-53 Verify registration password policy validation [Missing lowercase]","tests","2026-09-04","failed","2026-09-04","","test_sign_up","",""
+"Verify cloning a challenge.","3132","Verify clone_challenge for role: user","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify updating challenge start date.","4576","Verify update_challenge_start_date for role: manager","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify validation errors when submitting empty fields in the login modal.","3483","TC-33: Login — empty fields(required-field enforcement)","tests","2026-09-04","passed","2026-09-04","","test_sign_in","",""
+"Verify successful login with valid user credentials.","3231","Successful user login","tests","2026-09-04","passed","2026-09-04","","test_api_login","",""
+"Verify that entering an invalid password displays the correct validation error.","4443","TC-53 Verify registration password policy validation [Missing uppercase]","tests","2026-09-04","failed","2026-09-04","","test_sign_up","",""
+"Verify getting a challenge by ID.","2905","Verify get_challenge_by_id method","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify updating a challenge using PUT.","4029","Verify update_challenge (PUT) for role: admin","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"An anonymous caller must not be able to update a complaint (401).","44","Complaint-API-11: PUT /complaint/{id} requires authentication (401)","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Verify that all card payment fields accept and correctly display valid data.","7499","TC-41: Verify successful card payment form filling with valid input data","tests","2026-09-04","passed","2026-09-04","","test_successful_card_payment","",""
+"Verify that entering an invalid password displays the correct validation error.","3980","TC-53 Verify registration password policy validation [Contains Cyrillic]","tests","2026-09-04","failed","2026-09-04","","test_sign_up","",""
+"The manager driver boots a session with the manager API credentials.
+
+    Args:
+        authenticated_manager_driver: Browser signed in as the manager credentials.
+        manager_session_driver: The API session issued for the manager credentials.
+    ","0","test_authenticated_manager_driver_returns_manager_session","tests","2026-09-04","broken","2026-09-04","","test_driver_roles","",""
+"Test verifies that the email icon in the 'Наші контакти' section contains the correct project email address and uses a mailto link.","1672","TC-45: Verify email link functionality in contacts section","tests","2026-09-04","passed","2026-09-04","","test_social_buttons_ui","",""
+"Test retrieving children registered for an existing club.","62","Verify get_user_children returns 200 and valid child list","tests","2026-09-04","passed","2026-09-04","TestClubRegistrationApi","test_club_registration_api","",""
+"The base URL must be configured correctly for news requests.","3","News-API-11: news read endpoints are reachable on the configured base URL","tests","2026-09-04","passed","2026-09-04","","test_news_api","",""
+"Verify GET /challenge-registration/unapproved/{managerId} returns an empty list.","30","Get unapproved registrations for a manager with none pending","tests","2026-09-04","passed","2026-09-04","","test_challenge_registration_get_response","",""
+"An existing complaint must be fetchable by id without auth.","56","Complaint-API-05: GET /complaint/{id} returns 200 for an existing complaint","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Verify successful registration with email confirmation (TC-2 and TC-3).","12113","TC-3 Verify successful manager registration with email confirmation","tests","2026-09-04","passed","2026-09-04","","test_sign_up","",""
+"A schema-valid write payload must still be rejected for a non-admin role.
+
+    ``POST``/``PUT`` are admin-only operations. The payload is built with the
+    typed ``NewsProfile`` model and validated against the stored
+    ``news_profile`` schema before sending (proving the model satisfies the
+    contract), then the user client must get a 4xx because it has no admin
+    access token.
+    ","53","News-API-12: schema-valid POST/PUT body rejected for a non-admin","tests","2026-09-04","passed","2026-09-04","","test_news_api","",""
+"Verify that searching categories returns a paginated structure.","46","Category-API-02: GET /categories/search returns paginated list","tests.api","2026-09-04","passed","2026-09-04","TestCategoriesRead","test_categories","",""
+"Verify that login with a non-existent email is rejected with an error, keeping the user unauthenticated and the modal open.","4373","TC-32: Login — non-existent email — Вхід modal (unknown user)","tests","2026-09-04","passed","2026-09-04","","test_login_non_existent_email","",""
+"The version endpoint must serve its payload as JSON.","13","API-03: /version uses JSON content type","tests","2026-09-04","passed","2026-09-04","TestVersionApi","test_version_api","",""
+"A non-existent complaint id must yield a 404 response.","9","Complaint-API-06: GET /complaint/{id} returns 404 for a missing complaint","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Test successful registration of a user (adult) for a club.","82","Verify register_user_for_club returns 201 and valid response","tests","2026-09-04","passed","2026-09-04","TestClubRegistrationApi","test_club_registration_api","",""
+"","6185","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-04","passed","2026-09-04","","test_sign_up","",""
+"Verify Role-Based Access Control: Users and Managers cannot delete categories.","42","Category-API-09: DELETE /category/{id} returns 403 Forbidden for User","tests.api","2026-09-04","passed","2026-09-04","TestCategoriesSecurity","test_categories","",""
+"Verify PATCH /challenge-registration/cancel/{id} marks the registration as inactive.","102","Cancel an active registration","tests","2026-09-04","passed","2026-09-04","","test_challenge_registration_patch_response","",""
+"","7751","TC-30: Verify that an authenticated user can send a message to a club manager","tests","2026-09-04","passed","2026-09-04","","test_club_details","",""
+"The similar-news endpoint must respond with 200 and valid JSON.","19","News-API-04: GET /newslist/search/similar returns 200","tests","2026-09-04","passed","2026-09-04","","test_news_api","",""
+"Verify updating challenge start date.","3064","Verify update_challenge_start_date for role: admin","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify getting a challenge by ID.","4149","Verify get_challenge_by_id method","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify GET /challenge-registration/{challengeId}/{userId} returns true when registered.","74","Check registration status for a user registered on a challenge","tests","2026-09-04","passed","2026-09-04","","test_challenge_registration_get_response","",""
+"Verify updating challenge start date.","8","Verify update_challenge_start_date for role: unauthorized","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"","5796","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-04","passed","2026-09-04","","test_sign_up","",""
+"Verify updating a challenge using PUT.","3685","Verify update_challenge (PUT) for role: user","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify that guests cannot update locations.","14","ADDRESS-CONTROL-API-02: POST /replaceIncorrectCity returns 401 for unauthenticated users","tests","2026-09-04","passed","2026-09-04","TestAddressControllerSec","test_address_controller_api","",""
+"Verify that guests cannot update categories.","3","Category-API-05: PUT /category/{id} returns 401 for unauthenticated users","tests.api","2026-09-04","passed","2026-09-04","TestCategoriesSecurity","test_categories","",""
+"Verify cloning a challenge.","3542","Verify clone_challenge for role: admin","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Ensure both user and manager credentials are present in the environment.","0","test_user_and_manager_credentials_are_configured","tests","2026-09-04","passed","2026-09-04","","test_driver_roles","",""
+"Verify creating a challenge for all roles.","55","Verify create_challenge for role: unauthorized","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"POST/PUT require an admin access token, so a plain user must get a 4xx.
+
+    The user fixture has no admin token. With a partial body the backend rejects
+    the request via body validation (4xx) before it could be accepted, so the
+    test only asserts the write does not succeed from a non-admin account.
+    ","36","News-API-10: non-admin cannot POST /news or PUT /news/{id}","tests","2026-09-04","passed","2026-09-04","","test_news_api","",""
+"Verify that entering an invalid password displays the correct validation error.","4533","TC-53 Verify registration password policy validation [Length > 20]","tests","2026-09-04","failed","2026-09-04","","test_sign_up","",""
+"Verify cloning a challenge.","4719","Verify clone_challenge for role: manager","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify that the user can find a club by name.","4091","TC-27: Verify that the user can find a club by name","tests","2026-09-04","failed","2026-09-04","","test_clubs_page","",""
+"Verify that GET /centers/clubs/{id} returns center clubs.","1650","test_get_clubs_by_center_id_returns_success","tests","2026-09-04","passed","2026-09-04","","test_center_api","",""
+"Verify that GET /center/{id} returns 404 for a missing center.","10","test_get_center_by_id_returns_404_for_missing_center","tests","2026-09-04","passed","2026-09-04","","test_center_api","",""
+"Verify updating challenge start date.","5043","Verify update_challenge_start_date for role: user","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify that GET /centers/{id} returns an empty result for a missing user.","186","test_get_centers_by_user_id_returns_empty_for_missing_user","tests","2026-09-04","passed","2026-09-04","","test_center_api","",""
+"Verify regular user cannot get all users.","14","Regular user cannot get all users","tests","2026-09-04","passed","2026-09-04","","test_api_users","",""
+"Test that registered user+club pair returns true.","16","Verify existing registration returns true","tests","2026-09-04","passed","2026-09-04","TestClubRegistrationApi","test_club_registration_api","",""
+"Verify getting all challenges for all roles.","171","Verify get_all_challenges method","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","5152","TC-4: Registration — required field 'Ім'я' left empty","tests","2026-09-04","passed","2026-09-04","","test_registration_required_field","",""
+"PUT /complaint/isActive/{id} must succeed for an authenticated USER caller.","89","Complaint-API-15: USER PUT /complaint/isActive/{id} returns 200","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Verify that the user can find a club by name.","4479","TC-27: Verify that the user can find a club by name","tests","2026-09-04","failed","2026-09-04","","test_clubs_page","",""
+"Verify that an authenticated user can submit a complaint about a club.
+
+    Args:
+        authenticated_driver: Browser already signed in via the API fixture.
+    ","15896","test_tc_20_authenticated_user_can_submit_complaint","tests","2026-09-04","broken","2026-09-04","","test_tc_20_complaint_submission","",""
+"Verify GET /challenge-registration/user-applications/{userId} returns the submitted application.","101","Get applications submitted by a user with an existing application","tests","2026-09-04","passed","2026-09-04","","test_challenge_registration_get_response","",""
+"Verify that guests cannot delete location.","15","Location-API-06: DELETE /location/{id} returns 401 for unauthenticated users","tests","2026-09-04","passed","2026-09-04","TestLocationSeс","test_location_api","",""
+"Verify that GET /center/{id} returns a center.","933","test_get_center_by_id_returns_success","tests","2026-09-04","passed","2026-09-04","","test_center_api","",""
+"Complaints filtered by club id must return a 200 response with a JSON list.","77","Complaint-API-02: GET /complaints/club/{id} returns 200 with a list","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Verify updating challenge preview using PATCH.","3449","Verify update_challenge_preview for role: user","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify login attempt with unconfirmed account displays appropriate error.","3169","TC-34 Login — unconfirmed account (link not clicked)","tests","2026-09-04","passed","2026-09-04","","test_sign_in","",""
+"Verify that the buttons functionalities are unavailable for unauthenticated users","6697","TC-15: Verify unauthorized user cannot use restricted club actions","tests","2026-09-04","passed","2026-09-04","","test_club_actions_unauthorized","",""
+"Verify that an authenticated user can successfully fill out the 'Add Center' modal and reach the final step to submit the center.","16600","TC-58: Center creation functionality","tests","2026-09-04","failed","2026-09-04","","test_add_center","",""
+"TC-60: verify ""Доступний онлайн"" auto-toggles on when no location is added.
+
+    Preconditions covered inline (per TC-60):
+        - User is authenticated (via `authenticated_driver`).
+        - ""Додати гурток"" modal is opened through the header user menu.
+        - Step ""Основна інформація"" is completed.
+
+    NOTE: the info message (""Ви не додали жодної локації, гурток автоматично
+    є онлайн"") renders as an antd `ant-message` toast at the top of the
+    modal. It's transient, so it's captured with a single explicit wait on
+    `DescriptionStep.TOAST_TEXT` visibility, reading `.text` off the same
+    element the wait returns — this avoids the race condition that occurred
+    when `is_toast_displayed()` and `get_toast_text()` were called as two
+    separate, sequential DOM lookups (the toast could disappear between them).
+    ","5390","test_online_status_auto_assigned_when_no_location","tests","2026-09-04","passed","2026-09-04","","test_add_club_modal","",""
+"Test verifies that the YouTube icon on the news details page opens the project's official YouTube page in a new browser tab.","6141","TC-43: Verify YouTube social media link functionality","tests","2026-09-04","passed","2026-09-04","","test_social_buttons_ui","",""
+"An existing news article must be fetchable by id without auth.","47","News-API-05: GET /news/{id} returns 200 for an existing article","tests","2026-09-04","passed","2026-09-04","","test_news_api","",""
+"Verify that the map modal displays clubs according to the selected city and category.","22810","TC-10: Catalog: Club's Location","tests","2026-09-04","passed","2026-09-04","TestCatalogClubLocation","test_catalog_club_location","",""
+"Verify updating a challenge using PUT.","3623","Verify update_challenge (PUT) for role: manager","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"The news search endpoint must return 200 for a plain keyword.","67","News-API-03: GET /newslist/search?keyword= returns 200 with a search result","tests","2026-09-04","passed","2026-09-04","","test_news_api","",""
+"Verify homepage hero carousel navigation and its slide redirects.","812","test_homepage_carousel_navigation","tests","2026-09-04","skipped","2026-09-04","","test_home_carousel_navigation","",""
+"Verify successful retrieval of all archives.","2915","Successful retrieval of all archives","tests.api","2026-09-04","passed","2026-09-04","","test_archive","",""
+"","4968","TC-56 Registration — password mismatch — Реєстрація modal (confirm ≠ password).","tests","2026-09-04","passed","2026-09-04","","test_sign_up","",""
+"Verify getting a challenge by ID.","5062","Verify get_challenge_by_id method","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify that users can navigate through the 30 language marathon tasks using next/previous arrows and pagination dots.","3408","TC-11: Task carousel navigation via arrows and pagination dots","tests","2026-09-04","passed","2026-09-04","TestMarathonTaskCarousel","test_marathon_task_carousel_navigation","",""
+"Verify challenge and event banner navigation on the homepage.","4126","TC-50 Verify challenge and event banner navigation on the homepage","tests","2026-09-04","passed","2026-09-04","","test_home_page","",""
+"Verify successful registration with email confirmation (TC-2 and TC-3).","13429","TC-2 Verify successful user registration with email confirmation","tests","2026-09-04","passed","2026-09-04","","test_sign_up","",""
+"TC-59: Verify navigation with 'Назад' and data persistence between steps.
+
+    Preconditions:
+        - User is registered and logged into Навчай Українською.
+        - Add Club modal is opened.
+        - ""Основна інформація"" and ""Контакти"" sections are filled.
+
+    Test Steps:
+        1. On ""Контакти"", click ""Назад"".
+        2. Verify ""Основна інформація"" data is preserved.
+        3. Open ""Опис"" section.
+        4. On ""Опис"", click ""Назад"".
+        5. Verify ""Контакти"" data is preserved.
+
+    Postcondition:
+        - Close the Add Club modal.
+    ","5362","test_add_club_back_navigation_and_data_persistence","tests","2026-09-04","passed","2026-09-04","","test_add_club_modal","",""
+"PUT /complaint/{id}/answer must require an authenticated caller.","24","Complaint-API-08: PUT /complaint/{id}/answer requires authentication (401)","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Verify creating a challenge for all roles.","2815","Verify create_challenge for role: manager","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify that the user can find a club by name.","5681","TC-27: Verify that the user can find a club by name","tests","2026-09-04","failed","2026-09-04","","test_clubs_page","",""
+"TC-37: Verify the structure and presence of elements in the step.
+
+    ""Основна інформація"" step of ""Додати гурток"" modal.
+
+    Preconditions:
+        - User is registered and logged into the Навчай Українською
+
+    Test Steps:
+        1. Open the ""Додати гурток"" form
+        2. Verify the window title
+        3. Verify the step indicator on the left
+        4. Verify the ""Назва гуртка"" field
+        5. Verify the ""Категорія"" section with 12 checkboxes
+        6. Verify the ""Вік дитини"" section with ""Від"" and ""До"" fields
+        7. Verify the ""Приналежність до центру"" dropdown
+        8. Verify the ""Наступний крок"" button is active
+    ","1793","test_add_club_modal_basic_info_structure","tests","2026-09-04","passed","2026-09-04","","test_add_club_modal","",""
+"Test strict Pydantic validation for user registration response.","71","Verify response schema matches ClubUserRegistrationResponseDto","tests","2026-09-04","passed","2026-09-04","TestClubRegistrationApi","test_club_registration_api","",""
+"Verify that 'Інші новини' carousel can be navigated using arrows.","4366","TC-24 Verify carousel navigation using left and right arrows","tests","2026-09-04","passed","2026-09-04","","test_news_details","",""
+"Test verifies that the Instagram icon on the news details page opens the project's official Instagram page in a new browser tab.","3301","TC-44: Verify Instagram social media link functionality","tests","2026-09-04","passed","2026-09-04","","test_social_buttons_ui","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","5539","TC-4: Registration — required field 'Телефон' left empty","tests","2026-09-04","passed","2026-09-04","","test_registration_required_field","",""
+"Verify updating challenge preview using PATCH.","4237","Verify update_challenge_preview for role: manager","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify that POST /center requires authentication.","83","test_create_center_requires_authentication","tests","2026-09-04","passed","2026-09-04","","test_center_api","",""
+"Test verifies that the Facebook icon on the news details page opens the project's official Facebook page in a new browser tab.","4214","TC-42: Verify Facebook social media link functionality","tests","2026-09-04","passed","2026-09-04","","test_social_buttons_ui","",""
+"Verify that GET /centers/{id} returns a paginated result.","43","test_get_centers_by_user_id_returns_success","tests","2026-09-04","passed","2026-09-04","","test_center_api","",""
+"","7061","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-04","passed","2026-09-04","","test_sign_up","",""
+"A non-existent news id must yield a 404 response.","7","News-API-06: GET /news/{id} returns 404 for a missing article","tests","2026-09-04","passed","2026-09-04","","test_news_api","",""
+"Verify deleting/archiving a challenge.","823","Verify delete_challenge for role: admin","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Test strict Pydantic validation for all children in response.","83","Verify every child matches ChildDto schema","tests","2026-09-04","passed","2026-09-04","TestClubRegistrationApi","test_club_registration_api","",""
+"The public news list must return a 200 response with a JSON list.","94","News-API-01: GET /newslist returns 200 with a news list","tests","2026-09-04","passed","2026-09-04","","test_news_api","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","1331","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-09-04","passed","2026-09-04","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"A regular user (no admin token) must get 403 when deleting news.","24","News-API-08: DELETE /news/{id} forbidden for a regular user","tests","2026-09-04","passed","2026-09-04","","test_news_api","",""
+"Verify creating a challenge for all roles.","3208","Verify create_challenge for role: admin","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify Role-Based Access Control: Users and Managers cannot update categories.","12","Category-API-08: PUT /category/{id} returns 403 Forbidden for Manager","tests.api","2026-09-04","passed","2026-09-04","TestCategoriesSecurity","test_categories","",""
+"Verify opening a news article from the list and returning back to the News page.","2706","TC-07: Navigation to the News details page","tests","2026-09-04","passed","2026-09-04","","test_news_details_navigation","",""
+"Verify that an unauthorized user cannot apply to the selected challenge and the disabled registration button displays the appropriate tooltip.","1443","TC-16: Unauthorized user cannot apply to the challenge using 'Записатися на челендж' button","tests","2026-09-04","passed","2026-09-04","TestUnauthorizedChallengeApplication","test_unauthorized_challenge_application","",""
+"Verify that any user can fetch the list of categories successfully.","12","Category-API-01: GET /categories returns 200 OK and valid JSON list","tests.api","2026-09-04","passed","2026-09-04","TestCategoriesRead","test_categories","",""
+"An anonymous caller must not be able to delete a complaint (401).","15","Complaint-API-07: DELETE /complaint/{id} requires authentication (401)","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Verify getting all challenges for all roles.","2413","Verify get_all_challenges method","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify that entering an invalid password displays the correct validation error.","3728","TC-53 Verify registration password policy validation [Length < 8]","tests","2026-09-04","passed","2026-09-04","","test_sign_up","",""
+"Verify getting a challenge by ID.","5037","Verify get_challenge_by_id method","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify that entering an invalid email format in the 'Реєстрація' modal displays the validation error 'Некоректний формат email' and keeps the 'Зареєструватися' button enabled.","4976","TC-54: Verify registration with invalid email format","tests","2026-09-04","passed","2026-09-04","","test_sign_up","",""
+"Verify that the 'Навчай українською' challenge page displays the correct title, description paragraphs, social media links and donation button.","24","TC-35: Verify challenge page content — title, description and header icons","tests","2026-09-04","broken","2026-09-04","TestChallengePageContent","test_challenge_page_content","",""
+"Verify that entering an invalid password displays the correct validation error.","5694","TC-53 Verify registration password policy validation [Missing letters/digits]","tests","2026-09-04","failed","2026-09-04","","test_sign_up","",""
+"TC-61: verify the Last Name field rejects invalid special characters.
+
+        Test steps (from TC-61):
+            1. Click ""Редагувати профіль"" - the modal opens.
+            2. Clear ""Прізвище"", type invalid special characters and remove focus.
+               A validation error appears, the border turns red, an error icon is
+               shown and the save button remains active (no disabled attribute).
+            3. Click ""Зберегти зміни"" - the form is not submitted, the modal stays
+               open and the validation error is still displayed.
+        ","3605","test_last_name_rejects_special_characters","tests","2026-09-04","passed","2026-09-04","TestProfileLastNameUpdate","test_profile_last_name_update","",""
+"Test that registration with non-existent childId returns 404.","59","Verify non-existent child returns 404","tests","2026-09-04","passed","2026-09-04","TestClubRegistrationApi","test_club_registration_api","",""
+"","68","Verify get_user_applications returns 200 and valid list","tests","2026-09-04","passed","2026-09-04","TestClubRegistrationApi","test_club_registration_api","",""
+"Verify getting a challenge by ID.","15","Verify get_challenge_by_id method","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"TC-5: a confirmed user can log in via the 'Вхід' modal and stays signed in.
+
+    Fills valid credentials for a confirmed account, submits the login form,
+    and verifies the user menu reports a signed-in session, including after
+    a page reload.
+
+    Uses the current `UserProfileMenu` API: `HeaderComponent.click_user_profile()`
+    opens the dropdown and returns a `UserProfileMenu`; its `click_login()`
+    opens the ""Вхід"" modal and returns the `SignInModal`; `is_logged_in()`
+    lives on `UserProfileMenu`, so the dropdown must be reopened each time
+    the auth state is checked.
+    ","6036","test_confirmed_user_can_log_in","tests","2026-09-04","passed","2026-09-04","","test_sign_in","",""
+"Test strict Pydantic validation for registration response.","58","Verify response schema matches ClubRegistrationResponseDto","tests","2026-09-04","passed","2026-09-04","TestClubRegistrationApi","test_club_registration_api","",""
+"Verify navigation to the registration form for the 'Розмовляй' challenge.","11391","TC-65 User can register for the “Клуб української мови ""Розмовляй"" challenge","tests","2026-09-04","broken","2026-09-04","","test_tc_65_challenge_registration_navigation","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","4489","TC-4: Registration — required field 'Підтвердження паролю' left empty","tests","2026-09-04","passed","2026-09-04","","test_registration_required_field","",""
+"Verify that guests cannot update locations.","11","Location-API-04: PUT /location/{id} returns 401 for unauthenticated users","tests","2026-09-04","passed","2026-09-04","TestLocationSeс","test_location_api","",""
+"Verify updating phone number with a valid 10-digit value persists after refresh.","3306","TC-17: Update phone number using valid 10-digit numeric value","tests","2026-09-04","passed","2026-09-04","","test_update_phone_number","",""
+"Verify that entering an invalid password displays the correct validation error.","4888","TC-53 Verify registration password policy validation [Missing letters/special]","tests","2026-09-04","failed","2026-09-04","","test_sign_up","",""
+"POST /complaint must succeed for an authenticated USER caller.
+
+    The probe confirmed that both USER and MANAGER tokens can create a
+    complaint. The response body matches the ``SuccessCreatedComplaint``
+    schema (``id``/``userId``/``clubId``/``recipientId``/``hasAnswer``) and
+    can be deserialized into the typed ``SuccessCreatedComplaint`` model.
+    The body's ``userId`` must match the authenticated user's id — the
+    backend rejects mismatched ids with 400.
+    ","95","Complaint-API-12: USER POST /complaint returns 200 with SuccessCreatedComplaint","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Complaints filtered by recipient id must return 200 with a JSON list.","65","Complaint-API-03: GET /complaints/recipient/{id} returns 200 with a list","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"","5547","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-04","passed","2026-09-04","","test_sign_up","",""
+"Verify Role-Based Access Control: Users and Managers get 403 Forbidden.","730","Category-API-07: POST /category returns 403 Forbidden for User","tests.api","2026-09-04","passed","2026-09-04","TestCategoriesSecurity","test_categories","",""
+"Verify that a specific category can be fetched by its ID.","4","Category-API-03: GET /category/{id} returns 200 OK for an existing category","tests.api","2026-09-04","passed","2026-09-04","TestCategoriesRead","test_categories","",""
+"Test verifies that the 'Наші контакти' block is displayed on the news page, has the correct title, and contains all required social media icons: Facebook, YouTube, Instagram, and Mail.","1363","TC-28: Verify 'Наші контакти' section display","tests","2026-09-04","passed","2026-09-04","","test_social_buttons_ui","",""
+"Verify deleting/archiving a challenge.","356","Verify delete_challenge for role: manager","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify updating a challenge using PUT.","12","Verify update_challenge (PUT) for role: unauthorized","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify getting a challenge by ID.","3411","Verify get_challenge_by_id method","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify that invalid search queries return no matching clubs.","5307","test_tc_51_club_search_negative","tests","2026-09-04","passed","2026-09-04","","test_51_club_search_negative","",""
+"Verify Role-Based Access Control: Users and Managers get 403 Forbidden.","17","Category-API-07: POST /category returns 403 Forbidden for Manager","tests.api","2026-09-04","passed","2026-09-04","TestCategoriesSecurity","test_categories","",""
+"PUT /complaint/isActive/{id} must require an authenticated caller.","27","Complaint-API-09: PUT /complaint/isActive/{id} requires authentication (401)","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"Verify deleting/archiving a challenge.","2771","Verify delete_challenge for role: user","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify login fails when the user provides a wrong password.","2280","Login with wrong password","tests","2026-09-04","passed","2026-09-04","","test_api_login","",""
+"Verify that guests cannot delete categories.","4","Category-API-06: DELETE /category/{id} returns 401 for unauthenticated users","tests.api","2026-09-04","passed","2026-09-04","TestCategoriesSecurity","test_categories","",""
+"Test that non-existing registration returns false.","16","Verify non-registered pair returns false","tests","2026-09-04","passed","2026-09-04","TestClubRegistrationApi","test_club_registration_api","",""
+"Verify that leaving a required registration field empty shows a validation error below that field and keeps the 'Зареєструватися' button disabled.","4997","TC-4: Registration — required field 'Пароль' left empty","tests","2026-09-04","passed","2026-09-04","","test_registration_required_field","",""
+"Verify Role-Based Access Control: Guests cannot create locations.","11","Location-API-03: POST /location returns 401 for unauthenticated users","tests","2026-09-04","passed","2026-09-04","TestLocationSeс","test_location_api","",""
+"Verify successful retrieval of archives by class name.","2779","Successful retrieval of archives by class name","tests.api","2026-09-04","passed","2026-09-04","","test_archive","",""
+"Verify getting a challenge by ID.","4809","Verify get_challenge_by_id method","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"","5434","TC-55 Registration — phone format — Реєстрація modal (invalid phone format).","tests","2026-09-04","passed","2026-09-04","","test_sign_up","",""
+"An anonymous caller must not be able to delete news (401).","19","News-API-07: DELETE /news/{id} is admin-only (401 when unauthenticated)","tests","2026-09-04","passed","2026-09-04","","test_news_api","",""
+"Verify GET /challenge-registration/user-children/{challengeId} returns the registered child.","237","Get children registered for a challenge","tests","2026-09-04","passed","2026-09-04","","test_challenge_registration_get_response","",""
+"Verify POST /challenge-registration creates a new registration for the user.","83","Create a challenge registration for a user","tests","2026-09-04","passed","2026-09-04","","test_challenge_registration_post_response","",""
+"The public location list must return a 200 response with a JSON list.","850","Location-API-01: GET /locations returns 200 OK and valid JSON list","tests","2026-09-04","passed","2026-09-04","TestLocationRead","test_location_api","",""
+"Verify getting all challenges for all roles.","1456","Verify get_all_challenges method","tests","2026-09-04","passed","2026-09-04","TestChallengeApi","test_api_challenge_client","",""
+"Verify Role-Based Access Control: Guests cannot create categories.","13","ADDRESS-CONTROL-API-01: GET /getAllBadAddress returns 401 for unauthenticated users","tests","2026-09-04","passed","2026-09-04","TestAddressControllerSec","test_address_controller_api","",""
+"The version endpoint is public and must not require authentication.","18","API-02: /version responds to a plain GET without auth","tests","2026-09-04","passed","2026-09-04","TestVersionApi","test_version_api","",""
+"Verify that advanced center search returns a paginated result.","262","test_search_centers_advanced_returns_success","tests","2026-09-04","passed","2026-09-04","","test_center_api","",""
+"Verify that the 'Зареєструватись' button is visible and enabled, opens the registration page, supports browser back navigation, and the registration page is accessible directly.","2379","TC-13: 'Зареєструватись' CTA opens registration page","tests","2026-09-04","passed","2026-09-04","TestMarathonRegistrationCTA","test_marathon_registration_cta","",""
+"PUT /complaint/{id}/answer must succeed for an authenticated USER caller.","59","Complaint-API-14: USER PUT /complaint/{id}/answer returns 200","tests","2026-09-04","passed","2026-09-04","","test_complaint_api","",""
+"The public version endpoint must return a 200 response with backend commit metadata.","10","API-01: /version returns 200 with backend commit metadata","tests","2026-09-04","passed","2026-09-04","TestVersionApi","test_version_api","",""
+"A manager (also not admin) must get 403 when deleting news.","24","News-API-09: DELETE /news/{id} forbidden for a manager","tests","2026-09-04","passed","2026-09-04","","test_news_api","",""
+"Test successful registration of a single child for a club.","54","Verify register_for_club returns 201 and valid response","tests","2026-09-04","passed","2026-09-04","TestClubRegistrationApi","test_club_registration_api","",""
