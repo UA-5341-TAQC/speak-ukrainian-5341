@@ -16,13 +16,16 @@ class ReplyToCommentModal(BaseModal):
 
     # Contact fields, autofilled from user profile
     NAME_INPUT: Locator = (
-        By.XPATH, "//label[@title=\"Ім'я\"]/ancestor::div[contains(@class,'ant-form-item-row')]//input"  # noqa: E501
+        By.XPATH,
+        "//label[@title=\"Ім'я\"]/ancestor::div[contains(@class,'ant-form-item-row')]//input",  # noqa: E501
     )
     PHONE_INPUT: Locator = (
-        By.XPATH, "//label[@title='Телефон']/ancestor::div[contains(@class,'ant-form-item-row')]//input"  # noqa: E501
+        By.XPATH,
+        "//label[@title='Телефон']/ancestor::div[contains(@class,'ant-form-item-row')]//input",  # noqa: E501
     )
     EMAIL_INPUT: Locator = (
-        By.XPATH, "//label[@title='Email']/ancestor::div[contains(@class,'ant-form-item-row')]//input"  # noqa: E501
+        By.XPATH,
+        "//label[@title='Email']/ancestor::div[contains(@class,'ant-form-item-row')]//input",  # noqa: E501
     )
 
     # Comment field

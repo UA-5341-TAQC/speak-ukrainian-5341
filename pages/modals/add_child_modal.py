@@ -21,8 +21,14 @@ class AddChildModal(BaseModal):
     AGE_FIELD: Locator = (By.CSS_SELECTOR, "#add-child_age")
 
     # "Стать" radio buttons
-    BOY_RADIO_BUTTON: Locator = (By.CSS_SELECTOR, "#add-child_gender input[type='radio'][value='MALE']")  # noqa: E501
-    GIRL_RADIO_BUTTON: Locator = (By.CSS_SELECTOR, "#add-child_gender input[type='radio'][value='FEMALE']")  # noqa: E501
+    BOY_RADIO_BUTTON: Locator = (
+        By.CSS_SELECTOR,
+        "#add-child_gender input[type='radio'][value='MALE']",
+    )  # noqa: E501
+    GIRL_RADIO_BUTTON: Locator = (
+        By.CSS_SELECTOR,
+        "#add-child_gender input[type='radio'][value='FEMALE']",
+    )  # noqa: E501
 
     SUBMIT_BUTTON: Locator = (By.CSS_SELECTOR, "#add-child button.submit-button")
 
