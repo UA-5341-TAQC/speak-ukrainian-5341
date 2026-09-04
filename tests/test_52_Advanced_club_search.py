@@ -42,6 +42,7 @@ def test_tc_52_advanced_club_search_sorting(driver: WebDriver) -> None:
         club_sort.sort_by_alphabet()
 
         assert club_sort.get_actual_alphabet_direction() == "asc"
+        assert club_sort.is_arrow_up_active()
 
     with allure.step("Step 4: Change alphabetical sorting to descending"):
         club_sort.toggle_alphabet_sort_direction()
@@ -59,6 +60,7 @@ def test_tc_52_advanced_club_search_sorting(driver: WebDriver) -> None:
         club_sort.sort_by_rate()
 
         assert club_sort.get_current_direction() == "asc"
+        assert club_sort.is_arrow_up_active()
 
     with allure.step("Step 7: Change rating sorting to descending"):
         club_sort.set_sort_direction_by_rating("desc")
