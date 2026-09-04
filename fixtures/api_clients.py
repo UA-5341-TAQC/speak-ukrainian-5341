@@ -10,6 +10,7 @@ from pydantic.dataclasses import dataclass
 from api.address_controller import AddressControllerClient
 from api.base_client import BaseClient
 from api.categories_client import CategoriesClient
+from api.center_client import CenterClient
 from api.challenge_registration_client import ChallengeRegistrationClient
 from api.club_registration_client import ClubRegistrationClient
 from api.complaint_client import ComplaintClient
@@ -83,6 +84,12 @@ def club_registration_client(
 def news_api() -> NewsClient:
     """Provide an unauthenticated client for the public news endpoints."""
     return NewsClient(base_url=Config.BASE_API_URL)
+
+
+@pytest.fixture(scope="session")
+def center_api() -> CenterClient:
+    """Provide an unauthenticated client for the public center endpoints."""
+    return CenterClient(base_url=Config.BASE_API_URL)
 
 
 @pytest.fixture(scope="session")
