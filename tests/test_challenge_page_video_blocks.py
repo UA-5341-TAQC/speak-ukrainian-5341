@@ -50,8 +50,8 @@ def test_challenge_page_video_blocks(
             "No video blocks found on the challenge page"
         )
 
-        assert len(video_cards) == 4, (
-            "Content discrepancy: expected 4 video blocks, "
+        assert len(video_cards) == 6, (
+            "Content discrepancy: expected 6 video blocks, "
             f"found {len(video_cards)}"
         )
 
