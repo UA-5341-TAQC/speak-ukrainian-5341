@@ -48,7 +48,7 @@ def auth_data() -> dict[str, Any]:
         Config.API_USER_EMAIL,
         Config.API_USER_PASSWORD,
     )
-    return response.json()
+    return cast(dict[str, Any], response.json())
 
 
 @pytest.fixture
@@ -98,7 +98,7 @@ def news_api_user() -> NewsClient:
 @pytest.fixture(scope="session")
 def news_api_manager() -> NewsClient:
     """Provide a news client authenticated with the manager token."""
-    session = sign_in_via_api(Config.MANAGER_EMAIL, Config.MANAGER_PASSWORD)
+    session = sign_in_via_api(Config.API_MANAGER_EMAIL, Config.API_MANAGER_PASSWORD)
     return NewsClient(
         base_url=Config.BASE_API_URL,
         access_token=session.access_token,
@@ -185,9 +185,9 @@ def rbac_client(request: SubRequest) -> BaseClient:
     """
     client_class, role = request.param
     if role == "user":
-        email, password = Config.USER_EMAIL, Config.USER_PASSWORD
+        email, password = Config.API_USER_EMAIL, Config.API_USER_PASSWORD
     elif role == "manager":
-        email, password = Config.MANAGER_EMAIL, Config.MANAGER_PASSWORD
+        email, password = Config.API_MANAGER_EMAIL, Config.API_MANAGER_PASSWORD
     else:
         raise ValueError(f"Unknown role: {role}")
 
