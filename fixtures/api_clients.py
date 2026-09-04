@@ -9,8 +9,8 @@ from pydantic.dataclasses import dataclass
 
 from api.address_controller import AddressControllerClient
 from api.base_client import BaseClient
-from api.center_client import CenterClient
 from api.categories_client import CategoriesClient
+from api.center_client import CenterClient
 from api.challenge_registration_client import ChallengeRegistrationClient
 from api.club_registration_client import ClubRegistrationClient
 from api.complaint_client import ComplaintClient
