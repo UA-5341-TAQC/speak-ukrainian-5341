@@ -8,18 +8,10 @@ from pages.types import Locator
 class ChallengeRegistrationPage(BasePage):
     """Page object representing the 'Challenge UA' registration page."""
 
-    BACK_BUTTON: Locator = (
-        By.CSS_SELECTOR,
-        "button.details-back")
+    BACK_BUTTON: Locator = (By.CSS_SELECTOR, "button.details-back")
 
-    GOOGLE_FORM_CONTAINER: Locator = (
-        By.CSS_SELECTOR,
-        "div.google-form"
-    )
-    GOOGLE_FORM_IFRAME: Locator = (
-        By.CSS_SELECTOR,
-        "div.google-form iframe"
-    )
+    GOOGLE_FORM_CONTAINER: Locator = (By.CSS_SELECTOR, "div.google-form")
+    GOOGLE_FORM_IFRAME: Locator = (By.CSS_SELECTOR, "div.google-form iframe")
 
     @allure.step("Check if Registration Challenge page is opened")
     def is_opened(self) -> bool:
@@ -44,19 +36,14 @@ class ChallengeRegistrationPage(BasePage):
     @allure.step("Get Google Form iframe source URL")
     def get_google_form_src(self) -> str | None:
         """Return the Google Form iframe source URL."""
-        return self._find_element(
-            self.GOOGLE_FORM_IFRAME
-        ).get_attribute("src")
+        return self._find_element(self.GOOGLE_FORM_IFRAME).get_attribute("src")
 
     @allure.step("Check if Google Form iframe source URL is valid")
     def has_valid_google_form_src(self) -> bool:
         """Check whether the iframe contains a valid Google Forms URL."""
         src = self.get_google_form_src()
 
-        return (
-            src is not None
-            and "docs.google.com/forms" in src
-        )
+        return src is not None and "docs.google.com/forms" in src
 
     @allure.step("Click Back button")
     def click_back_button(self) -> None:

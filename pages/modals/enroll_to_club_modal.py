@@ -20,7 +20,10 @@ class EnrollToClubModal(BaseModal):
 
     # Checkbox
     SELF_ENROLL_CHECKBOX: Locator = (By.CSS_SELECTOR, "input.ant-checkbox-input[value='self']")
-    CHILD_ENROLL_CHECKBOX: Locator = (By.XPATH, "//div[contains(@class,'SignUpForClub_label')][contains(.,'{child_info}')]/ancestor::label//input[@type='checkbox']")  # noqa: E501
+    CHILD_ENROLL_CHECKBOX: Locator = (
+        By.XPATH,
+        "//div[contains(@class,'SignUpForClub_label')][contains(.,'{child_info}')]/ancestor::label//input[@type='checkbox']",
+    )  # noqa: E501
 
     # Add child
     ADD_CHILD_BUTTON: Locator = (By.CSS_SELECTOR, "button.add-children-btn")
@@ -37,13 +40,13 @@ class EnrollToClubModal(BaseModal):
         return self._find_element(self.MODAL_DIALOG).is_displayed()
 
     def wait_for_visible(self) -> "EnrollToClubModal":
-            """Wait until the modal dialog becomes visible.
+        """Wait until the modal dialog becomes visible.
 
-            Returns:
-                The modal instance for chaining.
-            """
-            self._wait_visible(self.MODAL_DIALOG)
-            return self
+        Returns:
+            The modal instance for chaining.
+        """
+        self._wait_visible(self.MODAL_DIALOG)
+        return self
 
     def is_modal_title_displayed(self) -> bool:
         """Check if the "Записати на гурток" title is visible."""

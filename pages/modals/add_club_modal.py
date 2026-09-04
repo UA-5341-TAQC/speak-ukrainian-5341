@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Literal
+from typing import Literal, cast
 
 import allure
 from selenium.common import TimeoutException
@@ -17,10 +17,7 @@ class AddClubModal(BaseModal):
     CLOSE_BUTTON: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
     MODAL_TITLE: Locator = (By.CSS_SELECTOR, "div.add-club-header")
 
-    STEPS_CONTAINER: Locator = (
-        By.CSS_SELECTOR,
-        "div.ant-steps.ant-steps-vertical"
-    )
+    STEPS_CONTAINER: Locator = (By.CSS_SELECTOR, "div.ant-steps.ant-steps-vertical")
 
     STEP_BASIC_INFO_TITLE: Locator = (
         By.XPATH,
@@ -35,10 +32,7 @@ class AddClubModal(BaseModal):
         ".//div[contains(@class,'ant-steps-item-title')][text()='Опис']",
     )
 
-    ACTIVE_STEP_TITLE: Locator = (
-        By.CSS_SELECTOR,
-        ".ant-steps-item-active .ant-steps-item-title"
-    )
+    ACTIVE_STEP_TITLE: Locator = (By.CSS_SELECTOR, ".ant-steps-item-active .ant-steps-item-title")
 
     NEXT_STEP_BUTTON: Locator = (By.CSS_SELECTOR, "button.add-club-content-next")
     PREV_BUTTON: Locator = (By.CSS_SELECTOR, "button.add-club-content-prev")
@@ -91,18 +85,19 @@ class AddClubModal(BaseModal):
         return [e.text.strip() for e in found if e.is_displayed()]
 
     @allure.step("Wait for {expected_count} validation error messages to appear")
-    def wait_for_errors(self, expected_count: int) -> list[str]:
+    def wait_for_errors(self, expected_count: int) -> list[str] | Literal[False]:
         """Wait until exactly expected_count error messages are visible, then return them."""
 
-        def _errors_ready(_: object) -> list | Literal[False]:
+        def _errors_ready(_: object) -> list[str] | Literal[False]:
             found = self._find_elements(self.FIELD_ERROR_MESSAGES)
             visible = [e.text.strip() for e in found if e.is_displayed()]
             return visible if len(visible) == expected_count else False
 
         try:
-            return self.wait.until(_errors_ready)
+            res = self.wait.until(_errors_ready)
+            return cast(list[str] | Literal[False], res)
         except TimeoutException:
-            return self.get_errors()
+            return cast(list[str] | Literal[False], self.get_errors())
 
     @allure.step("Get modal title")
     def get_modal_title(self) -> str:
@@ -110,7 +105,7 @@ class AddClubModal(BaseModal):
         return self._find_element(self.MODAL_TITLE).text.strip()
 
     @allure.step("Check if step '{step_title}' is active")
-    def is_step_active(self, step_title: str) -> bool:
+    def is_step_active(self, step_title: str) -> bool | None:
         """Check if a specific step is marked as active."""
         try:
             if step_title == "Основна інформація":
@@ -123,8 +118,9 @@ class AddClubModal(BaseModal):
                 return False
 
             element = self._find_element(locator)
-            parent = element.find_element(By.XPATH,
-                                          "ancestor::div[contains(@class,'ant-steps-item')]")
+            parent = element.find_element(
+                By.XPATH, "ancestor::div[contains(@class,'ant-steps-item')]"
+            )
             return "ant-steps-item-active" in parent.get_attribute("class")
         except Exception:
             return False

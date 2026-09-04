@@ -65,7 +65,7 @@ class NewsCardComponent(BaseComponent):
         return self.root.is_displayed()
 
     @allure.step("Check whether title is displayed.")
-    def is_title_visible(self)->bool:
+    def is_title_visible(self) -> bool:
         """Check whether title is displayed."""
         return self._wait_visible(self.TITLE).is_displayed()
 
@@ -73,4 +73,3 @@ class NewsCardComponent(BaseComponent):
     def is_date_visible(self) -> bool:
         """Check whether publication date is displayed."""
         return self._wait_visible(self.DATE).is_displayed()
-

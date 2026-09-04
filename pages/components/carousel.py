@@ -54,4 +54,9 @@ class Carousel(BaseComponent):
     @allure.step("Get carousel items")
     def get_items(self) -> list[CarouselItem]:
         """Return all non-cloned carousel items."""
-        return [CarouselItem(item) for item in self.driver.find_elements(*self.ITEMS)]
+        return [CarouselItem(item) for item in self._find_elements(self.ITEMS)]
+
+    @allure.step("Get slide count")
+    def get_slide_count(self) -> int:
+        """Return the number of non-cloned carousel slides."""
+        return len(self._find_elements(self.ITEMS))

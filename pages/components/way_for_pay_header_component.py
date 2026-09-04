@@ -9,6 +9,7 @@ from pages.types import Locator
 
 class WayForPayHeaderComponent(BaseComponent):
     """Component for WayForPay portal header and initiative details."""
+
     TITLE: Locator = (By.CSS_SELECTOR, ".title")
     DESCRIPTION: Locator = (By.CSS_SELECTOR, ".description")
 

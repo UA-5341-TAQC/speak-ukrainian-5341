@@ -39,17 +39,17 @@ class HeaderComponent(BaseComponent):
 
     NEWS_LINK: Locator = (
         By.CSS_SELECTOR,
-        ".nav-menu a[href='/news']",
+        ".nav-menu a[href*='/news']",
     )
 
     ABOUT_LINK: Locator = (
         By.CSS_SELECTOR,
-        ".nav-menu a[href='/about']",
+        ".nav-menu a[href*='/about']",
     )
 
     SERVICES_LINK: Locator = (
         By.CSS_SELECTOR,
-        ".nav-menu a[href='/service']",
+        ".nav-menu a[href*='/service']",
     )
 
     CITY_SELECTOR: Locator = (
@@ -114,6 +114,11 @@ class HeaderComponent(BaseComponent):
         self._wait_clickable(self.USER_PROFILE).click()
         user_profile_menu_root = self._find_element(self.USER_DROPDOWN_MENU_ROOT, from_driver=True)
         return UserProfileMenu(user_profile_menu_root)
+
+    @allure.step("Click 'Особистий кабінет' in user menu")
+    def click_profile_menu_item(self) -> None:
+        """Open user profile menu and click 'Особистий кабінет'."""
+        self.click_user_profile().click_profile_menu_item()
 
     @allure.step("Check whether the user is signed in")
     def is_logged_in(self) -> bool:
