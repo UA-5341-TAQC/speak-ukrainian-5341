@@ -28,7 +28,7 @@ class NewsPage(BasePage):
     @allure.step("Open the News page")
     def open(self) -> "NewsPage":
         """Open the News page and wait until its main content is visible."""
-        self.driver.get(f"{self.get_base_url()}/dev/news")
+        self.driver.get(f"{self.get_base_url()}/news")
         self._wait_visible(self.NEWS_CONTENT)
         return self
 

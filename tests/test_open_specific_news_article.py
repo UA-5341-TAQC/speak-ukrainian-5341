@@ -23,7 +23,7 @@ EXPECTED_IMAGE_FILENAME = "вчитель.jpeg"
 def test_open_specific_news_article(driver: WebDriver) -> None:
     """Verify that opening a news card leads to the correct, fully rendered details page."""
     news_page = NewsPage(driver).open()
-    expected_news_url = f"{news_page.get_base_url()}/dev/news/{NEWS_ID}"
+    expected_news_url = f"{news_page.get_base_url()}/news/{NEWS_ID}"
 
     with allure.step("Review available news cards on the page"):
         cards = news_page.get_news_list().get_cards()
@@ -51,11 +51,11 @@ def test_open_specific_news_article(driver: WebDriver) -> None:
         news_details_page.wait_for_article_title(NEWS_TITLE)
         assert news_details_page.get_news_major_title_text() == NEWS_TITLE
 
-        # with allure.step("Verify the main news image is displayed correctly"):
-        #assert news_details_page.is_banner_image_available()
-        #assert EXPECTED_IMAGE_FILENAME in news_details_page.get_banner_image_url()
-        #width, height = news_details_page.get_banner_image_size()
-        #assert width > 0 and height > 0
+    with allure.step("Verify the main news image is displayed correctly"):
+        assert news_details_page.is_banner_image_available()
+        assert EXPECTED_IMAGE_FILENAME in news_details_page.get_banner_image_url()
+        width, height = news_details_page.get_banner_image_size()
+        assert width > 0 and height > 0
 
 
     assert news_details_page.get_news_publication_date_text() == EXPECTED_DATE
@@ -73,6 +73,6 @@ def test_open_specific_news_article(driver: WebDriver) -> None:
 
         assert driver.current_url.rstrip("/") == expected_news_url
         assert news_details_page.get_news_major_title_text() == NEWS_TITLE
-        #assert news_details_page.is_banner_image_available()
+        assert news_details_page.is_banner_image_available()
         assert news_details_page.get_news_publication_date_text() == EXPECTED_DATE
         assert news_details_page.get_news_description_text().startswith(EXPECTED_DESCRIPTION_FIRST_PARAGRAPH)
