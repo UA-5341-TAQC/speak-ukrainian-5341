@@ -12,7 +12,7 @@ class EditProfileModal(BaseModal):
     """Page object representing the Edit Profile modal."""
 
     modal_title: Locator = (By.CSS_SELECTOR, "div.edit-header")
-    close_btn: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
+    close_btn: Locator = BaseModal.CLOSE_BUTTON
 
     role_visitor_btn: Locator = (
         By.CSS_SELECTOR,
@@ -96,7 +96,7 @@ class EditProfileModal(BaseModal):
     @allure.step("Close Edit Profile modal")
     def close_modal(self) -> None:
         """Click the close button (X) of the modal."""
-        self._click(self.close_btn)
+        self.click_close_button()
 
     @allure.step("Select 'Visitor' role")
     def select_role_visitor(self) -> "EditProfileModal":

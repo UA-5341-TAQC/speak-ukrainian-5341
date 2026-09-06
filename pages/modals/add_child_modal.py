@@ -10,10 +10,8 @@ from pages.types import Locator
 class AddChildModal(BaseModal):
     """Modal for adding a new child."""
 
-    # Modal container and header
+    # Modal container
     MODAL_DIALOG: Locator = (By.CSS_SELECTOR, "div.add-child-modal")
-    MODAL_TITLE: Locator = (By.CSS_SELECTOR, "div.ant-modal-title")
-    CLOSE_BUTTON: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
 
     # Form fields
     FIRST_NAME_FIELD: Locator = (By.CSS_SELECTOR, "#add-child_firstName")
@@ -31,23 +29,6 @@ class AddChildModal(BaseModal):
     )  # noqa: E501
 
     SUBMIT_BUTTON: Locator = (By.CSS_SELECTOR, "#add-child button.submit-button")
-
-    def is_modal_displayed(self) -> bool:
-        """Check if the modal is open."""
-        return self._find_element(self.MODAL_DIALOG).is_displayed()
-
-    def wait_for_visible(self) -> "AddChildModal":
-        """Wait until the modal dialog becomes visible.
-
-        Returns:
-            The modal instance for chaining.
-        """
-        self._wait_visible(self.MODAL_DIALOG)
-        return self
-
-    def is_modal_title_displayed(self) -> bool:
-        """Check if the "Додати дитину" title is visible."""
-        return self._find_element(self.MODAL_TITLE).is_displayed()
 
     @allure.step("Enter first name: '{text}'")
     def enter_first_name(self, text: str) -> None:
@@ -90,7 +71,3 @@ class AddChildModal(BaseModal):
     def click_submit(self) -> None:
         """Click the submit button to add the child."""
         self._wait_clickable(self.SUBMIT_BUTTON).click()
-
-    def close_modal(self) -> None:
-        """Close the modal via x button."""
-        self._wait_clickable(self.CLOSE_BUTTON).click()

@@ -23,7 +23,6 @@ class SignUpModal(BaseModal):
 
     # --- LOCATORS ---
     MODAL_CONTENT: Locator = (By.CSS_SELECTOR, "div.ant-modal:has(div.registration-header)")
-    CLOSE_BUTTON: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
     MODAL_TITLE: Locator = (
         By.CSS_SELECTOR,
         "div.registration-header, div.ant-modal-title",
@@ -129,11 +128,6 @@ class SignUpModal(BaseModal):
         "//div[@id='phone_help']/div[@class='ant-form-item-explain-error']",
     )
 
-    @allure.step("Check if Registration modal is displayed")
-    def is_displayed(self) -> bool:
-        """Check if the registration modal window is visible on screen."""
-        return self._wait_visible(self.MODAL_CONTENT).is_displayed()
-
     @allure.step("Select role: Відвідувач (ROLE_USER)")
     def select_visitor_role(self) -> SignUpModal:
         """Select the 'Відвідувач' role radio button with explicit wait."""
@@ -238,11 +232,6 @@ class SignUpModal(BaseModal):
     def click_submit(self) -> None:
         """Click the registration submit button with explicit wait."""
         self._wait_clickable(self.SUBMIT_BUTTON).click()
-
-    @allure.step("Click Close modal button (X)")
-    def click_close_button(self) -> None:
-        """Close the modal window by clicking the X button in top right."""
-        self._wait_clickable(self.CLOSE_BUTTON).click()
 
     @allure.step("Click Google OAuth registration link")
     def click_google_oauth(self) -> None:
