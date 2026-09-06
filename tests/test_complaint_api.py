@@ -366,33 +366,55 @@ def test_update_complaint_authenticated_succeeds(
     """PUT /complaint/{id} must succeed for an authenticated USER caller."""
     api, user_id = complaint_api_user
     bootstrap = ComplaintClient(base_url=api.base_url)
-    complaint_id, club_id, recipient_id, _ = _first_complaint_context(bootstrap)
-    payload = ComplaintProfile(
-        text="Smoke test update text that has at least 40 characters for validation",
+    _, club_id, recipient_id, _ = _first_complaint_context(bootstrap)
+
+    setup_payload = ComplaintProfile(
+        text="Initial smoke test complaint created to verify authenticated PUT update",
         userId=int(user_id),
         clubId=club_id,
         recipientId=recipient_id,
         isActive=True,
     ).model_dump(exclude_none=True)
 
-    with allure.step("Validate the payload against the ComplaintProfile schema"):
-        assert_response_matches(payload, "complaint_profile", name="PUT /complaint payload")
-
-    with allure.step(
-        f"PUT the schema-valid payload to /complaint/{complaint_id} with the USER token"
-    ):
-        response = api.update_complaint(complaint_id, payload)
-        assert response.status_code == 200, (
-            f"Authenticated PUT /complaint/{complaint_id} must succeed, got {response.status_code}"
+    with allure.step("Create an initial complaint for the authenticated user"):
+        create_response = api.create_complaint(setup_payload)
+        assert create_response.status_code == 200, (
+            f"Setup POST failed with {create_response.status_code}; cannot proceed to PUT"
         )
+        created = SuccessCreatedComplaint.model_validate(create_response.json())
+        complaint_id = created.id
 
-    with allure.step(
-        "Validate the response against the stored ComplaintResponse schema"
-    ):
-        body = response.json()
-        assert_response_matches(
-            body, "complaint_response", name=f"PUT /complaint/{complaint_id} response"
-        )
+    try:
+        payload = ComplaintProfile(
+            text="Smoke test update text that has at least 40 characters for validation",
+            userId=int(user_id),
+            clubId=club_id,
+            recipientId=recipient_id,
+            isActive=True,
+        ).model_dump(exclude_none=True)
+
+        with allure.step("Validate the payload against the ComplaintProfile schema"):
+            assert_response_matches(payload, "complaint_profile", name="PUT /complaint payload")
+
+        with allure.step(
+            f"PUT the schema-valid payload to /complaint/{complaint_id} with the USER token"
+        ):
+            response = api.update_complaint(complaint_id, payload)
+            assert response.status_code == 200, (
+                f"Authenticated PUT /complaint/{complaint_id} must succeed, "
+                f"got {response.status_code}: {response.text}"
+            )
+
+        with allure.step(
+            "Validate the response against the stored ComplaintResponse schema"
+        ):
+            body = response.json()
+            assert_response_matches(
+                body, "complaint_response", name=f"PUT /complaint/{complaint_id} response"
+            )
+    finally:
+        with allure.step(f"Delete the test complaint id={complaint_id} to keep state clean"):
+            api.delete_complaint(complaint_id)
 
 
 @allure.title("Complaint-API-14: USER PUT /complaint/{id}/answer returns 200")
