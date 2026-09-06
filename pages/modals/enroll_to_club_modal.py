@@ -1,5 +1,7 @@
 """Enroll to club modal, opened from the club details page."""
 
+from __future__ import annotations
+
 import allure
 from selenium.webdriver.common.by import By
 
@@ -33,17 +35,9 @@ class EnrollToClubModal(BaseModal):
 
     SUBMIT_BUTTON: Locator = (By.CSS_SELECTOR, "#registration-to-club button[type='submit']")
 
-    def is_modal_displayed(self) -> bool:
-        """Check if the modal is open."""
-        return self._find_element(self.MODAL_DIALOG).is_displayed()
-
-    def wait_for_visible(self) -> "EnrollToClubModal":
-        """Wait until the modal dialog becomes visible.
-
-        Returns:
-            The modal instance for chaining.
-        """
-        self._wait_visible(self.MODAL_DIALOG)
+    def wait_for_visible(self) -> EnrollToClubModal:
+        """Wait until the modal dialog becomes visible."""
+        super().wait_for_visible()
         return self
 
     def get_club_name(self) -> str:

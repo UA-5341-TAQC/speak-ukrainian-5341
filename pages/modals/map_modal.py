@@ -19,11 +19,6 @@ class MapModal(BaseModal):
         "div.ant-modal-content, div.map-layout",
     )
 
-    CLOSE_BUTTON: Locator = (
-        By.CSS_SELECTOR,
-        "button.ant-modal-close",
-    )
-
     CITY_SELECT: Locator = (
         By.CSS_SELECTOR,
         "div.selectBlock div.ant-select:nth-child(1)",
@@ -115,17 +110,10 @@ class MapModal(BaseModal):
             "]]",
         )
 
-    def is_displayed(self) -> bool:
-        """Check whether the Map modal is displayed."""
-        try:
-            return self._wait_visible(self.MODAL_CONTENT).is_displayed()
-        except Exception:
-            return False
-
     @allure.step("Close Map modal")
     def close(self) -> None:
         """Close the Map modal."""
-        self._wait_clickable(self.CLOSE_BUTTON).click()
+        self.click_close_button()
 
     @allure.step("Select city: '{city_name}'")
     def select_city(self, city_name: str) -> MapModal:

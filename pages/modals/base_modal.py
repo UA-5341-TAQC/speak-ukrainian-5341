@@ -41,7 +41,7 @@ class BaseModal(Base):
 
     def _get_modal_root_locator(self) -> Locator:
         """Resolve the active content or container locator for this modal."""
-        for attr in ("MODAL_CONTENT", "MODAL_DIALOG", "MODAL_CONTAINER"):
+        for attr in ("MODAL_CONTENT", "MODAL_DIALOG", "MODAL_CONTAINER", "MODAL"):
             if hasattr(self, attr):
                 val = getattr(self, attr)
                 if isinstance(val, tuple) and len(val) == 2:

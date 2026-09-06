@@ -12,7 +12,6 @@ class EditProfileModal(BaseModal):
     """Page object representing the Edit Profile modal."""
 
     modal_title: Locator = (By.CSS_SELECTOR, "div.edit-header")
-    close_btn: Locator = BaseModal.CLOSE_BUTTON
 
     role_visitor_btn: Locator = (
         By.CSS_SELECTOR,
