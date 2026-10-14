@@ -55,7 +55,6 @@ from pages.modals.sign_up_modal import SignUpModal
 def test_sign_up_password_policy(
     request: pytest.FixtureRequest,
     driver: WebDriver,
-    temp_mail: TempMailAPIClient,
     invalid_password: str,
     expected_error: str,
 ) -> None:

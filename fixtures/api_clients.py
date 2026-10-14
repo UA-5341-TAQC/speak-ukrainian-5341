@@ -34,7 +34,7 @@ class ApiUserCredentials:
     email: str | None = None
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def temp_mail() -> TempMailAPIClient:
     """Provides an authenticated temporary email client."""
     return TempMailAPIClient()
