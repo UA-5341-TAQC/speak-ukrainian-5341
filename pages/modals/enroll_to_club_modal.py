@@ -1,5 +1,7 @@
 """Enroll to club modal, opened from the club details page."""
 
+from __future__ import annotations
+
 import allure
 from selenium.webdriver.common.by import By
 
@@ -10,10 +12,8 @@ from pages.types import Locator
 class EnrollToClubModal(BaseModal):
     """Modal for enrolling a child to a club."""
 
-    # Modal container and header
+    # Modal container
     MODAL_DIALOG: Locator = (By.CSS_SELECTOR, "div.ant-modal-content:has(#registration-to-club)")
-    MODAL_TITLE: Locator = (By.CSS_SELECTOR, "div.ant-modal-title")
-    CLOSE_BUTTON: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
 
     # Club name, shown inside the form
     CLUB_NAME: Locator = (By.XPATH, "//div[contains(@class, 'SignUpForClub_content')]/div[1]")
@@ -35,22 +35,10 @@ class EnrollToClubModal(BaseModal):
 
     SUBMIT_BUTTON: Locator = (By.CSS_SELECTOR, "#registration-to-club button[type='submit']")
 
-    def is_modal_displayed(self) -> bool:
-        """Check if the modal is open."""
-        return self._find_element(self.MODAL_DIALOG).is_displayed()
-
-    def wait_for_visible(self) -> "EnrollToClubModal":
-        """Wait until the modal dialog becomes visible.
-
-        Returns:
-            The modal instance for chaining.
-        """
-        self._wait_visible(self.MODAL_DIALOG)
+    def wait_for_visible(self) -> EnrollToClubModal:
+        """Wait until the modal dialog becomes visible."""
+        super().wait_for_visible()
         return self
-
-    def is_modal_title_displayed(self) -> bool:
-        """Check if the "Записати на гурток" title is visible."""
-        return self._find_element(self.MODAL_TITLE).is_displayed()
 
     def get_club_name(self) -> str:
         """Return the club name shown inside the form."""
@@ -115,7 +103,3 @@ class EnrollToClubModal(BaseModal):
     def click_submit(self) -> None:
         """Click the submit button to enroll to the club."""
         self._wait_clickable(self.SUBMIT_BUTTON).click()
-
-    def close_modal(self) -> None:
-        """Close the modal via x button."""
-        self._wait_clickable(self.CLOSE_BUTTON).click()

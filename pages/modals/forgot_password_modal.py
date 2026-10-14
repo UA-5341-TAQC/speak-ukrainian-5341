@@ -52,13 +52,6 @@ class ForgotPasswordModal(BaseModal):
         "//div[contains(@class, 'ant-form-item-explain-error')]",
     )
 
-    @allure.step("Check if Forgot Password modal is displayed")
-    def is_displayed(self) -> bool:
-        """Check if the forgot password modal window is visible on screen."""
-        if self.root:
-            return self.root.is_displayed()
-        return self._find_element(self.MODAL_CONTENT).is_displayed()
-
     @allure.step("Enter Email for password recovery: '{email}'")
     def enter_email(self, email: str) -> ForgotPasswordModal:
         """Type value into recovery Email input field with safe clear."""
@@ -76,16 +69,6 @@ class ForgotPasswordModal(BaseModal):
     def click_submit(self) -> None:
         """Click the recovery submit button with explicit wait."""
         self._wait_clickable(self.SUBMIT_BUTTON).click()
-
-    @allure.step("Click Close modal button (X)")
-    def click_close_button(self) -> None:
-        """Close the modal window by clicking the X button in top right."""
-        self._wait_clickable(self.CLOSE_BUTTON).click()
-
-    @allure.step("Get Forgot Password modal title text")
-    def get_title_text(self) -> str:
-        """Retrieve the trimmed text of the modal header."""
-        return self._find_element(self.MODAL_TITLE).text.strip()
 
     @allure.step("Get all displayed validation error messages in recovery form")
     def get_error_messages(self) -> list[str]:

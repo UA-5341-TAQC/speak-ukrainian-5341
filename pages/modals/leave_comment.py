@@ -12,7 +12,6 @@ class LeaveCommentModal(BaseModal):
     # Modal container and header
     MODAL_DIALOG: Locator = (By.CSS_SELECTOR, ".comment-modal")
     MODAL_TITLE: Locator = (By.CSS_SELECTOR, ".comment-edit-title")
-    CLOSE_BUTTON: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
 
     # Tabs -> switch between "Коментар" and "Скарга"
     COMMENT_TAB: Locator = (By.CSS_SELECTOR, "[data-node-key='1']")
@@ -50,19 +49,6 @@ class LeaveCommentModal(BaseModal):
     COMPLAINT_NOTE: Locator = (By.CSS_SELECTOR, ".complaint-note")
 
     SUBMIT_BUTTON: Locator = (By.CSS_SELECTOR, "button.do-comment-button")
-
-    def is_modal_displayed(self) -> bool:
-        """Check if the modal is currently open."""
-        return self._find_element(self.MODAL_DIALOG).is_displayed()
-
-    def wait_for_visible(self) -> "LeaveCommentModal":
-        """Wait until the modal dialog becomes visible.
-
-        Returns:
-            The modal instance for chaining.
-        """
-        self._wait_visible(self.MODAL_DIALOG)
-        return self
 
     def wait_for_closed(self) -> "LeaveCommentModal":
         """Wait until the modal dialog has closed (removed or hidden).
@@ -133,10 +119,6 @@ class LeaveCommentModal(BaseModal):
     def click_submit(self) -> None:
         """Click the submit button to send the comment/complaint."""
         self._wait_clickable(self.SUBMIT_BUTTON).click()
-
-    def close_modal(self) -> None:
-        """Close the modal via x button."""
-        self._wait_clickable(self.CLOSE_BUTTON).click()
 
     def is_comment_tab_selected(self) -> bool:
         """Check if the 'Коментар' tab is currently selected.

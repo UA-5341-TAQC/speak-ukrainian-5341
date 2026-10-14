@@ -14,7 +14,6 @@ class AddClubModal(BaseModal):
     """Page object for the Add Club modal window."""
 
     MODAL_CONTENT: Locator = (By.CSS_SELECTOR, "div.modal-add-club")
-    CLOSE_BUTTON: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
     MODAL_TITLE: Locator = (By.CSS_SELECTOR, "div.add-club-header")
 
     STEPS_CONTAINER: Locator = (By.CSS_SELECTOR, "div.ant-steps.ant-steps-vertical")
@@ -47,7 +46,7 @@ class AddClubModal(BaseModal):
     @allure.step("Close Add Club modal")
     def close(self) -> None:
         """Close the Add Club modal by clicking the close button."""
-        self._wait_clickable(self.CLOSE_BUTTON).click()
+        self.click_close_button()
 
     @allure.step("Get active step title")
     def get_active_step(self) -> str:
@@ -102,7 +101,7 @@ class AddClubModal(BaseModal):
     @allure.step("Get modal title")
     def get_modal_title(self) -> str:
         """Get the title text of the Add Club modal."""
-        return self._find_element(self.MODAL_TITLE).text.strip()
+        return str(self.get_title_text())
 
     @allure.step("Check if step '{step_title}' is active")
     def is_step_active(self, step_title: str) -> bool | None:
@@ -121,7 +120,7 @@ class AddClubModal(BaseModal):
             parent = element.find_element(
                 By.XPATH, "ancestor::div[contains(@class,'ant-steps-item')]"
             )
-            return "ant-steps-item-active" in parent.get_attribute("class")
+            return "ant-steps-item-active" in (parent.get_attribute("class") or "")
         except Exception:
             return False
 

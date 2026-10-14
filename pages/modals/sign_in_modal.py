@@ -21,7 +21,6 @@ class SignInModal(BaseModal):
 
     # --- LOCATORS ---
     MODAL_CONTENT: Locator = (By.CSS_SELECTOR, "div.ant-modal.modal-login div.ant-modal-content")
-    CLOSE_BUTTON: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
     MODAL_TITLE: Locator = (
         By.CSS_SELECTOR,
         "div.login-header, div.ant-modal-title",
@@ -49,16 +48,6 @@ class SignInModal(BaseModal):
         By.CSS_SELECTOR,
         "div.ant-form-item.login-input.ant-form-item-has-error .ant-form-item-feedback-icon-error",
     )
-
-    @allure.step("Check if Sign In modal is displayed")
-    def is_displayed(self) -> bool:
-        """Check if the sign-in modal window is visible on screen."""
-        if self.root:
-            return self.root.is_displayed()
-        try:
-            return self._wait_visible(self.MODAL_CONTENT).is_displayed()
-        except TimeoutException:
-            return False
 
     @allure.step("Enter Email: '{email}'")
     def enter_email(self, email: str) -> SignInModal:
@@ -97,11 +86,6 @@ class SignInModal(BaseModal):
     def click_forgot_password(self) -> None:
         """Click the forgot password link with explicit wait."""
         self._wait_clickable(self.FORGOT_PASSWORD_BUTTON).click()
-
-    @allure.step("Click Close modal button (X)")
-    def click_close_button(self) -> None:
-        """Close the modal window by clicking the X button in top right."""
-        self._wait_clickable(self.CLOSE_BUTTON).click()
 
     @allure.step("Click Google OAuth sign-in link")
     def click_google_oauth(self) -> None:

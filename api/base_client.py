@@ -47,9 +47,21 @@ class BaseClient:
                 headers=request_headers,
                 **kwargs,
             )
+            status_info = str(response.status_code)
+            if response.status_code >= 400 and response.text:
+                status_info += f" - {response.text}"
             allure.attach(
-                str(response.status_code),
+                status_info,
                 name="Response status",
                 attachment_type=allure.attachment_type.TEXT,
             )
+            if response.status_code >= 400 and response.text:
+                is_json = "json" in response.headers.get("Content-Type", "").lower()
+                allure.attach(
+                    response.text,
+                    name="Response error",
+                    attachment_type=allure.attachment_type.JSON
+                    if is_json
+                    else allure.attachment_type.TEXT,
+                )
         return response

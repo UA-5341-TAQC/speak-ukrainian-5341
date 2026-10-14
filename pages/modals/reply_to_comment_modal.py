@@ -12,7 +12,6 @@ class ReplyToCommentModal(BaseModal):
     # Modal container and header
     MODAL_DIALOG: Locator = (By.CSS_SELECTOR, ".comment-modal")
     MODAL_TITLE: Locator = (By.CSS_SELECTOR, ".comment-reply-title")
-    CLOSE_BUTTON: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
 
     # Contact fields, autofilled from user profile
     NAME_INPUT: Locator = (
@@ -32,14 +31,6 @@ class ReplyToCommentModal(BaseModal):
     DESCRIPTION_FIELD: Locator = (By.CSS_SELECTOR, "#commentText")
 
     SUBMIT_BUTTON: Locator = (By.CSS_SELECTOR, "button.do-comment-button")
-
-    def is_modal_displayed(self) -> bool:
-        """Check if the modal is currently open."""
-        return self._find_element(self.MODAL_DIALOG).is_displayed()
-
-    def is_modal_title_displayed(self) -> bool:
-        """Check if the "Відповісти на коментар" title is visible."""
-        return self._find_element(self.MODAL_TITLE).is_displayed()
 
     def get_name_value(self) -> str | None:
         """Return the value of the readonly Імя field."""
@@ -72,7 +63,3 @@ class ReplyToCommentModal(BaseModal):
         """Reply to the comment."""
         self.enter_description(text)
         self.click_submit()
-
-    def close_modal(self) -> None:
-        """Close the modal via x button."""
-        self._wait_clickable(self.CLOSE_BUTTON).click()

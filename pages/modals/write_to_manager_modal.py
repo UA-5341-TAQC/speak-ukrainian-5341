@@ -20,7 +20,6 @@ class WriteToManagerModal(BaseModal):
         By.XPATH,
         "//div[contains(@class, 'MessageToClubManager_title')]",
     )
-    CLOSE_BUTTON: Locator = (By.CSS_SELECTOR, "button.ant-modal-close")
 
     # Club name and contacts, shown inside the form
     CLUB_NAME: Locator = (
@@ -46,11 +45,6 @@ class WriteToManagerModal(BaseModal):
         By.CSS_SELECTOR,
         "#message-from-club button[type='submit']",
     )
-
-    @allure.step("Check if modal is displayed")
-    def is_modal_displayed(self) -> bool:
-        """Check if the modal is open."""
-        return self._find_element(self.MODAL_DIALOG).is_displayed()
 
     @allure.step("Get club name")
     def get_club_name(self) -> str:
@@ -93,18 +87,8 @@ class WriteToManagerModal(BaseModal):
         """Check if the description field label is visible."""
         return self._find_element(self.DESCRIPTION_LABEL).is_displayed()
 
-    @allure.step("Check if modal title is displayed")
-    def is_modal_title_displayed(self) -> bool:
-        """Check if the "Написати менеджеру" title is visible."""
-        return self._find_element(self.MODAL_TITLE).is_displayed()
-
     @allure.step("Send message")
     def send_message(self, text: str) -> None:
         """Send message to the club manager."""
         self.enter_description(text)
         self.click_submit()
-
-    @allure.step("Close modal")
-    def close_modal(self) -> None:
-        """Close the modal via x button."""
-        self._wait_clickable(self.CLOSE_BUTTON).click()
